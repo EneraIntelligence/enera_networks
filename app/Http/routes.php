@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'auth'], function () {
+    Route::match(['post', 'get'], 'logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
+    Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
+});
+
+Route::group(['middleware' => 'notauth'], function () {
+    Route::get('login', ['as' => 'auth.index', 'uses' => 'AuthController@index']);
+    Route::post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
 });

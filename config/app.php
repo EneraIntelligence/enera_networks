@@ -140,10 +140,18 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Networks\Providers\AppServiceProvider::class,
+        Networks\Providers\AuthServiceProvider::class,
+        Networks\Providers\EventServiceProvider::class,
+        Networks\Providers\RouteServiceProvider::class,
+
+        /*
+         * Custom service providers
+         */
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Jenssegers\Mongodb\Session\SessionServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -193,6 +201,11 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
+        /*
+         * Custom aliases
+         */
+        'Form' => Collective\Html\FormFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
 
     ],
 
