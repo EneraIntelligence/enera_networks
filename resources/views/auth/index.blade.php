@@ -75,7 +75,7 @@
                         <div class="md-input-wrapper">
                             <label for="login_password">Contraseña</label>
                             <input type="password" id="login_password" name="password" required
-                                   data-parsley-trigger="change" class="md-input" data-parsley-trigger="change"
+                                   data-parsley-trigger="change" class="md-input"
                                    data-parsley-minlength="8" data-parsley-minlength-message="minimo 8 caracteres"
                                    data-parsley-maxlength="16" data-parsley-maxlength-message="maximo 16 caracteres"
                                    data-parsley-validation-threshold="10" data-parsley-id="6"
@@ -163,29 +163,30 @@
             <a href="#" id="signup_form_show">Create an account</a>
         </div>--}}
     </div>
+</div>
 
-    <!-- common functions -->
-    {!! HTML::script('assets/js/common.min.js') !!}
-            <!-- altair core functions -->
-    {!! HTML::script('assets/js/altair_admin_common.min.js') !!}
-            <!-- altair login page functions -->
+<!-- common functions -->
+{!! HTML::script('assets/js/common.min.js') !!}
+        <!-- altair core functions -->
+{!! HTML::script('assets/js/altair_admin_common.min.js') !!}
+        <!-- altair login page functions -->
 
-    <script>
-        // load parsley config (altair_admin_common.js)
-        altair_forms.parsley_validation_config();
-    </script>
-    {!! HTML::script('bower_components/parsleyjs/dist/parsley.min.js') !!}
-    {!! HTML::script('assets/js/pages/forms_validation.js') !!}
-    <script>
-        $(function () {
-            // enable hires images
-            altair_helpers.retina_images();
-            // fastClick (touch devices)
-            if (Modernizr.touch) {
-                FastClick.attach(document.body);
-            }
-        });
-    </script>
+<script>
+    // load parsley config (altair_admin_common.js)
+    altair_forms.parsley_validation_config();
+</script>
+{!! HTML::script('bower_components/parsleyjs/dist/parsley.min.js') !!}
+{!! HTML::script('assets/js/pages/forms_validation.js') !!}
+<script>
+    $(function () {
+        // enable hires images
+        altair_helpers.retina_images();
+        // fastClick (touch devices)
+        if (Modernizr.touch) {
+            FastClick.attach(document.body);
+        }
+    });
+</script>
 
 
 </body>

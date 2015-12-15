@@ -2,6 +2,7 @@
 
 namespace Networks\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 
 use Networks\Http\Requests;
@@ -16,6 +17,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return "Dashboard";
+        return view('layouts.main', ['user' => Auth::user()]);
     }
 }
