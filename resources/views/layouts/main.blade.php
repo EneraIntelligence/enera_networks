@@ -109,17 +109,17 @@
                                          data-uk-grid-margin>
                                         <a href="#">
                                             {{--<i class="material-icons md-36">&#xE158;</i>--}}
-                                            <i class="material-icons md-36 md-color-light-blue-A700">event</i>
+                                            <i class="material-icons md-36">event</i>
                                             <span class="uk-text-muted uk-display-block">Campañas</span>
                                         </a>
                                         <a href="#">
                                             {{--<i class="material-icons md-36 md-color-red-600">&#xE0B9;</i>--}}
-                                            <i class="material-icons md-36 md-color-light-blue-A700">assessment</i>
+                                            <i class="material-icons md-36">assessment</i>
                                             <span class="uk-text-muted uk-display-block">Reportes</span>
                                         </a>
                                         <a href="#">
                                             {{--<i class="material-icons md-36">&#xE53E;</i>--}}
-                                            <i class="material-icons md-36 md-color-light-blue-A700">attach_money</i>
+                                            <i class="material-icons md-36">attach_money</i>
                                             <span class="uk-text-muted uk-display-block">Presupuesto</span>
                                         </a>
                                     </div>
