@@ -114,13 +114,13 @@
                                         </a>
                                         <a href="#">
                                             {{--<i class="material-icons md-36 md-color-red-600">&#xE0B9;</i>--}}
-                                            <i class="material-icons md-36">assessment</i>
-                                            <span class="uk-text-muted uk-display-block">Reportes</span>
+                                            <i class="material-icons md-36">device_hub</i>
+                                            <span class="uk-text-muted uk-display-block">Nodos</span>
                                         </a>
                                         <a href="#">
                                             {{--<i class="material-icons md-36">&#xE53E;</i>--}}
-                                            <i class="material-icons md-36">attach_money</i>
-                                            <span class="uk-text-muted uk-display-block">Presupuesto</span>
+                                            <i class="material-icons md-36">assessment</i>
+                                            <span class="uk-text-muted uk-display-block">Reportes</span>
                                         </a>
                                     </div>
                                 </div>
