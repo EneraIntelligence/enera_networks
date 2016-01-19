@@ -2,6 +2,7 @@
 
 namespace Networks\Providers;
 
+use App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
