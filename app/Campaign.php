@@ -5,11 +5,11 @@ namespace Networks;
 use Jenssegers\Mongodb\Model;
 
 /**
- * Publishers\Campaign
+ * Networks\Campaign
  *
- * @property-read \Publishers\Administrator $administrator
- * @property-read \Publishers\Interaction $interaction
- * @property-read \Illuminate\Database\Eloquent\Collection|\Publishers\CampaignLog[] $logs
+ * @property-read \Networks\Administrator $administrator
+ * @property-read \Networks\Interaction $interaction
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Networks\CampaignLog[] $logs
  * @property-read mixed $id
  */
 class Campaign extends Model
@@ -19,22 +19,22 @@ class Campaign extends Model
     // relations
     public function administrator()
     {
-        return $this->belongsTo('Publishers\Administrator');
+        return $this->belongsTo('Networks\Administrator');
     }
 
     public function interaction()
     {
-        return $this->belongsTo('Publishers\Interaction', 'interaction.id');
+        return $this->belongsTo('Networks\Interaction', 'interaction.id');
     }
 
     public function logs()
     {
-        return $this->hasMany('Publishers\CampaignLog');
+        return $this->hasMany('Networks\CampaignLog');
     }
 
     public function history()
     {
-        return $this->embedsMany('Publishers\CampaignHistory', 'history');
+        return $this->embedsMany('Networks\CampaignHistory', 'history');
     }
     // end relations
 }
