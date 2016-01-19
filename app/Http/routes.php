@@ -15,7 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['post', 'get'], 'logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
 
-    Route::group(['prefix' => 'campaign', 'as' => 'campaign::'], function(){
+    Route::group(['prefix' => 'campaigns', 'as' => 'campaigns::'], function(){
         Route::get('/', ['as' => 'index', 'uses' => 'CampaignController@index']);
     });
 });
