@@ -33,7 +33,7 @@
         <div class="md-card-content large-padding" id="login_form">
             <div class="login_heading">
                 <div style="width: 290px;height: 100px; display:inline-block;text-align:center;">
-                    <img src="images/Enera_logo_400x130.png" alt="">
+                    <img src="images/logo_networks.png" alt="">
                 </div>
             </div>
             {!! Form::open(['route'=>'auth.login', 'class'=>'uk-form-stacked', 'id'=>'form_validation']) !!}

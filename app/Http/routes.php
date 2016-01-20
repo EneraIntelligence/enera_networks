@@ -18,6 +18,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'campaigns', 'as' => 'campaigns::'], function(){
         Route::get('/', ['as' => 'index', 'uses' => 'CampaignController@index']);
     });
+
+    Route::group(['prefix' => 'profile', 'as' => 'profile::'], function(){
+       Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+    });
 });
 
 Route::group(['middleware' => 'notauth'], function () {
