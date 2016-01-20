@@ -206,6 +206,7 @@ return [
          */
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
+        'CampaignStyle'  => Networks\Libraries\CampaignStyleHelper::class,
 
     ],
 

@@ -13,7 +13,7 @@
     {{--<link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">--}}
     <link rel="icon" type="image/png" href="{!! URL::asset('images/favicon.png') !!}" sizes="32x32">
-    <title>Enera Publishers @yield('title')</title>
+    <title>Enera Networks @yield('title')</title>
     @yield('head_scripts')
 
 
@@ -107,7 +107,7 @@
                                 <div class="uk-width-2-3">
                                     <div class="uk-grid uk-grid-width-medium-1-3 uk-margin-top uk-margin-bottom uk-text-center"
                                          data-uk-grid-margin>
-                                        <a href="#">
+                                        <a href="{{ route("campaigns::index") }}">
                                             {{--<i class="material-icons md-36">&#xE158;</i>--}}
                                             <i class="material-icons md-36">event</i>
                                             <span class="uk-text-muted uk-display-block">Campañas</span>

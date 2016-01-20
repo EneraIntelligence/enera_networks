@@ -11,39 +11,35 @@
             <div class="md-card-list-wrapper" id="mailbox">
                 <div class="uk-width-large-8-10 uk-container-center">
                     <div class="md-card-list">
-                        <div class="md-card-list-header heading_list">Campañas</div>
-                        <div class="md-card-list-header md-card-list-header-combined heading_list"
-                             style="display: none">All Messages
-                        </div>
-                        <span class="md-card-list-item-sender" style="text-align: center;">{{'Nombre'}}</span>
-                        <div class="md-card-list-item-sender" style="text-align: center;">
-                            <span>{{ 'Tipo' }}</span>
-                        </div>
-                        <div class="md-card-list-item-sender" style="width: 350px; text-align: left;">
-                            <span>{{ 'Días de interacción' }}</span>
-                        </div>
-                        <div class="md-card-list-item-sender" style="width: 100px; text-align: center;">
-                                        <span>
-                                            Completadas
-                                        </span>
-                        </div>
-                        <div class="md-card-list-item-sender" style="width: 200px; text-align: right;">
-                            <span>Fecha de terminación</span>
-                        </div>
                         <ul class="hierarchical_slide">
+                            <li>
+                                <span class="md-card-list-item-date">Terminación</span>
+                                <span class="md-card-list-item-date">Loaded</span>
+                                <div class="md-card-list-item-avatar-wrapper">
+                                    <img src="assets/img/avatars/avatar_08_tn@2x.png"
+                                         class="md-card-list-item-avatar dense-image dense-ready" alt="">
+                                </div>
+                                <div class="md-card-list-item-sender">
+                                    <span>Nombre</span>
+                                </div>
+                                <div class="md-card-list-item-subject">
+                                    <span>Días de interacción</span>
+                                </div>
+                            </li>
                             @foreach($campaigns as $campaign)
-                                <li>
+                                <li style=" cursor: pointer;" onclick="window.location.href='{!! route('home') !!}'">
                                     <span class="md-card-list-item-date">{{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</span>
+                                    <span class="md-card-list-item-date" style="margin-right: 25px;">{{$campaign->logs()->where('interaction.loaded', 'exists', 'true')->count()}}</span>
                                     <div class="md-card-list-item-avatar-wrapper">
-                                        <span class="md-card-list-item-avatar md-bg-cyan">um</span>
+                                        <img src="{!! URL::asset('images/icons/'.
+                                                                CampaignStyle::getCampaignIcon( $campaign->interaction['name']
+                                                             ) ) !!}"  style="background: none;"
+                                             class="md-card-list-item-avatar dense-image dense-ready" alt="">
                                     </div>
                                     <div class="md-card-list-item-sender">
-                                        <span>{{ $campaign->name }}</span>
+                                        <span>{{$campaign->name}}</span>
                                     </div>
-                                    <div class="md-card-list-item-sender" style="width: 120px;">
-                                        <span>{{ $campaign->interaction['name'] }}</span>
-                                    </div>
-                                    <div class="md-card-list-item-sender" style="width: 400px;">
+                                    <div class="md-card-list-item-subject">
                                         <span>
                                             @if(isset($campaign->filters['week_days'] ))
                                                 @foreach($campaign->filters['week_days'] as $dia)
@@ -51,11 +47,7 @@
                                                 @endforeach
                                             @else
                                                 no definido
-                                            @endif
-                                        </span>
-                                    </div>
-                                    <div class="md-card-list-item-subject" style="width: 100px;">
-                                        <span>2323</span>
+                                            @endif</span>
                                     </div>
                                 </li>
                             @endforeach
