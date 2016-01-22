@@ -30,6 +30,6 @@ class Kernel extends HttpKernel
         'notauth' => \Networks\Http\Middleware\NotAuthMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Networks\Http\Middleware\RedirectIfAuthenticated::class,
-        'guardian' => \Publishers\Http\Middleware\Guardian::class,
+        'guardian' => \Networks\Http\Middleware\Guardian::class,
     ];
 }
