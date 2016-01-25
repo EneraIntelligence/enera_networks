@@ -15,4 +15,5 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss','public/assets/css/main.css');
     mix.sass('profile.scss','public/assets/css/profile.css');
+    mix.sass('loader.scss','public/assets/css/loader.css');
 });
