@@ -28,6 +28,6 @@ Route::group(['middleware' => 'notauth'], function () {
     Route::post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
 });
 
-Route::get('/choose', function () {
+Route::get('/choose', ['as' => 'choose.platform', function () {
     return view('choose');
-});
+}]);
