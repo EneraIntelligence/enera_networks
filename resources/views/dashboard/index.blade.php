@@ -45,7 +45,7 @@
                 .words(words.map(function(d) {
                     return {text: d, size: 50*(Math.log( wordValues[d] )/Math.log(sumWords)) };
                 }))
-                .rotate(function() { return 0; })
+                .rotate(function() { return Math.random()*180-90; })
                 .font("Impact")
                 .fontSize(function(d) { return d.size; })
                 .on("end", draw)
