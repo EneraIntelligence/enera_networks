@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId']], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
     });
 
-    Route::group(['prefix' => 'nodes', 'as' => 'branche::'], function () {
+    Route::group(['prefix' => 'nodes', 'as' => 'branches::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'BranchesController@index']);
     });
 
