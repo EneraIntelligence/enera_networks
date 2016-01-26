@@ -7,7 +7,54 @@
 
 @section('content')
 
+    <div class="word_cloud uk-container-center" style="width:800px; position: relative;">
 
+        <a href="#likes-table" data-uk-modal>
+            <div class="md-btn" style="position: absolute; bottom: 0; right:0;">
+                <i class="material-icons">&#xE3EC;</i>
+            </div>
+        </a>
+
+    </div>
+
+    <div id="likes-table" class="uk-modal">
+        <div class="uk-modal-dialog">
+
+            <a class="uk-modal-close uk-close"></a>
+
+
+            <h4 class="heading_a uk-margin-bottom">Likes frecuentes</h4>
+            <div class="md-card uk-margin-medium-bottom">
+                <div class="md-card-content">
+                    <div class="uk-overflow-container">
+                        <table class="uk-table uk-table-hover">
+                            <thead>
+                            <tr>
+                                <th>Nombre de la página</th>
+                                <th>#</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @for($i=0;$i<count($words);$i++)
+
+                                <tr>
+                                    <td>{!! $words[$i]['name'] !!}</td>
+                                    <td>{!! $wordCount[$i]['count'] !!}</td>
+                                </tr>
+
+                            @endfor
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- end table -->
+
+
+        </div>
+    </div><!-- end modal -->
 @stop
 
 @section('scripts')
@@ -43,7 +90,7 @@
 
         d3.layout.cloud().size([canvasWidth, canvasHeight])
                 .words(words.map(function(d) {
-                    return {text: d, size: 50*(Math.log( wordValues[d] )/Math.log(sumWords)) };
+                    return {text: d, size: Math.max(50*(Math.log( wordValues[d] )/Math.log(sumWords)),20) };
                 }))
                 .rotate(function() { return 0; })
                 .font("Impact")
@@ -52,7 +99,7 @@
                 .start();
 
         function draw(words) {
-            d3.select("body").append("svg")
+            d3.select(".word_cloud").append("svg")
                     .attr("width", canvasWidth)
                     .attr("height", canvasHeight)
                     .append("g")
