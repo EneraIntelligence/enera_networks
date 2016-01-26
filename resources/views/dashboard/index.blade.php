@@ -18,7 +18,7 @@
     <script>
         var fill = d3.scale.category20();
 
-        var canvasWidth = 600;
+        var canvasWidth = 800;
         var canvasHeight = 400;
 
         //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
