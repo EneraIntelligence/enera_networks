@@ -11,15 +11,6 @@ use Session;
 
 class BranchesController extends Controller
 {
-    protected $network;
-
-    public function __construct()
-    {
-        $this->network = Session::has('network_id') ?
-            Network::find(Session::get('network_id')) :
-            auth()->user()->client->networks()->first();
-    }
-
     /**
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
@@ -27,8 +18,8 @@ class BranchesController extends Controller
      */
     public function index()
     {
-        return view('branches.index',[
-            'branches' => $this->network->branches,
+        return view('branches.index', [
+            'branches' => Network::find(session('network_id'))->branches,
         ]);
     }
 
