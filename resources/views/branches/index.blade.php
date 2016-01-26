@@ -12,27 +12,29 @@
                 <div class="uk-width-large-8-10 uk-container-center">
                     <div class="md-card-list">
                         <ul class="hierarchical_slide">
-                            <li>
-                                <span class="md-card-list-item-date">AP</span>
-                                <span class="md-card-list-item-date">---</span>
-                                <div class="md-card-list-item-avatar-wrapper">
-                                    {{--<img src="assets/img/avatars/avatar_08_tn@2x.png"
-                                         class="md-card-list-item-avatar dense-image dense-ready" alt="">--}}
-                                </div>
-                                <div class="md-card-list-item-sender">
-                                    <span>Nombre</span>
-                                </div>
-                                <div class="md-card-list-item-subject">
-                                    <span>Ubicación</span>
-                                </div>
-                            </li>
+                            @if(count($branches) == 0)
+                                <li>
+                                    <span class="md-card-list-item-date"></span>
+                                    <span class="md-card-list-item-date"></span>
+                                    <div class="md-card-list-item-avatar-wrapper">
+                                        <img src="assets/img/avatars/avatar_08_tn@2x.png"
+                                             class="md-card-list-item-avatar dense-image dense-ready" alt="">
+                                    </div>
+                                    <div class="md-card-list-item-sender">
+
+                                    </div>
+                                    <div class="md-card-list-item-subject">
+                                        <span>Sin nodos en esta red.</span>
+                                    </div>
+                                </li>
+                            @endif
                             @foreach($branches as $branche)
                                 <li style=" cursor: pointer;">
                                     <span class="md-card-list-item-date">
-                                        {{ count($branche->aps) }}
-                                    </span>
-                                    <span class="md-card-list-item-date" style="margin-right: 25px;">
                                         ---
+                                    </span>
+                                    <span class="md-card-list-item-date">
+                                        {{ count($branche->aps) }}
                                     </span>
                                     <div class="md-card-list-item-avatar-wrapper">
 
