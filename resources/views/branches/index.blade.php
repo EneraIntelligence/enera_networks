@@ -32,7 +32,7 @@
                                         {{ count($branche->aps) }}
                                     </span>
                                     <span class="md-card-list-item-date" style="margin-right: 25px;">
-                                        {{$campaign->logs()->where('interaction.loaded', 'exists', 'true')->count()}}
+                                        ---
                                     </span>
                                     <div class="md-card-list-item-avatar-wrapper">
 
