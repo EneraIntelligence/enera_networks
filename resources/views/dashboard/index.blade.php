@@ -7,7 +7,7 @@
 
 @section('content')
 
-    <div class="word_cloud uk-container-center" style="width:800px; position: relative;">
+    <div class="word_cloud uk-container-center" style="width:800px; position: relative; margin-top: 20px;">
 
         <a href="#likes-table" data-uk-modal>
             <div class="md-btn" style="position: absolute; bottom: 0; right:0;">
