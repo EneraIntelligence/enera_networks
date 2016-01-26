@@ -17,7 +17,7 @@ class NetworkMiddleware
     {
         if (!$request->session()->has('network_id')) {
             $id = '';
-            dd(auth()->user()->client);
+            dd(auth()->user());
             $request->session()->put('network_id', $id);
         }
         return $next($request);
