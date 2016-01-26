@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'guardian']], function () {
+Route::group(['middleware' => ['auth', 'guardian', 'NetworkId']], function () {
     Route::match(['post', 'get'], 'logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
 
@@ -22,7 +22,13 @@ Route::group(['middleware' => ['auth', 'guardian']], function () {
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
     });
+
+    Route::group(['prefix' => 'nodes', 'as' => 'branche::'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'BranchesController@index']);
+    });
+
 });
+
 Route::group(['middleware' => 'notauth'], function () {
     Route::get('login', ['as' => 'auth.index', 'uses' => 'AuthController@index']);
     Route::post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
