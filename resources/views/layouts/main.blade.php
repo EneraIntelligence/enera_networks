@@ -154,18 +154,15 @@
                                 <ul class="uk-tab uk-tab-grid"
                                     data-uk-tab="{connect:'#networks',animation:'slide-horizontal'}">
                                     <li class="uk-width-1 uk-active">
-                                    {{--<a href="#"--}}
-                                    {{--class="js-uk-prevent uk-text-small">Redes--}}
-                                    {{--(12)</a></li>--}}
                                 </ul>
-                                <ul id="networks" class="uk-switcher uk-margin">
+                                <ul id="networks" class="uk-switcher">
                                     <li>
                                         <ul class="md-list md-list-addon">
                                             @foreach(auth()->user()->client->networks as $network)
                                                 <li style="margin: 0 0 0 10px;">
                                                     <div class="md-list-content">
                                                     <span class="md-list-heading">
-                                                        <a href="pages_mailbox.html">
+                                                        <a href="#">
                                                             {{ $network->name }}
                                                         </a>
                                                     </span>
@@ -176,7 +173,6 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-
                                     </li>
                                 </ul>
                             </div>
