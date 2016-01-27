@@ -142,8 +142,12 @@
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav user_actions">
                     <li data-uk-dropdown="{mode:'click'}">
-                        <a href="#" class="user_action_icon"><span class="uk-hidden-small" style="padding-right: 5px;">Redes</span><i
-                                    class="material-icons" style="color: white;">&#xE63E;</i></a>
+                        <a href="#" class="user_action_icon">
+                            <span class="uk-hidden-small" style="padding-right: 5px;">
+                                Redes
+                            </span>
+                            <i class="material-icons" style="color: white;">&#xE63E;</i>
+                        </a>
 
                         <div class="uk-dropdown uk-dropdown-xlarge uk-dropdown-flip">
                             <div class="md-card-content">
@@ -157,47 +161,22 @@
                                 <ul id="networks" class="uk-switcher uk-margin">
                                     <li>
                                         <ul class="md-list md-list-addon">
+                                            @foreach(auth()->user()->client->networks as $network)
                                             <li style="margin: 0 0 0 10px;">
                                                 <div class="md-list-content">
-                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Nobis
-                                                            ipsum.</a></span>
-                                                    <span class="uk-text-small uk-text-muted">Ratione dolore nisi ut quis expedita fugiat dolor porro.</span>
+                                                    <span class="md-list-heading">
+                                                        <a href="pages_mailbox.html">
+                                                            {{ $network->name }}
+                                                        </a>
+                                                    </span>
+                                                    <span class="uk-text-small uk-text-muted">
+                                                        {{--algun dato de la red--}}
+                                                    </span>
                                                 </div>
                                             </li>
-                                            <li style="margin: 0 0 0 10px;">
-                                                <div class="md-list-content">
-                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Quia
-                                                            praesentium.</a></span>
-                                                    <span class="uk-text-small uk-text-muted">Aliquid harum mollitia in repudiandae officiis assumenda rem.</span>
-                                                </div>
-                                            </li>
-                                            <li style="margin: 0 0 0 10px;">
-                                                <div class="md-list-content">
-                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Et
-                                                            accusamus.</a></span>
-                                                    <span class="uk-text-small uk-text-muted">Enim ex ipsam odio id.</span>
-                                                </div>
-                                            </li>
-                                            <li style="margin: 0 0 0 10px;">
-                                                <div class="md-list-content">
-                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Voluptas
-                                                            dignissimos.</a></span>
-                                                    <span class="uk-text-small uk-text-muted">Ut rerum fugit doloribus blanditiis culpa impedit facilis voluptatem sed est eius.</span>
-                                                </div>
-                                            </li>
-                                            <li style="margin: 0 0 0 10px;">
-                                                <div class="md-list-content">
-                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Inventore
-                                                            fuga molestias.</a></span>
-                                                    <span class="uk-text-small uk-text-muted">Sit libero officia nulla saepe sed incidunt alias est earum aperiam.</span>
-                                                </div>
-                                            </li>
+                                            @endforeach
                                         </ul>
-                                        <div class="uk-text-center uk-margin-top uk-margin-small-bottom">
-                                            <a href="page_mailbox.html"
-                                               class="md-btn md-btn-flat md-btn-flat-primary js-uk-prevent">Show
-                                                All</a>
-                                        </div>
+
                                     </li>
                                 </ul>
                             </div>
