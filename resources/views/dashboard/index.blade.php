@@ -7,6 +7,7 @@
 
 @section('content')
 
+
     <div class="word_cloud uk-container-center" style="width:800px; position: relative; margin-top: 20px;">
 
         <a href="#likes-table" data-uk-modal>
@@ -86,11 +87,9 @@
             sumWords += wordValues[k];
         }
 
-
-
         d3.layout.cloud().size([canvasWidth, canvasHeight])
                 .words(words.map(function(d) {
-                    return {text: d, size: Math.max(50*(Math.log( wordValues[d] )/Math.log(sumWords)),20) };
+                    return {text: d, size: Math.max(60*(Math.log( wordValues[d] )/Math.log(sumWords)),20) };
                 }))
                 .rotate(function() { return 0; })
                 .font("Impact")
