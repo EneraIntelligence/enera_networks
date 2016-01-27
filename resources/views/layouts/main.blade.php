@@ -109,12 +109,12 @@
                             <div class="uk-width-2-3">
                                 <div class="uk-grid uk-grid-width-medium-1-3 uk-margin-top uk-margin-bottom uk-text-center"
                                      data-uk-grid-margin>
-                                    <a href="{!! route('campaigns::index') !!}">
+                                    <a href="{{ route("campaigns::index") }}">
                                         {{--<i class="material-icons md-36">&#xE158;</i>--}}
                                         <i class="material-icons md-36">event</i>
                                         <span class="uk-text-muted uk-display-block">Campañas</span>
                                     </a>
-                                    <a href="{!! route('branches::index') !!}">
+                                    <a href="#">
                                         {{--<i class="material-icons md-36 md-color-red-600">&#xE0B9;</i>--}}
                                         <i class="material-icons md-36">device_hub</i>
                                         <span class="uk-text-muted uk-display-block">Nodos</span>
@@ -123,11 +123,6 @@
                                         {{--<i class="material-icons md-36">&#xE53E;</i>--}}
                                         <i class="material-icons md-36">assessment</i>
                                         <span class="uk-text-muted uk-display-block">Reportes</span>
-                                    </a>
-                                    <a href="{!! route('choose.platform') !!}">
-                                        {{--<i class="material-icons md-36">&#xE53E;</i>--}}
-                                        <i class="material-icons md-36">&#xE8D4;</i>
-                                        <span class="uk-text-muted uk-display-block">Plataformas</span>
                                     </a>
                                 </div>
                             </div>
@@ -146,6 +141,68 @@
             </div>
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav user_actions">
+                    <li data-uk-dropdown="{mode:'click'}">
+                        <a href="#" class="user_action_icon"><span class="uk-hidden-small" style="padding-right: 5px;">Redes</span><i
+                                    class="material-icons" style="color: white;">&#xE63E;</i></a>
+
+                        <div class="uk-dropdown uk-dropdown-xlarge uk-dropdown-flip">
+                            <div class="md-card-content">
+                                <ul class="uk-tab uk-tab-grid"
+                                    data-uk-tab="{connect:'#networks',animation:'slide-horizontal'}">
+                                    <li class="uk-width-1 uk-active">
+                                    {{--<a href="#"--}}
+                                    {{--class="js-uk-prevent uk-text-small">Redes--}}
+                                    {{--(12)</a></li>--}}
+                                </ul>
+                                <ul id="networks" class="uk-switcher uk-margin">
+                                    <li>
+                                        <ul class="md-list md-list-addon">
+                                            <li style="margin: 0 0 0 10px;">
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Nobis
+                                                            ipsum.</a></span>
+                                                    <span class="uk-text-small uk-text-muted">Ratione dolore nisi ut quis expedita fugiat dolor porro.</span>
+                                                </div>
+                                            </li>
+                                            <li style="margin: 0 0 0 10px;">
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Quia
+                                                            praesentium.</a></span>
+                                                    <span class="uk-text-small uk-text-muted">Aliquid harum mollitia in repudiandae officiis assumenda rem.</span>
+                                                </div>
+                                            </li>
+                                            <li style="margin: 0 0 0 10px;">
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Et
+                                                            accusamus.</a></span>
+                                                    <span class="uk-text-small uk-text-muted">Enim ex ipsam odio id.</span>
+                                                </div>
+                                            </li>
+                                            <li style="margin: 0 0 0 10px;">
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Voluptas
+                                                            dignissimos.</a></span>
+                                                    <span class="uk-text-small uk-text-muted">Ut rerum fugit doloribus blanditiis culpa impedit facilis voluptatem sed est eius.</span>
+                                                </div>
+                                            </li>
+                                            <li style="margin: 0 0 0 10px;">
+                                                <div class="md-list-content">
+                                                    <span class="md-list-heading"><a href="pages_mailbox.html">Inventore
+                                                            fuga molestias.</a></span>
+                                                    <span class="uk-text-small uk-text-muted">Sit libero officia nulla saepe sed incidunt alias est earum aperiam.</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="uk-text-center uk-margin-top uk-margin-small-bottom">
+                                            <a href="page_mailbox.html"
+                                               class="md-btn md-btn-flat md-btn-flat-primary js-uk-prevent">Show
+                                                All</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
                     <li><a href="#" id="main_search_btn" class="user_action_icon"><i
                                     class="material-icons md-20 md-light">&#xE8B6;</i></a></li>
                     <li data-uk-dropdown="{mode:'click'}">
