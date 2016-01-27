@@ -144,7 +144,7 @@
                     <li data-uk-dropdown="{mode:'click'}">
                         <a href="#" class="user_action_icon">
                             <span class="uk-hidden-small" style="padding-right: 5px;">
-                                Redes
+                                {{ \Networks\Network::find(session('network_id'))->name }}
                             </span>
                             <i class="material-icons" style="color: white;">&#xE63E;</i>
                         </a>
