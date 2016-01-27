@@ -166,7 +166,7 @@
                                                 <li style="margin: 0 0 0 10px;">
                                                     <div class="md-list-content">
                                                     <span class="md-list-heading">
-                                                        <a href="#">
+                                                        <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
                                                             {{ $network->name }}
                                                         </a>
                                                     </span>
