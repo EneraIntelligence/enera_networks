@@ -37,7 +37,7 @@
                                         {{ count($branche->aps) }}
                                     </span>
                                     <div class="md-card-list-item-avatar-wrapper">
-                                        <span class="md-card-list-item-avatar md-bg-light-blue">
+                                        <span class="md-card-list-item-avatar md-bg-light-{!! $branche->status == 'active'?'green':'blue'!!}">
                                             {{ strtoupper(substr($branche->name, 0, 2)) }}
                                         </span>
                                     </div>
