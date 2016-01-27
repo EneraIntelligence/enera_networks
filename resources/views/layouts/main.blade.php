@@ -162,18 +162,18 @@
                                     <li>
                                         <ul class="md-list md-list-addon">
                                             @foreach(auth()->user()->client->networks as $network)
-                                            <li style="margin: 0 0 0 10px;">
-                                                <div class="md-list-content">
+                                                <li style="margin: 0 0 0 10px;">
+                                                    <div class="md-list-content">
                                                     <span class="md-list-heading">
                                                         <a href="pages_mailbox.html">
                                                             {{ $network->name }}
                                                         </a>
                                                     </span>
                                                     <span class="uk-text-small uk-text-muted">
-                                                        {{--algun dato de la red--}}
+                                                        {{ $network->branches->count() }} nodo(s)
                                                     </span>
-                                                </div>
-                                            </li>
+                                                    </div>
+                                                </li>
                                             @endforeach
                                         </ul>
 
