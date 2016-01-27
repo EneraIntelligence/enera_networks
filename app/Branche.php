@@ -19,5 +19,10 @@ class Branche extends Model
     {
         return $this->belongsTo('Networks\Network');
     }
+
+    public function campaign_logs()
+    {
+        return $this->hasMany('Networks\CampaignLog', 'device.branch_id');
+    }
     // end relations
 }
