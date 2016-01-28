@@ -19,9 +19,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
+        //$session['network_id'];
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
         $users = $cLogsColl->aggregate([
+            [
+                '$match'=>[
+                    'device.branch_id'=>session('network_id')
+                ]
+            ],
             [
                 '$group' => [
                     '_id'=>'none',
@@ -30,13 +35,20 @@ class DashboardController extends Controller
             ]
         ]);
 
-        $userIdsArray = $users['result'][0]['ids'];
+        if(count($users['result'])>0)
+        {
+            $userIdsArray = $users['result'][0]['ids'];
 
-        foreach($userIdsArray as $separateIds){
-            $_ids[] = $separateIds instanceof MongoId ? $separateIds : new MongoId($separateIds);
+            foreach($userIdsArray as $separateIds){
+                $_ids[] = $separateIds instanceof MongoId ? $separateIds : new MongoId($separateIds);
+            }
         }
-        //dd($_ids);
+        else
+        {
+            $_ids=[];
+        }
 
+        //dd($_ids);
         $likes = DB::getMongoDB()->selectCollection('users')->aggregate([
             [
                 '$match'=>[
@@ -61,6 +73,9 @@ class DashboardController extends Controller
         ]);
 
         //dd($likes['result']);
+
+        $likes_ids = [];
+        $likes_counts = [];
 
         foreach($likes['result'] as $k=>$v){
             //dd($v);
