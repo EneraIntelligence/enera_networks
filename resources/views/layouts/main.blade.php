@@ -114,7 +114,7 @@
                                         <i class="material-icons md-36">event</i>
                                         <span class="uk-text-muted uk-display-block">Campañas</span>
                                     </a>
-                                    <a href="#">
+                                    <a href="{{ route("branches::index") }}">
                                         {{--<i class="material-icons md-36 md-color-red-600">&#xE0B9;</i>--}}
                                         <i class="material-icons md-36">device_hub</i>
                                         <span class="uk-text-muted uk-display-block">Nodos</span>
@@ -123,6 +123,11 @@
                                         {{--<i class="material-icons md-36">&#xE53E;</i>--}}
                                         <i class="material-icons md-36">assessment</i>
                                         <span class="uk-text-muted uk-display-block">Reportes</span>
+                                    </a>
+                                    <a href="{!! route('choose.platform') !!}">
+                                        {{--<i class="material-icons md-36">&#xE53E;</i>--}}
+                                        <i class="material-icons md-36">&#xE8D4;</i>
+                                        <span class="uk-text-muted uk-display-block">Plataformas</span>
                                     </a>
                                 </div>
                             </div>
