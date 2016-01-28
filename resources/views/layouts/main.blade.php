@@ -169,9 +169,10 @@
                                 <ul id="networks" class="uk-switcher">
                                     <li>
                                         <ul class="md-list md-list-addon">
-                                            @foreach(auth()->user()->client->networks as $network)
-                                                <li style="margin: 0 0 0 10px;">
-                                                    <div class="md-list-content">
+                                            @if(auth()->user()->role->name == 'Enera Admin')
+                                                @foreach(\Networks\Network::all() as $network)
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
                                                     <span class="md-list-heading">
                                                         <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
                                                             {{ $network->name }}
@@ -180,9 +181,25 @@
                                                     <span class="uk-text-small uk-text-muted">
                                                         {{ $network->branches->count() }} nodo(s)
                                                     </span>
-                                                    </div>
-                                                </li>
-                                            @endforeach
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                @foreach(auth()->user()->client->networks as $network)
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
+                                                    <span class="md-list-heading">
+                                                        <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                            {{ $network->name }}
+                                                        </a>
+                                                    </span>
+                                                    <span class="uk-text-small uk-text-muted">
+                                                        {{ $network->branches->count() }} nodo(s)
+                                                    </span>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </li>
                                 </ul>
