@@ -162,7 +162,7 @@
                                     data-uk-tab="{connect:'#networks',animation:'slide-horizontal'}">
                                     <li class="uk-width-1 uk-active">
                                         <a href="#" class="js-uk-prevent uk-text-small">
-                                            Redes ({{ auth()->user()->client->networks->count() }})
+                                            Redes ({{ auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count()}})
                                         </a>
                                     </li>
                                 </ul>
