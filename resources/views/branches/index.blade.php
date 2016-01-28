@@ -31,7 +31,7 @@
                             @foreach($branches as $branche)
                                 <li style=" cursor: pointer;">
                                     <span class="md-card-list-item-date">
-                                        ---
+                                        {{ $branche->campaign_logs->count() }}
                                     </span>
                                     <span class="md-card-list-item-date">
                                         {{ count($branche->aps) }}
