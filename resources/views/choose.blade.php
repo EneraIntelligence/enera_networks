@@ -12,7 +12,7 @@
     {{--<link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">--}}
     <link rel="icon" type="image/png" href="{!! URL::asset('images/favicon.png') !!}" sizes="32x32">
 
-    <title>Enera - Permiso denegado</title>
+    <title>Enera - Choose</title>
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' type='text/css'>
 
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<p class="heading_b uk-text-center">Selecciona una plataforma:</p>
+<p class="heading_b uk-text-center">{{--Selecciona una plataforma:--}}</p>
 
 
 <div class="uk-grid">
