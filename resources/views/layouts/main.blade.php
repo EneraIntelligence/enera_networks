@@ -162,7 +162,9 @@
                                     data-uk-tab="{connect:'#networks',animation:'slide-horizontal'}">
                                     <li class="uk-width-1 uk-active">
                                         <a href="#" class="js-uk-prevent uk-text-small">
-                                            Redes ({{ auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count()}})
+                                            Redes
+                                            ({{ auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count()}}
+                                            )
                                         </a>
                                     </li>
                                 </ul>
@@ -171,33 +173,33 @@
                                         <ul class="md-list md-list-addon">
                                             @if(auth()->user()->role->name == 'Enera Admin')
                                                 @foreach(\Networks\Network::all() as $network)
-                                                    <li style="margin: 0 0 0 10px;">
-                                                        <div class="md-list-content">
-                                                    <span class="md-list-heading">
-                                                        <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
-                                                            {{ $network->name }}
-                                                        </a>
-                                                    </span>
-                                                    <span class="uk-text-small uk-text-muted">
-                                                        {{ $network->branches->count() }} nodo(s)
-                                                    </span>
-                                                        </div>
-                                                    </li>
+                                                    <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                        <li style="margin: 0 0 0 10px;">
+                                                            <div class="md-list-content">
+                                                                <span class="md-list-heading">
+                                                                    {{ $network->name }}
+                                                                </span>
+                                                                <span class="uk-text-small uk-text-muted">
+                                                                    {{ $network->branches->count() }} nodo(s)
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </a>
                                                 @endforeach
                                             @else
                                                 @foreach(auth()->user()->client->networks as $network)
-                                                    <li style="margin: 0 0 0 10px;">
-                                                        <div class="md-list-content">
-                                                    <span class="md-list-heading">
-                                                        <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
-                                                            {{ $network->name }}
-                                                        </a>
-                                                    </span>
-                                                    <span class="uk-text-small uk-text-muted">
-                                                        {{ $network->branches->count() }} nodo(s)
-                                                    </span>
-                                                        </div>
-                                                    </li>
+                                                    <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                        <li style="margin: 0 0 0 10px;">
+                                                            <div class="md-list-content">
+                                                                <span class="md-list-heading">
+                                                                    {{ $network->name }}
+                                                                </span>
+                                                                <span class="uk-text-small uk-text-muted">
+                                                                    {{ $network->branches->count() }} nodo(s)
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </a>
                                                 @endforeach
                                             @endif
                                         </ul>
