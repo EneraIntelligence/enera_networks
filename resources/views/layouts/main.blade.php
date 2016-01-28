@@ -124,11 +124,13 @@
                                         <i class="material-icons md-36">assessment</i>
                                         <span class="uk-text-muted uk-display-block">Reportes</span>
                                     </a>
-                                    <a href="{!! route('choose.platform') !!}">
-                                        {{--<i class="material-icons md-36">&#xE53E;</i>--}}
-                                        <i class="material-icons md-36">&#xE8D4;</i>
-                                        <span class="uk-text-muted uk-display-block">Plataformas</span>
-                                    </a>
+                                    @if(count(auth()->user()->role->platform) > 1)
+                                        <a href="{!! route('choose.platform') !!}">
+                                            {{--<i class="material-icons md-36">&#xE53E;</i>--}}
+                                            <i class="material-icons md-36">&#xE8D4;</i>
+                                            <span class="uk-text-muted uk-display-block">Plataformas</span>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                             <div class="uk-width-1-3 uk-hidden-small">
