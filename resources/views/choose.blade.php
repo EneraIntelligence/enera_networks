@@ -27,9 +27,9 @@
 </head>
 <body class="error_page">
 
-<div class="error_page_header">
+<div class="error_page_header" style="background-color: {!! $color !!} !important;">
     <div class="uk-text-center">
-        No tienes permiso para acceder a esta plataforma
+        {{ $msg }}
     </div>
 </div>
 
