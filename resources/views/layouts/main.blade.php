@@ -173,33 +173,33 @@
                                         <ul class="md-list md-list-addon">
                                             @if(auth()->user()->role->name == 'Enera Admin')
                                                 @foreach(\Networks\Network::all() as $network)
-                                                    <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
-                                                        <li style="margin: 0 0 0 10px;">
-                                                            <div class="md-list-content">
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
+                                                            <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
                                                                 <span class="md-list-heading">
-                                                                    {{ $network->name }}
+                                                                        {{ $network->name }}
                                                                 </span>
                                                                 <span class="uk-text-small uk-text-muted">
                                                                     {{ $network->branches->count() }} nodo(s)
                                                                 </span>
-                                                            </div>
-                                                        </li>
-                                                    </a>
+                                                            </a>
+                                                        </div>
+                                                    </li>
                                                 @endforeach
                                             @else
                                                 @foreach(auth()->user()->client->networks as $network)
-                                                    <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
-                                                        <li style="margin: 0 0 0 10px;">
-                                                            <div class="md-list-content">
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
+                                                            <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
                                                                 <span class="md-list-heading">
-                                                                    {{ $network->name }}
+                                                                        {{ $network->name }}
                                                                 </span>
                                                                 <span class="uk-text-small uk-text-muted">
                                                                     {{ $network->branches->count() }} nodo(s)
                                                                 </span>
-                                                            </div>
-                                                        </li>
-                                                    </a>
+                                                            </a>
+                                                        </div>
+                                                    </li>
                                                 @endforeach
                                             @endif
                                         </ul>
