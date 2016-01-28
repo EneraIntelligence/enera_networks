@@ -9,6 +9,7 @@ use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use DB;
 use MongoId;
+use Networks\Branche;
 
 class DashboardController extends Controller
 {
@@ -19,8 +20,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        //session('network_id')
+        $branches = Branche::where('network_id', session('network_id'))->get();
+        $branches_ids=[];
+        foreach($branches as $branch)
+        {
+            $branches_ids[] = $branch->_id;
+        }
+        //dd($branches_ids);
+
         //array with users ids from campaign logs
-        $user_ids = $this->getUsersByNetwork(session('network_id'));
+        $user_ids = $this->getUsersBybranches( $branches_ids );
         //dd($_ids);
 
         //array with pairs of pages ids and their count
@@ -41,7 +51,7 @@ class DashboardController extends Controller
         return view('dashboard.index', ['user' => Auth::user(),'words'=>$words,'wordCount'=>$likesCount]);
     }
 
-    private function getUsersByNetwork($network_id)
+    private function getUsersByBranches($branches_id)
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
 
@@ -49,7 +59,7 @@ class DashboardController extends Controller
         $users = $cLogsColl->aggregate([
             [
                 '$match'=>[
-                    'device.branch_id'=>$network_id
+                    'device.branch_id'=>['$in'=>$branches_id]
                 ]
             ],
             [
