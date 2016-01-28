@@ -19,12 +19,37 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //$session['network_id'];
+        //array with users ids from campaign logs
+        $user_ids = $this->getUsersByNetwork(session('network_id'));
+        //dd($_ids);
+
+        //array with pairs of pages ids and their count
+        $likesCount = $this->getUsersLikesCounted($user_ids, 30);
+        //dd($likes);
+
+        //strip the array so it contains only pages ids
+        $likes_ids = [];
+        foreach($likesCount as $k=>$v){
+            $likes_ids[] = $v['_id'];
+        }
+
+        //array with pages names
+        $words = $this->getPagesNames($likes_ids);
+        //dd(words);
+
+
+        return view('dashboard.index', ['user' => Auth::user(),'words'=>$words,'wordCount'=>$likesCount]);
+    }
+
+    private function getUsersByNetwork($network_id)
+    {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //get all the users _ids into an array
         $users = $cLogsColl->aggregate([
             [
                 '$match'=>[
-                    'device.branch_id'=>session('network_id')
+                    'device.branch_id'=>$network_id
                 ]
             ],
             [
@@ -35,6 +60,10 @@ class DashboardController extends Controller
             ]
         ]);
 
+        $_ids=[];
+
+
+        //conversion of string ids to MongoIds
         if(count($users['result'])>0)
         {
             $userIdsArray = $users['result'][0]['ids'];
@@ -43,20 +72,21 @@ class DashboardController extends Controller
                 $_ids[] = $separateIds instanceof MongoId ? $separateIds : new MongoId($separateIds);
             }
         }
-        else
-        {
-            $_ids=[];
-        }
 
-        //dd($_ids);
+        return $_ids;
+
+    }
+
+    private function getUsersLikesCounted($user_ids, $limit)
+    {
         $likes = DB::getMongoDB()->selectCollection('users')->aggregate([
             [
                 '$match'=>[
-                    '_id'=>['$in'=>$_ids]
+                    '_id'=>['$in'=>$user_ids]
                 ],
             ],
             [
-              '$unwind'=>'$facebook.likes'
+                '$unwind'=>'$facebook.likes'
             ],
             [
                 '$group' => [
@@ -68,26 +98,21 @@ class DashboardController extends Controller
                 '$sort'=>['count'=>-1]
             ],
             [
-                '$limit'=>30
+                '$limit'=>$limit
             ]
         ]);
 
-        //dd($likes['result']);
+        //returns array with [_id=val,count=>val]
+        return $likes['result'];
+    }
 
-        $likes_ids = [];
-        $likes_counts = [];
-
-        foreach($likes['result'] as $k=>$v){
-            //dd($v);
-            $likes_ids[] = $v['_id'];
-            $likes_counts[] = $v['count'];
-        }
-
+    private function getPagesNames($pages_ids)
+    {
         $FbColl = DB::getMongoDB()->selectCollection('facebook_pages');
         $pages_cursor = $FbColl->aggregate([
             [
                 '$match'=>[
-                    'id'=>['$in'=>$likes_ids]
+                    'id'=>['$in'=>$pages_ids]
                 ]
             ],
             [
@@ -98,13 +123,7 @@ class DashboardController extends Controller
             ]
         ]);
 
-        //$pages_cursor = array_merge($pages_cursor['result'],$likes_counts);
-        //dd($pages_cursor);
-        $words = $pages_cursor['result'];
-        $wordCount = $likes['result'];
+        return $pages_cursor['result'];
 
-//        dd($wordCount);
-
-        return view('dashboard.index', ['user' => Auth::user(),'words'=>$words,'wordCount'=>$wordCount]);
     }
 }
