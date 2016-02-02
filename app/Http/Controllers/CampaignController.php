@@ -17,8 +17,9 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->get();
-        return view('campaign.index', ['campaigns' => $campaigns]);
+        return view('campaign.index', [
+            'campaigns' => auth()->user()->campaigns,
+        ]);
     }
 
 }

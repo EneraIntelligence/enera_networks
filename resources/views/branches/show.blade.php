@@ -20,8 +20,8 @@
         <div class="row">
             <div class="uk-width-1">
                 <div class="uk-panel-box-secondary">
-                    <h3 class="margi-title">{{ '<nombre nodo>' }}</h3>
-                    <h3 class="margi-title">{{  '<nombre red>' }}</h3>
+                    <h3 class="margi-title">{{ $branch->name }}</h3>
+                    <h3 class="margi-title">{{  $network->name }}</h3>
                 </div>
             </div>
         </div>

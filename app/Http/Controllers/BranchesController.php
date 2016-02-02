@@ -4,6 +4,7 @@ namespace Networks\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Networks\Branche;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Network;
@@ -29,9 +30,19 @@ class BranchesController extends Controller
      */
     public function show($id)
     {
-        return view('nodes.show');
+        $branch = Branche::find($id);
+        if ($branch) {
+            return view('branch::show', [
+                'branch' => $branch,
+                'network' => Network::find(session('network_id')),
+            ]);
+        } else {
+            return redirect()->route('branch::index')->with([
+                'n_type' => 'danger',
+                'n_timeout' => 5000,
+                'n_msg' => 'Nodo no encontrado.'
+            ]);
+        }
     }
-
-
 
 }
