@@ -124,11 +124,13 @@
                                         <i class="material-icons md-36">assessment</i>
                                         <span class="uk-text-muted uk-display-block">Reportes</span>
                                     </a>
-                                    <a href="{!! route('choose.platform') !!}">
-                                        {{--<i class="material-icons md-36">&#xE53E;</i>--}}
-                                        <i class="material-icons md-36">&#xE8D4;</i>
-                                        <span class="uk-text-muted uk-display-block">Plataformas</span>
-                                    </a>
+                                    @if(count(auth()->user()->role->platform) > 1)
+                                        <a href="{!! route('choose.platform') !!}">
+                                            {{--<i class="material-icons md-36">&#xE53E;</i>--}}
+                                            <i class="material-icons md-36">&#xE8D4;</i>
+                                            <span class="uk-text-muted uk-display-block">Plataformas</span>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                             <div class="uk-width-1-3 uk-hidden-small">
@@ -160,27 +162,46 @@
                                     data-uk-tab="{connect:'#networks',animation:'slide-horizontal'}">
                                     <li class="uk-width-1 uk-active">
                                         <a href="#" class="js-uk-prevent uk-text-small">
-                                            Redes ({{ auth()->user()->client->networks->count() }})
+                                            Redes
+                                            ({{ auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count()}}
+                                            )
                                         </a>
                                     </li>
                                 </ul>
                                 <ul id="networks" class="uk-switcher">
                                     <li>
                                         <ul class="md-list md-list-addon">
-                                            @foreach(auth()->user()->client->networks as $network)
-                                                <li style="margin: 0 0 0 10px;">
-                                                    <div class="md-list-content">
-                                                    <span class="md-list-heading">
-                                                        <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
-                                                            {{ $network->name }}
-                                                        </a>
-                                                    </span>
-                                                    <span class="uk-text-small uk-text-muted">
-                                                        {{ $network->branches->count() }} nodo(s)
-                                                    </span>
-                                                    </div>
-                                                </li>
-                                            @endforeach
+                                            @if(auth()->user()->role->name == 'Enera Admin')
+                                                @foreach(\Networks\Network::all() as $network)
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
+                                                            <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                                <span class="md-list-heading">
+                                                                        {{ $network->name }}
+                                                                </span>
+                                                                <span class="uk-text-small uk-text-muted">
+                                                                    {{ $network->branches->count() }} nodo(s)
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                @foreach(auth()->user()->client->networks as $network)
+                                                    <li style="margin: 0 0 0 10px;">
+                                                        <div class="md-list-content">
+                                                            <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                                <span class="md-list-heading">
+                                                                        {{ $network->name }}
+                                                                </span>
+                                                                <span class="uk-text-small uk-text-muted">
+                                                                    {{ $network->branches->count() }} nodo(s)
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                            @endif
                                         </ul>
                                     </li>
                                 </ul>

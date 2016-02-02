@@ -31,10 +31,10 @@
                             @foreach($branches as $branche)
                                 <li style=" cursor: pointer;">
                                     <span class="md-card-list-item-date">
-                                        ---
+                                        {{ $branche->campaign_logs->count() }} / {{ count($branche->aps) }}
                                     </span>
                                     <span class="md-card-list-item-date">
-                                        {{ count($branche->aps) }}
+
                                     </span>
                                     <div class="md-card-list-item-avatar-wrapper">
                                         <span class="md-card-list-item-avatar md-bg-light-{!! $branche->status == 'active'?'green':'blue'!!}">

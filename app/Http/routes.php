@@ -36,5 +36,8 @@ Route::group(['middleware' => 'notauth'], function () {
 });
 
 Route::get('/choose', ['as' => 'choose.platform', function () {
-    return view('choose');
+    return view('choose', [
+        'color' => 'black',
+        'msg' => Input::has('msg') ? Input::get('msg') : 'Selecciona alguna de las plataformas.'
+    ]);
 }]);
