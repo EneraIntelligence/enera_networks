@@ -30,7 +30,7 @@
                             @endif
                             @foreach($branches as $branche)
                                 <li style=" cursor: pointer;"
-                                    onclick="window.location.href='{!! route('branch::show',['id' => $branche->_id]) !!}'">
+                                    onclick="window.location.href='{!! route('branches::show',['id' => $branche->_id]) !!}'">
                                     <span class="md-card-list-item-date">
                                         {{ $branche->campaign_logs->count() }} / {{ count($branche->aps) }}
                                     </span>
