@@ -32,7 +32,7 @@ class BranchesController extends Controller
     {
         $branch = Branche::find($id);
         if ($branch) {
-            return view('branch::show', [
+            return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
             ]);
