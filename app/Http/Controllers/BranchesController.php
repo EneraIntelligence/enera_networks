@@ -36,7 +36,7 @@ class BranchesController extends Controller
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
-                'devices' => 0,
+                'devices' => $branch->campaign_logs()->distinct('device.mac')->get(),
             ]);
         } else {
             return redirect()->route('branches::index')->with([

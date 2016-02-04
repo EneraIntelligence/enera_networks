@@ -89,7 +89,7 @@
                                 <div class="md-list-content">
                                     <span class="uk-text-small uk-text-muted uk-display-block">Conexiones</span>
                                     <span class="md-list-heading uk-text-large">
-                                        {{ $branch->campaign_logs->count() }}
+                                        {{ $branch->campaign_logs()->count() }}
                                     </span>
                                 </div>
                             </li>
