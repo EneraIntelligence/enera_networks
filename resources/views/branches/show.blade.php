@@ -36,30 +36,33 @@
                         {{-- Similador --}}
                         <div class="preview-container" style="height: 469px; margin: 25px 0px 15px;">
 
-                            <img class="uk-align-center uk-responsive-width phone" src="http://networks.enera-intelligence.mx/images/android_placeholder.png" alt="" style="margin-bottom: 0px;">
+                            <img class="uk-align-center uk-responsive-width phone"
+                                 src="http://networks.enera-intelligence.mx/images/android_placeholder.png" alt=""
+                                 style="margin-bottom: 0px;">
 
                             <!-- like preview -->
-                            <div class="interaction uk-align-center uk-position-relative" style="height: 320px; margin-top: -394px; width: 202px; background-color: red;">
+                            <div class="interaction uk-align-center uk-position-relative"
+                                 style="height: 320px; margin-top: -394px; width: 202px;
+                                 background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['background'] !!}'); background-repeat: no-repeat; background-position: top center; background-attachment: fixed; background-size: cover;">
 
+                                <img class="interaction-image"
+                                     src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}"
+                                     style="margin-bottom: 10px;">
 
-                                <img class="interaction-image" src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_maxcom_p.png" style="margin-bottom: 10px;">
+                                <img class="interaction-image"
+                                     src="http://networks.enera-intelligence.mx/images/terminos.png"
+                                     style="margin: 10px 0; width: 300px;">
 
-                                <img class="interaction-image" src="http://networks.enera-intelligence.mx/images/terminos.png" style="margin: 10px 0; width: 300px;">
+                                {{--<img class="uk-align-right" width="60" height="50"
+                                     src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_sendero.png"
+                                     alt="">--}}
 
-                                <img class="uk-align-right" width="60" height="50" src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_sendero.png" alt="">
-
-                                <img class="uk-align-left" width="60" height="50" src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_enera.png" alt="">
+                                <img class="uk-align-left" width="60" height="50"
+                                     src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_enera.png"
+                                     alt="">
 
                                 <div class="uk-clearfix"></div>
 
-                                <a style="position: absolute; bottom: 0; width: 100%;" class="uk-hidden-small" href="#">
-                                    <p class="uk-text-truncate uk-text-center uk-margin-bottom-remove">Deseo navegar
-                                        en internet</p>
-                                </a>
-
-                                <a style="position: absolute; bottom: 0; width: 100%;" class="uk-hidden-medium uk-hidden-large" href="#">
-                                    <p class="uk-text-truncate uk-text-center uk-margin-bottom-remove" style="font-size: 10px">Deseo navegar en internet</p>
-                                </a>
 
                             </div>
 
