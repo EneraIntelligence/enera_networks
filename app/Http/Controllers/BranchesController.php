@@ -2,6 +2,7 @@
 
 namespace Networks\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 
 use Networks\Branche;
@@ -35,6 +36,7 @@ class BranchesController extends Controller
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
+                'devices' => 0,
             ]);
         } else {
             return redirect()->route('branch::index')->with([
