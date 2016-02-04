@@ -175,7 +175,7 @@
                                                 @foreach(\Networks\Network::all() as $network)
                                                     <li style="margin: 0 0 0 10px;">
                                                         <div class="md-list-content">
-                                                            <a href="{!! route(Request::route()->getName(), ['network_id' => $network->_id]) !!}">
+                                                            <a href="{!! Request::url().'?network_id='.$network->_id !!}">
                                                                 <span class="md-list-heading">
                                                                         {{ $network->name }}
                                                                 </span>
