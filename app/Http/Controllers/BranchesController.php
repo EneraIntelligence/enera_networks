@@ -39,7 +39,7 @@ class BranchesController extends Controller
                 'devices' => 0,
             ]);
         } else {
-            return redirect()->route('branch::index')->with([
+            return redirect()->route('branches::index')->with([
                 'n_type' => 'danger',
                 'n_timeout' => 5000,
                 'n_msg' => 'Nodo no encontrado.'
