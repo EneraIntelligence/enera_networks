@@ -24,5 +24,10 @@ class Branche extends Model
     {
         return $this->hasMany('Networks\CampaignLog', 'device.branch_id');
     }
+
+    public function count_devices()
+    {
+
+    }
     // end relations
 }

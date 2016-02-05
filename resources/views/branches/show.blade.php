@@ -121,7 +121,8 @@
                     <div class="md-card-content large-padding">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
-
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2741.784543315565!2d-{!! $branch->location[1] !!}!3d{!! $branch->location[0] !!}!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x62079ed96931d412!!5e0!3m2!1ses-419!2smx!4v1454702603997"
+                                    width="800" height="400" frameborder="0" style="border:0"></iframe>
                         </div>
                     </div>
                 </div>
