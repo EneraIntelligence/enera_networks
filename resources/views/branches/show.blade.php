@@ -43,7 +43,7 @@
                             <!-- like preview -->
                             <div class="interaction uk-align-center uk-position-relative"
                                  style="height: 320px; margin-top: -394px; width: 202px;
-                                 background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['background'] !!}'); background-repeat: no-repeat; background-position: top center; background-attachment: fixed; background-size: cover;">
+                                         background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['background'] !!}'); background-repeat: no-repeat; background-position: top center; background-attachment: fixed; background-size: cover;">
 
                                 <img class="interaction-image"
                                      src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}"
@@ -118,11 +118,11 @@
                             Ubicacion
                         </h3>
                     </div>
-                    <div class="md-card-content large-padding">
+                    <div class="md-card-content large-padding" style="padding: 5px 35px;">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2741.784543315565!2d-{!! $branch->location[1] !!}!3d{!! $branch->location[0] !!}!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x62079ed96931d412!!5e0!3m2!1ses-419!2smx!4v1454702603997"
-                                    width="800" height="400" frameborder="0" style="border:0"></iframe>
+                            <div id="GoogleMap"
+                                 style="margin: 0px auto;width: 91%; max-width: 850px; height: 380px;"></div>
                         </div>
                     </div>
                 </div>
@@ -148,9 +148,37 @@
 
 @section('scripts')
     {!! HTML::script('js/preview_helper.js') !!}
+    {!! HTML::script('http://maps.google.com/maps/api/js') !!}
     <script>
-        $(document).ready(function () {
+        function MarkerMap(lat, lng, zoom, DOMElement) {
+            this.center = new google.maps.LatLng(lat, lng);
+            this.zoom = zoom;
+            //
+            var properties = {
+                center: this.center,
+                zoom: this.zoom,
+                scrollwheel: false,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
 
+            var map = new google.maps.Map(DOMElement, properties);
+
+            var marker = new google.maps.Marker({
+                title: '{!! $branch->name !!}',
+                position: new google.maps.LatLng(lat, lng),
+                animation: google.maps.Animation.DROP,
+//                icon: imgOff,
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: '<b>{!! $branch->name !!}</b><br>{!! $network->name !!}',
+            });
+
+            marker.setMap(map);
+            infowindow.open(map, marker);
+        }
+        $(document).ready(function () {
+            MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
         });
     </script>
 @stop
