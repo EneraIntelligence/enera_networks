@@ -33,10 +33,11 @@ class BranchesController extends Controller
     {
         $branch = Branche::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
+//            $devices = $branch->campaign_logs()->distinct('device.mac')->get()->count(),
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
-                'devices' => $branch->campaign_logs()->distinct('device.mac')->get()->count(),
+                'devices' => 0
             ]);
         } else {
             return redirect()->route('branches::index')->with([
