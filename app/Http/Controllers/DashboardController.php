@@ -51,20 +51,22 @@ class DashboardController extends Controller
         $branches = Network::find(session('network_id'))->branches;
         $devices=0;
         $joined=0;
-        $loaded=0;
+        //$loaded=0;
         $completed=0;
         foreach($branches as $b)
         {
             $devices+=$b->campaign_logs()->distinct('device.mac')->get()->count();
             $joined+=$b->campaign_logs()->where('interaction.joined','exists',true)->get()->count();
-            $loaded+=$b->campaign_logs()->where('interaction.loaded','exists',true)->get()->count();
+            //$loaded+=$b->campaign_logs()->where('interaction.loaded','exists',true)->get()->count();
             $completed+=$b->campaign_logs()->where('interaction.completed','exists',true)->get()->count();
         }
 
+        /*
         if($loaded>0)
             $completed = ceil($completed/$loaded);
         else
             $completed=0;
+        */
 
         return view('dashboard.index', ['user' => Auth::user(),'words'=>$words,'wordCount'=>$likesCount,
             'devices'=>$devices,'joined'=>$joined,'completed'=>$completed,'branches'=>$branches]);

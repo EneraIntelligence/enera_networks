@@ -34,9 +34,9 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_orders peity_data">{!! $completed !!}/100</span></div>
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_orders peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
                             <span class="uk-text-muted uk-text-small">Interacciones completadas</span>
-                            <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $completed !!}</noscript></span>%</h2>
+                            <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $completed !!}</noscript></span></h2>
                         </div>
                     </div>
                 </div>
@@ -167,15 +167,24 @@
             theAnimation.start();
         });
 
-        $(".peity_orders").peity("donut", {
-            height: 24,
-            width: 24,
-            fill: ["#8bc34a", "#eee"]
+        $(".peity_orders").peity("line", {
+            height: 28,
+            width: 64,
+            fill: "#98DF8A",
+            stroke: "#2DA02D"
         });
+        var pityInteractions = $(".peity_orders");
+        setInterval(function () {
+            var random = Math.round(Math.random() * 10);
+            var values = pityInteractions.text().split(",");
+            values.shift();
+            values.push(random);
 
-        function getRandomVal(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+            pityInteractions
+                    .text(values.join(","))
+                    .change();
+        }, 1000);
+
 
         $(".peity_visitors").peity("bar", {
             height: 28,
