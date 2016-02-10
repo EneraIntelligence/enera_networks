@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'guest' => \Networks\Http\Middleware\RedirectIfAuthenticated::class,
         'guardian' => \Networks\Http\Middleware\Guardian::class,
         'NetworkId' => \Networks\Http\Middleware\NetworkMiddleware::class,
+        'preview' => \Networks\Http\Middleware\PreviewMiddleware::class,
     ];
 }

@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'guardian', 'NetworkId']], function () {
+Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], function () {
     Route::match(['post', 'get'], 'logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
 
