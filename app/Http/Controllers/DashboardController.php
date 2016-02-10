@@ -56,9 +56,9 @@ class DashboardController extends Controller
         foreach($branches as $b)
         {
             $devices+=$b->campaign_logs()->distinct('device.mac')->get()->count();
-            $joined+=$b->campaign_logs()->where('interaction.joined','exists',true)->get()->count();
+            $joined+=$b->campaign_logs()->distinct('device.mac')->where('interaction.joined','exists',true)->get()->count();
             //$loaded+=$b->campaign_logs()->where('interaction.loaded','exists',true)->get()->count();
-            $completed+=$b->campaign_logs()->where('interaction.completed','exists',true)->get()->count();
+            $completed+=$b->campaign_logs()->where('interaction.accessed','exists',true)->get()->count();
         }
 
         /*

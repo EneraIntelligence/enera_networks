@@ -17,7 +17,7 @@
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">5,3,9,6,5,9,7</span></div>
-                            <span class="uk-text-muted uk-text-small">Dispositivos</span>
+                            <span class="uk-text-muted uk-text-small">Dispositivos únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $devices !!}</noscript></span></h2>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_sale peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
-                            <span class="uk-text-muted uk-text-small">Conectados</span>
+                            <span class="uk-text-muted uk-text-small">Usuarios únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $joined !!}</noscript></span></h2>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="md-card">
                         <div class="md-card-content">
                             <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_orders peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
-                            <span class="uk-text-muted uk-text-small">Interacciones completadas</span>
+                            <span class="uk-text-muted uk-text-small">Accesos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $completed !!}</noscript></span></h2>
                         </div>
                     </div>
