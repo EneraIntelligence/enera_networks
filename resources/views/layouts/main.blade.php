@@ -136,10 +136,20 @@
                             <div class="uk-width-1-3 uk-hidden-small">
                                 <ul class="uk-nav uk-nav-dropdown uk-panel">
                                     <li class="uk-nav-header">Recientes</li>
-                                    <li><a href="#">Buttons</a></li>
-                                    <li><a href="#">Notifications</a></li>
-                                    <li><a href="#">Sortable</a></li>
-                                    <li><a href="#">Tabs</a></li>
+                                    <?php
+                                    if (!isset(auth()->user()->routeNetworks)) {
+                                        auth()->user()->routeNetworks = [];
+                                    }
+
+                                    ?>
+                                    @foreach(auth()->user()->routeNetworks as $preview)
+                                        <?php $last = explode('/', $preview) ?>
+                                        <li><a href="{!! route($last[1]) !!}">{{$last[0]}}</a></li>
+                                    @endforeach
+                                    {{--<li><a href="#">Buttons</a></li>--}}
+                                    {{--<li><a href="#">Notifications</a></li>--}}
+                                    {{--<li><a href="#">Sortable</a></li>--}}
+                                    {{--<li><a href="#">Tabs</a></li>--}}
                                 </ul>
                             </div>
                         </div>
