@@ -16,6 +16,7 @@
         this.zoom = zoom;
         this.onMarkersUpdate = new signals.Signal();
         var properties = {
+            scrollwheel: false,
             center:this.center,
             zoom:this.zoom,
             mapTypeId:google.maps.MapTypeId.ROADMAP
