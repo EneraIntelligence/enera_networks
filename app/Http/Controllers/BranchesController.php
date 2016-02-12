@@ -207,7 +207,10 @@ class BranchesController extends Controller
                         'interaction.joined' => ['$exists' => false],
                         'interaction.requested' => ['$exists' => false],
                         'interaction.loaded' => ['$exists' => false],
-                        'interaction.completed' => ['$exists' => true],
+                        '$or' => [
+                            ['interaction.completed' => ['$exists' => true]],
+                            ['interaction.accessed' => ['$exists' => true]],
+                        ],
                         //
                         'device.branch_id' => $branch->_id,
                         'created_at' => [
