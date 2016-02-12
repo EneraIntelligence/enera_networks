@@ -6,6 +6,13 @@
 @stop
 
 @section('content')
+    <div id="page_heading">
+        <h1>{{ $network->name }}</h1>
+        <span class="uk-text-muted uk-text-upper uk-text-small">
+            ###
+        </span>
+    </div>
+
     <div id="page_content">
         <div id="page_content_inner">
             <div class="md-card-list-wrapper" id="mailbox">

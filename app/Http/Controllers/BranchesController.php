@@ -22,8 +22,10 @@ class BranchesController extends Controller
      */
     public function index()
     {
+        $network = Network::find(session('network_id'));
         return view('branches.index', [
-            'branches' => Network::find(session('network_id'))->branches,
+            'network' => $network,
+            'branches' => $network->branches,
         ]);
     }
 
