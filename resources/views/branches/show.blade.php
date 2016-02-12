@@ -4,6 +4,7 @@
 
 @section('head_scripts')
     {!! HTML::style('assets/css/campaign.css') !!}
+    {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     <style>
         .margi-title {
             margin: 5px 0 5px 25px;
@@ -131,9 +132,8 @@
                         </h3>
                     </div>
                     <div class="md-card-content large-padding">
-                        <div class="uk-grid uk-grid-divider uk-grid-medium">
-                            {{-- ??? --}}
-
+                        <div class="uk-grid uk-grid-divider uk-grid-medium ">
+                            <div id="analitics" class="c3" style="width: 85%; position: relative;"></div>
                         </div>
                     </div>
                 </div>
@@ -147,6 +147,13 @@
 @section('scripts')
     {!! HTML::script('js/preview_helper.js') !!}
     {!! HTML::script('http://maps.google.com/maps/api/js') !!}
+        <!-- d3 -->
+    {{--<script src="bower_components/d3/d3.min.js"></script>--}}
+    {!! HTML::script('bower_components/d3/d3.min.js') !!}
+            <!-- metrics graphics (charts) -->
+    {{--<script src="bower_components/metrics-graphics/dist/metricsgraphics.min.js"></script>--}}
+            <!-- c3.js (charts) -->
+    {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
     <script>
         function MarkerMap(lat, lng, zoom, DOMElement) {
             this.center = new google.maps.LatLng(lat, lng);
@@ -177,6 +184,32 @@
         }
         $(document).ready(function () {
             MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
+        });
+
+
+
+        var chart = c3.generate({
+            bindto: '#analitics',
+            data: {
+                columns: [
+                    ['data1', 30, 200, 100, 400, 150, 250],
+                    ['data2', 130, 100, 140, 200, 150, 50],
+                    ['data3', 130, 100, 140, 200, 150, 50],
+                    ['data4', 130, 100, 140, 200, 150, 50],
+                    ['data5', 130, 100, 140, 200, 150, 50]
+                ],
+                type: 'bar',
+                groups: [
+                    ['data1', 'data2', 'data3', 'data4', 'data5']
+                ]
+            },
+            bar: {
+                width: {
+                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                }
+                // or
+                //width: 100 // this makes bar width 100px
+            }
         });
     </script>
 @stop
