@@ -11,10 +11,12 @@
         this.markers = [];
         this.originalMarkers = [];
         this.activeMarkers = 0;
+        this.openedInfoWindow = null;
         this.center = new google.maps.LatLng(lat,lng);
         this.zoom = zoom;
         this.onMarkersUpdate = new signals.Signal();
         var properties = {
+            scrollwheel: false,
             center:this.center,
             zoom:this.zoom,
             mapTypeId:google.maps.MapTypeId.ROADMAP
@@ -24,8 +26,10 @@
 
     }
 
-    MarkerMap.prototype.addMarker = function(marker)
+    MarkerMap.prototype.addMarker = function(marker, infowindow)
     {
+        infowindow = infowindow||null;
+
         this.originalMarkers.push(marker.marker);
         this.markers.push(marker);
         var bMap = this;
@@ -34,6 +38,15 @@
             bMap.updatedMarker(clickedMarker);
         });
         marker.setMap(this.map);
+
+        marker.marker.addListener('click', function() {
+            if(bMap.openedInfoWindow)
+            {
+                bMap.openedInfoWindow.close();
+            }
+            infowindow.open(bMap.map, this);
+            bMap.openedInfoWindow = infowindow;
+        });
     };
 
     MarkerMap.prototype.updatedMarker = function(marker)

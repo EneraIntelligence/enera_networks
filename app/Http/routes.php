@@ -11,12 +11,13 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'guardian', 'NetworkId']], function () {
+Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], function () {
     Route::match(['post', 'get'], 'logout', ['as' => 'auth.logout', 'uses' => 'AuthController@logout']);
     Route::get('/', ['as' => 'home', 'uses' => 'DashboardController@index']);
 
     Route::group(['prefix' => 'campaigns', 'as' => 'campaigns::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'CampaignController@index']);
+        Route::get('/view/{id}', ['as' => 'show', 'uses' => 'CampaignController@show']);
     });
 
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {

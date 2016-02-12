@@ -27,7 +27,7 @@
                                 </div>
                             </li>
                             @foreach($campaigns as $campaign)
-                                <li style=" cursor: pointer;" onclick="window.location.href='{!! route('home') !!}'">
+                                <li style=" cursor: pointer;" onclick="window.location.href='{!! route('campaigns::show', [$campaign->id]) !!}'">
                                     <span class="md-card-list-item-date">{{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</span>
                                     <span class="md-card-list-item-date" style="margin-right: 25px;">{{$campaign->logs()->where('interaction.loaded', 'exists', 'true')->count()}}</span>
                                     <div class="md-card-list-item-avatar-wrapper">
