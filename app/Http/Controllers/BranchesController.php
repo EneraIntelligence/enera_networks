@@ -56,10 +56,35 @@ class BranchesController extends Controller
                     ]
                 ],
             ]);
+            $users = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
+                [
+                    '$match' => [
+                        'user.id' => ['$exists' => true],
+                        'device.branch_id' => $branch->_id
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => '',
+                        'fb_id' => [
+                            '$addToSet' => '$user.id'
+                        ]
+                    ]
+                ],
+                ['$unwind' => '$fb_id'],
+                [
+                    '$group' => [
+                        '_id' => '$_id',
+                        'count' => ['$sum' => 1]
+                    ]
+                ],
+            ]);
+
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
                 'devices' => $devices['result'][0]['count'],
+                'users' => $users['result'][0]['count'],
             ]);
         } else {
             return redirect()->route('branches::index')->with([

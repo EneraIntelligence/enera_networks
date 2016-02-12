@@ -85,7 +85,7 @@
                                 <div class="md-list-content">
                                     <span class="uk-text-small uk-text-muted uk-display-block">Conexiones</span>
                                     <span class="md-list-heading uk-text-large">
-                                        {{ $branch->campaign_logs()->count() }}
+                                        {{ number_format($branch->campaign_logs()->count(),2,'.',',') }}
                                     </span>
                                 </div>
                             </li>
@@ -93,14 +93,16 @@
                                 <div class="md-list-content">
                                     <span class="uk-text-small uk-text-muted uk-display-block">Dispositivos detectados</span>
                                     <span class="md-list-heading uk-text-large">
-                                        {{ $devices }}
+                                        {{ number_format($devices,2,'.',',') }}
                                     </span>
                                 </div>
                             </li>
                             <li>
                                 <div class="md-list-content">
-                                    <span class="uk-text-small uk-text-muted uk-display-block">SKU</span>
-                                    <span class="md-list-heading uk-text-large">4319572394</span>
+                                    <span class="uk-text-small uk-text-muted uk-display-block">Usuarios recolectados</span>
+                                    <span class="md-list-heading uk-text-large">
+                                        {{ $users }}
+                                    </span>
                                 </div>
                             </li>
                         </ul>
