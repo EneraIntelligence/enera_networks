@@ -53,10 +53,6 @@
                                      src="http://networks.enera-intelligence.mx/images/terminos.png"
                                      style="margin: 10px 0; width: 300px;">
 
-                                {{--<img class="uk-align-right" width="60" height="50"
-                                     src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_sendero.png"
-                                     alt="">--}}
-
                                 <img class="uk-align-left" width="60" height="50"
                                      src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/logo_pie_enera.png"
                                      alt="">

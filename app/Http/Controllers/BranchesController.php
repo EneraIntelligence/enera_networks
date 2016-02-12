@@ -33,11 +33,33 @@ class BranchesController extends Controller
     {
         $branch = Branche::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
-//            $devices = $branch->campaign_logs()->distinct('device.mac')->get()->count(),
+            $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
+                [
+                    '$match' => [
+                        'device.mac' => ['$exists' => true],
+                        'device.branch_id' => $branch->_id
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => '',
+                        'mac' => [
+                            '$addToSet' => '$device.mac'
+                        ]
+                    ]
+                ],
+                ['$unwind' => '$mac'],
+                [
+                    '$group' => [
+                        '_id' => '$_id',
+                        'count' => ['$sum' => 1]
+                    ]
+                ],
+            ]);
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
-                'devices' => 0
+                'devices' => $devices['result'][0]['count'],
             ]);
         } else {
             return redirect()->route('branches::index')->with([
