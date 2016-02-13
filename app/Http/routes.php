@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
 
     Route::group(['prefix' => 'campaigns', 'as' => 'campaigns::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'CampaignController@index']);
+        Route::get('/view/{id}', ['as' => 'show', 'uses' => 'CampaignController@show']);
     });
 
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {
