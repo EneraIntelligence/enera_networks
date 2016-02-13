@@ -9,7 +9,7 @@
     <div id="page_heading">
         <h1>{{ $network->name }}</h1>
         <span class="uk-text-muted uk-text-upper uk-text-small">
-            ###
+            CL: {{ number_format($conexions,0,'.',',') }}
         </span>
     </div>
 
