@@ -153,6 +153,11 @@ class DashboardController extends Controller
                     'device.branch_id'=>['$in'=>$branches_id],
                     'interaction.accessed'=>['$exists'=>true]
                 ]
+            ],
+            [
+                '$group' => [
+                    '_id'=>'$device.mac'
+                ]
             ]
         ]);
 
