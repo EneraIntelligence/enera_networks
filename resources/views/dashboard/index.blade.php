@@ -143,10 +143,10 @@
 
             var contentString = '<div id="content">'+
 
-                    '<a style="font-size:30px;" href="{!! route('branches::show',$b->_id) !!}">'+
-                    name+'</a>'+
+                    '<strong><a style="font-size:20px; color:black;" href="{!! route('branches::show',$b->_id) !!}">'+
+                    name+'</a></strong>'+
                 '<div id="bodyContent">'+
-                '-'+
+                '{{ \Networks\Network::find(session('network_id'))->name }}'+
                 '</div>'+
                 '</div>';
 
