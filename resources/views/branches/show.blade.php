@@ -201,7 +201,8 @@
                 type: 'bar',
                 groups: [
                     ['data1', 'data2', 'data3', 'data4', 'data5']
-                ]
+                ],
+                onclick: function () { window.open("http://www.w3schools.com"); }
             },
             bar: {
                 width: {
