@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 
 use MongoDate;
 use Networks\Branche;
+
+use Networks\CampaignLog;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Network;
-use Session;
 
 class BranchesController extends Controller
 {
@@ -22,8 +23,11 @@ class BranchesController extends Controller
      */
     public function index()
     {
+        $network = Network::find(session('network_id'));
         return view('branches.index', [
-            'branches' => Network::find(session('network_id'))->branches,
+            'network' => $network,
+            'logs' => CampaignLog::whereIn('device.branch_id',$network->branches()->get(['_id']))->count(),
+            'branches' => $network->branches,
         ]);
     }
 

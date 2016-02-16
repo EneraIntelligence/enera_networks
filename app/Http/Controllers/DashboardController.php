@@ -49,24 +49,11 @@ class DashboardController extends Controller
         //dd(words);
 
         $branches = Network::find(session('network_id'))->branches;
-        $devices=0;
-        $joined=0;
-        //$loaded=0;
-        $completed=0;
-        foreach($branches as $b)
-        {
-            $devices+=$b->campaign_logs()->distinct('device.mac')->get()->count();
-            $joined+=$b->campaign_logs()->distinct('device.mac')->where('interaction.joined','exists',true)->get()->count();
-            //$loaded+=$b->campaign_logs()->where('interaction.loaded','exists',true)->get()->count();
-            $completed+=$b->campaign_logs()->where('interaction.accessed','exists',true)->get()->count();
-        }
 
-        /*
-        if($loaded>0)
-            $completed = ceil($completed/$loaded);
-        else
-            $completed=0;
-        */
+        $devices=$this->getUniqueDevices( $branches_ids );
+        $joined=$this->getUniqueJoined( $branches_ids );
+        $completed=$this->getAccessed( $branches_ids );
+
 
         return view('dashboard.index', ['user' => Auth::user(),'words'=>$words,'wordCount'=>$likesCount,
             'devices'=>$devices,'joined'=>$joined,'completed'=>$completed,'branches'=>$branches]);
@@ -105,6 +92,72 @@ class DashboardController extends Controller
         }
 
         return $_ids;
+
+    }
+
+    private function getUniqueDevices($branches_id)
+    {
+        $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //get all the users _ids into an array
+        $devices = $cLogsColl->aggregate([
+            [
+                '$match'=>[
+                    'device.branch_id'=>['$in'=>$branches_id]
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id'=>'$device.mac'
+                ]
+            ]
+        ]);
+
+        return count($devices['result']);
+
+    }
+
+
+    private function getUniqueJoined($branches_id)
+    {
+        $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //get all the users _ids into an array
+        $devices = $cLogsColl->aggregate([
+            [
+                '$match'=>[
+                    'device.branch_id'=>['$in'=>$branches_id],
+                    'interaction.joined'=>['$exists'=>true]
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id'=>'$device.mac'
+                ]
+            ]
+        ]);
+
+        return count($devices['result']);
+
+    }
+
+
+    private function getAccessed($branches_id)
+    {
+        $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //get all the users _ids into an array
+        $devices = $cLogsColl->aggregate([
+            [
+                '$match'=>[
+                    'device.branch_id'=>['$in'=>$branches_id],
+                    'interaction.accessed'=>['$exists'=>true]
+                ]
+            ]
+        ]);
+
+
+        return count($devices['result']);
 
     }
 
