@@ -27,13 +27,16 @@
                                 </div>
                             </li>
                             @foreach($campaigns as $campaign)
-                                <li style=" cursor: pointer;" onclick="window.location.href='{!! route('campaigns::show', [$campaign->id]) !!}'">
+                                <li style=" cursor: pointer;"
+                                    onclick="window.location.href='{!! route('campaigns::show', [$campaign->id]) !!}'">
                                     <span class="md-card-list-item-date">{{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</span>
-                                    <span class="md-card-list-item-date" style="margin-right: 25px;">{{$campaign->logs()->where('interaction.loaded', 'exists', 'true')->count()}}</span>
+                                    <span class="md-card-list-item-date"
+                                          style="margin-right: 25px;">{{$campaign->logs()->where('interaction.loaded', 'exists', 'true')->count()}}</span>
                                     <div class="md-card-list-item-avatar-wrapper">
                                         <img src="{!! URL::asset('images/icons/'.
                                                                 CampaignStyle::getCampaignIcon( $campaign->interaction['name']
-                                                             ) ) !!}"  style="background: #d9d9d9;"
+                                                             )) !!}2.svg"
+                                             style="background: {!! CampaignStyle::getStatusColor($campaign->status) !!};border: solid 1px {!! CampaignStyle::getStatusColor($campaign->status) !!};"
                                              class="md-card-list-item-avatar dense-image dense-ready" alt="">
                                     </div>
                                     <div class="md-card-list-item-sender">
