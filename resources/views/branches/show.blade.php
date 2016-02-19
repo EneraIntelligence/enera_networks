@@ -142,12 +142,12 @@
         </div>
     </div>
 
-@endsection
+    @endsection
 
-@section('scripts')
+    @section('scripts')
     {!! HTML::script('js/preview_helper.js') !!}
     {!! HTML::script('http://maps.google.com/maps/api/js') !!}
-        <!-- d3 -->
+            <!-- d3 -->
     {{--<script src="bower_components/d3/d3.min.js"></script>--}}
     {!! HTML::script('bower_components/d3/d3.min.js') !!}
             <!-- metrics graphics (charts) -->
@@ -186,30 +186,26 @@
             MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
         });
 
-
+        var datos = [];
+                @foreach()
+                @endforeach
 
         var chart = c3.generate({
-            bindto: '#analitics',
-            data: {
-                columns: [
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 130, 100, 140, 200, 150, 50],
-                    ['data3', 130, 100, 140, 200, 150, 50],
-                    ['data4', 130, 100, 140, 200, 150, 50],
-                    ['data5', 130, 100, 140, 200, 150, 50]
-                ],
-                type: 'bar',
-                groups: [
-                    ['data1', 'data2', 'data3', 'data4', 'data5']
-                ]
-            },
-            bar: {
-                width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
-                }
-                // or
-                //width: 100 // this makes bar width 100px
-            }
-        });
+                    bindto: '#analitics',
+                    data: {
+                        columns: datos,
+                        type: 'bar',
+                        groups: [
+                            ['data1', 'data2', 'data3', 'data4', 'data5']
+                        ]
+                    },
+                    bar: {
+                        width: {
+                            ratio: 0.8 // this makes bar width 50% of length between ticks
+                        }
+                        // or
+                        //width: 100 // this makes bar width 100px
+                    }
+                });
     </script>
 @stop
