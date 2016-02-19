@@ -191,21 +191,28 @@
                 @endforeach
 
         var chart = c3.generate({
-                    bindto: '#analitics',
-                    data: {
-                        columns: datos,
-                        type: 'bar',
-                        groups: [
-                            ['data1', 'data2', 'data3', 'data4', 'data5']
-                        ]
-                    },
-                    bar: {
-                        width: {
-                            ratio: 0.8 // this makes bar width 50% of length between ticks
-                        }
-                        // or
-                        //width: 100 // this makes bar width 100px
-                    }
-                });
+            bindto: '#analitics',
+            data: {
+                columns: [
+                    ['data1', 30, 200, 100, 400, 150, 250],
+                    ['data2', 130, 100, 140, 200, 150, 50],
+                    ['data3', 130, 100, 140, 200, 150, 50],
+                    ['data4', 130, 100, 140, 200, 150, 50],
+                    ['data5', 130, 100, 140, 200, 150, 50]
+                ],
+                type: 'bar',
+                groups: [
+                    ['data1', 'data2', 'data3', 'data4', 'data5']
+                ],
+                onclick: function () { window.open("http://www.w3schools.com"); }
+            },
+            bar: {
+                width: {
+                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                }
+                // or
+                //width: 100 // this makes bar width 100px
+            }
+        });
     </script>
 @stop
