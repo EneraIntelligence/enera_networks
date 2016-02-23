@@ -172,7 +172,7 @@
         }
 
 
-    }; // /factory
+    };
 
     $('body').on( 'init.dt', '.dt-uikit', function () {
 
@@ -191,6 +191,7 @@
 
                 // initilaize selectize
                 $(this).find('.dt-selectize').selectize({
+                    dropdownParent: 'body',
                     onDropdownOpen: function($dropdown) {
                         $dropdown
                             .hide()

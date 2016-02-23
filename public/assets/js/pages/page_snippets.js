@@ -30,8 +30,10 @@ altair_snippets = {
                 );
             });
 
-        // html editor
-        var snippet_CodeMirror = $("#snippet_content").data("htmleditor").editor;
+        // html editor instance
+        setTimeout(function() {
+            var snippet_CodeMirror = $("#snippet_content").data("htmleditor").editor;
+        },200);
 
         // save snippet
         $('#snippet_new_save').on('click',function() {
@@ -64,7 +66,8 @@ altair_snippets = {
                         // show message
                         UIkit.modal.alert("Snipped saved!");
                     }
-                });*/
+                });
+                */
             });
 
 

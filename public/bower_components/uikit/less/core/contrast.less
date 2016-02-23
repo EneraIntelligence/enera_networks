@@ -52,6 +52,15 @@
 @contrast-subnav-pill-active-background:        @contrast-color;
 @contrast-subnav-pill-active-color:             @contrast-inverted-color;
 
+@contrast-tab-border:                           fade(@contrast-color, 20%);
+@contrast-tab-color:                            fade(@contrast-color, 70%);
+@contrast-tab-hover-border:                     fade(@contrast-color, 70%);
+@contrast-tab-hover-background:                 fade(@contrast-color, 70%);
+@contrast-tab-hover-color:                      @contrast-inverted-color;
+@contrast-tab-active-border:                    fade(@contrast-color, 20%);
+@contrast-tab-active-background:                @contrast-color;
+@contrast-tab-active-color:                     @contrast-inverted-color;
+
 @contrast-list-line-border:                     fade(@contrast-color, 20%);
 
 @contrast-form-border:                          fade(@contrast-color, 80%);
@@ -70,11 +79,11 @@
 @contrast-button-active-background:             fade(@contrast-color, 70%);
 @contrast-button-active-color:                  @contrast-inverted-color;
 
-@contrast-button-primary-background:            @button-primary-background;
+@contrast-button-primary-background:            #00a8e6;
 @contrast-button-primary-color:                 @contrast-color;
-@contrast-button-primary-hover-background:      @button-primary-hover-background;
+@contrast-button-primary-hover-background:      #35b3ee;
 @contrast-button-primary-hover-color:           @contrast-color;
-@contrast-button-primary-active-background:     @button-primary-active-background;
+@contrast-button-primary-active-background:     #0091ca;
 @contrast-button-primary-active-color:          @contrast-color;
 
 @contrast-icon-hover-color:                     fade(@contrast-color, 70%);
@@ -88,7 +97,7 @@
 @contrast-icon-button-active-color:             @contrast-inverted-color;
 
 @contrast-text-muted-color:                     fade(@contrast-color, 60%);
-@contrast-text-primary-color:                   @text-primary-color;
+@contrast-text-primary-color:                   #2d7091;
 
 
 /* ========================================================================
@@ -154,6 +163,10 @@
     .uk-nav li > a,
     .uk-nav li > a:hover { text-decoration: none; }
 
+    //
+    // Nav Site
+    //
+
     .uk-nav-side > li > a {
         color: @contrast-nav-side-color;
         .hook-contrast-nav-side;
@@ -172,28 +185,19 @@
         .hook-contrast-nav-side-active;
     }
 
-    //
     // Nav header
-    //
-
     .uk-nav-side .uk-nav-header {
         color: @contrast-nav-side-header-color;
         .hook-contrast-nav-side-header;
     }
 
-    //
     // Nav divider
-    //
-
     .uk-nav-side .uk-nav-divider {
         border-top-color: @contrast-nav-side-divider-border;
         .hook-contrast-nav-side-divider;
     }
 
-    //
     // Nested items
-    //
-
     .uk-nav-side ul a { color: @contrast-nav-side-nested-color; }
     .uk-nav-side ul a:hover { color: @contrast-nav-side-nested-hover-color; }
 
@@ -245,6 +249,49 @@
         color: @contrast-subnav-pill-active-color;
         .hook-contrast-subnav-pill-active;
     }
+
+
+    // Tab
+    // ========================================================================
+
+    .uk-tab { border-bottom-color: @contrast-tab-border; }
+
+    .uk-tab > li > a {
+        border-color: transparent;
+        color: @contrast-tab-color;
+        .hook-contrast-tab;
+    }
+
+    .uk-tab > li > a:hover,
+    .uk-tab > li > a:focus,
+    .uk-tab > li.uk-open > a {
+        border-color: @contrast-tab-hover-border;
+        background: @contrast-tab-hover-background;
+        color: @contrast-tab-hover-color;
+        text-decoration: none;
+        .hook-contrast-tab-hover;
+    }
+
+    /* Active */
+    .uk-tab > li.uk-active > a {
+        border-color: @contrast-tab-active-border;
+        border-bottom-color: transparent;
+        background: @contrast-tab-active-background;
+        color: @contrast-tab-active-color;
+        .hook-contrast-tab-active;
+    }
+
+    //
+    // Tab center
+    //
+
+    .uk-tab-center { border-bottom-color: @contrast-tab-border; }
+
+    //
+    // Tab grid
+    //
+
+    .uk-tab-grid:before { border-top-color: @contrast-tab-border; }
 
 
     // List
@@ -420,6 +467,10 @@
 .hook-contrast-subnav-line-divider() {}
 .hook-contrast-subnav-pill-hover() {}
 .hook-contrast-subnav-pill-active() {}
+
+.hook-contrast-tab() {}
+.hook-contrast-tab-hover() {}
+.hook-contrast-tab-active() {}
 
 .hook-contrast-list-line() {}
 

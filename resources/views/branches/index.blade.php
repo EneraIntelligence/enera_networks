@@ -64,18 +64,19 @@
         </div>
     </div>
 
-
-    <div class="md-fab-wrapper md-fab-in-card" id="button">
+    <div class="md-fab-wrapper md-fab-in-card" id="button" style="position: fixed; bottom: 25px; right: 25px;">
         <div class="md-fab md-fab-accent md-fab-sheet">
-            <i class="material-icons md-color-white">&#xE8DD;</i>
+            <i class="material-icons md-color-white">&#xE254;</i>
             <div class="md-fab-sheet-actions">
                 <a href="#" class="md-color-white"><i
                             class="material-icons md-color-white">&#xE8DC;</i> Aceptar</a>
-                <a href="#"  class="md-color-white"><i
+                <a href="#" class="md-color-white"><i
                             class="material-icons md-color-white">&#xE8DB;</i> Rechazar</a>
             </div>
         </div>
     </div>
+
+
 
 
     {{--<div class="md-fab-wrapper">--}}
@@ -116,9 +117,9 @@
     {{--</div>--}}
     {{--</div>--}}
 
-@stop
+    @stop
 
-@section('scripts')
+    @section('scripts')
 
             <!-- slider script -->
     {{--{!! HTML::script('js/preview_helper.js') !!}--}}

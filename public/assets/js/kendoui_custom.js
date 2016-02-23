@@ -17,6 +17,10 @@
     define([], f);
 })(function(){
 
+(function(){
+
+
+
 /*jshint eqnull: true, loopfunc: true, evil: true, boss: true, freeze: false*/
 (function($, window, undefined) {
     var kendo = window.kendo = window.kendo || { cultures: {} },
@@ -45,7 +49,7 @@
         slice = [].slice,
         globalize = window.Globalize;
 
-    kendo.version = "2015.2.805";
+    kendo.version = "2015.3.1214".replace(/^\s+|\s+$/g, '');
 
     function Class() {}
 
@@ -493,6 +497,8 @@ function pad(number, digits, end) {
                 symbol: "%"
             },
             currency: {
+                name: "US Dollar",
+                abbr: "USD",
                 pattern: ["($n)", "$n"],
                 decimals: 2,
                 ",": ",",
@@ -1489,7 +1495,6 @@ function pad(number, digits, end) {
         var date = null;
         var length, patterns;
         var tzoffset;
-        var sign;
 
         if (value && value.indexOf("/D") === 0) {
             date = dateRegExp.exec(value);
@@ -1853,8 +1858,35 @@ function pad(number, digits, end) {
     }
 
     function isScrollable(element) {
+        if (element && element.className && typeof(element.className) === "string" && element.className.indexOf("k-auto-scrollable") > -1) {
+            return true;
+        }
+
         var overflow = getComputedStyles(element, ["overflow"]).overflow;
         return overflow == "auto" || overflow == "scroll";
+    }
+
+    function scrollLeft(element, value) {
+        var el = element instanceof $ ? element[0] : element;
+        var isRtl = support.isRtl(element);
+        var webkit = support.browser.webkit;
+        var mozila = support.browser.mozilla;
+
+        if (value !== undefined) {
+            if (isRtl && webkit) {
+                el.scrollLeft = el.scrollWidth - el.clientWidth - value;
+            } else if (isRtl && mozila) {
+                el.scrollLeft = -value;
+            } else {
+                el.scrollLeft = value;
+            }
+        } else {
+            if (isRtl && webkit) {
+                return el.scrollWidth - el.clientWidth - el.scrollLeft;
+            } else {
+                return Math.abs(el.scrollLeft);
+            }
+        }
     }
 
     (function () {
@@ -2028,10 +2060,10 @@ function pad(number, digits, end) {
         support.detectBrowser = function(ua) {
             var browser = false, match = [],
                 browserRxs = {
+                    edge: /(edge)[ \/]([\w.]+)/i,
                     webkit: /(chrome)[ \/]([\w.]+)/i,
                     safari: /(webkit)[ \/]([\w.]+)/i,
                     opera: /(opera)(?:.*version|)[ \/]([\w.]+)/i,
-                    edge: /(edge)[ \/]([\w.]+)/i,
                     msie: /(msie\s|trident.*? rv:)([\w.]+)/i,
                     mozilla: /(mozilla)(?:.*? rv:([\w.]+)|)/i
                 };
@@ -2054,6 +2086,24 @@ function pad(number, digits, end) {
         };
 
         support.browser = support.detectBrowser(navigator.userAgent);
+
+        support.detectClipboardAccess = function() {
+            var commands = {
+                copy: document.queryCommandSupported ? document.queryCommandSupported("copy") : false,
+                cut: document.queryCommandSupported ? document.queryCommandSupported("cut") : false,
+                paste : document.queryCommandSupported ? document.queryCommandSupported("paste") : false
+            };
+
+            if (support.browser.chrome && support.browser.version >= 43) {
+                //not using queryCommandSupported due to chromium issue #476508
+                commands.copy = true;
+                commands.cut = true;
+            }
+
+            return commands;
+        };
+
+        support.clipboard = support.detectClipboardAccess();
 
         support.zoomLevel = function() {
             try {
@@ -2090,6 +2140,8 @@ function pad(number, digits, end) {
                 cssClass = "webkit";
             } else if (browser.opera) {
                 cssClass = "opera";
+            } else if (browser.edge) {
+                cssClass = "edge";
             }
 
             if (cssClass) {
@@ -2179,6 +2231,8 @@ function pad(number, digits, end) {
         var documentMode = document.documentMode;
 
         support.hashChange = ("onhashchange" in window) && !(support.browser.msie && (!documentMode || documentMode <= 8)); // old IE detection
+
+        support.customElements = ("registerElement" in window.document);
     })();
 
 
@@ -2198,8 +2252,7 @@ function pad(number, digits, end) {
             type = "offset";
         }
 
-        var result = element[type](),
-            mobileOS = support.mobileOS;
+        var result = element[type]();
 
         // IE10 touch zoom is living in a separate viewport
         if (support.browser.msie && (support.pointers || support.msPointers) && !positioned) {
@@ -2465,12 +2518,16 @@ function pad(number, digits, end) {
     localUrlRe = /^([a-z]+:)?\/\//i;
 
     extend(kendo, {
+        widgets: [],
+        _widgetRegisteredCallbacks: [],
         ui: kendo.ui || {},
         fx: kendo.fx || fx,
         effects: kendo.effects || effects,
         mobile: kendo.mobile || { },
         data: kendo.data || {},
         dataviz: kendo.dataviz || {},
+        drawing: kendo.drawing || {},
+        spreadsheet: { messages: {} },
         keys: {
             INSERT: 45,
             DELETE: 46,
@@ -2504,7 +2561,9 @@ function pad(number, digits, end) {
         wrap: wrap,
         deepExtend: deepExtend,
         getComputedStyles: getComputedStyles,
+        webComponents: kendo.webComponents || [],
         isScrollable: isScrollable,
+        scrollLeft: scrollLeft,
         size: size,
         toCamelCase: toCamelCase,
         toHyphens: toHyphens,
@@ -2601,6 +2660,14 @@ function pad(number, digits, end) {
 
         triggeredByInput: function(e) {
             return (/^(label|input|textarea|select)$/i).test(e.target.tagName);
+        },
+
+        onWidgetRegistered: function(callback) {
+            for (var i = 0, len = kendo.widgets.length; i < len; i++) {
+                callback(kendo.widgets[i]);
+            }
+
+            kendo._widgetRegisteredCallbacks.push(callback);
         },
 
         logToConsole: function(message) {
@@ -2723,7 +2790,15 @@ function pad(number, digits, end) {
         _destroy: function() {
             this.destroy();
         },
-        angular: function(){}
+        angular: function(){},
+
+        _muteAngularRebind: function(callback) {
+            this._muteRebind = true;
+
+            callback.call(this);
+
+            this._muteRebind = false;
+        }
     });
 
     var DataBoundWidget = Widget.extend({
@@ -3013,6 +3088,13 @@ function pad(number, digits, end) {
             getter = "getKendo" + prefix + name;
             name = "kendo" + prefix + name;
 
+            var widgetEntry = { name: name, widget: widget, prefix: prefix || "" };
+            kendo.widgets.push(widgetEntry);
+
+            for (var i = 0, len = kendo._widgetRegisteredCallbacks.length; i < len; i++) {
+                kendo._widgetRegisteredCallbacks[i](widgetEntry);
+            }
+
             $.fn[name] = function(options) {
                 var value = this,
                     args;
@@ -3044,7 +3126,7 @@ function pad(number, digits, end) {
                     });
                 } else {
                     this.each(function() {
-                        new widget(this, options);
+                        return new widget(this, options);
                     });
                 }
 
@@ -3134,6 +3216,10 @@ function pad(number, digits, end) {
 
     kendo.touchScroller = function(elements, options) {
         // return the first touch scroller
+        if (!options){ options = {}; }
+
+        options.useNative = true;
+
         return $(elements).map(function(idx, element) {
             element = $(element);
             if (support.kineticScrollNeeded && kendo.mobile.ui.Scroller && !element.data("kendoMobileScroller")) {
@@ -4126,7 +4212,7 @@ function pad(number, digits, end) {
         }
 
         var fileSaver = document.createElement("a");
-        var downloadAttribute = "download" in fileSaver;
+        var downloadAttribute = "download" in fileSaver && !kendo.support.browser.edge;
 
         function saveAsBlob(dataURI, fileName) {
             var blob = dataURI; // could be a Blob object
@@ -4177,6 +4263,10 @@ function pad(number, digits, end) {
     })();
 })(jQuery, window);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -4198,6 +4288,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+    
 
 (function ($, parseFloat, parseInt) {
     var Color = function(value) {
@@ -4313,27 +4407,55 @@ return window.kendo;
     ];
 
     Color.namedColors = {
-        aqua: "00ffff", azure: "f0ffff", beige: "f5f5dc",
-        black: "000000", blue: "0000ff", brown: "a52a2a",
-        coral: "ff7f50", cyan: "00ffff", darkblue: "00008b",
-        darkcyan: "008b8b", darkgray: "a9a9a9", darkgreen: "006400",
-        darkorange: "ff8c00", darkred: "8b0000", dimgray: "696969",
-        fuchsia: "ff00ff", gold: "ffd700", goldenrod: "daa520",
-        gray: "808080", green: "008000", greenyellow: "adff2f",
+        aliceblue: "f0f8ff", antiquewhite: "faebd7", aqua: "00ffff",
+        aquamarine: "7fffd4", azure: "f0ffff", beige: "f5f5dc",
+        bisque: "ffe4c4", black: "000000", blanchedalmond: "ffebcd",
+        blue: "0000ff", blueviolet: "8a2be2", brown: "a52a2a",
+        burlywood: "deb887", cadetblue: "5f9ea0", chartreuse: "7fff00",
+        chocolate: "d2691e", coral: "ff7f50", cornflowerblue: "6495ed",
+        cornsilk: "fff8dc", crimson: "dc143c", cyan: "00ffff",
+        darkblue: "00008b", darkcyan: "008b8b", darkgoldenrod: "b8860b",
+        darkgray: "a9a9a9", darkgrey: "a9a9a9", darkgreen: "006400",
+        darkkhaki: "bdb76b", darkmagenta: "8b008b", darkolivegreen: "556b2f",
+        darkorange: "ff8c00", darkorchid: "9932cc", darkred: "8b0000",
+        darksalmon: "e9967a", darkseagreen: "8fbc8f", darkslateblue: "483d8b",
+        darkslategray: "2f4f4f", darkslategrey: "2f4f4f", darkturquoise: "00ced1",
+        darkviolet: "9400d3", deeppink: "ff1493", deepskyblue: "00bfff",
+        dimgray: "696969", dimgrey: "696969", dodgerblue: "1e90ff",
+        firebrick: "b22222", floralwhite: "fffaf0", forestgreen: "228b22",
+        fuchsia: "ff00ff", gainsboro: "dcdcdc", ghostwhite: "f8f8ff",
+        gold: "ffd700", goldenrod: "daa520", gray: "808080",
+        grey: "808080", green: "008000", greenyellow: "adff2f",
+        honeydew: "f0fff0", hotpink: "ff69b4", indianred: "cd5c5c",
         indigo: "4b0082", ivory: "fffff0", khaki: "f0e68c",
-        lightblue: "add8e6", lightgrey: "d3d3d3", lightgreen: "90ee90",
-        lightpink: "ffb6c1", lightyellow: "ffffe0", lime: "00ff00",
-        limegreen: "32cd32", linen: "faf0e6", magenta: "ff00ff",
-        maroon: "800000", mediumblue: "0000cd", navy: "000080",
-        olive: "808000", orange: "ffa500", orangered: "ff4500",
-        orchid: "da70d6", pink: "ffc0cb", plum: "dda0dd",
-        purple: "800080", red: "ff0000", royalblue: "4169e1",
-        salmon: "fa8072", silver: "c0c0c0", skyblue: "87ceeb",
-        slateblue: "6a5acd", slategray: "708090", snow: "fffafa",
+        lavender: "e6e6fa", lavenderblush: "fff0f5", lawngreen: "7cfc00",
+        lemonchiffon: "fffacd", lightblue: "add8e6", lightcoral: "f08080",
+        lightcyan: "e0ffff", lightgoldenrodyellow: "fafad2", lightgray: "d3d3d3",
+        lightgrey: "d3d3d3", lightgreen: "90ee90", lightpink: "ffb6c1",
+        lightsalmon: "ffa07a", lightseagreen: "20b2aa", lightskyblue: "87cefa",
+        lightslategray: "778899", lightslategrey: "778899", lightsteelblue: "b0c4de",
+        lightyellow: "ffffe0", lime: "00ff00", limegreen: "32cd32",
+        linen: "faf0e6", magenta: "ff00ff", maroon: "800000",
+        mediumaquamarine: "66cdaa", mediumblue: "0000cd", mediumorchid: "ba55d3",
+        mediumpurple: "9370d8", mediumseagreen: "3cb371", mediumslateblue: "7b68ee",
+        mediumspringgreen: "00fa9a", mediumturquoise: "48d1cc", mediumvioletred: "c71585",
+        midnightblue: "191970", mintcream: "f5fffa", mistyrose: "ffe4e1",
+        moccasin: "ffe4b5", navajowhite: "ffdead", navy: "000080",
+        oldlace: "fdf5e6", olive: "808000", olivedrab: "6b8e23",
+        orange: "ffa500", orangered: "ff4500", orchid: "da70d6",
+        palegoldenrod: "eee8aa", palegreen: "98fb98", paleturquoise: "afeeee",
+        palevioletred: "d87093", papayawhip: "ffefd5", peachpuff: "ffdab9",
+        peru: "cd853f", pink: "ffc0cb", plum: "dda0dd",
+        powderblue: "b0e0e6", purple: "800080", red: "ff0000",
+        rosybrown: "bc8f8f", royalblue: "4169e1", saddlebrown: "8b4513",
+        salmon: "fa8072", sandybrown: "f4a460", seagreen: "2e8b57",
+        seashell: "fff5ee", sienna: "a0522d", silver: "c0c0c0",
+        skyblue: "87ceeb", slateblue: "6a5acd", slategray: "708090",
+        slategrey: "708090", snow: "fffafa", springgreen: "00ff7f",
         steelblue: "4682b4", tan: "d2b48c", teal: "008080",
-        tomato: "ff6347", turquoise: "40e0d0", violet: "ee82ee",
-        wheat: "f5deb3", white: "ffffff", whitesmoke: "f5f5f5",
-        yellow: "ffff00", yellowgreen: "9acd32"
+        thistle: "d8bfd8", tomato: "ff6347", turquoise: "40e0d0",
+        violet: "ee82ee", wheat: "f5deb3", white: "ffffff",
+        whitesmoke: "f5f5f5", yellow: "ffff00", yellowgreen: "9acd32"
     };
 
     // Tools from ColorPicker =================================================
@@ -4556,6 +4678,8 @@ return window.kendo;
 
 })(window.kendo.jQuery, parseFloat, parseInt);
 
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -4577,6 +4701,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core", "./kendo.data.odata", "./kendo.data.xml" ], f);
 })(function(){
+
+(function(){
+
+
 
 /*jshint eqnull: true, loopfunc: true, evil: true */
 (function($, undefined) {
@@ -4834,7 +4962,7 @@ return window.kendo;
             return result;
         },
 
-        reduce: function(callback, initialValue) {
+        reduce: function(callback) {
             var idx = 0,
                 result,
                 length = this.length;
@@ -4852,7 +4980,7 @@ return window.kendo;
             return result;
         },
 
-        reduceRight: function(callback, initialValue) {
+        reduceRight: function(callback) {
             var idx = this.length - 1,
                 result;
 
@@ -5001,6 +5129,8 @@ return window.kendo;
 
             Observable.fn.init.call(this);
 
+            this._handlers = {};
+
             for (field in value) {
                 member = value[field];
 
@@ -5015,7 +5145,7 @@ return window.kendo;
         },
 
         shouldSerialize: function(field) {
-            return this.hasOwnProperty(field) && field !== "_events" && typeof this[field] !== FUNCTION && field !== "uid";
+            return this.hasOwnProperty(field) && field !== "_handlers" && field !== "_events" && typeof this[field] !== FUNCTION && field !== "uid";
         },
 
         forEach: function(f) {
@@ -5088,6 +5218,12 @@ return window.kendo;
                 current = kendo.getter(field, true)(that);
 
             if (current !== value) {
+                if (current instanceof Observable && this._handlers[field]) {
+                    if (this._handlers[field].get) {
+                       current.unbind(GET, this._handlers[field].get);
+                    }
+                    current.unbind(CHANGE, this._handlers[field].change);
+                }
 
                 if (!that.trigger("set", { field: field, value: value })) {
                     if (!composite) {
@@ -5103,8 +5239,10 @@ return window.kendo;
         parent: noop,
 
         wrap: function(object, field, parent) {
-            var that = this,
-                type = toString.call(object);
+            var that = this;
+            var get;
+            var change;
+            var type = toString.call(object);
 
             if (object != null && (type === "[object Object]" || type === "[object Array]")) {
                 var isObservableArray = object instanceof ObservableArray;
@@ -5115,18 +5253,22 @@ return window.kendo;
                         object = new ObservableObject(object);
                     }
 
-                    if (object.parent() != parent()) {
-                        object.bind(GET, eventHandler(that, GET, field, true));
-                        object.bind(CHANGE, eventHandler(that, CHANGE, field, true));
-                    }
+                    get = eventHandler(that, GET, field, true);
+                    object.bind(GET, get);
+                    change = eventHandler(that, CHANGE, field, true);
+                    object.bind(CHANGE, change);
+
+                    that._handlers[field] = { get: get, change: change };
                 } else if (type === "[object Array]" || isObservableArray || isDataSource) {
                     if (!isObservableArray && !isDataSource) {
                         object = new ObservableArray(object);
                     }
 
-                    if (object.parent() != parent()) {
-                        object.bind(CHANGE, eventHandler(that, CHANGE, field, false));
-                    }
+                    change = eventHandler(that, CHANGE, field, false);
+
+                    object.bind(CHANGE, change);
+
+                    that._handlers[field] = { change: change };
                 }
 
                 object.parent = parent;
@@ -5614,6 +5756,20 @@ return window.kendo;
 
                 return a + ".lastIndexOf('" + b + "', 0) == 0";
             },
+            doesnotstartwith: function(a, b, ignore) {
+                if (ignore) {
+                    a = "(" + a + " || '').toLowerCase()";
+                    if (b) {
+                        b = b.toLowerCase();
+                    }
+                }
+
+                if (b) {
+                    b = quote(b);
+                }
+
+                return a + ".lastIndexOf('" + b + "', 0) == -1";
+            },
             endswith: function(a, b, ignore) {
                 if (ignore) {
                     a = "(" + a + " || '').toLowerCase()";
@@ -5627,6 +5783,20 @@ return window.kendo;
                 }
 
                 return a + ".indexOf('" + b + "', " + a + ".length - " + (b || "").length + ") >= 0";
+            },
+            doesnotendwith: function(a, b, ignore) {
+                if (ignore) {
+                    a = "(" + a + " || '').toLowerCase()";
+                    if (b) {
+                        b = b.toLowerCase();
+                    }
+                }
+
+                if (b) {
+                    b = quote(b);
+                }
+
+                return a + ".indexOf('" + b + "', " + a + ".length - " + (b || "").length + ") < 0";
             },
             contains: function(a, b, ignore) {
                 if (ignore) {
@@ -6320,6 +6490,7 @@ return window.kendo;
             getter,
             originalName,
             idx,
+            setters = {},
             length;
 
         for (idx = 0, length = data.length; idx < length; idx++) {
@@ -6328,7 +6499,10 @@ return window.kendo;
                 originalName = fieldNames[getter];
 
                 if (originalName && originalName !== getter) {
-                    record[originalName] = getters[getter](record);
+                    if (!setters[originalName]) {
+                        setters[originalName] = kendo.setter(originalName);
+                    }
+                    setters[originalName](record, getters[getter](record));
                     delete record[getter];
                 }
             }
@@ -6552,7 +6726,7 @@ return window.kendo;
     }
 
     function wrapGroupItems(data, model) {
-        var idx, length, group, items;
+        var idx, length, group;
         if (model) {
             for (idx = 0, length = data.length; idx < length; idx++) {
                 group = data.at(idx);
@@ -7191,12 +7365,9 @@ return window.kendo;
 
         sync: function() {
             var that = this,
-                idx,
-                length,
                 created = [],
                 updated = [],
-                destroyed = that._destroyed,
-                data = that._flatData(that._data);
+                destroyed = that._destroyed;
 
             var promise = $.Deferred().resolve().promise();
 
@@ -7679,13 +7850,15 @@ return window.kendo;
             if (this.options.offlineStorage != null) {
                 var state = items(this._data);
 
+                var destroyed = [];
+
                 for (var idx = 0; idx < this._destroyed.length; idx++) {
                     var item = this._destroyed[idx].toJSON();
                     item.__state__ = "destroy";
-                    state.push(item);
+                    destroyed.push(item);
                 }
 
-                this.offlineData(state);
+                this.offlineData(state.concat(destroyed));
 
                 if (updatePristine) {
                     this._pristineData = state;
@@ -7797,8 +7970,7 @@ return window.kendo;
 
         _observe: function(data) {
             var that = this,
-                model = that.reader.model,
-                wrap = false;
+                model = that.reader.model;
 
             that._shouldDetachObservableParents = true;
 
@@ -7827,6 +7999,27 @@ return window.kendo;
             return data.bind(CHANGE, that._changeHandler);
         },
 
+        _updateTotalForAction: function(action, items) {
+            var that = this;
+
+            var total = parseInt(that._total, 10);
+
+            if (!isNumber(that._total)) {
+                total = parseInt(that._pristineTotal, 10);
+            }
+            if (action === "add") {
+                total += items.length;
+            } else if (action === "remove") {
+                total -= items.length;
+            } else if (action !== "itemchange" && action !== "sync" && !that.options.serverPaging) {
+                total = that._pristineTotal;
+            } else if (action === "sync") {
+                total = that._pristineTotal = parseInt(that._total, 10);
+            }
+
+            that._total = total;
+        },
+
         _change: function(e) {
             var that = this, idx, length, action = e ? e.action : "";
 
@@ -7839,23 +8032,20 @@ return window.kendo;
             }
 
             if (that.options.autoSync && (action === "add" || action === "remove" || action === "itemchange")) {
-                that.sync();
-            } else {
-                var total = parseInt(that._total, 10);
-                if (!isNumber(that._total)) {
-                    total = parseInt(that._pristineTotal, 10);
-                }
-                if (action === "add") {
-                    total += e.items.length;
-                } else if (action === "remove") {
-                    total -= e.items.length;
-                } else if (action !== "itemchange" && action !== "sync" && !that.options.serverPaging) {
-                    total = that._pristineTotal;
-                } else if (action === "sync") {
-                    total = that._pristineTotal = parseInt(that._total, 10);
-                }
 
-                that._total = total;
+                var handler = function(args) {
+                    if (args.action === "sync") {
+                        that.unbind("change", handler);
+                        that._updateTotalForAction(action, e.items);
+                    }
+                };
+
+                that.first("change", handler);
+
+                that.sync();
+
+            } else {
+                that._updateTotalForAction(action, e ? e.items : []);
 
                 that._process(that._data, e);
             }
@@ -8553,7 +8743,7 @@ return window.kendo;
         if (transportOptions) {
             transportOptions.read = typeof transportOptions.read === STRING ? { url: transportOptions.read } : transportOptions.read;
 
-            if (dataSource) {
+            if (options.type === "jsdo") {
                 transportOptions.dataSource = dataSource;
             }
 
@@ -8760,7 +8950,7 @@ return window.kendo;
                 that._initChildren();
             }
 
-            that._loaded = !!(value && (value[childrenField] || value._loaded));
+            that._loaded = !!(value && value._loaded);
         },
 
         _initChildren: function() {
@@ -8953,7 +9143,12 @@ return window.kendo;
         },
 
         _find: function(method, value) {
-            var idx, length, node, data, children;
+            var idx, length, node, children;
+            var data = this._data;
+
+            if (!data) {
+                return;
+            }
 
             node = DataSource.fn[method].call(this, value);
 
@@ -8962,10 +9157,6 @@ return window.kendo;
             }
 
             data = this._flatData(this._data);
-
-            if (!data) {
-                return;
-            }
 
             for (idx = 0, length = data.length; idx < length; idx++) {
                 children = data[idx].children;
@@ -9110,9 +9301,7 @@ return window.kendo;
 
         at: function(index)  {
             var pageSize = this.pageSize,
-                item,
-                itemPresent = true,
-                changeTo;
+                itemPresent = true;
 
             if (index >= this.total()) {
                 this.trigger("endreached", {index: index });
@@ -9393,6 +9582,10 @@ return window.kendo;
     });
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -9414,6 +9607,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -10275,9 +10472,6 @@ return window.kendo;
                 adjustDST(today, 0);
                 today = +today;
 
-                start = new DATE(start.getFullYear(), start.getMonth(), start.getDate());
-                adjustDST(start, 0);
-
                 return view({
                     cells: 42,
                     perRow: 7,
@@ -10289,6 +10483,7 @@ return window.kendo;
                     empty: options.empty,
                     setter: that.setDate,
                     build: function(date) {
+
                         var cssClass = [],
                             day = date.getDay(),
                             linkClass = "",
@@ -10583,6 +10778,9 @@ return window.kendo;
                 html += '</tr><tr role="row">';
             }
 
+            start = new DATE(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+            adjustDST(start, 0);
+
             data = build(start, idx);
 
             html += isInRange(start, min, max) ? content(data) : empty(data);
@@ -10723,6 +10921,10 @@ return window.kendo;
     kendo.calendar = calendar;
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -10745,13 +10947,16 @@ return window.kendo;
     define([ "./kendo.core" ], f);
 })(function(){
 
+(function(){
+
+
+
 (function($, undefined) {
     var kendo = window.kendo,
         ui = kendo.ui,
         Widget = ui.Widget,
         support = kendo.support,
         getOffset = kendo.getOffset,
-        activeElement = kendo._activeElement,
         OPEN = "open",
         CLOSE = "close",
         DEACTIVATE = "deactivate",
@@ -10944,8 +11149,7 @@ return window.kendo;
 
             if (!options.modal) {
                 DOCUMENT_ELEMENT.unbind(that.downEvent, that._mousedownProxy);
-                that._scrollableParents().unbind(SCROLL, that._resizeProxy);
-                WINDOW.unbind(RESIZE_SCROLL, that._resizeProxy);
+                that._toggleResize(false);
             }
 
             kendo.destroy(that.element.children());
@@ -10993,11 +11197,8 @@ return window.kendo;
                     // this binding hangs iOS in editor
                     if (!(support.mobileOS.ios || support.mobileOS.android)) {
                         // all elements in IE7/8 fire resize event, causing mayhem
-                        that._scrollableParents()
-                            .unbind(SCROLL, that._resizeProxy)
-                            .bind(SCROLL, that._resizeProxy);
-                        WINDOW.unbind(RESIZE_SCROLL, that._resizeProxy)
-                              .bind(RESIZE_SCROLL, that._resizeProxy);
+                        that._toggleResize(false);
+                        that._toggleResize(true);
                     }
                 }
 
@@ -11066,7 +11267,10 @@ return window.kendo;
             if (that.visible()) {
                 wrap = (that.wrapper[0] ? that.wrapper : kendo.wrap(that.element).hide());
 
+                that._toggleResize(false);
+
                 if (that._closing || that._trigger(CLOSE)) {
+                    that._toggleResize(true);
                     return;
                 }
 
@@ -11081,8 +11285,6 @@ return window.kendo;
                 });
 
                 DOCUMENT_ELEMENT.unbind(that.downEvent, that._mousedownProxy);
-                that._scrollableParents().unbind(SCROLL, that._resizeProxy);
-                WINDOW.unbind(RESIZE_SCROLL, that._resizeProxy);
 
                 if (skipEffects) {
                     animation = { hide: true, effects: {} };
@@ -11123,6 +11325,13 @@ return window.kendo;
                     that.close();
                 }
             }
+        },
+
+        _toggleResize: function(toggle) {
+            var method = toggle ? "on" : "off";
+
+            this._scrollableParents()[method](SCROLL, this._resizeProxy);
+            WINDOW[method](RESIZE_SCROLL, this._resizeProxy);
         },
 
         _mousedown: function(e) {
@@ -11211,7 +11420,7 @@ return window.kendo;
             // $(window).height() uses documentElement to get the height
             viewportWidth = isWindow ? window.innerWidth : viewport.width();
             viewportHeight = isWindow ? window.innerHeight : viewport.height();
-            
+
             if (isWindow && docEl.scrollHeight - docEl.clientHeight > 0) {
                 viewportWidth -= kendo.support.scrollbar();
             }
@@ -11279,9 +11488,15 @@ return window.kendo;
             }
 
             var flipPos = extend({}, location);
+            var elementHeight = element.outerHeight();
+            var wrapperHeight =  wrapper.outerHeight();
+
+            if (!wrapper.height() && elementHeight) {
+                wrapperHeight = wrapperHeight + elementHeight;
+            }
 
             if (collisions[0] === "flip") {
-                location.top += that._flip(offsets.top, element.outerHeight(), anchor.outerHeight(), viewportHeight / zoomLevel, origins[0], positions[0], wrapper.outerHeight());
+                location.top += that._flip(offsets.top, elementHeight, anchor.outerHeight(), viewportHeight / zoomLevel, origins[0], positions[0], wrapperHeight);
             }
 
             if (collisions[1] === "flip") {
@@ -11362,6 +11577,10 @@ return window.kendo;
     ui.plugin(Popup);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -11384,6 +11603,10 @@ return window.kendo;
     define([ "./kendo.calendar", "./kendo.popup" ], f);
 })(function(){
 
+(function(){
+
+
+
 (function($, undefined) {
     var kendo = window.kendo,
     ui = kendo.ui,
@@ -11399,7 +11622,6 @@ return window.kendo;
     OPEN = "open",
     CLOSE = "close",
     CHANGE = "change",
-    DATEVIEW = "dateView",
     DISABLED = "disabled",
     READONLY = "readonly",
     DEFAULT = "k-state-default",
@@ -11407,7 +11629,6 @@ return window.kendo;
     SELECTED = "k-state-selected",
     STATEDISABLED = "k-state-disabled",
     HOVER = "k-state-hover",
-    KEYDOWN = "keydown" + ns,
     HOVEREVENTS = "mouseenter" + ns + " mouseleave" + ns,
     MOUSEDOWN = "mousedown" + ns,
     ID = "id",
@@ -11888,18 +12109,23 @@ return window.kendo;
         },
 
         _change: function(value) {
-            var that = this;
+            var that = this,
+            oldValue = that.element.val(),
+            dateChanged;
 
             value = that._update(value);
+            dateChanged = +that._old != +value;
 
-            if (+that._old != +value) {
+            var valueUpdated = dateChanged && !that._typing;
+            var textFormatted = oldValue !== that.element.val();
+
+            if (valueUpdated || textFormatted) {
+                that.element.trigger(CHANGE);
+            }
+
+            if (dateChanged) {
                 that._old = value;
                 that._oldText = that.element.val();
-
-                if (!that._typing) {
-                    // trigger the DOM change event so any subscriber gets notified
-                    that.element.trigger(CHANGE);
-                }
 
                 that.trigger(CHANGE);
             }
@@ -12059,6 +12285,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -12080,6 +12310,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.popup" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -12129,6 +12363,7 @@ return window.kendo;
             id = options.id;
 
         that.options = options;
+        that._dates = [];
 
         that.ul = $('<ul tabindex="-1" role="listbox" aria-hidden="true" unselectable="on" class="k-list k-reset"/>')
                     .css({ overflow: support.kineticScrollNeeded ? "": "auto" })
@@ -12136,7 +12371,7 @@ return window.kendo;
                     .on("mouseenter" + ns, LI, function() { $(this).addClass(HOVER); })
                     .on("mouseleave" + ns, LI, function() { $(this).removeClass(HOVER); });
 
-        that.list = $("<div class='k-list-container'/>")
+        that.list = $("<div class='k-list-container k-list-scroller' unselectable='on'/>")
                     .append(that.ul)
                     .on(MOUSEDOWN, preventDefault);
 
@@ -12193,11 +12428,6 @@ return window.kendo;
 
             that.ul.off(ns);
             that.list.off(ns);
-
-            if (that._touchScroller) {
-                that._touchScroller.destroy();
-            }
-
             that.popup.destroy();
         },
 
@@ -12288,6 +12518,7 @@ return window.kendo;
                     }
                 }
 
+                that._dates.push(getMilliseconds(start));
                 html += template(toString(start, format, options.culture));
             }
 
@@ -12327,29 +12558,18 @@ return window.kendo;
                 itemOffsetHeight = item.offsetHeight,
                 ulScrollTop = ul.scrollTop,
                 ulOffsetHeight = ul.clientHeight,
-                bottomDistance = itemOffsetTop + itemOffsetHeight,
-                touchScroller = this._touchScroller,
-                elementHeight;
+                bottomDistance = itemOffsetTop + itemOffsetHeight;
 
-            if (touchScroller) {
-                elementHeight = this.list.height();
-
-                if (itemOffsetTop > elementHeight) {
-                    itemOffsetTop = itemOffsetTop - elementHeight + itemOffsetHeight;
-                }
-
-                touchScroller.scrollTo(0, -itemOffsetTop);
-            } else {
-                ul.scrollTop = ulScrollTop > itemOffsetTop ?
-                               itemOffsetTop : bottomDistance > (ulScrollTop + ulOffsetHeight) ?
-                               bottomDistance - ulOffsetHeight : ulScrollTop;
-            }
+            ul.scrollTop = ulScrollTop > itemOffsetTop ?
+                           itemOffsetTop : bottomDistance > (ulScrollTop + ulOffsetHeight) ?
+                           bottomDistance - ulOffsetHeight : ulScrollTop;
         },
 
         select: function(li) {
             var that = this,
                 options = that.options,
-                current = that._current;
+                current = that._current,
+                selection;
 
             if (li instanceof Date) {
                 li = kendo.toString(li, options.format, options.culture);
@@ -12366,8 +12586,22 @@ return window.kendo;
                     li = current;
                 }
             }
+            selection = that._distinctSelection(li);
+            that.current(selection);
+        },
 
-            that.current(li);
+        _distinctSelection: function(selection) {
+            var that = this,
+                currentValue,
+                selectionIndex;
+
+            if (selection && selection.length > 1) {
+                currentValue = getMilliseconds(that._value);
+                selectionIndex = $.inArray(currentValue, that._dates);
+                selection = that.ul.children()[selectionIndex];
+            }
+
+            return selection;
         },
 
         setOptions: function(options) {
@@ -12499,8 +12733,6 @@ return window.kendo;
                 animation: options.animation,
                 isRtl: support.isRtl(options.anchor)
             }));
-
-            that._touchScroller = kendo.touchScroller(that.popup.element);
         },
 
         move: function(e) {
@@ -12989,6 +13221,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -13010,6 +13246,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.datepicker", "./kendo.timepicker" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
 
@@ -13135,8 +13375,6 @@ return window.kendo;
         setOptions: function(options) {
             var that = this,
                 value = that._value,
-                dateViewOptions = that.dateView.options,
-                timeViewOptions = that.timeView.options,
                 min, max, currentValue;
 
             Widget.fn.setOptions.call(that, options);
@@ -13415,6 +13653,7 @@ return window.kendo;
 
                 if (formattedValue !== value) {
                     that.element.val(date === null ? value : formattedValue);
+                    that.element.trigger(CHANGE);
                 }
 
                 return date;
@@ -13747,7 +13986,7 @@ return window.kendo;
         kendo.DateView.normalize(options);
 
         if (parseFormats) {
-            options.parseFormats.push("yyyy-MM-ddTHH:mm:ss");
+           options.parseFormats.unshift("yyyy-MM-ddTHH:mm:ss");
         }
 
         if ($.inArray(timeFormat, options.parseFormats) === -1) {
@@ -13758,6 +13997,10 @@ return window.kendo;
     ui.plugin(DateTimePicker);
 
 })(window.kendo.jQuery);
+
+
+
+})();
 
 return window.kendo;
 
@@ -13781,6 +14024,10 @@ return window.kendo;
     define([ "./kendo.data", "./kendo.popup" ], f);
 })(function(){
 
+(function(){
+
+
+
 /*jshint evil: true*/
 (function($, undefined) {
     var kendo = window.kendo,
@@ -13792,9 +14039,7 @@ return window.kendo;
         activeElement = kendo._activeElement,
         ObservableArray = kendo.data.ObservableArray,
         ID = "id",
-        LI = "li",
         CHANGE = "change",
-        CHARACTER = "character",
         FOCUSED = "k-state-focused",
         HOVER = "k-state-hover",
         LOADING = "k-loading",
@@ -13981,19 +14226,22 @@ return window.kendo;
                 return;
             }
 
+            expression = {
+                filters: expression.filters || [],
+                logic: "and"
+            };
+
             if (filter) {
-                expression = expression.filters || [];
-                expression.push(filter);
+                expression.filters.push(filter);
             }
 
             if (!force) {
                 dataSource.filter(expression);
             } else {
-                dataSource.read(expression);
+                dataSource.read({ filter: expression });
             }
         },
 
-        //TODO: refactor
         _header: function() {
             var that = this;
             var template = that.options.headerTemplate;
@@ -14083,6 +14331,10 @@ return window.kendo;
             }
 
             if (typeof index !== "number") {
+                if (that.options.virtual) {
+                    return that.dataSource.getByUid($(index).data("uid"));
+                }
+
                 index = $(that.items()).index(index);
             }
 
@@ -14154,7 +14406,7 @@ return window.kendo;
                 value = optionValue;
             }
 
-            if (value !== that._old) {
+            if (value !== unifyType(that._old, typeof value)) {
                 trigger = true;
             } else if (index !== undefined && index !== that._oldIndex) {
                 trigger = true;
@@ -14233,6 +14485,11 @@ return window.kendo;
             if (length) {
                 popups = list.add(list.parent(".k-animation-container")).show();
 
+                if (!list.is(":visible")) {
+                    popups.hide();
+                    return;
+                }
+
                 height = that.listView.content[0].scrollHeight > height ? height : "auto";
 
                 popups.height(height);
@@ -14266,7 +14523,7 @@ return window.kendo;
             }
 
             computedStyle = window.getComputedStyle ? window.getComputedStyle(wrapper[0], null) : 0;
-            computedWidth = computedStyle ? parseFloat(computedStyle.width) : wrapper.outerWidth();
+            computedWidth = parseFloat(computedStyle  && computedStyle.width) || wrapper.outerWidth();
 
             if (computedStyle && browser.msie) { // getComputedStyle returns different box in IE.
                 computedWidth += parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight) + parseFloat(computedStyle.borderLeftWidth) + parseFloat(computedStyle.borderRightWidth);
@@ -14341,9 +14598,25 @@ return window.kendo;
             }
         },
 
-        _firstOpen: function() {
-            var height = this._height(this.dataSource.flatView().length);
+        _calculatePopupHeight: function(force) {
+            var height = this._height(this.dataSource.flatView().length || force);
             this._calculateGroupPadding(height);
+        },
+
+        _resizePopup: function(force) {
+            if (this.options.virtual) {
+                return;
+            }
+
+            if (!this.popup.element.is(":visible")) {
+                this.popup.one("open", (function(force) {
+                    return proxy(function() {
+                        this._calculatePopupHeight(force);
+                    }, this);
+                }).call(this, force));
+            } else {
+                this._calculatePopupHeight(force);
+            }
         },
 
         _popup: function() {
@@ -14356,10 +14629,6 @@ return window.kendo;
                 animation: that.options.animation,
                 isRtl: support.isRtl(that.wrapper)
             }));
-
-            if (!that.options.virtual) {
-                that.popup.one(OPEN, proxy(that._firstOpen, that));
-            }
         },
 
         _makeUnselectable: function() {
@@ -14639,25 +14908,24 @@ return window.kendo;
         },
 
         _firstItem: function() {
-            this.listView.first();
+            this.listView.focusFirst();
         },
 
         _lastItem: function() {
-            this.listView.last();
+            this.listView.focusLast();
         },
 
         _nextItem: function() {
-            this.listView.next();
+            this.listView.focusNext();
         },
 
         _prevItem: function() {
-            this.listView.prev();
+            this.listView.focusPrev();
         },
 
         _move: function(e) {
             var that = this;
             var key = e.keyCode;
-            var ul = that.ul[0];
             var down = key === keys.DOWN;
             var dataItem;
             var pressed;
@@ -14824,6 +15092,9 @@ return window.kendo;
 
             if (value !== undefined) {
                 element[0].value = value;
+                if (element[0].value && !value) {
+                    element[0].selectedIndex = -1;
+                }
             }
         },
 
@@ -14860,8 +15131,7 @@ return window.kendo;
             var that = this,
                 options = that.options,
                 cascade = options.cascadeFrom,
-                select, valueField,
-                parent, change;
+                parent;
 
             if (cascade) {
                 parent = that._parentWidget();
@@ -14872,15 +15142,22 @@ return window.kendo;
 
                 options.autoBind = false;
 
-                parent.first("cascade", function(e) {
+                var cascadeHandler = function(e) {
                     that._userTriggered = e.userTriggered;
+
+                    if (parent.popup.visible()) {
+                        return;
+                    }
 
                     if (that.listView.isBound()) {
                         that._clearSelection(parent, true);
                     }
 
                     that._cascadeSelect(parent);
-                });
+                };
+
+                parent.first("cascade", cascadeHandler);
+                parent.popup.bind("deactivate", cascadeHandler);
 
                 //refresh was called
                 if (parent.listView.isBound()) {
@@ -14961,13 +15238,7 @@ return window.kendo;
                         .on("mouseenter" + STATIC_LIST_NS, "li", function() { $(this).addClass(HOVER); })
                         .on("mouseleave" + STATIC_LIST_NS, "li", function() { $(this).removeClass(HOVER); });
 
-            this.content = this.element
-                        .wrap("<div unselectable='on'></div>")
-                        .parent()
-                        .css({
-                            "overflow": "auto",
-                            "position": "relative"
-                        });
+            this.content = this.element.wrap("<div class='k-list-scroller' unselectable='on'></div>").parent();
             this.header = this.content.before('<div class="k-group-header" style="display:none"></div>').prev();
 
             this._bound = false;
@@ -15004,6 +15275,7 @@ return window.kendo;
         options: {
             name: "StaticList",
             dataValueField: null,
+            valuePrimitive: false,
             selectable: true,
             template: null,
             groupTemplate: null,
@@ -15060,6 +15332,8 @@ return window.kendo;
                 this.dataSource.unbind(CHANGE, this._refreshHandler);
             }
 
+            clearTimeout(this._scrollId);
+
             Widget.fn.destroy.call(this);
         },
 
@@ -15085,8 +15359,7 @@ return window.kendo;
                 itemOffsetHeight = item.offsetHeight,
                 contentScrollTop = content.scrollTop,
                 contentOffsetHeight = content.clientHeight,
-                bottomDistance = itemOffsetTop + itemOffsetHeight,
-                yDimension, offsetHeight;
+                bottomDistance = itemOffsetTop + itemOffsetHeight;
 
                 if (contentScrollTop > itemOffsetTop) {
                     contentScrollTop = itemOffsetTop;
@@ -15111,7 +15384,7 @@ return window.kendo;
             });
         },
 
-        next: function() {
+        focusNext: function() {
             var current = this.focus();
 
             if (!current) {
@@ -15123,7 +15396,7 @@ return window.kendo;
             this.focus(current);
         },
 
-        prev: function() {
+        focusPrev: function() {
             var current = this.focus();
 
             if (!current) {
@@ -15135,11 +15408,11 @@ return window.kendo;
             this.focus(current);
         },
 
-        first: function() {
+        focusFirst: function() {
             this.focus(this.element[0].children[0]);
         },
 
-        last: function() {
+        focusLast: function() {
             this.focus(this.element[0].children[this.element[0].children.length - 1]);
         },
 
@@ -15182,7 +15455,7 @@ return window.kendo;
             return this.focus() ? this.focus().index() : undefined;
         },
 
-        filter: function(filter, skipValueUpdate) {
+        filter: function(filter) {
             if (filter === undefined) {
                 return this._filtered;
             }
@@ -15299,15 +15572,20 @@ return window.kendo;
             return deferred;
         },
 
+        items: function() {
+            return this.element.children(".k-item");
+        },
+
         _click: function(e) {
             if (!e.isDefaultPrevented()) {
-                this.trigger("click", { item: $(e.currentTarget) });
+                if (!this.trigger("click", { item: $(e.currentTarget) })) {
+                    this.select(e.currentTarget);
+                }
             }
         },
 
         _valueExpr: function(type, values) {
             var that = this;
-            var value;
             var idx = 0;
 
             var body;
@@ -15318,19 +15596,7 @@ return window.kendo;
                 that._valueType = type;
 
                 for (; idx < values.length; idx++) {
-                    value = values[idx];
-
-                    if (value !== undefined && value !== "" && value !== null) {
-                        if (type === "boolean") {
-                            value = Boolean(value);
-                        } else if (type === "number") {
-                            value = Number(value);
-                        } else if (type === "string") {
-                            value = value.toString();
-                        }
-                    }
-
-                    normalized.push(value);
+                    normalized.push(unifyType(values[idx], type));
                 }
 
                 body = "for (var idx = 0; idx < " + normalized.length + "; idx++) {" +
@@ -15340,7 +15606,7 @@ return window.kendo;
                         "} " +
                         "return -1;";
 
-                comparer = new Function(["current", "values"], body);
+                comparer = new Function("current", "values", body);
 
                 that._valueComparer = function(current) {
                     return comparer(current, normalized);
@@ -15739,7 +16005,7 @@ return window.kendo;
                     that._skipUpdate = false;
                     that._selectedIndices = that._valueIndices(that._values, that._selectedIndices);
                 }
-            } else if (!action || action === "add") {
+            } else if (!that.options.skipUpdateOnBind && (!action || action === "add")) {
                 that.value(that._values);
             }
 
@@ -15806,7 +16072,25 @@ return window.kendo;
 
         return found;
     }
+
+    function unifyType(value, type) {
+        if (value !== undefined && value !== "" && value !== null) {
+            if (type === "boolean") {
+                value = Boolean(value);
+            } else if (type === "number") {
+                value = Number(value);
+            } else if (type === "string") {
+                value = value.toString();
+            }
+        }
+
+        return value;
+    }
 })(window.kendo.jQuery);
+
+
+
+})();
 
 return window.kendo;
 
@@ -15829,6 +16113,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -15873,7 +16161,6 @@ return window.kendo;
         PERSPECTIVE = cssPrefix + "perspective",
         DEFAULT_PERSPECTIVE = "1500px",
         TRANSFORM_PERSPECTIVE = "perspective(" + DEFAULT_PERSPECTIVE + ")",
-        ios7 = support.mobileOS && support.mobileOS.majorVersion == 7,
         directions = {
             left: {
                 reverse: "right",
@@ -17398,6 +17685,10 @@ return window.kendo;
     };
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -17419,6 +17710,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function ($, undefined) {
     var kendo = window.kendo,
@@ -17746,7 +18041,11 @@ return window.kendo;
             element.on(kendo.applyEventMap("down", ns), filter, "_start");
 
             if (support.pointers || support.msPointers) {
-                element.css("-ms-touch-action", "pinch-zoom double-tap-zoom");
+                if (support.browser.version < 11) {
+                    element.css("-ms-touch-action", "pinch-zoom double-tap-zoom");
+                } else {
+                    element.css("touch-action", "pan-y");
+                }
             }
 
             if (options.preventDragEvent) {
@@ -17996,6 +18295,10 @@ return window.kendo;
     kendo.UserEvents = UserEvents;
  })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -18017,6 +18320,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.popup" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function ($, undefined) {
     var kendo = window.kendo,
@@ -19258,6 +19565,7 @@ return window.kendo;
                 if (that._triggerEvent({ item: that.element, type: OPEN }) === false) {
                     if (that.popup.visible() && that.options.filter) {
                         that.popup.close(true);
+                        that.popup.element.kendoStop(true);
                     }
 
                     if (y !== undefined) {
@@ -19265,6 +19573,7 @@ return window.kendo;
                         that.popup.open(x, y);
                     } else {
                         that.popup.options.anchor = (x ? x : that.popup.anchor) || that.target;
+                        that.popup.element.kendoStop(true);
                         that.popup.open();
                     }
 
@@ -19317,6 +19626,7 @@ return window.kendo;
 
             if ((options.filter && kendo.support.matchesSelector.call(ev.currentTarget, options.filter)) || !options.filter) {
                 if (options.alignToAnchor) {
+                    that.popup.options.anchor = ev.currentTarget;
                     that.open(ev.currentTarget);
                 } else {
                     that.popup.options.anchor = ev.currentTarget;
@@ -19333,7 +19643,6 @@ return window.kendo;
 
         _closeHandler: function (e) {
             var that = this,
-				options = that.options,
                 target = $(e.relatedTarget || e.target),
 				sameTarget = target.closest(that.target.selector)[0] == that.target[0],
                 children = target.closest(itemSelector).children(popupSelector),
@@ -19416,6 +19725,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -19437,6 +19750,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core", "./kendo.userevents" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function ($, undefined) {
     var kendo = window.kendo,
@@ -19760,10 +20077,16 @@ return window.kendo;
                 movable: movable
             });
 
-            that.userEvents.bind(["move", "end", "gesturestart", "gesturechange"], {
+            that.userEvents.bind(["press", "move", "end", "gesturestart", "gesturechange"], {
                 gesturestart: function(e) {
                     that.gesture = e;
                     that.offset = that.dimensions.container.offset();
+                },
+
+                press: function(e) {
+                    if ($(e.event.target).closest("a").is("[data-navigate-on-press=true]")) {
+                        e.sender.cancel();
+                    }
                 },
 
                 gesturechange: function(e) {
@@ -20218,13 +20541,42 @@ return window.kendo;
         },
 
         _drag: function(e) {
-            var that = this;
-
             e.preventDefault();
 
             var cursorElement = this._elementUnderCursor(e);
+            this._lastEvent = e;
+            this._processMovement(e, cursorElement);
 
-            that._withDropTarget(cursorElement, function(target, targetElement) {
+            if (this.options.autoScroll) {
+                if (this._cursorElement !== cursorElement) {
+                    this._scrollableParent = findScrollableParent(cursorElement);
+                    this._cursorElement = cursorElement;
+                }
+
+                // chrome seems to trigger mousemove when mouse is moved outside of the window (over the Chrome), too.
+                if (this._scrollableParent[0]) {
+                    var velocity = autoScrollVelocity(e.x.location, e.y.location, scrollableViewPort(this._scrollableParent));
+
+
+                    this._scrollCompenstation = $.extend({}, this.hintOffset);
+                    this._scrollVelocity = velocity;
+
+                    if (velocity.y === 0 && velocity.x === 0) {
+                        clearInterval(this._scrollInterval);
+                        this._scrollInterval = null;
+                    } else if(!this._scrollInterval) {
+                        this._scrollInterval = setInterval($.proxy(this, "_autoScroll"), 50);
+                    }
+                }
+            }
+
+            if (this.hint) {
+                this._updateHint(e);
+            }
+        },
+
+        _processMovement: function(e, cursorElement) {
+            this._withDropTarget(cursorElement, function(target, targetElement) {
                 if (!target) {
                     if (lastDropTarget) {
                         lastDropTarget._trigger(DRAGLEAVE, extend(e, { dropTarget: $(lastDropTarget.targetElement) }));
@@ -20245,33 +20597,7 @@ return window.kendo;
                 lastDropTarget = extend(target, { targetElement: targetElement });
             });
 
-            that._trigger(DRAG, extend(e, { dropTarget: lastDropTarget, elementUnderCursor: cursorElement }));
-
-            if (this.options.autoScroll) {
-                if (this._cursorElement !== cursorElement) {
-                    this._scrollableParent = findScrollableParent(cursorElement);
-                    this._cursorElement = cursorElement;
-                }
-
-                // chrome seems to trigger mousemove when mouse is moved outside of the window (over the Chrome), too.
-                if (this._scrollableParent[0]) {
-                    var velocity = autoScrollVelocity(e.x.location, e.y.location, scrollableViewPort(this._scrollableParent));
-
-                    this._scrollCompenstation = $.extend({}, this.hintOffset);
-                    this._scrollVelocity = velocity;
-
-                    if (velocity.y === 0 && velocity.x === 0) {
-                        clearInterval(this._scrollInterval);
-                        this._scrollInterval = null;
-                    } else if(!this._scrollInterval) {
-                        this._scrollInterval = setInterval($.proxy(this, "_autoScroll"), 50);
-                    }
-                }
-            }
-
-            if (that.hint) {
-                that._updateHint(e);
-            }
+            this._trigger(DRAG, extend(e, { dropTarget: lastDropTarget, elementUnderCursor: cursorElement }));
         },
 
         _autoScroll: function() {
@@ -20283,12 +20609,16 @@ return window.kendo;
                 return;
             }
 
-            var yIsScrollable, xIsScrollable;
-            var isBody = parent === document.body;
+            var cursorElement = this._elementUnderCursor(this._lastEvent);
+            this._processMovement(this._lastEvent, cursorElement);
 
-            if (isBody) {
-                yIsScrollable = document.body.offsetHeight > $window.height();
-                xIsScrollable = document.body.offsetWidth > $window.width();
+            var yIsScrollable, xIsScrollable;
+
+            var isRootNode = parent === scrollableRoot()[0];
+
+            if (isRootNode) {
+                yIsScrollable = document.body.scrollHeight > $window.height();
+                xIsScrollable = document.body.scrollWidth > $window.width();
             } else {
                 yIsScrollable = parent.offsetHeight <= parent.scrollHeight;
                 xIsScrollable = parent.offsetWidth <= parent.scrollWidth;
@@ -20308,7 +20638,7 @@ return window.kendo;
                 parent.scrollLeft += velocity.x;
             }
 
-            if (isBody && (xInBounds || yInBounds)) {
+            if (isRootNode && (xInBounds || yInBounds)) {
                 if (yInBounds) {
                     compensation.top += velocity.y;
                 }
@@ -20329,20 +20659,26 @@ return window.kendo;
                 }
             });
 
-            this._trigger(DRAGEND, e);
-            this._cancel(e.event);
+            this._cancel(this._trigger(DRAGEND, e));
         },
 
-        _cancel: function() {
+        _cancel: function(isDefaultPrevented) {
             var that = this;
 
             that._scrollableParent = null;
+            this._cursorElement = null;
             clearInterval(this._scrollInterval);
             that._activated = false;
 
             if (that.hint && !that.dropped) {
                 setTimeout(function() {
-                    that.hint.stop(true, true).animate(that.currentTargetOffset, "fast", that._afterEndHandler);
+                    that.hint.stop(true, true);
+
+                    if (isDefaultPrevented) {
+                        that._afterEndHandler();
+                    } else {
+                        that.hint.animate(that.currentTargetOffset, "fast", that._afterEndHandler);
+                    }
                 }, 0);
 
             } else {
@@ -20446,14 +20782,14 @@ return window.kendo;
     });
 
     function scrollableViewPort(element) {
-        var body = document.body,
+        var root = scrollableRoot()[0],
             offset,
             top,
             left;
 
-        if (element[0] === body) {
-            top = body.scrollTop;
-            left = body.scrollLeft;
+        if (element[0] === root) {
+            top = root.scrollTop;
+            left = root.scrollLeft;
 
             return {
                 top: top,
@@ -20469,19 +20805,25 @@ return window.kendo;
         }
     }
 
-    function isRootNode(element) {
-        return element === document.body || element === document.documentElement || element === document;
+    function scrollableRoot() {
+        return $(kendo.support.browser.chrome ? document.body : document.documentElement);
     }
 
     function findScrollableParent(element) {
-        if (!element || isRootNode(element)) {
-            return $(document.body);
+        var root = scrollableRoot();
+
+        if (!element || element === document.body || element === document.documentElement) {
+            return root;
         }
 
         var parent = $(element)[0];
 
-        while (!kendo.isScrollable(parent) && !isRootNode(parent)) {
+        while (parent && !kendo.isScrollable(parent) && parent !== document.body) {
             parent = parent.parentNode;
+        }
+
+        if (parent === document.body) {
+            return root;
         }
 
         return $(parent);
@@ -20516,6 +20858,10 @@ return window.kendo;
 
  })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -20537,6 +20883,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.draganddrop" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -20571,7 +20921,6 @@ return window.kendo;
         STATE_FOCUSED = "k-state-focused",
         STATE_DEFAULT = "k-state-default",
         STATE_DISABLED = "k-state-disabled",
-        PRECISION = 3,
         DISABLED = "disabled",
         UNDEFINED = "undefined",
         TABINDEX = "tabindex",
@@ -20652,6 +21001,10 @@ return window.kendo;
             this._maxSelection = this._trackDiv[this._sizeFn]();
             this._sliderItemsInit();
             this._refresh();
+
+            if (this.options.enabled) {
+                this.enable(true);
+            }
         },
 
         _sliderItemsInit: function() {
@@ -21138,9 +21491,27 @@ return window.kendo;
         return (value + "").replace(".", kendo.cultures.current.numberFormat["."]);
     }
 
+    function calculatePrecision(value) {
+        var number = value.toString();
+        var precision = 0;
+
+        number = number.split(".");
+
+        if (number[1]) {
+            precision = number[1].length;
+        }
+
+        precision = precision > 10 ? 10 : precision;
+        return precision;
+    }
+
     function round(value) {
+        var precision, power;
+
         value = parseFloat(value, 10);
-        var power = math.pow(10, PRECISION || 0);
+        precision = calculatePrecision(value);
+        power = math.pow(10, precision || 0);
+
         return math.round(value * power) / power;
     }
 
@@ -21189,7 +21560,7 @@ return window.kendo;
 
             dragHandle = that.wrapper.find(DRAG_HANDLE);
 
-            new Slider.Selection(dragHandle, that, options);
+            this._selection = new Slider.Selection(dragHandle, that, options);
             that._drag = new Slider.Drag(dragHandle, "", that, options);
         },
 
@@ -21513,7 +21884,8 @@ return window.kendo;
             this.owner._activeDragHandle = this;
             // HACK to initiate click on the line
             this.draggable.userEvents.cancel();
-            this.draggable.userEvents._start(e);
+            this._dragstart(e);
+            this.dragend();
         },
 
         _dragstart: function(e) {
@@ -21634,7 +22006,6 @@ return window.kendo;
 
                 owner.trigger(SLIDE, slideParams);
             }
-
             that._updateTooltip(that.val);
         },
 
@@ -21681,6 +22052,7 @@ return window.kendo;
                 that.draggable.userEvents._disposeAll();
             }
 
+            that.draggable.userEvents.cancel();
             return that._end();
         },
 
@@ -21869,7 +22241,7 @@ return window.kendo;
 
             var dragHandles = that.wrapper.find(DRAG_HANDLE);
 
-            new RangeSlider.Selection(dragHandles, that, options);
+            this._selection = new RangeSlider.Selection(dragHandles, that, options);
             that._firstHandleDrag = new Slider.Drag(dragHandles.eq(0), "firstHandle", that, options);
             that._lastHandleDrag = new Slider.Drag(dragHandles.eq(1), "lastHandle" , that, options);
         },
@@ -22234,6 +22606,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -22255,6 +22631,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.fx", "./kendo.draganddrop" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -22911,6 +23291,10 @@ return window.kendo;
     ui.plugin(Scroller);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -22932,6 +23316,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.list", "./kendo.mobile.scroller" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function ($, undefined) {
     var kendo = window.kendo,
@@ -23009,6 +23397,7 @@ return window.kendo;
                 .on("keydown" + ns, proxy(that._keydown, that))
                 .on("paste" + ns, proxy(that._search, that))
                 .on("focus" + ns, function () {
+                    that._active = true;
                     that._prev = that._accessor();
                     that._placeholder(false);
                     wrapper.addClass(FOCUSED);
@@ -23016,6 +23405,7 @@ return window.kendo;
                 .on("focusout" + ns, function () {
                     that._change();
                     that._placeholder();
+                    that._active = false;
                     wrapper.removeClass(FOCUSED);
                 })
                 .attr({
@@ -23044,6 +23434,10 @@ return window.kendo;
                 that.enable(false);
             }
 
+            that.listView.bind("click", function(e) { e.preventDefault(); });
+
+            that._resetFocusItemHandler = $.proxy(that._resetFocusItem, that);
+
             kendo.notify(that);
         },
 
@@ -23064,6 +23458,7 @@ return window.kendo;
             separator: null,
             placeholder: "",
             animation: {},
+            virtual: false,
             value: null
         },
 
@@ -23187,6 +23582,8 @@ return window.kendo;
                 that._open = true;
 
                 that.listView.filter(true);
+                that.listView.value([]);
+
                 that._filterSource({
                     value: ignoreCase ? word.toLowerCase() : word,
                     operator: options.filter,
@@ -23272,6 +23669,8 @@ return window.kendo;
             var item = e.item;
             var element = this.element;
 
+            this._active = true;
+
             if (this.trigger("select", { item: item })) {
                 this.close();
                 return;
@@ -23303,7 +23702,8 @@ return window.kendo;
                     that._angularItems("cleanup");
                 },
                 dataBound: listBoundHandler,
-                listBound: listBoundHandler
+                listBound: listBoundHandler,
+                skipUpdateOnBind: true
             };
 
             listOptions = $.extend(that._listOptions(), listOptions, typeof virtual === "object" ? virtual : {});
@@ -23319,6 +23719,16 @@ return window.kendo;
             that.listView.value(that.options.value);
         },
 
+        _resetFocusItem: function() {
+            var index = this.options.highlightFirst ? 0 : -1;
+
+            if (this.options.virtual) {
+                this.listView.scrollTo(0);
+            }
+
+            this.listView.focus(index);
+        },
+
         _listBound: function() {
             var that = this;
             var popup = that.popup;
@@ -23330,23 +23740,11 @@ return window.kendo;
 
             that._angularItems("compile");
 
-            //reset list value
-            that.listView.value([]);
-            that.listView.focus(-1);
-
-            that.listView.filter(false);
-
-            that._calculateGroupPadding(that._height(length));
+            that._resizePopup();
 
             popup.position();
 
             if (length) {
-                var current = this.listView.focus();
-
-                if (options.highlightFirst && !current) {
-                    that.listView.first();
-                }
-
                 if (options.suggest && isActive) {
                     that.suggest(data[0]);
                 }
@@ -23360,9 +23758,21 @@ return window.kendo;
                     action = "close";
                 }
 
+                if (length) {
+                    if (!options.virtual) {
+                        that._resetFocusItem();
+                    } else {
+                        that.popup
+                            .unbind("activate", that._resetFocusItemHandler)
+                            .one("activate", that._resetFocusItemHandler);
+                    }
+                }
+
                 popup[action]();
                 that._typingTimeout = undefined;
             }
+
+            that.listView.filter(false);
 
             if (that._touchScroller) {
                 that._touchScroller.reset();
@@ -23375,7 +23785,7 @@ return window.kendo;
         },
 
         _listChange: function() {
-            if (!this.listView.filter()) {
+            if (!this.listView.filter() && this._active) {
                 this._selectValue(this.listView.selectedDataItems()[0]);
             }
         },
@@ -23433,12 +23843,12 @@ return window.kendo;
 
             if (key === keys.DOWN) {
                 if (visible) {
-                    this._move(current ? "next" : "first");
+                    this._move(current ? "focusNext" : "focusFirst");
                 }
                 e.preventDefault();
             } else if (key === keys.UP) {
                 if (visible) {
-                    this._move(current ? "prev" : "last");
+                    this._move(current ? "focusPrev" : "focusLast");
                 }
                 e.preventDefault();
             } else if (key === keys.ENTER || key === keys.TAB) {
@@ -23589,6 +23999,10 @@ return window.kendo;
     ui.plugin(AutoComplete);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -23611,6 +24025,10 @@ return window.kendo;
     define([ "./kendo.list", "./kendo.mobile.scroller" ], f);
 })(function(){
 
+(function(){
+
+
+
 (function($, undefined) {
     var kendo = window.kendo,
         ui = kendo.ui,
@@ -23632,12 +24050,10 @@ return window.kendo;
         STATEDISABLED = "k-state-disabled",
         ARIA_DISABLED = "aria-disabled",
         ARIA_READONLY = "aria-readonly",
-        STATE_SELECTED = "k-state-selected",
         STATE_FILTER = "filter",
         STATE_ACCEPT = "accept",
         STATE_REBIND = "rebind",
         HOVEREVENTS = "mouseenter" + ns + " mouseleave" + ns,
-        NULL = null,
         proxy = $.proxy;
 
     var ComboBox = Select.extend({
@@ -23728,6 +24144,7 @@ return window.kendo;
             cascadeFromField: "",
             ignoreCase: true,
             animation: {},
+            virtual: false,
             template: null,
             groupTemplate: "#:data#",
             fixedGroupTemplate: "#:data#"
@@ -23759,6 +24176,8 @@ return window.kendo;
             that.input.off(ns);
             that.element.off(ns);
             that._inputWrapper.off(ns);
+
+            that._arrow.parent().off(CLICK + " " + MOUSEDOWN);
 
             Select.fn.destroy.call(that);
         },
@@ -23835,8 +24254,6 @@ return window.kendo;
         open: function() {
             var that = this;
             var state = that._state;
-            var focusedItem;
-            var index;
 
             if (that.popup.visible()) {
                 return;
@@ -23866,15 +24283,12 @@ return window.kendo;
             var page = this.dataSource.page();
             var length = data.length;
             var dataItem;
-            var value;
 
             that._angularItems("compile");
 
             that._presetValue = false;
 
-            if (!options.virtual) {
-                that._calculateGroupPadding(that._height(length));
-            }
+            that._resizePopup();
 
             that.popup.position();
 
@@ -24244,7 +24658,7 @@ return window.kendo;
             }
 
             if (this.options.highlightFirst && !word) {
-                this.listView.first();
+                this.listView.focusFirst();
             }
         },
 
@@ -24419,6 +24833,10 @@ return window.kendo;
     ui.plugin(ComboBox);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -24441,6 +24859,10 @@ return window.kendo;
     define([ "./kendo.list", "./kendo.mobile.scroller" ], f);
 })(function(){
 
+(function(){
+
+
+
 (function($, undefined) {
     var kendo = window.kendo,
         ui = kendo.ui,
@@ -24458,7 +24880,6 @@ return window.kendo;
         STATEDISABLED = "k-state-disabled",
         ARIA_DISABLED = "aria-disabled",
         ARIA_READONLY = "aria-readonly",
-        SELECTED = "k-state-selected",
         HOVEREVENTS = "mouseenter" + ns + " mouseleave" + ns,
         TABINDEX = "tabindex",
         STATE_FILTER = "filter",
@@ -24543,6 +24964,8 @@ return window.kendo;
             if (disabled) {
                 that.enable(false);
             }
+
+            that.listView.bind("click", function(e) { e.preventDefault(); });
 
             kendo.notify(that);
         },
@@ -24644,7 +25067,7 @@ return window.kendo;
             this._focusElement(this.filterInput);
         },
 
-        _allowOpening: function(length) {
+        _allowOpening: function() {
             return this.optionLabel[0] || this.filterInput || this.dataSource.view().length;
         },
 
@@ -24671,27 +25094,28 @@ return window.kendo;
         dataItem: function(index) {
             var that = this;
             var dataItem = null;
-            var hasOptionLabel = !!that.optionLabel[0];
-            var optionLabel = that.options.optionLabel;
 
             if (index === undefined) {
                 dataItem = that.listView.selectedDataItems()[0];
             } else {
                 if (typeof index !== "number") {
+                    if (that.options.virtual) {
+                        return that.dataSource.getByUid($(index).data("uid"));
+                    }
                     if (index.hasClass("k-list-optionlabel")) {
                         index = -1;
                     } else {
                         index = $(that.items()).index(index);
                     }
-                } else if (hasOptionLabel) {
+                } else if (!!that.optionLabel[0]) {
                     index -= 1;
                 }
 
                 dataItem = that.dataSource.flatView()[index];
             }
 
-            if (!dataItem && hasOptionLabel) {
-                dataItem = $.isPlainObject(optionLabel) ? new ObservableObject(optionLabel) : that._assignInstance(that._optionLabelText(), "");
+            if (!dataItem) {
+                dataItem = that._optionLabelDataItem();
             }
 
             return dataItem;
@@ -24765,7 +25189,7 @@ return window.kendo;
                     that._accessor("", -1);
                 }
 
-                that._old = that._accessor();
+                that._old = that.listView.value()[0];
                 that._oldIndex = that.selectedIndex;
             });
 
@@ -24821,28 +25245,34 @@ return window.kendo;
             return (typeof optionLabel === "string") ? optionLabel : this._text(optionLabel);
         },
 
+        _optionLabelDataItem: function() {
+            var that = this;
+            var optionLabel = that.options.optionLabel;
+
+            if (!!that.optionLabel[0]) {
+                return $.isPlainObject(optionLabel) ? new ObservableObject(optionLabel) : that._assignInstance(that._optionLabelText(), "");
+            }
+
+            return null;
+        },
+
         _listBound: function() {
             var that = this;
             var initialIndex = that._initialIndex;
             var optionLabel = that.options.optionLabel;
             var filtered = that._state === STATE_FILTER;
-            var element = that.element[0];
 
             var data = that.dataSource.flatView();
             var length = data.length;
             var dataItem;
 
-            var height;
             var value;
 
             that._angularItems("compile");
 
             that._presetValue = false;
 
-            if (!that.options.virtual) {
-                height = that._height(filtered ? (length || 1) : length);
-                that._calculateGroupPadding(height);
-            }
+            that._resizePopup(true);
 
             that.popup.position();
 
@@ -25007,7 +25437,6 @@ return window.kendo;
             var that = this;
             var key = e.keyCode;
             var altKey = e.altKey;
-            var ul = that.ul[0];
             var isInputActive;
             var handled;
 
@@ -25066,10 +25495,12 @@ return window.kendo;
             }
         },
 
-        _matchText: function(text, index) {
-            var that = this;
-            var ignoreCase = that.options.ignoreCase;
-            var found = false;
+        _matchText: function(text, word) {
+            var ignoreCase = this.options.ignoreCase;
+
+            if (text === undefined || text === null) {
+                return false;
+            }
 
             text = text + "";
 
@@ -25077,48 +25508,53 @@ return window.kendo;
                 text = text.toLowerCase();
             }
 
-            if (text.indexOf(that._word) === 0) {
-                if (that.optionLabel[0]) {
-                    index += 1;
-                }
+            return text.indexOf(word) === 0;
+        },
 
-                that._select(index);
+        _shuffleData: function(data, splitIndex) {
+            var optionDataItem = this._optionLabelDataItem();
+
+            if (optionDataItem) {
+                data = [optionDataItem].concat(data);
+            }
+
+            return data.slice(splitIndex).concat(data.slice(0, splitIndex));
+        },
+
+        _selectNext: function() {
+            var that = this;
+            var data = that.dataSource.flatView().toJSON();
+            var dataLength = data.length + (!!this.optionLabel[0] ? 1 : 0);
+            var isInLoop = sameCharsOnly(that._word, that._last);
+            var startIndex = that.selectedIndex;
+            var text;
+
+            if (startIndex === -1) {
+                startIndex = 0;
+            } else {
+                startIndex += isInLoop ? 1 : 0;
+                startIndex = normalizeIndex(startIndex, dataLength);
+            }
+
+            data = that._shuffleData(data, startIndex);
+
+            for (var idx = 0; idx < dataLength; idx++) {
+                text = that._text(data[idx]);
+
+                if (isInLoop && that._matchText(text, that._last)) {
+                    break;
+                } else if (that._matchText(text, that._word)) {
+                    break;
+                }
+            }
+
+            if (idx !== dataLength) {
+                that._select(normalizeIndex(startIndex + idx, dataLength));
+
                 if (!that.popup.visible()) {
                     that._change();
                 }
-
-                found = true;
             }
-
-            return found;
-        },
-
-        _selectNext: function(index) {
-            var that = this;
-            var startIndex = index;
-            var data = that.dataSource.flatView();
-            var length = data.length;
-            var text;
-
-            for (; index < length; index++) {
-                text = that._text(data[index]);
-
-                if (text && that._matchText(text, index) && !(that._word.length === 1 && startIndex === that.selectedIndex)) {
-                    return true;
-                }
-            }
-
-            if (startIndex > 0 && startIndex < length) {
-                index = 0;
-                for (; index <= startIndex; index++) {
-                    text = that._text(data[index]);
-                    if (text && that._matchText(text, index)) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         },
 
         _keypress: function(e) {
@@ -25129,8 +25565,6 @@ return window.kendo;
             }
 
             var character = String.fromCharCode(e.charCode || e.keyCode);
-            var index = that.selectedIndex;
-            var length = that._word.length;
 
             if (that.options.ignoreCase) {
                 character = character.toLowerCase();
@@ -25140,20 +25574,7 @@ return window.kendo;
                 e.preventDefault();
             }
 
-            if (!length) {
-                that._word = character;
-            }
-
-            if (that._last === character && length <= 1 && index > -1) {
-                if (that._selectNext(index)) {
-                    return;
-                }
-            }
-
-            if (length) {
-                that._word += character;
-            }
-
+            that._word += character;
             that._last = character;
 
             that._search();
@@ -25218,16 +25639,7 @@ return window.kendo;
                 }
 
                 that._select(function(dataItem) {
-                    var text = that._text(dataItem);
-
-                    if (text !== undefined) {
-                        text = (text + "");
-                        if (ignoreCase) {
-                            text = text.toLowerCase();
-                        }
-
-                        return text.indexOf(word) === 0;
-                    }
+                    return that._matchText(that._text(dataItem), word);
                 });
             }
         },
@@ -25235,7 +25647,6 @@ return window.kendo;
         _search: function() {
             var that = this;
             var dataSource = that.dataSource;
-            var index = that.selectedIndex;
 
             clearTimeout(that._typingTimeout);
 
@@ -25255,20 +25666,14 @@ return window.kendo;
                     that._word = "";
                 }, that.options.delay);
 
-                if (index === -1) {
-                    index = 0;
-                }
-
-                if (!that.ul[0].firstChild) {
+                if (!that.listView.isBound()) {
                     dataSource.fetch().done(function () {
-                        if (dataSource.data()[0] && index > -1) {
-                            that._selectNext(index);
-                        }
+                        that._selectNext();
                     });
                     return;
                 }
 
-                that._selectNext(index);
+                that._selectNext();
             }
         },
 
@@ -25310,21 +25715,21 @@ return window.kendo;
             if (this.optionLabel[0]) {
                 this._focus(this.optionLabel);
             } else {
-                this.listView.first();
+                this.listView.focusFirst();
             }
         },
 
         _lastItem: function() {
             this.optionLabel.removeClass("k-state-focused");
-            this.listView.last();
+            this.listView.focusLast();
         },
 
         _nextItem: function() {
             if (this.optionLabel.hasClass("k-state-focused")) {
                 this.optionLabel.removeClass("k-state-focused");
-                this.listView.first();
+                this.listView.focusFirst();
             } else {
-                this.listView.next();
+                this.listView.focusNext();
             }
         },
 
@@ -25333,7 +25738,7 @@ return window.kendo;
                 return;
             }
 
-            this.listView.prev();
+            this.listView.focusPrev();
             if (!this.listView.focus()) {
                 this.optionLabel.addClass("k-state-focused");
             }
@@ -25390,7 +25795,6 @@ return window.kendo;
 
         _select: function(candidate, keepState) {
             var that = this;
-            var optionLabel = that.optionLabel;
 
             candidate = that._get(candidate);
 
@@ -25482,6 +25886,7 @@ return window.kendo;
 
                 this.filterInput = $('<input class="k-textbox"/>')
                                       .attr({
+                                          placeholder: this.element.attr("placeholder"),
                                           role: "listbox",
                                           "aria-haspopup": true,
                                           "aria-expanded": false
@@ -25643,8 +26048,28 @@ return window.kendo;
         instance[fields[lastIndex]] = value;
     }
 
+    function normalizeIndex(index, length) {
+        if (index >= length) {
+            index -= length;
+        }
+        return index;
+    }
+
+    function sameCharsOnly(word, character) {
+        for (var idx = 0; idx < word.length; idx++) {
+            if (word.charAt(idx) !== character) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     ui.plugin(DropDownList);
 })(window.kendo.jQuery);
+
+
+
+})();
 
 return window.kendo;
 
@@ -25667,6 +26092,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core", "./kendo.color", "./kendo.popup", "./kendo.slider", "./kendo.userevents" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, parseInt, undefined){
     // WARNING: removing the following jshint declaration and turning
@@ -26552,6 +26981,10 @@ return window.kendo;
 
 })(jQuery, parseInt);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -26573,6 +27006,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo;
@@ -26713,7 +27150,6 @@ return window.kendo;
         value: function(value) {
             var element = this.element;
             var emptyMask = this._emptyMask;
-            var options = this.options;
 
             if (value === undefined) {
                 return this.element.val();
@@ -27128,6 +27564,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -27150,6 +27590,10 @@ return window.kendo;
     define([ "./kendo.list", "./kendo.mobile.scroller" ], f);
 })(function(){
 
+(function(){
+
+
+
 (function($, undefined) {
     var kendo = window.kendo,
         ui = kendo.ui,
@@ -27168,9 +27612,6 @@ return window.kendo;
         CHANGE = "change",
         PROGRESS = "progress",
         SELECT = "select",
-        NEXT = "nextSibling",
-        PREV = "previousSibling",
-        HIDE = ' style="display:none"',
         ARIA_DISABLED = "aria-disabled",
         ARIA_READONLY = "aria-readonly",
         FOCUSEDCLASS = "k-state-focused",
@@ -27257,20 +27698,6 @@ return window.kendo;
             kendo.notify(that);
         },
 
-        _preselect: function(data, value) {
-            var that = this;
-
-            if (!isArray(data) && !(data instanceof kendo.data.ObservableArray)) {
-                data = [data];
-            }
-
-            if ($.isPlainObject(data[0]) || data[0] instanceof kendo.data.ObservableObject || !that.options.dataValueField) {
-                that.dataSource.data(data);
-                that.value(value || that._initialValues);
-                that._retrieveData = true;
-            }
-        },
-
         options: {
             name: "MultiSelect",
             tagMode: "multiple",
@@ -27289,6 +27716,7 @@ return window.kendo;
             placeholder: "",
             height: 200,
             animation: {},
+            virtual: false,
             itemTemplate: "",
             tagTemplate: "",
             groupTemplate: "#:data#",
@@ -27423,6 +27851,8 @@ return window.kendo;
             } else {
                 that.listView = new kendo.ui.VirtualList(that.ul, listOptions);
             }
+
+            that.listView.bind("click", function(e) { e.preventDefault(); });
 
             that.listView.value(that._initialValues || that.options.value);
         },
@@ -27585,6 +28015,14 @@ return window.kendo;
             }
         },
 
+        _filterSource: function(filter, force) {
+            if(!force) {
+                force = this._retrieveData;
+            }
+            this._retrieveData = false;
+            List.fn._filterSource.call(this, filter, force);
+        },
+
         close: function() {
             this.popup.close();
         },
@@ -27599,7 +28037,6 @@ return window.kendo;
             if (that._retrieveData || !that.listView.isBound() || that._state === ACCEPT) {
                 that._open = true;
                 that._state = REBIND;
-                that._retrieveData = false;
 
                 that.listView.filter(false);
                 that.listView.skipUpdate(true);
@@ -27621,7 +28058,7 @@ return window.kendo;
             this.listView.refresh();
         },
 
-        _listBound: function(e) {
+        _listBound: function() {
             var that = this;
             var data = that.dataSource.flatView();
             var page = that.dataSource.page();
@@ -27631,7 +28068,7 @@ return window.kendo;
 
             that._render(data);
 
-            that._calculateGroupPadding(that._height(length));
+            that._resizePopup();
 
             if (that._open) {
                 that._open = false;
@@ -27641,7 +28078,7 @@ return window.kendo;
             that.popup.position();
 
             if (that.options.highlightFirst && (page === undefined || page === 1)) {
-                that.listView.first();
+                that.listView.focusFirst();
             }
 
             if (that._touchScroller) {
@@ -27686,8 +28123,7 @@ return window.kendo;
                     ignoreCase: ignoreCase
                 };
 
-                that._filterSource(expression, that._retrieveData);
-                that._retrieveData = false;
+                that._filterSource(expression);
             }
         },
 
@@ -27695,7 +28131,6 @@ return window.kendo;
             var that = this;
             var oldValue = that.listView.value().slice();
             var maxSelectedItems = that.options.maxSelectedItems;
-            var idx;
 
             if (value === undefined) {
                 return oldValue;
@@ -27712,6 +28147,20 @@ return window.kendo;
             that._old = value;
 
             that._fetchData();
+        },
+
+        _preselect: function(data, value) {
+            var that = this;
+
+            if (!isArray(data) && !(data instanceof kendo.data.ObservableArray)) {
+                data = [data];
+            }
+
+            if ($.isPlainObject(data[0]) || data[0] instanceof kendo.data.ObservableObject || !that.options.dataValueField) {
+                that.dataSource.data(data);
+                that.value(value || that._initialValues);
+                that._retrieveData = true;
+            }
         },
 
         _setOption: function(value, selected) {
@@ -27744,6 +28193,10 @@ return window.kendo;
                     that._fetch = false;
                 });
             }
+        },
+
+        _isBound: function() {
+            return this.listView.isBound() && !this._retrieveData;
         },
 
         _dataSource: function() {
@@ -27851,23 +28304,23 @@ return window.kendo;
                     that.open();
 
                     if (!current) {
-                        this.listView.first();
+                        this.listView.focusFirst();
                     }
                     return;
                 }
 
                 if (current) {
-                    this.listView.next();
+                    this.listView.focusNext();
                     if (!this.listView.focus()) {
-                        this.listView.last();
+                        this.listView.focusLast();
                     }
                 } else {
-                    this.listView.first();
+                    this.listView.focusFirst();
                 }
             } else if (key === keys.UP) {
                 if (visible) {
                     if (current) {
-                        this.listView.prev();
+                        this.listView.focusPrev();
                     }
 
                     if (!this.listView.focus()) {
@@ -27910,7 +28363,7 @@ return window.kendo;
                 that.close();
             } else if (key === keys.HOME) {
                 if (visible) {
-                    this.listView.first();
+                    this.listView.focusFirst();
                 } else if (!hasValue) {
                     tag = that.tagList[0].firstChild;
 
@@ -27920,7 +28373,7 @@ return window.kendo;
                 }
             } else if (key === keys.END) {
                 if (visible) {
-                    this.listView.last();
+                    this.listView.focusLast();
                 } else if (!hasValue) {
                     tag = that.tagList[0].lastChild;
 
@@ -28204,7 +28657,6 @@ return window.kendo;
 
         _select: function(candidate) {
             var that = this;
-            var idx;
 
             if (that._state === REBIND) {
                 that._state = "";
@@ -28339,6 +28791,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -28360,6 +28816,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core", "./kendo.userevents" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -28421,7 +28881,7 @@ return window.kendo;
              if (!kendo.support.mobileOS) {
                  that._text.on(FOCUS + ns, proxy(that._click, that));
              } else {
-                 that._text.on(TOUCHEND + ns + " " + FOCUS + ns, function(e) {
+                 that._text.on(TOUCHEND + ns + " " + FOCUS + ns, function() {
                     that._toggleText(false);
                     element.focus();
                  });
@@ -29031,6 +29491,10 @@ return window.kendo;
     ui.plugin(NumericTextBox);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -29050,8 +29514,12 @@ return window.kendo;
  * limitations under the License.
  */
 (function(f, define){
-    define([ "./kendo.core" ], f);
+    define([ "./kendo.core", "./kendo.userevents", "./kendo.popup" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -29059,6 +29527,7 @@ return window.kendo;
         Widget = kendo.ui.Widget,
         proxy = $.proxy,
         isFunction = kendo.isFunction,
+        keys = kendo.keys,
 
         TOOLBAR = "k-toolbar",
         BUTTON = "k-button",
@@ -29102,9 +29571,21 @@ return window.kendo;
         OVERFLOW_ALWAYS = "always",
         OVERFLOW_HIDDEN = "k-overflow-hidden",
 
-        KENDO_UID_ATTR = kendo.attr("uid"),
+        KENDO_UID_ATTR = kendo.attr("uid");
 
-        template = kendo.template;
+        kendo.toolbar = {};
+
+        var components = {
+            overflowAnchor: '<div tabindex="0" class="k-overflow-anchor"></div>',
+            overflowContainer: '<ul class="k-overflow-container k-list-container"></ul>'
+        };
+
+        kendo.toolbar.registerComponent = function(name, toolbar, overflow) {
+            components[name] = {
+                toolbar: toolbar,
+                overflow: overflow
+            };
+        };
 
         var Item = kendo.Class.extend({
             addOverflowAttr: function() {
@@ -29171,9 +29652,11 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.Item = Item;
+
         var Button = Item.extend({
             init: function(options, toolbar) {
-                var element = options.useButtonTag ? $('<button></button>') : $('<a></a>');
+                var element = options.useButtonTag ? $('<button tabindex="0"></button>') : $('<a href tabindex="0"></a>');
 
                 this.element = element;
                 this.options = options;
@@ -29278,6 +29761,8 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.Button = Button;
+
         var ToolBarButton = Button.extend({
             init: function(options, toolbar) {
                 Button.fn.init.call(this, options, toolbar);
@@ -29329,6 +29814,8 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.ToolBarButton = ToolBarButton;
+
         var OverflowButton = Button.extend({
             init: function(options, toolbar) {
                 this.overflow = true;
@@ -29337,13 +29824,11 @@ return window.kendo;
 
                 var element = this.element;
 
-                element.addClass(OVERFLOW_BUTTON + " " + BUTTON);
-
                 if (options.showText != "toolbar" && options.text) {
                     if (options.mobile) {
                         element.html('<span class="km-text">' + options.text + "</span>");
                     } else {
-                        element.html(options.text);
+                        element.html('<span class="k-text">' + options.text + "</span>");
                     }
                 }
 
@@ -29361,6 +29846,8 @@ return window.kendo;
                 this.addUidAttr();
                 this.addOverflowAttr();
                 this.enable(options.enable);
+
+                element.addClass(OVERFLOW_BUTTON + " " + BUTTON);
 
                 if (options.hidden) {
                     this.hide();
@@ -29394,6 +29881,9 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.OverflowButton = OverflowButton;
+        kendo.toolbar.registerComponent("button", ToolBarButton, OverflowButton);
+
         var ButtonGroup = Item.extend({
             createButtons: function(buttonConstructor) {
                 var options = this.options;
@@ -29414,6 +29904,8 @@ return window.kendo;
                 this.element.children().filter(":not('." + STATE_HIDDEN + "'):last").addClass(GROUP_END);
             }
         });
+
+        kendo.toolbar.ButtonGroup = ButtonGroup;
 
         var ToolBarButtonGroup = ButtonGroup.extend({
             init: function(options, toolbar) {
@@ -29441,6 +29933,8 @@ return window.kendo;
                 });
             }
         });
+
+        kendo.toolbar.ToolBarButtonGroup = ToolBarButtonGroup;
 
         var OverflowButtonGroup = ButtonGroup.extend({
             init: function(options, toolbar) {
@@ -29470,9 +29964,12 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.OverflowButtonGroup = OverflowButtonGroup;
+        kendo.toolbar.registerComponent("buttonGroup", ToolBarButtonGroup, OverflowButtonGroup);
+
         var ToolBarSplitButton = Item.extend({
             init: function(options, toolbar) {
-                var element = this.element = $('<div class="' + SPLIT_BUTTON + '"></div>');
+                var element = this.element = $('<div class="' + SPLIT_BUTTON + '" tabindex="0"></div>');
 
                 this.options = options;
                 this.toolbar = toolbar;
@@ -29481,7 +29978,10 @@ return window.kendo;
                 this.arrowButton = $('<a class="' + BUTTON + " " + SPLIT_BUTTON_ARROW + '"><span class="' + (options.mobile ? "km-icon km-arrowdown" : "k-icon k-i-arrow-s") + '"></span></a>');
                 this.popupElement = $('<ul class="' + LIST_CONTAINER + '"></ul>');
 
-                this.mainButton.element.appendTo(element);
+                this.mainButton.element
+                    .removeAttr("href tabindex")
+                    .appendTo(element);
+
                 this.arrowButton.appendTo(element);
                 this.popupElement.appendTo(element);
 
@@ -29500,6 +30000,7 @@ return window.kendo;
 
                 this.createMenuButtons();
                 this.createPopup();
+                this._navigatable();
 
                 this.mainButton.main = true;
 
@@ -29507,6 +30008,27 @@ return window.kendo;
                     type: "splitButton",
                     splitButton: this,
                     kendoPopup: this.popup
+                });
+            },
+
+            _navigatable: function() {
+                var that = this;
+
+                that.popupElement.on("keydown", "." + BUTTON, function(e) {
+                    var li = $(e.target).parent();
+
+                    e.preventDefault();
+
+                    if (e.keyCode === keys.ESC || e.keyCode === keys.TAB || (e.altKey && e.keyCode === keys.UP)) {
+                        that.toggle();
+                        that.focus();
+                    } else if (e.keyCode === keys.DOWN) {
+                        findFocusableSibling(li, "next").focus();
+                    } else if (e.keyCode === keys.UP) {
+                        findFocusableSibling(li, "prev").focus();
+                    } else if (e.keyCode === keys.SPACEBAR || e.keyCode === keys.ENTER) {
+                        that.toolbar.userEvents.trigger("tap", { target: $(e.target) });
+                    }
                 });
             },
 
@@ -29539,11 +30061,20 @@ return window.kendo;
                     isRtl: this.toolbar._isRtl,
                     copyAnchorStyles: false,
                     animation: options.animation,
-                    open: adjustPopupWidth
+                    open: adjustPopupWidth,
+                    activate: function() {
+                        this.element.find(":kendoFocusable").first().focus();
+                    },
+                    close: function() {
+                        element.focus();
+                    }
                 }).data("kendoPopup");
+
+                this.popup.element.on(CLICK, "a.k-button", preventClick);
             },
 
             remove: function() {
+                this.popup.element.off(CLICK, "a.k-button");
                 this.popup.destroy();
                 this.element.remove();
             },
@@ -29558,9 +30089,14 @@ return window.kendo;
                 }
                 this.mainButton.enable(isEnabled);
                 this.options.enable = isEnabled;
-            }
+            },
 
+            focus: function() {
+                this.element.focus();
+            }
         });
+
+        kendo.toolbar.ToolBarSplitButton = ToolBarSplitButton;
 
         var OverflowSplitButton = Item.extend({
             init: function(options, toolbar) {
@@ -29595,6 +30131,9 @@ return window.kendo;
                 this.element.addClass(OVERFLOW_HIDDEN);
             }
         });
+
+        kendo.toolbar.OverflowSplitButton = OverflowSplitButton;
+        kendo.toolbar.registerComponent("splitButton", ToolBarSplitButton, OverflowSplitButton);
 
         var ToolBarSeparator = Item.extend({
             init: function(options, toolbar) {
@@ -29644,6 +30183,8 @@ return window.kendo;
             }
         });
 
+        kendo.toolbar.registerComponent("separator", ToolBarSeparator, OverflowSeparator);
+
         var TemplateItem = Item.extend({
             init: function(template, options, toolbar) {
                 var element = isFunction(template) ? template(options) : template;
@@ -29670,6 +30211,8 @@ return window.kendo;
                 });
             }
         });
+
+        kendo.toolbar.TemplateItem = TemplateItem;
 
         var OverflowTemplateItem = Item.extend({
             init: function(template, options, toolbar) {
@@ -29703,7 +30246,9 @@ return window.kendo;
             }
         });
 
-        function adjustPopupWidth(e) {
+        kendo.toolbar.OverflowTemplateItem = OverflowTemplateItem;
+
+        function adjustPopupWidth() {
             var anchor = this.options.anchor,
                 computedWidth = anchor.outerWidth(),
                 width;
@@ -29740,30 +30285,21 @@ return window.kendo;
             e.preventDefault();
         }
 
-        var components = {
-            button: {
-                toolbar: ToolBarButton,
-                overflow: OverflowButton
-            },
+        function findFocusableSibling (element, dir) {
+            var getSibling = dir === "next" ? $.fn.next : $.fn.prev;
+            var getter = dir === "next" ? $.fn.first : $.fn.last;
+            var candidate = getSibling.call(element);
 
-            buttonGroup: {
-                toolbar: ToolBarButtonGroup,
-                overflow: OverflowButtonGroup
-            },
+            if (candidate.is(":kendoFocusable") || !candidate.length) {
+                return candidate;
+            }
 
-            splitButton: {
-                toolbar: ToolBarSplitButton,
-                overflow: OverflowSplitButton
-            },
+            if (candidate.find(":kendoFocusable").length) {
+                return getter.call(candidate.find(":kendoFocusable"));
+            }
 
-            separator: {
-                toolbar: ToolBarSeparator,
-                overflow: OverflowSeparator
-            },
-
-            overflowAnchor: '<div class="k-overflow-anchor"></div>',
-            overflowContainer: '<ul class="k-overflow-container k-list-container"></ul>'
-        };
+            return findFocusableSibling(candidate, dir);
+        }
 
         var Group = Class.extend({
             init: function(name) {
@@ -29781,8 +30317,14 @@ return window.kendo;
             },
 
             select: function(button) {
+                var tmp;
                 for (var i = 0; i < this.buttons.length; i ++) {
-                    this.buttons[i].select(false);
+                    tmp = this.buttons[i];
+
+                    tmp.select(false);
+                    if (tmp.twin()) {
+                        tmp.twin().select(false);
+                    }
                 }
 
                 button.select(true);
@@ -29853,9 +30395,11 @@ return window.kendo;
                     release: toggleActive
                 });
 
-                that.element.on(CLICK, "." + STATE_DISABLED, preventClick);
+                that.element.on(CLICK, "a.k-button", preventClick);
+                that._navigatable();
+
                 if (options.resizable) {
-                    that.popup.element.on(CLICK, + "." + STATE_DISABLED, preventClick);
+                    that.popup.element.on(CLICK, + "a.k-button", preventClick);
                 }
 
                 if (options.resizable) {
@@ -29901,11 +30445,14 @@ return window.kendo;
                     $(element).data("kendoPopup").destroy();
                 });
 
+                that.element.off(CLICK, "a.k-button");
+
                 that.userEvents.destroy();
 
                 if (that.options.resizable) {
                     kendo.unbindResize(that._resizeHandler);
                     that.overflowUserEvents.destroy();
+                    that.popup.element.off(CLICK, "a.k-button");
                     that.popup.destroy();
                 }
 
@@ -29983,7 +30530,7 @@ return window.kendo;
                     toolbarItem,
                     overflowItem,
                     isResizable = this.options.resizable,
-                    type, uid;
+                    type;
 
                 element = this.element.find(candidate);
                 type = element.length ? element.data("type") : "";
@@ -30052,7 +30599,7 @@ return window.kendo;
             show: function(candidate) {
                 var item = this._getItem(candidate);
 
-                if (item.toolbar) { 
+                if (item.toolbar) {
                     item.toolbar.show();
 
                     if (item.toolbar.options.type === "button" && item.toolbar.options.isChild) {
@@ -30091,7 +30638,10 @@ return window.kendo;
                     item = element.data("button");
 
                 if (item.options.togglable) {
-                    item.toggle(checked ? checked : !item.options.selected, true);
+                    if (checked === undefined) {
+                        checked = true;
+                    }
+                    item.toggle(checked, true);
                 }
             },
 
@@ -30109,7 +30659,7 @@ return window.kendo;
                     that.overflowAnchor.append('<span class="km-icon km-more"></span>');
                     overflowContainer = actionSheetWrap(overflowContainer);
                 } else {
-                    that.overflowAnchor.append('<span class="k-icon k-i-more"></span>');
+                    that.overflowAnchor.append('<span class="k-icon k-i-arrow-s"></span>');
                 }
 
                 that.popup = new kendo.ui.Popup(overflowContainer, {
@@ -30134,10 +30684,37 @@ return window.kendo;
                             e.preventDefault();
                         }
                     },
+                    activate: function() {
+                        this.element.find(":kendoFocusable").first().focus();
+                    },
                     close: function (e) {
                         if (that.trigger(OVERFLOW_CLOSE)) {
                             e.preventDefault();
                         }
+
+                        this.element.focus();
+                    }
+                });
+
+                that.popup.element.on("keydown", "." + BUTTON, function(e) {
+                    var target = $(e.target),
+                        li = target.parent(),
+                        isComplexTool = li.is("." + BUTTON_GROUP) || li.is("." + SPLIT_BUTTON),
+                        element;
+
+                    e.preventDefault();
+
+                    if (e.keyCode === keys.ESC || e.keyCode === keys.TAB || (e.altKey && e.keyCode === keys.UP)) {
+                        that._toggleOverflow();
+                        that.overflowAnchor.focus();
+                    } else if (e.keyCode === keys.DOWN) {
+                        element = !isComplexTool || (isComplexTool && target.is(":last-child")) ? li : target;
+                        findFocusableSibling(element, "next").focus();
+                    } else if (e.keyCode === keys.UP) {
+                        element = !isComplexTool || (isComplexTool && target.is(":first-child")) ? li : target;
+                        findFocusableSibling(element, "prev").focus();
+                    } else if (e.keyCode === keys.SPACEBAR || e.keyCode === keys.ENTER) {
+                        that.userEvents.trigger("tap", { target: $(e.target) });
                     }
                 });
 
@@ -30167,7 +30744,6 @@ return window.kendo;
             _buttonClick: function(e) {
                 var that = this, popup,
                     target, item, splitContainer,
-                    isDisabled,
                     isSplitButtonArrow = e.target.closest("." + SPLIT_BUTTON_ARROW).length,
                     handler, eventData;
 
@@ -30205,10 +30781,14 @@ return window.kendo;
                     that.trigger(TOGGLE, eventData);
                 } else {
                     handler = isFunction(item.clickHandler) ? item.clickHandler : null;
-                    eventData = { target: target, id: item.options.id };
+                    eventData = { sender: that, target: target, id: item.options.id };
 
                     if (handler) { handler.call(that, eventData); }
                     that.trigger(CLICK, eventData);
+                }
+
+                if (item.options.url) {
+                    window.location.href = item.options.url;
                 }
 
                 if (target.hasClass(OVERFLOW_BUTTON)) {
@@ -30219,6 +30799,88 @@ return window.kendo;
                 if (splitContainer[0]) {
                     popup = splitContainer.data("kendoPopup");
                     (popup ? popup : splitContainer.parents(".km-popup-wrapper").data("kendoPopup")).close();
+                }
+            },
+
+            _navigatable: function() {
+                var that = this;
+
+                that.element
+                    .attr("tabindex", 0)
+                    .focus(function() {
+                        var element = $(this).find(":kendoFocusable:first");
+
+                        if (element.is("." + OVERFLOW_ANCHOR)) {
+                            element = findFocusableSibling(element, "next");
+                        }
+
+                        element[0].focus();
+                    })
+                    .on("keydown", proxy(that._keydown, that));
+            },
+
+            _keydown: function(e) {
+                var target = $(e.target),
+                    keyCode = e.keyCode,
+                    items = this.element.children(":not(.k-separator):visible");
+
+                if (keyCode === keys.TAB) {
+                    var element = target.parentsUntil(this.element).last(),
+                        lastHasFocus = false;
+
+                    if (!element.length) {
+                        element = target;
+                    }
+
+                    if (element.is("." + OVERFLOW_ANCHOR)) {
+                        if (e.shiftKey) {
+                            e.preventDefault();
+                        }
+
+                        if (items.last().is(":kendoFocusable")) {
+                            items.last().focus();
+                        } else {
+                            items.last().find(":kendoFocusable").last().focus();
+                        }
+                    }
+
+                    if (!e.shiftKey && items.index(element) === items.length - 1) {
+                        if (element.is("." + BUTTON_GROUP)) {
+                            lastHasFocus = target.is(":last-child");
+                        } else {
+                            lastHasFocus = true;
+                        }
+                    }
+
+                    if (lastHasFocus) {
+                        e.preventDefault();
+                        this.overflowAnchor.focus();
+                    }
+                }
+
+                if (e.altKey && keyCode === keys.DOWN) {
+                    var splitButton = $(document.activeElement).data("splitButton");
+                    var isOverflowAnchor = $(document.activeElement).is("." + OVERFLOW_ANCHOR);
+
+                    if (splitButton) {
+                        splitButton.toggle();
+                    } else if (isOverflowAnchor) {
+                        this._toggleOverflow();
+                    }
+
+                    return;
+                }
+
+                if (keyCode === keys.SPACEBAR || keyCode === keys.ENTER) {
+
+                    e.preventDefault(); //prevent pspacebar to scroll the page down
+
+                    if (target.is("." + SPLIT_BUTTON)) {
+                        target = target.children().first();
+                    }
+                    this.userEvents.trigger("tap", { target: target });
+
+                    return;
                 }
             },
 
@@ -30348,6 +31010,10 @@ return window.kendo;
     kendo.ui.plugin(ToolBar);
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -30369,6 +31035,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.core" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -30606,6 +31276,10 @@ return window.kendo;
                 that.expand(content.parent(), false);
             }
 
+            if (options.dataSource) {
+                that._angularCompile();
+            }
+
             kendo.notify(that);
         },
 
@@ -30631,10 +31305,30 @@ return window.kendo;
             expandMode: "multiple"
         },
 
+        _angularCompile: function() {
+            var that = this;
+            that.angular("compile", function(){
+                return {
+                    elements: that.element.children("li"),
+                    data: [{ dataItem: that.options.$angular}]
+                };
+            });
+        },
+
+        _angularCleanup: function() {
+            var that = this;
+
+            that.angular("cleanup", function(){
+                return { elements: that.element.children("li") };
+            });
+        },
+
         destroy: function() {
             Widget.fn.destroy.call(this);
 
             this.element.off(NS);
+
+            this._angularCleanup();
 
             kendo.destroy(this.element);
         },
@@ -30665,7 +31359,18 @@ return window.kendo;
         expand: function (element, useAnimation) {
             var that = this,
                 animBackup = {};
+            if (that._animating && element.find("ul").is(":visible")) {
+                 that.one("complete", function() {
+                    setTimeout(function() {
+                        that.expand(element);
+                    });
+                 });
+                 return;
+            }
+            that._animating = true;
+
             useAnimation = useAnimation !== false;
+
             element = this.element.find(element);
 
             element.each(function (index, item) {
@@ -30702,6 +31407,9 @@ return window.kendo;
         collapse: function (element, useAnimation) {
             var that = this,
                 animBackup = {};
+
+            that._animating = true;
+
             useAnimation = useAnimation !== false;
             element = that.element.find(element);
 
@@ -30727,7 +31435,6 @@ return window.kendo;
                 }
 
             });
-
             return that;
         },
 
@@ -31258,6 +31965,7 @@ return window.kendo;
                 hasCollapseAnimation = collapse && "effects" in collapse;
 
             if (element.is(VISIBLE) != visibility) {
+                that._animating = false;
                 return;
             }
 
@@ -31274,16 +31982,27 @@ return window.kendo;
 
             if (visibility) {
                 animation = extend( hasCollapseAnimation ? collapse
-                                    : extend({ reverse: true }, animation), { hide: true });
+                    : extend({ reverse: true }, animation), { hide: true });
+
+                animation.complete = function() {
+                    that._animationCallback();
+                };
             } else {
                 animation = extend( { complete: function (element) {
                     that._triggerEvent(ACTIVATE, element.closest(ITEM));
+                    that._animationCallback();
                 } }, animation );
             }
 
             element
                 .kendoStop(true, true)
                 .kendoAnimate( animation );
+        },
+
+        _animationCallback: function() {
+            var that = this;
+            that.trigger("complete");
+            that._animating = false;
         },
 
         _collapseAllExpanded: function (item) {
@@ -31448,6 +32167,10 @@ return window.kendo;
 
 })(window.kendo.jQuery);
 
+
+
+})();
+
 return window.kendo;
 
 }, typeof define == 'function' && define.amd ? define : function(_, f){ f(); });
@@ -31469,6 +32192,10 @@ return window.kendo;
 (function(f, define){
     define([ "./kendo.draganddrop" ], f);
 })(function(){
+
+(function(){
+
+
 
 (function($, undefined) {
     var kendo = window.kendo,
@@ -31588,8 +32315,6 @@ return window.kendo;
             }
 
             that.appendTo = $(options.appendTo);
-
-            that._animations();
 
             if (content && !isPlainObject(content)) {
                 content = options.content = { url: content };
@@ -31777,12 +32502,14 @@ return window.kendo;
             });
         },
 
-        _animations: function() {
-            var options = this.options;
+        _animationOptions: function(id) {
+            var animation = this.options.animation;
+            var basicAnimation = {
+                open: { effects: {} },
+                close: { hide: true, effects: {} }
+            };
 
-            if (options.animation === false) {
-                options.animation = { open: { effects: {} }, close: { hide: true, effects: {} } };
-            }
+            return animation && animation[id] || basicAnimation[id];
         },
 
         _resize: function() {
@@ -31845,13 +32572,21 @@ return window.kendo;
 
         setOptions: function(options) {
             Widget.fn.setOptions.call(this, options);
+            var scrollable = this.options.scrollable !== false;
+
             this.restore();
-            this._animations();
             this._dimensions();
             this._position();
             this._resizable();
             this._draggable();
             this._actions();
+            if (typeof options.modal !== "undefined") {
+                var visible = this.options.visible !== false;
+
+                this._overlay(options.modal && visible);
+            }
+
+            this.element.css(OVERFLOW, scrollable ? "" : "hidden");
         },
 
         events:[
@@ -31891,6 +32626,7 @@ return window.kendo;
             maxWidth: Infinity,
             maxHeight: Infinity,
             pinned: false,
+            scrollable: true,
             position: {},
             content: null,
             visible: null,
@@ -32026,7 +32762,7 @@ return window.kendo;
                 var object = that._object(dom);
                 var options = object && object.options;
 
-                return options && options.modal && options.visible && dom.is(VISIBLE);
+                return options && options.modal && options.visible && options.appendTo === that.options.appendTo && dom.is(VISIBLE);
             }).sort(function(a, b){
                 return +$(a).css("zIndex") - +$(b).css("zIndex");
             });
@@ -32088,7 +32824,7 @@ return window.kendo;
                 titleBarHeight;
 
             if (!arguments.length) {
-                return title.text();
+                return title.html();
             }
 
             if (text === false) {
@@ -32150,7 +32886,7 @@ return window.kendo;
             var that = this,
                 wrapper = that.wrapper,
                 options = that.options,
-                showOptions = options.animation.open,
+                showOptions = this._animationOptions("open"),
                 contentElement = wrapper.children(KWINDOWCONTENT),
                 overlay,
                 doc = $(document);
@@ -32207,11 +32943,14 @@ return window.kendo;
         },
 
         _activate: function() {
+            var scrollable = this.options.scrollable !== false;
+
             if (this.options.autoFocus) {
                 this.element.focus();
             }
+
+            this.element.css(OVERFLOW, scrollable ? "" : "hidden");
             this.trigger(ACTIVATE);
-            this.wrapper.children(KWINDOWCONTENT).css(OVERFLOW, "");
         },
 
         _removeOverlay: function(suppressAnimation) {
@@ -32219,7 +32958,7 @@ return window.kendo;
             var options = this.options;
             var hideOverlay = options.modal && !modals.length;
             var overlay = options.modal ? this._overlay(true) : $(undefined);
-            var hideOptions = options.animation.close;
+            var hideOptions  = this._animationOptions("close");
 
             if (hideOverlay) {
                 if (!suppressAnimation && hideOptions.duration && kendo.effects.Fade) {
@@ -32239,8 +32978,8 @@ return window.kendo;
             var that = this,
                 wrapper = that.wrapper,
                 options = that.options,
-                showOptions = options.animation.open,
-                hideOptions = options.animation.close,
+                showOptions = this._animationOptions("open"),
+                hideOptions  = this._animationOptions("close"),
                 doc = $(document);
 
             if (wrapper.is(VISIBLE) && !that.trigger(CLOSE, { userTriggered: !systemTriggered })) {
@@ -32939,6 +33678,10 @@ return window.kendo;
     kendo.ui.plugin(Window);
 
 })(window.kendo.jQuery);
+
+
+
+})();
 
 return window.kendo;
 

@@ -43,7 +43,7 @@
 
 
 </head>
-<body class="sidebar_main_swipe app_theme_f">
+<body class="sidebar_main_swipe app_theme_f" style="position: relative;">
 
 <div id="loader" class="fullscreenTop"
      style="position: fixed;
@@ -96,15 +96,14 @@
             {{--<span class="sSwitchIcon"></span>--}}
             {{--</a>--}}
 
-            <div id="menu_top" class="uk-float-left ">
+            <div id="menu_top" class="uk-float-left" style="margin: 12px 0 0 5px;">
                 <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
                     <a href="#" class="top_menu_toggle">
-                        <img src="{!! URL::asset('assets/img/logo_enera_networks.png') !!}" alt="Enera"
-                             style="top: -0px; left: 0; position: relative;"> <span
-                                class="uk-hidden-small">Networks</span>
+                        <img src="{!! URL::asset('assets/img/logo_enera_networks.png') !!}" alt="Enera"> <span
+                                class="uk-hidden-small" style="color: white">Networks</span>
                     </a>
 
-                    <div class="uk-dropdown uk-dropdown-width-3">
+                    <div class="uk-dropdown uk-dropdown-width-3" style="margin: 14px 0 0 0 ;">
                         <div class="uk-grid uk-dropdown-grid" data-uk-grid-margin>
                             <div class="uk-width-2-3">
                                 <div class="uk-grid uk-grid-width-medium-1-3 uk-margin-top uk-margin-bottom uk-text-center"
@@ -125,7 +124,7 @@
                                         <span class="uk-text-muted uk-display-block">Reportes</span>
                                     </a>
                                     @if(count(auth()->user()->role->platform) > 1)
-                                        <a href="{!! route('choose.platform') !!}">
+                                        <a href="{!! route('choose.platform') !!}" style="margin: 10px 0 0 0 ;">
                                             {{--<i class="material-icons md-36">&#xE53E;</i>--}}
                                             <i class="material-icons md-36">&#xE8D4;</i>
                                             <span class="uk-text-muted uk-display-block">Plataformas</span>
