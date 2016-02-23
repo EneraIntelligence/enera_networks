@@ -427,6 +427,14 @@
 
 
 <script>
+    // load parsley config (altair_admin_common.js)
+    altair_forms.parsley_validation_config();
+</script>
+
+
+
+
+<script>
     $(function () {
         // enable hires images
         altair_helpers.retina_images();
