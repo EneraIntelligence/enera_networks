@@ -53,7 +53,7 @@ class CampaignStyleHelper
 
         'banner' => 'banner',
         'banner_link' => 'banner_link',
-        'video' => 'video.svg',
+        'video' => 'video',
         'mailing_list' => 'mailing',
         'captcha' => 'captcha',
         'survey' => 'survey',

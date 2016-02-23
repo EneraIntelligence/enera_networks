@@ -66,7 +66,7 @@
 
     <div class="md-fab-wrapper md-fab-in-card" id="button" style="position: fixed; bottom: 25px; right: 25px;">
         <div class="md-fab md-fab-accent md-fab-sheet">
-            <i class="material-icons md-color-white">&#xE254;</i>
+            <i class="material-icons md-color-white">&#xE145;</i>
             <div class="md-fab-sheet-actions">
                 <a href="#" class="md-color-white"><i
                             class="material-icons md-color-white">&#xE8DC;</i> Aceptar</a>
