@@ -142,12 +142,12 @@
         </div>
     </div>
 
-@endsection
+    @endsection
 
-@section('scripts')
+    @section('scripts')
     {!! HTML::script('js/preview_helper.js') !!}
     {!! HTML::script('http://maps.google.com/maps/api/js') !!}
-        <!-- d3 -->
+            <!-- d3 -->
     {{--<script src="bower_components/d3/d3.min.js"></script>--}}
     {!! HTML::script('bower_components/d3/d3.min.js') !!}
             <!-- metrics graphics (charts) -->
@@ -186,7 +186,9 @@
             MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
         });
 
-
+        var datos = [];
+                @foreach()
+                @endforeach
 
         var chart = c3.generate({
             bindto: '#analitics',
