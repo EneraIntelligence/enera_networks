@@ -205,6 +205,10 @@
         datos[2].push({!! $requested['count'] !!});
         @endforeach
 
+        @foreach($loaded_cnt as $loaded)
+        datos[2].push({!! $loaded['count'] !!});
+        @endforeach
+
         var chart = c3.generate({
             bindto: '#analitics',
             data: {
