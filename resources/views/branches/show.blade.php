@@ -197,6 +197,14 @@
         datos[0].push({!! $welcome['count'] !!});
         @endforeach
 
+        @foreach($joined_cnt as $joined)
+        datos[1].push({!! $joined['count'] !!});
+        @endforeach
+
+        @foreach($requested_cnt as $requested)
+        datos[2].push({!! $requested['count'] !!});
+        @endforeach
+
         var chart = c3.generate({
             bindto: '#analitics',
             data: {
