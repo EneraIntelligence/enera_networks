@@ -120,7 +120,7 @@ class BranchesController extends Controller
                 [
                     '$match' => [
                         // interacciones
-                        'interaction.welcome' => ['$exists' => false],
+                        //'interaction.welcome' => ['$exists' => false],
                         'interaction.joined' => ['$exists' => true],
                         'interaction.requested' => ['$exists' => false],
                         'interaction.loaded' => ['$exists' => false],
@@ -149,8 +149,8 @@ class BranchesController extends Controller
                 [
                     '$match' => [
                         // interacciones
-                        'interaction.welcome' => ['$exists' => false],
-                        'interaction.joined' => ['$exists' => false],
+                        //'interaction.welcome' => ['$exists' => false],
+                        //'interaction.joined' => ['$exists' => false],
                         'interaction.requested' => ['$exists' => true],
                         'interaction.loaded' => ['$exists' => false],
                         'interaction.completed' => ['$exists' => false],
@@ -178,9 +178,9 @@ class BranchesController extends Controller
                 [
                     '$match' => [
                         // interacciones
-                        'interaction.welcome' => ['$exists' => false],
-                        'interaction.joined' => ['$exists' => false],
-                        'interaction.requested' => ['$exists' => false],
+                        //'interaction.welcome' => ['$exists' => false],
+                        //'interaction.joined' => ['$exists' => false],
+                        //'interaction.requested' => ['$exists' => false],
                         'interaction.loaded' => ['$exists' => true],
                         'interaction.completed' => ['$exists' => false],
                         //
@@ -207,10 +207,10 @@ class BranchesController extends Controller
                 [
                     '$match' => [
                         // interacciones
-                        'interaction.welcome' => ['$exists' => false],
-                        'interaction.joined' => ['$exists' => false],
-                        'interaction.requested' => ['$exists' => false],
-                        'interaction.loaded' => ['$exists' => false],
+                        //'interaction.welcome' => ['$exists' => false],
+                        //'interaction.joined' => ['$exists' => false],
+                        //'interaction.requested' => ['$exists' => false],
+                        //'interaction.loaded' => ['$exists' => false],
                         '$or' => [
                             ['interaction.completed' => ['$exists' => true]],
                             ['interaction.accessed' => ['$exists' => true]],
