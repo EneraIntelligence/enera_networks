@@ -186,25 +186,28 @@
             MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
         });
 
-        var datos = [];
-                @foreach()
-                @endforeach
+        var datos = [
+            ['Welcome'],
+            ['Joined'],
+            ['Requested'],
+            ['Loaded'],
+            ['Completed'],
+        ];
+        @foreach($welcome_cnt as $welcome)
+        datos[0].push({!! $welcome['cnt'] !!});
+        @endforeach
 
         var chart = c3.generate({
             bindto: '#analitics',
             data: {
-                columns: [
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 130, 100, 140, 200, 150, 50],
-                    ['data3', 130, 100, 140, 200, 150, 50],
-                    ['data4', 130, 100, 140, 200, 150, 50],
-                    ['data5', 130, 100, 140, 200, 150, 50]
-                ],
+                columns: datos,
                 type: 'bar',
                 groups: [
-                    ['data1', 'data2', 'data3', 'data4', 'data5']
+                    ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
                 ],
-                onclick: function () { window.open("http://www.w3schools.com"); }
+                onclick: function () {
+                    window.open("http://www.w3schools.com");
+                }
             },
             bar: {
                 width: {
