@@ -194,7 +194,7 @@
             ['Completed'],
         ];
         @foreach($welcome_cnt as $welcome)
-        datos[0].push({!! $welcome['cnt'] !!});
+        datos[0].push({!! $welcome['count'] !!});
         @endforeach
 
         var chart = c3.generate({
