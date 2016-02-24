@@ -206,7 +206,11 @@
         @endforeach
 
         @foreach($loaded_cnt as $loaded)
-        datos[2].push({!! $loaded['count'] !!});
+        datos[3].push({!! $loaded['count'] !!});
+        @endforeach
+
+        @foreach($completed_cnt as $completed)
+        datos[4].push({!! $completed['count'] !!});
         @endforeach
 
         var chart = c3.generate({
