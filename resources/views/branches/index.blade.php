@@ -39,7 +39,8 @@
                                 <li style=" cursor: pointer;"
                                     onclick="window.location.href='{!! route('branches::show',['id' => $branche->_id]) !!}'">
                                     <span class="md-card-list-item-date">
-                                        {{ $branche->campaign_logs()->count() }} / {{ count($branche->aps) }}
+                                        {{ $branche->campaign_logs()->where('interaction.welcome_loaded','exists',true)->count() }}
+                                        / {{ count($branche->aps) }}
                                     </span>
                                     <span class="md-card-list-item-date">
 
