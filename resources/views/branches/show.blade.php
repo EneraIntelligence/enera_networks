@@ -195,7 +195,7 @@
             ['Completed'],
         ];
         @foreach($int_days as $k => $day)
-        datos[0].push({!! $k !!});
+        datos[0].push('{!! $k !!}');
         datos[1].push({!! $day['welcome'] !!});
         datos[2].push({!! $day['joined'] !!});
         datos[3].push({!! $day['requested'] !!});
