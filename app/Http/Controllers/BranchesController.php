@@ -242,16 +242,16 @@ class BranchesController extends Controller
                 $IntDays[$days['_id']]['welcome'] = $days['count'];
             }
             foreach ($joined_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['welcome'] = $days['count'];
+                $IntDays[$days['_id']]['joined'] = $days['count'];
             }
             foreach ($requested_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['welcome'] = $days['count'];
+                $IntDays[$days['_id']]['requested'] = $days['count'];
             }
             foreach ($loaded_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['welcome'] = $days['count'];
+                $IntDays[$days['_id']]['loaded'] = $days['count'];
             }
             foreach ($completed_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['welcome'] = $days['count'];
+                $IntDays[$days['_id']]['completed'] = $days['count'];
             }
 
             dd($IntDays);
