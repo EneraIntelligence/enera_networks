@@ -226,7 +226,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.completed', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.created_at', 18000000]]
                             ]
                         ],
                         'count' => [
@@ -236,9 +236,7 @@ class BranchesController extends Controller
                 ],
             ]);
 
-            $IntDays = $this->dateRange(Carbon::today()->subDays($days + 1)->format('Y-m-d'), date('Y-m-d'));
-
-            dd($completed_cnt['result']);
+            $IntDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
 
             foreach ($welcome_cnt['result'] as $welcome) {
                 $IntDays[$welcome['_id']]['welcome'] += $welcome['count'];
