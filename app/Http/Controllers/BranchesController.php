@@ -238,22 +238,20 @@ class BranchesController extends Controller
 
             $IntDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
 
-            dd($welcome_cnt);
-
             foreach ($welcome_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['welcome'] = $days['count'];
+                $IntDays[$day['_id']]['welcome'] = $day['count'];
             }
             foreach ($joined_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['joined'] = $days['count'];
+                $IntDays[$day['_id']]['joined'] = $day['count'];
             }
             foreach ($requested_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['requested'] = $days['count'];
+                $IntDays[$day['_id']]['requested'] = $days['count'];
             }
             foreach ($loaded_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['loaded'] = $days['count'];
+                $IntDays[$day['_id']]['loaded'] = $day['count'];
             }
             foreach ($completed_cnt['result'] as $day) {
-                $IntDays[$days['_id']]['completed'] = $days['count'];
+                $IntDays[$day['_id']]['completed'] = $day['count'];
             }
 
             dd($IntDays);
