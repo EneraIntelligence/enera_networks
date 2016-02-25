@@ -166,6 +166,7 @@ class BranchesController extends Controller
                         'interaction.requested' => ['$exists' => true],
                         'interaction.loaded' => ['$exists' => false],
                         'interaction.completed' => ['$exists' => false],
+                        'interaction.accessed' => ['$exists' => false],
                         //
                         'device.branch_id' => $branch->_id,
                         'created_at' => [
@@ -195,6 +196,7 @@ class BranchesController extends Controller
                         //'interaction.requested' => ['$exists' => false],
                         'interaction.loaded' => ['$exists' => true],
                         'interaction.completed' => ['$exists' => false],
+                        'interaction.accessed' => ['$exists' => false],
                         //
                         'device.branch_id' => $branch->_id,
                         'created_at' => [

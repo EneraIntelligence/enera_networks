@@ -9,11 +9,11 @@
     <div id="page_heading">
         <h1>{{ $network->name }}</h1>
         <span class="uk-text-muted uk-text-upper uk-text-small">
-            W: {{ number_format($welcome,0,'.',',') }} |
-            J: {{ number_format($joined,0,'.',',') }} |
-            R: {{ number_format($requested,0,'.',',') }} |
-            L: {{ number_format($loaded,0,'.',',') }} |
-            C: {{ number_format($completed,0,'.',',') }} |
+            <b>W: {{ number_format($welcome,0,'.',',') }}</b> |
+            <b>J: {{ number_format($joined,0,'.',',') }}</b> |
+            <b>R: {{ number_format($requested,0,'.',',') }}</b> |
+            <b>L: {{ number_format($loaded,0,'.',',') }}</b> |
+            <b>C: {{ number_format($completed,0,'.',',') }}</b> |
         </span>
     </div>
 
