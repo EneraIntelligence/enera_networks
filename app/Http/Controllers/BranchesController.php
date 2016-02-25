@@ -26,7 +26,7 @@ class BranchesController extends Controller
         $network = Network::find(session('network_id'));
         return view('branches.index', [
             'network' => $network,
-            'logs' => CampaignLog::whereIn('device.branch_id',$network->branches()->get(['_id']))->count(),
+            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->get(['_id']))->count(),
             'branches' => $network->branches,
         ]);
     }
@@ -87,7 +87,7 @@ class BranchesController extends Controller
             ]);
 
             $days = 8;
-            $welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
+            /*$welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
                     '$match' => [
                         // interacciones
@@ -227,14 +227,64 @@ class BranchesController extends Controller
                         '_id' => [
                             '$dateToString' => [
                                 'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.completed', 18000000]]
-                            ]
+                            ],
+                            'welcome' => '',
+                            'joined' => '',
+                            'requested' => '',
+                            'loaded' => '',
+                            'completed' => '',
                         ],
                         'count' => [
                             '$sum' => 1
                         ]
                     ]
                 ],
+            ]);*/
+
+            $interactions = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
+                [
+                    '$match' => [
+                        'device.branch_id' => $branch->_id,
+                        'created_at' => [
+                            '$gte' => new MongoDate(strtotime(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600')),
+                        ]
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => [
+                            'welcome' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.welcome', 18000000]]
+                                ],
+                            ],
+                            'joined' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.joined', 18000000]]
+                                ],
+                            ],
+                            'requested' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.requested', 18000000]]
+                                ],
+                            ],
+                            'loaded' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.loaded', 18000000]]
+                                ],
+                            ],
+                            'completed' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.completed', 18000000]]
+                                ],
+                            ],
+                        ],
+                        'cnt' => ['$sum' => 1]
+                    ]
+                ]
             ]);
+
+            dd($interactions);
 
             return view('branches.show', [
                 'branch' => $branch,
