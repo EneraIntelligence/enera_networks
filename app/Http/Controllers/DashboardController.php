@@ -83,18 +83,18 @@ class DashboardController extends Controller
             [
                 '$match' => [
                     'device.branch_id' => ['$in' => $branches_id],
-                    'interaction.joined' => ['$exists' => true]
+                    'user.id' => ['$exists' => true]
                 ]
             ],
             [
                 '$group' => [
                     '_id' => '',
-                    'devices' => [
-                        '$addToSet' => '$device.mac',
+                    'users' => [
+                        '$addToSet' => '$user.id',
                     ]
                 ]
             ],
-            ['$unwind' => '$devices'],
+            ['$unwind' => '$users'],
             [
                 '$group' => [
                     '_id' => '$_id',
@@ -123,18 +123,9 @@ class DashboardController extends Controller
             [
                 '$group' => [
                     '_id' => '',
-                    'devices' => [
-                        '$addToSet' => '$_id',
-                    ]
+                    'count' => ['$sum' => 1],
                 ]
-            ],
-            ['$unwind' => '$devices'],
-            [
-                '$group' => [
-                    '_id' => '$_id',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
+            ]
         ]);
 
         return $devices['result'][0]['count'];
