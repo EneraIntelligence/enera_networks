@@ -187,7 +187,7 @@
         });
 
         var datos = [
-            ['time'],
+            ['x'],
             ['Welcome'],
             ['Joined'],
             ['Requested'],
@@ -206,7 +206,7 @@
         var chart = c3.generate({
             bindto: '#analitics',
             data: {
-                x: 'time',
+                x: 'x',
                 columns: datos,
                 type: 'bar',
                 groups: [
@@ -216,12 +216,18 @@
                     window.open("http://www.w3schools.com");
                 }
             },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d'
+                    }
+                }
+            },
             bar: {
                 width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                    ratio: 0.7 // this makes bar width 50% of length between ticks
                 }
-                // or
-                //width: 100 // this makes bar width 100px
             }
         });
     </script>
