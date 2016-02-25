@@ -322,7 +322,6 @@ class BranchesController extends Controller
     /*
      * Wordcloud helper functions
      */
-
     private function getUsersByBranches($branches_id)
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
@@ -387,7 +386,6 @@ class BranchesController extends Controller
         //returns array with [_id=val,count=>val]
         return $likes['result'];
     }
-
 
     private function getPagesNames($pages_ids)
     {

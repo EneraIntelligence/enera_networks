@@ -133,7 +133,7 @@
                 <div class="md-card">
                     <div class="md-card-toolbar">
                         <h3 class="md-card-toolbar-heading-text">
-                            Analiticas
+                            Interacciones
                         </h3>
                     </div>
                     <div class="md-card-content large-padding">
