@@ -20,52 +20,26 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //session('network_id')
         $branches = Branche::where('network_id', session('network_id'))->get();
-        $branches_ids=[];
-        foreach($branches as $branch)
-        {
+        $branches_ids = [];
+        foreach ($branches as $branch) {
             $branches_ids[] = $branch->_id;
         }
-        //dd($branches_ids);
-
-        /*
-        //array with users ids from campaign logs
-        $user_ids = $this->getUsersBybranches( $branches_ids );
-        //dd($_ids);
-
-        //array with pairs of pages ids and their count
-        $likesCount = $this->getUsersLikesCounted($user_ids, 30);
-        //dd($likes);
-
-        //strip the array so it contains only pages ids
-        $likes_ids = [];
-        foreach($likesCount as $k=>$v){
-            $likes_ids[] = $v['_id'];
-        }
-
-        //array with pages names
-        $words = $this->getPagesNames($likes_ids);
-        //dd(words);
-        */
 
         $branches = Network::find(session('network_id'))->branches;
 
-        $devices=$this->getUniqueDevices( $branches_ids );
-        $joined=$this->getUniqueJoined( $branches_ids );
-        $completed=$this->getAccessed( $branches_ids );
-
+        $devices = $this->getUniqueDevices($branches_ids);
+        $joined = $this->getUniqueJoined($branches_ids);
+        $completed = $this->getAccessed($branches_ids);
 
         return view('dashboard.index', [
             'user' => Auth::user(),
-            'devices'=>$devices,
-            'joined'=>$joined,
-            'completed'=>$completed,
-            'branches'=>$branches
+            'devices' => $devices,
+            'joined' => $joined,
+            'completed' => $completed,
+            'branches' => $branches
         ]);
     }
-
-
 
     private function getUniqueDevices($branches_id)
     {
@@ -74,18 +48,28 @@ class DashboardController extends Controller
         //get all the users _ids into an array
         $devices = $cLogsColl->aggregate([
             [
-                '$match'=>[
-                    'device.branch_id'=>['$in'=>$branches_id]
+                '$match' => [
+                    'device.branch_id' => ['$in' => $branches_id]
                 ]
             ],
             [
                 '$group' => [
-                    '_id'=>'$device.mac'
+                    '_id' => '',
+                    'devices' => [
+                        '$addToSet' => '$device.mac',
+                    ]
                 ]
-            ]
+            ],
+            ['$unwind' => '$devices'],
+            [
+                '$group' => [
+                    '_id' => '$_id',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
         ]);
 
-        return count($devices['result']);
+        return $devices['result'][0]['count'];
 
     }
 
@@ -97,14 +81,14 @@ class DashboardController extends Controller
         //get all the users _ids into an array
         $devices = $cLogsColl->aggregate([
             [
-                '$match'=>[
-                    'device.branch_id'=>['$in'=>$branches_id],
-                    'interaction.joined'=>['$exists'=>true]
+                '$match' => [
+                    'device.branch_id' => ['$in' => $branches_id],
+                    'interaction.joined' => ['$exists' => true]
                 ]
             ],
             [
                 '$group' => [
-                    '_id'=>'$device.mac'
+                    '_id' => '$device.mac'
                 ]
             ]
         ]);
@@ -121,9 +105,9 @@ class DashboardController extends Controller
         //get all the users _ids into an array
         $devices = $cLogsColl->aggregate([
             [
-                '$match'=>[
-                    'device.branch_id'=>['$in'=>$branches_id],
-                    'interaction.accessed'=>['$exists'=>true]
+                '$match' => [
+                    'device.branch_id' => ['$in' => $branches_id],
+                    'interaction.accessed' => ['$exists' => true]
                 ]
             ]
         ]);
