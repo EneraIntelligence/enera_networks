@@ -25,9 +25,10 @@ class BranchesController extends Controller
     public function index()
     {
         $network = Network::find(session('network_id'));
+        dd($network->branches()->get(['_id']));
         return view('branches.index', [
             'network' => $network,
-            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->count(),
+            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->get(['_id']))->count(),
             'branches' => $network->branches,
         ]);
     }
