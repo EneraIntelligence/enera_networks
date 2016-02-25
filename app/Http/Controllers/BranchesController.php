@@ -238,20 +238,20 @@ class BranchesController extends Controller
 
             $IntDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
 
-            foreach ($welcome_cnt['result'] as $day) {
-                $IntDays[$day['_id']]['welcome'] += $day['count'];
+            foreach ($welcome_cnt['result'] as $welcome) {
+                $IntDays[$welcome['_id']]['welcome'] += $welcome['count'];
             }
-            foreach ($joined_cnt['result'] as $day) {
-                $IntDays[$day['_id']]['joined'] += $day['count'];
+            foreach ($joined_cnt['result'] as $joined) {
+                $IntDays[$joined['_id']]['joined'] += $joined['count'];
             }
-            foreach ($requested_cnt['result'] as $day) {
-                $IntDays[$day['_id']]['requested'] += $days['count'];
+            foreach ($requested_cnt['result'] as $requested) {
+                $IntDays[$requested['_id']]['requested'] += $requested['count'];
             }
-            foreach ($loaded_cnt['result'] as $day) {
-                $IntDays[$day['_id']]['loaded'] += $day['count'];
+            foreach ($loaded_cnt['result'] as $loaded) {
+                $IntDays[$loaded['_id']]['loaded'] += $loaded['count'];
             }
-            foreach ($completed_cnt['result'] as $day) {
-                $IntDays[$day['_id']]['completed'] += $day['count'];
+            foreach ($completed_cnt['result'] as $completed) {
+                $IntDays[$completed['_id']]['completed'] += $completed['count'];
             }
 
             dd($IntDays);
