@@ -236,7 +236,7 @@ class BranchesController extends Controller
                 ],
             ]);
 
-            $IntDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
+            $IntDays = $this->dateRange(Carbon::today()->subDays($days + 1)->format('Y-m-d'), date('Y-m-d'));
 
             foreach ($welcome_cnt['result'] as $welcome) {
                 $IntDays[$welcome['_id']]['welcome'] += $welcome['count'];
