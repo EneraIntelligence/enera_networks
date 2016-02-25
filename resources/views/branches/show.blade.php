@@ -216,14 +216,6 @@
                     window.open("http://www.w3schools.com");
                 }
             },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    tick: {
-                        format: '%Y-%m-%d'
-                    }
-                }
-            },
             bar: {
                 width: {
                     ratio: 0.5 // this makes bar width 50% of length between ticks
