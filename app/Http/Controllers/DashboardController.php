@@ -73,7 +73,6 @@ class DashboardController extends Controller
 
     }
 
-
     private function getUniqueJoined($branches_id)
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
@@ -106,7 +105,6 @@ class DashboardController extends Controller
         return isset($devices['result'][0]['count']) ? $devices['result'][0]['count'] : 0;
 
     }
-
 
     private function getAccessed($branches_id)
     {

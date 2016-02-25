@@ -108,7 +108,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.welcome', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.welcome', 21600000]]
                             ]
                         ],
                         'count' => [
@@ -137,7 +137,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.joined', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.joined', 21600000]]
                             ]
                         ],
                         'count' => [
@@ -166,7 +166,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.requested', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.requested', 21600000]]
                             ]
                         ],
                         'count' => [
@@ -195,7 +195,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.loaded', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.loaded', 21600000]]
                             ]
                         ],
                         'count' => [
@@ -227,7 +227,7 @@ class BranchesController extends Controller
                     '$group' => [
                         '_id' => [
                             '$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.created_at', 18000000]]
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$interaction.created_at', 21600000]]
                             ]
                         ],
                         'count' => [
