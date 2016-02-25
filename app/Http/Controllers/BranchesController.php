@@ -280,15 +280,16 @@ class BranchesController extends Controller
         $last = strtotime($last);
 
         while ($current <= $last) {
-
-            $dates[date($format, $current)] = [
-                'welcome' => 0,
-                'joined' => 0,
-                'requested' => 0,
-                'loaded' => 0,
-                'completed' => 0,
-            ];
-            $current = strtotime($step, $current);
+            if (date($format, $current) != '') {
+                $dates[date($format, $current)] = [
+                    'welcome' => 0,
+                    'joined' => 0,
+                    'requested' => 0,
+                    'loaded' => 0,
+                    'completed' => 0,
+                ];
+                $current = strtotime($step, $current);
+            }
         }
 
         return $dates;
