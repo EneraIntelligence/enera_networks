@@ -137,10 +137,6 @@ class DashboardController extends Controller
             ],
         ]);
 
-
-        //return count($devices['result']);
-
-        //dd($devices);
         return $devices['result'][0]['count'];
 
 
