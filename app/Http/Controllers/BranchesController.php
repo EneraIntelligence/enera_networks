@@ -25,10 +25,9 @@ class BranchesController extends Controller
     public function index()
     {
         $network = Network::find(session('network_id'));
-        dd($network->branches()->lists('_id'));
         return view('branches.index', [
             'network' => $network,
-            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->get(['_id']))->count(),
+            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))->count(),
             'branches' => $network->branches,
         ]);
     }
@@ -261,7 +260,7 @@ class BranchesController extends Controller
              */
 
             //array with users ids from campaign logs
-            $user_ids = $this->getUsersBybranches( [$id] );
+            $user_ids = $this->getUsersBybranches([$id]);
             //dd($_ids);
 
             //array with pairs of pages ids and their count
@@ -270,7 +269,7 @@ class BranchesController extends Controller
 
             //strip the array so it contains only pages ids
             $likes_ids = [];
-            foreach($likesCount as $k=>$v){
+            foreach ($likesCount as $k => $v) {
                 $likes_ids[] = $v['_id'];
             }
             //array with pages names
@@ -285,8 +284,8 @@ class BranchesController extends Controller
                 'devices' => $devices['result'][0]['count'],
                 'users' => $users['result'][0]['count'],
                 'int_days' => $IntDays,
-                'words'=>$words,
-                'wordCount'=>$likesCount,
+                'words' => $words,
+                'wordCount' => $likesCount,
             ]);
         } else {
             return redirect()->route('branches::index')->with([
@@ -330,27 +329,26 @@ class BranchesController extends Controller
         //get all the users _ids into an array
         $users = $cLogsColl->aggregate([
             [
-                '$match'=>[
-                    'device.branch_id'=>['$in'=>$branches_id]
+                '$match' => [
+                    'device.branch_id' => ['$in' => $branches_id]
                 ]
             ],
             [
                 '$group' => [
-                    '_id'=>'none',
-                    'ids'=>['$addToSet'=>'$user.id']
+                    '_id' => 'none',
+                    'ids' => ['$addToSet' => '$user.id']
                 ]
             ]
         ]);
 
-        $_ids=[];
+        $_ids = [];
 
 
         //conversion of string ids to MongoIds
-        if(count($users['result'])>0)
-        {
+        if (count($users['result']) > 0) {
             $userIdsArray = $users['result'][0]['ids'];
 
-            foreach($userIdsArray as $separateIds){
+            foreach ($userIdsArray as $separateIds) {
                 $_ids[] = $separateIds instanceof MongoId ? $separateIds : new MongoId($separateIds);
             }
         }
@@ -363,24 +361,24 @@ class BranchesController extends Controller
     {
         $likes = DB::getMongoDB()->selectCollection('users')->aggregate([
             [
-                '$match'=>[
-                    '_id'=>['$in'=>$user_ids]
+                '$match' => [
+                    '_id' => ['$in' => $user_ids]
                 ],
             ],
             [
-                '$unwind'=>'$facebook.likes'
+                '$unwind' => '$facebook.likes'
             ],
             [
                 '$group' => [
-                    '_id'=>'$facebook.likes',
-                    'count'=>['$sum'=>1]
+                    '_id' => '$facebook.likes',
+                    'count' => ['$sum' => 1]
                 ]
             ],
             [
-                '$sort'=>['count'=>-1]
+                '$sort' => ['count' => -1]
             ],
             [
-                '$limit'=>$limit
+                '$limit' => $limit
             ]
         ]);
 
@@ -393,14 +391,14 @@ class BranchesController extends Controller
         $FbColl = DB::getMongoDB()->selectCollection('facebook_pages');
         $pages_cursor = $FbColl->aggregate([
             [
-                '$match'=>[
-                    'id'=>['$in'=>$pages_ids]
+                '$match' => [
+                    'id' => ['$in' => $pages_ids]
                 ]
             ],
             [
-                '$project'=>[
-                    '_id'=>'$id',
-                    'name'=>1
+                '$project' => [
+                    '_id' => '$id',
+                    'name' => 1
                 ]
             ]
         ]);
