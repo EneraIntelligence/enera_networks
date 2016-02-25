@@ -27,7 +27,18 @@ class BranchesController extends Controller
         $network = Network::find(session('network_id'));
         return view('branches.index', [
             'network' => $network,
-            'logs' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))->count(),
+            'welcome' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
+                ->where('interaction.welcome_loaded', 'exists', true)->count(),
+            'joined' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
+                ->where('interaction.joined', 'exists', true)->count(),
+            'requested' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
+                ->where('interaction.requested', 'exists', true)->count(),
+            'loaded' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
+                ->where('interaction.loaded', 'exists', true)->count(),
+            'completed' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
+                ->where(function ($q) {
+                    $q->where('interaction.completed', 'exists', true)->orWhere('interaction.accessed', 'exists', true);
+                })->count(),
             'branches' => $network->branches,
         ]);
     }
