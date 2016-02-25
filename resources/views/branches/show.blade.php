@@ -187,23 +187,26 @@
         });
 
         var datos = [
+            ['time'],
             ['Welcome'],
             ['Joined'],
             ['Requested'],
             ['Loaded'],
             ['Completed'],
         ];
-        @foreach($int_days as $day)
-        datos[0].push({!! $day['welcome'] !!});
-        datos[1].push({!! $day['joined'] !!});
-        datos[2].push({!! $day['requested'] !!});
-        datos[3].push({!! $day['loaded'] !!});
-        datos[4].push({!! $day['completed'] !!});
+        @foreach($int_days as $k => $day)
+        datos[0].push({!! $k !!});
+        datos[1].push({!! $day['welcome'] !!});
+        datos[2].push({!! $day['joined'] !!});
+        datos[3].push({!! $day['requested'] !!});
+        datos[4].push({!! $day['loaded'] !!});
+        datos[5].push({!! $day['completed'] !!});
         @endforeach
 
         var chart = c3.generate({
             bindto: '#analitics',
             data: {
+                x: 'time',
                 columns: datos,
                 type: 'bar',
                 groups: [
@@ -211,6 +214,14 @@
                 ],
                 onclick: function () {
                     window.open("http://www.w3schools.com");
+                }
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d'
+                    }
                 }
             },
             bar: {
