@@ -88,12 +88,22 @@ class DashboardController extends Controller
             ],
             [
                 '$group' => [
-                    '_id' => '$device.mac'
+                    '_id' => '',
+                    'devices' => [
+                        '$addToSet' => '$device.mac',
+                    ]
                 ]
-            ]
+            ],
+            ['$unwind' => '$devices'],
+            [
+                '$group' => [
+                    '_id' => '$_id',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
         ]);
 
-        return count($devices['result']);
+        return $devices['result'][0]['count'];
 
     }
 
@@ -109,11 +119,30 @@ class DashboardController extends Controller
                     'device.branch_id' => ['$in' => $branches_id],
                     'interaction.accessed' => ['$exists' => true]
                 ]
-            ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '',
+                    'devices' => [
+                        '$addToSet' => '$_id',
+                    ]
+                ]
+            ],
+            ['$unwind' => '$devices'],
+            [
+                '$group' => [
+                    '_id' => '$_id',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
         ]);
 
 
-        return count($devices['result']);
+        //return count($devices['result']);
+
+        //dd($devices);
+        return $devices['result'][0]['count'];
+
 
     }
 
