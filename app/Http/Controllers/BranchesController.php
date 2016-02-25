@@ -236,7 +236,7 @@ class BranchesController extends Controller
                 ],
             ]);
 
-            $IntDays = $this->getDates(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
+            $IntDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d'), date('Y-m-d'));
 
             foreach ($welcome_cnt['result'] as $day) {
                 $IntDays[$days['_id']]['welcome'] = $days['count'];
@@ -272,28 +272,26 @@ class BranchesController extends Controller
         }
     }
 
-    private function getDates($startTime, $endTime)
+    private function dateRange($first, $last, $step = '+1 day', $format = 'Y-m-d')
     {
-        $day = 86400;
-        $format = 'Y-m-d';
-        $startTime = strtotime($startTime);
-        $endTime = strtotime($endTime);
-        //$numDays = round(($endTime - $startTime) / $day) + 1;
-        $numDays = round(($endTime - $startTime) / $day); // remove increment
 
-        $days = array();
+        $dates = array();
+        $current = strtotime($first);
+        $last = strtotime($last);
 
-        for ($i = 1; $i < $numDays; $i++) { //change $i to 1
-            $days[date($format, ($startTime + ($i * $day)))] = [
+        while ($current <= $last) {
+
+            $dates[date($format, $current)] = [
                 'welcome' => 0,
                 'joined' => 0,
                 'requested' => 0,
                 'loaded' => 0,
                 'completed' => 0,
             ];
+            $current = strtotime($step, $current);
         }
 
-        return $days;
+        return $dates;
     }
 
 }
