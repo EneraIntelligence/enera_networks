@@ -91,7 +91,7 @@ class BranchesController extends Controller
                 [
                     '$match' => [
                         // interacciones
-                        'interaction.welcome' => ['$exists' => true],
+                        'interaction.welcome_loaded' => ['$exists' => true],
                         'interaction.joined' => ['$exists' => false],
                         'interaction.requested' => ['$exists' => false],
                         'interaction.loaded' => ['$exists' => false],
