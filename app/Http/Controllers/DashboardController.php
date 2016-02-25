@@ -69,7 +69,7 @@ class DashboardController extends Controller
             ],
         ]);
 
-        return $devices['result'][0]['count'];
+        return isset($devices['result'][0]['count']) ? $devices['result'][0]['count'] : 0;
 
     }
 
