@@ -238,6 +238,8 @@ class BranchesController extends Controller
 
             $IntDays = $this->dateRange(Carbon::today()->subDays($days + 1)->format('Y-m-d'), date('Y-m-d'));
 
+            dd($completed_cnt['result']);
+
             foreach ($welcome_cnt['result'] as $welcome) {
                 $IntDays[$welcome['_id']]['welcome'] += $welcome['count'];
             }
@@ -254,7 +256,7 @@ class BranchesController extends Controller
                 $IntDays[$completed['_id']]['completed'] += $completed['count'];
             }
 
-            dd($completed_cnt['result']);
+            dd($IntDays);
 
             return view('branches.show', [
                 'branch' => $branch,
