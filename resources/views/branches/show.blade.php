@@ -193,24 +193,12 @@
             ['Loaded'],
             ['Completed'],
         ];
-        @foreach($welcome_cnt as $welcome)
-        datos[0].push({!! $welcome['count'] !!});
-        @endforeach
-
-        @foreach($joined_cnt as $joined)
-        datos[1].push({!! $joined['count'] !!});
-        @endforeach
-
-        @foreach($requested_cnt as $requested)
-        datos[2].push({!! $requested['count'] !!});
-        @endforeach
-
-        @foreach($loaded_cnt as $loaded)
-        datos[3].push({!! $loaded['count'] !!});
-        @endforeach
-
-        @foreach($completed_cnt as $completed)
-        datos[4].push({!! $completed['count'] !!});
+        @foreach($int_days as $day)
+        datos[0].push({!! $day['welcome'] !!});
+        datos[1].push({!! $day['joined'] !!});
+        datos[2].push({!! $day['requested'] !!});
+        datos[3].push({!! $day['loaded'] !!});
+        datos[4].push({!! $day['completed'] !!});
         @endforeach
 
         var chart = c3.generate({

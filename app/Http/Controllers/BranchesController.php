@@ -254,8 +254,6 @@ class BranchesController extends Controller
                 $IntDays[$completed['_id']]['completed'] += $completed['count'];
             }
 
-            dd($IntDays);
-
             return view('branches.show', [
                 'branch' => $branch,
                 'network' => Network::find(session('network_id')),
