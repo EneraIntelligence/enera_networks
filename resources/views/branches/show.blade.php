@@ -249,6 +249,10 @@
                 content: '<b>{!! $branch->name !!}</b><br>{!! $network->name !!}',
             });
 
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
             marker.setMap(map);
             infowindow.open(map, marker);
         }

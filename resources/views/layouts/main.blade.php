@@ -249,8 +249,8 @@
                                             </li>
                                             <li>
                                                 <div class="md-list-addon-element">
-                                                    <img class="md-user-image md-list-addon-avatar"
-                                                         src="assets/img/avatars/avatar_07_tn.png" alt=""/>
+                                                    {{--<img class="md-user-image md-list-addon-avatar"
+                                                         src="assets/img/avatars/avatar_07_tn.png" alt=""/>--}}
                                                 </div>
                                                 <div class="md-list-content">
                                                     <span class="md-list-heading"><a href="pages_mailbox.html">Quia
@@ -270,8 +270,8 @@
                                             </li>
                                             <li>
                                                 <div class="md-list-addon-element">
-                                                    <img class="md-user-image md-list-addon-avatar"
-                                                         src="assets/img/avatars/avatar_02_tn.png" alt=""/>
+                                                    {{--<img class="md-user-image md-list-addon-avatar"
+                                                         src="assets/img/avatars/avatar_02_tn.png" alt=""/>--}}
                                                 </div>
                                                 <div class="md-list-content">
                                                     <span class="md-list-heading"><a href="pages_mailbox.html">Voluptas
@@ -281,8 +281,8 @@
                                             </li>
                                             <li>
                                                 <div class="md-list-addon-element">
-                                                    <img class="md-user-image md-list-addon-avatar"
-                                                         src="assets/img/avatars/avatar_09_tn.png" alt=""/>
+                                                    {{--<img class="md-user-image md-list-addon-avatar"
+                                                         src="assets/img/avatars/avatar_09_tn.png" alt=""/>--}}
                                                 </div>
                                                 <div class="md-list-content">
                                                     <span class="md-list-heading"><a href="pages_mailbox.html">Inventore
