@@ -158,7 +158,7 @@ graficas = function () {
                     columns: columns,
                     types: {
                         Visto: 'area',
-                        Completado: 'area'
+                        Completado: 'area-spline'
                     },
                     groups: [['Visto', 'Completado']]
                 },
