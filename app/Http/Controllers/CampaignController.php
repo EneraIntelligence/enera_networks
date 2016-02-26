@@ -4,6 +4,8 @@ namespace Networks\Http\Controllers;
 
 use DateTime;
 use DB;
+use MongoDate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Networks\Branche;
@@ -146,6 +148,74 @@ class CampaignController extends Controller
             $male = array_map(function ($item) {
                 return $item * -1;
             }, $male);
+
+            /*******         OBTENER LAS INTERACCIONES POR hora       ***************/
+            $IntLoaded = $collection->aggregate([
+                [
+                    '$match' => [
+                        'campaign_id' => $id,
+                        'interaction.loaded' => [
+                            '$gte' => new MongoDate(strtotime(Carbon::today()->subDays(30)->format('Y-m-d'))),
+                            '$lte' => new MongoDate(strtotime(Carbon::today()->subDays(0)->format('Y-m-d'))),
+                        ]
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => [
+                            '$dateToString' => [
+                                'format' => '%H', 'date' => ['$subtract' => ['$created_at', 18000000]]
+                            ]
+                        ],
+                        'cnt' => [
+                            '$sum' => 1
+                        ]
+                    ],
+                ],
+                [
+                    '$sort' => [
+                        '_id' => 1
+                    ]
+                ]
+            ]);
+            $IntCompleted = $collection->aggregate([
+                [
+                    '$match' => [
+                        'campaign_id' => $id,
+                        'interaction.completed' => [
+                            '$gte' => new MongoDate(strtotime(Carbon::today()->subDays(30)->format('Y-m-d'))),
+                            '$lte' => new MongoDate(strtotime(Carbon::today()->subDays(0)->format('Y-m-d'))),
+                        ]
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => [
+                            '$dateToString' => [
+                                'format' => '%H', 'date' => ['$subtract' => ['$created_at', 18000000]]
+                            ]
+                        ],
+                        'cnt' => [
+                            '$sum' => 1
+                        ]
+                    ],
+                ],
+                [
+                    '$sort' => [
+                        '_id' => 1
+                    ]
+                ]
+            ]);
+
+            $IntHours = [];
+            foreach ($IntLoaded['result'] as $k => $v) {
+                $IntHours[$v['_id']]['loaded'] = $v['cnt'];
+            }
+
+            foreach ($IntCompleted['result'] as $k => $v) {
+                $IntHours[$v['_id']]['completed'] = $v['cnt'];
+            }
+
             /****         USUARIOS UNICOS       ***************/
             $unique_users_query = $collection->aggregate([
                 [
@@ -180,7 +250,7 @@ class CampaignController extends Controller
                 'men' => $male,
                 'women' => $female,
                 'porcentaje' => $porcentaje,
-//                'IntHours' => $IntHours,
+                'IntHours' => $IntHours,
                 'unique_users' => $unique_users,
             ]);
         } else {

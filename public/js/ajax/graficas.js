@@ -3,7 +3,7 @@ graficas = function () {
 
     this.bar = function bar() {
 
-    }
+    };
     //grafica de pastel para los sistemas operativos
     this.so = function so(array) {
         console.log(array);
@@ -32,7 +32,7 @@ graficas = function () {
             }
         });
         return chart4;
-    }
+    };
 //------------------------grafica de barra para los años y edades
     this.genderAge = function genderAge(array) {
 
@@ -49,9 +49,7 @@ graficas = function () {
                 type:'bar',
                 labels:{
                     format: function (v,id,i,j) {
-
                         return categoriesArr[i];
-
                         /*
                          if(j==0)
                          return categoriesArr[i]+" ("+Math.abs(v)+")";
@@ -59,7 +57,6 @@ graficas = function () {
                          return "("+Math.abs(v)+") "+categoriesArr[i];*/
                     }
                 },
-
                 groups: [ ['hombres','mujeres'] ]
             },
             color: {
@@ -76,17 +73,15 @@ graficas = function () {
                 x:{
                     show:false,
                     type: 'category',
-                    categories: categoriesArr,
+                    categories: categoriesArr
                 }
             }
         });
-
         chart2.ygrids([
-            {value: 0},
+            {value: 0}
         ]);
-
         return chart2;
-    }
+    };
 //------------------------grafica de barra para las interacciones por dia
     this.intPerDay = function intPerDay (dia1,dia2,dia3,dia4,dia5) {
         //        Interacciones por modelos
@@ -105,7 +100,7 @@ graficas = function () {
          ['Windows Phone', 230, 200, 200, 300, 250, 250],
          ['other', 230, 200, 200, 300, 250, 250]*/
         ],
-        type: 'bar',
+        type: 'bar'
         /*groups: [
          ['Android', 'Blackberry', 'IOS', 'Windows Phone', 'other']
          ]*/
@@ -120,7 +115,7 @@ graficas = function () {
         }
     });
         return chart3;
-    }
+    };
 
     function ajax(json_data, paso) {
         $.ajax({
@@ -138,6 +133,47 @@ graficas = function () {
         }).always(function () {
             console.log("complete-");
         });
+    }
+    /***    GRAFICA INTERACCIONES POR HORA ***/
+    this.intPerHour = function intPerHour(IntXDias, Load, complet, horas) {
+        var c3chart_area_stacked_id = '#intXHour';
+
+        var columns = [
+            ['x'],
+            ['Visto'],
+            ['Completado']
+        ];
+        for (var k in IntXDias) {
+            columns[0].push(k);
+            columns[1].push(IntXDias[k]['loaded']);
+            columns[2].push(IntXDias[k]['completed']);
+        }
+
+        if ($(c3chart_area_stacked_id).length) {
+
+            var c3chart_area_stacked = c3.generate({
+                bindto: c3chart_area_stacked_id,
+                data: {
+                    x: 'x',
+                    columns: columns,
+                    types: {
+                        Visto: 'area',
+                        Completado: 'area'
+                    },
+                    groups: [['Visto', 'Completado']]
+                },
+                color: {
+                    pattern: ['#1565C0', '#727272']
+                }
+            });
+
+            $window.on('debouncedresize', function () {
+                c3chart_area_stacked.resize();
+            });
+
+        } else {
+            console.log('error en el contenedor');
+        }
     }
 };
 
@@ -159,7 +195,7 @@ var chart1 = c3.generate({
             Loaded: 'area-spline',
             Completed: 'area-spline'
             // 'line', 'spline', 'step', 'area', 'area-step' are also available to stack
-        },
+        }
     },
     color: {
         pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78', '#fff000']

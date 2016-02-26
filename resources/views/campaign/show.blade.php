@@ -541,10 +541,11 @@
                                         <div class="md-card">
                                             <div id="graficas" class="md-card-content">
                                                 <h3 class="heading_a uk-margin-bottom">Analiticos</h3>
-                                                <span style="font-size :14px !important;" class="heading_a uk-margin-bottom">DISTRIBUCION DE EDAD Y GENERO</spans>
+                                                <span style="font-size :14px !important;" class="heading_a uk-margin-bottom">INTERACCIONES POR HORA DE TODA LA CAMPAÑA</spans>
                                                 <div id='intXHour'
                                                      class="uk-width-large-1-1 uk-margin-right"></div>
                                                 <h3 class="md-hr" style="margin: 10px;"></h3>
+                                                    <span style="font-size :14px !important;" class="heading_a uk-margin-bottom">DISTRIBUCION DE EDAD Y GENERO</spans>
                                                 <div id='genderAge' class="uk-width-large-1-1 uk-panel-teaser"
                                                      style="height: 350px"></div>
                                             </div>
@@ -690,12 +691,12 @@
         var womenJson = '{!! json_encode($women) !!}';
         var womenObj = JSON.parse(womenJson);
 
-        {{--var intLJson = '{!! json_encode($IntHours) !!}';--}}
-        {{--var intLObj = JSON.parse(intLJson);--}}
-                {{--console.log(intLObj);--}}
+        var intLJson = '{!! json_encode($IntHours) !!}';
+        var intLObj = JSON.parse(intLJson);
+                console.log(intLObj);
 
         var gra = grafica.genderAge(menObj, womenObj);
-//        var graf = grafica.intPerHour(intLObj);
+        var graf = grafica.intPerHour(intLObj);
     </script>
     <!-- enera custom scripts -->
     {{--{!! HTML::script('assets/js/enera/create_campaign_helper.js') !!}--}}
