@@ -57,7 +57,7 @@ graficas = function () {
                          return categoriesArr[i]+" ("+Math.abs(v)+")";
 
                          return "("+Math.abs(v)+") "+categoriesArr[i];*/
-                    },
+                    }
                 },
 
                 groups: [ ['hombres','mujeres'] ]

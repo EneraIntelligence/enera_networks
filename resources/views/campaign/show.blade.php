@@ -40,12 +40,12 @@
                             </div>
                             <div class="user_heading_avatar">
                                 <div>
-                                    <div id="circle" style="max-width:80px;max-height:80px;margin:auto;">
+                                    <div id="circle" style="max-width:98px;max-height:98px;margin:auto;">
                                         <img class="svg"
-                                             style="background-image:none!important;margin:-98px 10px;background:transparent;border:none;"
+                                             style="background-image:none!important;margin:-103px 0px;background:transparent;border:none;"
                                              src="{!! URL::asset('images/icons/'.
                                                                 CampaignStyle::getCampaignIcon( $cam->interaction['name']
-                                                             ) ).'.svg' !!}"
+                                                             ) ) !!}2.svg"
                                              alt="producto"/>
                                     </div>
                                 </div>
@@ -132,15 +132,15 @@
                                                         </div>
                                                         <div class="md-list-content azul">
                                                             <span class="md-list-heading">Lugares</span>
-                                                            @if($cam->branches!='global')
-                                                                {{--                                                                {!! var_dump($cam->branches) !!}--}}
-                                                                @foreach($cam->branches as $branches)
-                                                                    <span> {!! $branches !!}</span>
+                                                            @if($lugares!='global')
+                                                                @foreach($lugares as $branch)
+                                                                    <span>
+                                                                        {{ Networks\Branche::find($branch)->name }},
+                                                                    </span>
                                                                 @endforeach
                                                             @else
-                                                                <span> Global</span>
+                                                                <span>Global</span>
                                                             @endif
-                                                            <span class="uk-text-small uk-text-muted">{{--{{$branches[0]}}--}}</span>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -357,7 +357,7 @@
                                                     @endif
 
                                                             <!-- create mailing campaign button start -->
-                                                    <div class="uk-grid uk-margin-medium-top" data="uk-grid-margin">
+                                                    {{--<div class="uk-grid uk-margin-medium-top" data="uk-grid-margin">
                                                         <div class="uk-width-1-1">
                                                             <div class="uk-width-medium-1-1">
                                                                 <a class="md-btn md-btn-primary"
@@ -366,8 +366,8 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <!-- create mailing campaign button end -->
+                                                    </div>--}}
+                                                            <!-- create mailing campaign button end -->
 
                                                 @endif
                                                 @if($cam->interaction['name'] == 'survey')
@@ -541,10 +541,12 @@
                                         <div class="md-card">
                                             <div id="graficas" class="md-card-content">
                                                 <h3 class="heading_a uk-margin-bottom">Analiticos</h3>
+                                                <span style="font-size :14px !important;" class="heading_a uk-margin-bottom">DISTRIBUCION DE EDAD Y GENERO</spans>
+                                                <div id='intXHour'
+                                                     class="uk-width-large-1-1 uk-margin-right"></div>
+                                                <h3 class="md-hr" style="margin: 10px;"></h3>
                                                 <div id='genderAge' class="uk-width-large-1-1 uk-panel-teaser"
                                                      style="height: 350px"></div>
-                                                <h3 class="md-hr" style="margin: 10px;"></h3>
-                                                <div id='gender' class="uk-width-large-1-1 uk-margin-right"></div>
                                             </div>
                                         </div>
                                         <div class="uk-grid uk-margin-medium-top" data="uk-grid-margin">
@@ -566,7 +568,60 @@
             </div>
         </div>
     </div>
+    @if($cam->status == 'pending')
+        <div class="md-fab-wrapper md-fab-in-card" id="button">
+            <div class="md-fab md-fab-accent md-fab-sheet">
+                <i class="material-icons md-color-white">&#xE8DD;</i>
+                <div class="md-fab-sheet-actions">
+                    <a href="{{ route('campaigns::active::campaign', [$cam->id]) }}" class="md-color-white"><i
+                                class="material-icons md-color-white">&#xE8DC;</i> Aceptar</a>
+                    <a href="#" data-uk-modal="{target:'#reject',bgclose:false}" class="md-color-white"><i
+                                class="material-icons md-color-white">&#xE8DB;</i> Rechazar</a>
+                </div>
+            </div>
+        </div>
+    @endif
 
+    {{--modal de rechazo--}}
+   {{-- <div id="reject" class="uk-modal">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <form action="{!! route('campaigns::reject::campaign') !!}" class="uk-form-stacked" method="post" id="form"
+                  data-parsley-validate
+                  enctype="multipart/form-data">
+                <div class="uk-grid" data-uk-grid-margin>
+                    <div class="uk-width-medium-1">
+                        <div class="parsley-row">
+                            <label for="fullname">Razon</label>
+                            <input type="text" name="razon" required class="md-input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <div class="parsley-row">
+                            <label for="message">Explicación</label>
+                            <textarea class="md-input" name="motivo" cols="10" rows="8" data-parsley-trigger="keyup"
+                                      data-parsley-minlength="20" data-parsley-maxlength="500"
+                                      data-parsley-validation-threshold="10" required
+                                      data-parsley-minlength-message="Debes ingresar al menos 20 caracteres"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <button type="submit" class="md-btn md-btn-primary">Rechazar</button>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <input type="hidden" name="campaign_id" value="{{$cam->_id}}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>--}}
 
 
     @stop
@@ -602,7 +657,7 @@
     <script>
         //-------------------------------------- animacion del circulo  ---------------------------------------------
         $('#circle').circleProgress({
-            value: {!! $cam->porcentaje !!}, //lo que se va a llenar con el color
+            value: {!! $porcentaje !!}, //lo que se va a llenar con el color
             size: 98,   //tamaño del circulo
             startAngle: -300, //de donde va a empezar la animacion
             reverse: true, //empieza la animacion al contrario
@@ -621,38 +676,26 @@
             prefix: '',
             suffix: ''
         };
-        var vistos = new CountUp("vistos", 0, {!! $cam->logs()->where('interaction.loaded','exists',true)->where('campaign_id',$cam->id)->count() !!}, 0, 5.0, options);
+        var vistos = new CountUp("vistos", 0, {!! $cam->logs()->where('interaction.loaded','exists',true)->count() !!}, 0, 5.0, options);
         vistos.start();
-        var completados = new CountUp("completados", 0, {!! $cam->logs()->where('interaction.completed','exists',true)->where('campaign_id',$cam->id)->count() !!}, 0, 5.0, options);
+        var completados = new CountUp("completados", 0, {!! $cam->logs()->where('interaction.completed','exists',true)->count() !!}, 0, 5.0, options);
         completados.start();
-        var users = new CountUp("usuarios", 0, {!! count(DB::collection('campaign_logs')->where('campaign_id',$cam->id)->distinct('user.id')->get()) !!}, 0, 5.0, options);
+        var users = new CountUp("usuarios", 0, {!! $unique_users !!}, 0, 5.0, options);
         users.start();
-        //-------------------------------------- grafica de muestra se espera confirmacion de quitar  ---------------------------------------------
-        var chart = c3.generate({
-            bindto: '#gender',
-            data: {
-                columns: [
-                    ['Mujeres', 15],
-                    ['Hombres', 25]
-                ],
-                type: 'bar'
-            },
-            bar: {
-                width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
-                }
-                // or
-                //width: 100 // this makes bar width 100px
-            }
-        });
+
         //------------------------------------------Grafica---------------------------------------------
         var grafica = new graficas;
-        var menJson = '{!! json_encode($cam->men) !!}';
+        var menJson = '{!! json_encode($men) !!}';
         var menObj = JSON.parse(menJson);
-        var womenJson = '{!! json_encode($cam->women) !!}';
+        var womenJson = '{!! json_encode($women) !!}';
         var womenObj = JSON.parse(womenJson);
 
+        {{--var intLJson = '{!! json_encode($IntHours) !!}';--}}
+        {{--var intLObj = JSON.parse(intLJson);--}}
+                {{--console.log(intLObj);--}}
+
         var gra = grafica.genderAge(menObj, womenObj);
+//        var graf = grafica.intPerHour(intLObj);
     </script>
     <!-- enera custom scripts -->
     {{--{!! HTML::script('assets/js/enera/create_campaign_helper.js') !!}--}}
