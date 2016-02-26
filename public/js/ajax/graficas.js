@@ -151,7 +151,7 @@ graficas = function () {
 
         if ($(c3chart_area_stacked_id).length) {
 
-            var c3chart_area_stacked = c3.generate({
+            var chart = c3.generate({
                 bindto: c3chart_area_stacked_id,
                 data: {
                     x: 'x',
@@ -168,7 +168,7 @@ graficas = function () {
             });
 
             $window.on('debouncedresize', function () {
-                c3chart_area_stacked.resize();
+                chart.resize();
             });
 
         } else {
