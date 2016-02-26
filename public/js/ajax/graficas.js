@@ -168,7 +168,7 @@ graficas = function () {
             });
 
             $window.on('debouncedresize', function () {
-                c3chart_area_stacked.resize();
+                chart.resize();
             });
 
         } else {
