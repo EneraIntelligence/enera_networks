@@ -136,7 +136,7 @@ graficas = function () {
     }
     /***    GRAFICA INTERACCIONES POR HORA ***/
     this.intPerHour = function intPerHour(IntXDias) {
-        var chart = '#intXHour';
+        var c3chart_area_stacked_id = '#intXHour';
 
         var columns = [
             ['x'],
@@ -149,10 +149,10 @@ graficas = function () {
             columns[2].push(IntXDias[k]['completed']);
         }
 
-        if ($(chart).length) {
+        if ($(c3chart_area_stacked_id).length) {
 
-            var chart = c3.generate({
-                bindto: chart,
+            var c3chart_area_stacked = c3.generate({
+                bindto: c3chart_area_stacked_id,
                 data: {
                     x: 'x',
                     columns: columns,
@@ -168,7 +168,7 @@ graficas = function () {
             });
 
             $window.on('debouncedresize', function () {
-                chart.resize();
+                c3chart_area_stacked.resize();
             });
 
         } else {
