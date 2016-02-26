@@ -152,7 +152,7 @@ graficas = function () {
         if ($(c3chart_area_stacked_id).length) {
 
             var chart = c3.generate({
-                bindto: c3chart_area_stacked_id,
+                bindto: '#intXHour',
                 data: {
                     x: 'x',
                     columns: columns,
@@ -160,7 +160,7 @@ graficas = function () {
                         Visto: 'area',
                         Completado: 'area-spline'
                     },
-                    groups: [['Visto', 'Completado']]
+                    groups: ['Visto', 'Completado']
                 },
                 color: {
                     pattern: ['#1565C0', '#727272']
