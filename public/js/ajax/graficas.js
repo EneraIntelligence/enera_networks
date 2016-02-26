@@ -151,8 +151,8 @@ graficas = function () {
 
         if ($(c3chart_area_stacked_id).length) {
 
-            var c3chart_area_stacked = c3.generate({
-                bindto: c3chart_area_stacked_id,
+            var chart = c3.generate({
+                bindto: chart,
                 data: {
                     x: 'x',
                     columns: columns,
