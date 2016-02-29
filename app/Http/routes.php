@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
     Route::group(['prefix' => 'nodes', 'as' => 'branches::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'BranchesController@index']);
         Route::get('/show/{id}', ['as' => 'show', 'uses' => 'BranchesController@show']);
+        Route::get('/show/{id}/list', ['as' => 'list', 'uses' => 'BranchesController@clients']);
     });
 
 });
