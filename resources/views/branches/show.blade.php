@@ -183,11 +183,24 @@
                                             </thead>
                                             <tbody>
 
-                                            @for($i=0;$i<count($words);$i++)
+                                            @for($i=0;$i<count($wordCount);$i++)
+
+                                                <?php
+                                                $w_count=0;
+                                                for($j=0;$j<count($words);$j++)
+                                                {
+                                                    if ($words[$j]['_id']== $wordCount[$i]['_id'])
+                                                    {
+                                                        $w_count = $wordCount[$i]['count'];
+                                                        $w_index = $j;
+                                                    }
+                                                }
+
+                                                ?>
 
                                                 <tr>
-                                                    <td>{!! $words[$i]['name'] !!}</td>
-                                                    <td>{!! $wordCount[$i]['count'] !!}</td>
+                                                    <td>{!! $words[$w_index]['name'] !!}</td>
+                                                    <td>{!! $w_count !!}</td>
                                                 </tr>
 
                                             @endfor
@@ -315,8 +328,23 @@
 
         //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
         var wordValues = {
-            @for($i=0;$i<count($words);$i++)
-            "{!! $words[$i]['name'] !!}":{!! $wordCount[$i]['count'] !!},
+            @for($i=0;$i<count($wordCount);$i++)
+                <?php
+                    $w_count=0;
+                    $w_index = 0;
+
+                    for($j=0;$j<count($words);$j++)
+                    {
+                        if ($words[$j]['_id']== $wordCount[$i]['_id'])
+                        {
+                            $w_count = $wordCount[$i]['count'];
+                            $w_index = $j;
+                        }
+                    }
+
+                ?>
+            "{!! $words[$w_index]['name'] !!}":{!! $w_count !!},
+
             @endfor
         };
 

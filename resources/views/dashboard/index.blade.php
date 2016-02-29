@@ -34,9 +34,22 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_orders peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                                <span class="peity_accessed peity_data">
+                                    <?php $first = true;?>
+                                    @foreach($accessed_list as $acc)
+                                        @if($first)
+                                            <?php $first = false;?>
+                                            {{$acc['num']}}
+                                        @else
+                                            {{','.$acc['num']}}
+                                        @endif
+                                    @endforeach
+                                </span>
+                            </div>
                             <span class="uk-text-muted uk-text-small">Accesos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $completed !!}</noscript></span></h2>
+
                         </div>
                     </div>
                 </div>
@@ -119,16 +132,17 @@
             theAnimation.start();
         });
 
-        $(".peity_orders").peity("line", {
+        $(".peity_accessed").peity("bar", {
             height: 28,
-            width: 64,
-            fill: "#98DF8A",
-            stroke: "#2DA02D"
+            width: 200,
+            padding:0.2,
+            fill: ["#98DF8A"]
         });
-        var pityInteractions = $(".peity_orders");
+        /*
+        var peityInteractions = $(".peity_accessed");
         setInterval(function () {
             var random = Math.round(Math.random() * 10);
-            var values = pityInteractions.text().split(",");
+            var values = peityInteractions.text().split(",");
             values.shift();
             values.push(random);
 
@@ -136,7 +150,7 @@
                     .text(values.join(","))
                     .change();
         }, 1000);
-
+        */
 
         $(".peity_visitors").peity("line", {
             height: 28,

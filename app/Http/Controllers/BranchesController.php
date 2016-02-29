@@ -287,6 +287,8 @@ class BranchesController extends Controller
             }
             //array with pages names
             $words = $this->getPagesNames($likes_ids);
+
+            //dd($likesCount);
             /*
              * wordcloud
              */
