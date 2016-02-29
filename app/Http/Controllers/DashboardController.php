@@ -33,12 +33,25 @@ class DashboardController extends Controller
 
         $days=8;
 
-        /*
+
         $uniqueUsersDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $uniqueList = $this->getUniqueUsersLastDays($branches_ids,$days);
-        foreach ($uniqueList as $acc) {
-            $uniqueUsersDays[$acc['_id']]['num']= $acc['num'];
-        }*/
+        foreach ($uniqueList as $key => $value) {
+            if (array_key_exists($key, $uniqueUsersDays))
+            {
+                $uniqueUsersDays[$key]['num'] = $value;
+            }
+        }
+
+        $uniqueDevicesDay = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
+        $uniqueDList = $this->getUniqueDevicesLastDays($branches_ids,$days);
+        foreach ($uniqueDList as $key => $value) {
+            if (array_key_exists($key, $uniqueDevicesDay))
+            {
+                $uniqueDevicesDay[$key]['num'] = $value;
+            }
+        }
+        //dd($uniqueDevicesDay);
 
         $accessedDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $accessedList = $this->getAccessedLastDays($branches_ids,$days);
@@ -58,7 +71,9 @@ class DashboardController extends Controller
             'joined' => $joined,
             'completed' => $completed,
             'branches' => $branches,
-            'accessed_list'=>$accessedDays
+            'accessed_list'=>$accessedDays,
+            'users_list'=>$uniqueUsersDays,
+            'devices_list'=>$uniqueDevicesDay
         ]);
     }
 
@@ -157,7 +172,7 @@ class DashboardController extends Controller
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
 
         //get all the users _ids into an array
-        $devices = $cLogsColl->aggregate([
+        $users = $cLogsColl->aggregate([
             [
                 '$match' => [
                     'device.branch_id' => ['$in' => $branches_id],
@@ -169,22 +184,158 @@ class DashboardController extends Controller
             ],
             [
                 '$group' => [
-                    '_id' => '',//////TODO
-                    'users' => [
-                        '$addToSet' => '$user.id',
+                    '_id' => '$user.id'
+                ]
+            ]
+        ]);
+
+        //dd( $users['result'] );
+        $userIds=[];
+        foreach($users['result'] as $res)
+        {
+            array_push($userIds,$res['_id']);
+        }
+//        dd($userIds);
+
+        $logs = $cLogsColl->aggregate([
+            [
+                '$match' => [
+                    'user.id' => ['$in' => $userIds],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$user.id',
+                    'dates' => [
+                        '$addToSet' => ['$dateToString' => [
+                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$created_at', 21600000]]
+                            ]
+                        ]
+
                     ]
                 ]
             ],
-            ['$unwind' => '$users'],
+            [
+                '$unwind'=>'$dates'
+            ],
+            [
+                '$sort' =>
+                [
+                    'dates'=>1
+                ]
+            ],
             [
                 '$group' => [
                     '_id' => '$_id',
-                    'count' => ['$sum' => 1]
+                    'dates' => [
+                        '$push' => '$dates',
+                    ]
                 ]
             ],
+
         ]);
 
-        return isset($devices['result'][0]['count']) ? $devices['result'][0]['count'] : 0;
+        $count=[];
+        foreach($logs['result'] as $res)
+        {
+            if (array_key_exists($res['dates'][0], $count)) {
+
+                $count[ $res['dates'][0] ]+=1;
+            }
+            else
+            {
+                $count[ $res['dates'][0] ]=1;
+            }
+        }
+        //dd( $count );
+
+        return isset($count) ? $count : [];
+
+    }
+
+    private function getUniqueDevicesLastDays($branches_id, $numDays)
+    {
+        $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //get all the users _ids into an array
+        $users = $cLogsColl->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => ['$in' => $branches_id],
+                    'device.mac' => ['$exists' => true],
+                    'created_at' => [
+                        '$gt' => new MongoDate(strtotime(Carbon::today()->subDays($numDays)->format('Y-m-d') . 'T00:00:00-0600')),
+                    ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.mac'
+                ]
+            ]
+        ]);
+
+        //dd( $users['result'] );
+        $userIds=[];
+        foreach($users['result'] as $res)
+        {
+            array_push($userIds,$res['_id']);
+        }
+//        dd($userIds);
+
+        $logs = $cLogsColl->aggregate([
+            [
+                '$match' => [
+                    'device.mac' => ['$in' => $userIds],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.mac',
+                    'dates' => [
+                        '$addToSet' => ['$dateToString' => [
+                            'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$created_at', 21600000]]
+                        ]
+                        ]
+
+                    ]
+                ]
+            ],
+            [
+                '$unwind'=>'$dates'
+            ],
+            [
+                '$sort' =>
+                    [
+                        'dates'=>1
+                    ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$_id',
+                    'dates' => [
+                        '$push' => '$dates',
+                    ]
+                ]
+            ],
+
+        ]);
+
+        $count=[];
+        foreach($logs['result'] as $res)
+        {
+            if (array_key_exists($res['dates'][0], $count)) {
+
+                $count[ $res['dates'][0] ]+=1;
+            }
+            else
+            {
+                $count[ $res['dates'][0] ]=1;
+            }
+        }
+        //dd( $count );
+
+        return isset($count) ? $count : [];
 
     }
 

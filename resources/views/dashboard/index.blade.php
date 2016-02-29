@@ -16,7 +16,17 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">5,3,9,6,5,9,7</span></div>
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">
+                                    <?php $first = true;?>
+                                    @foreach($devices_list as $device)
+                                        @if($first)
+                                            <?php $first = false;?>
+                                            {{$device['num']}}
+                                        @else
+                                            {{','.$device['num']}}
+                                        @endif
+                                    @endforeach
+                                </span></div>
                             <span class="uk-text-muted uk-text-small">Dispositivos únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $devices !!}</noscript></span></h2>
                         </div>
@@ -25,7 +35,17 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_sale peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_users peity_data">
+                                    <?php $first = true;?>
+                                    @foreach($users_list as $user)
+                                        @if($first)
+                                            <?php $first = false;?>
+                                            {{$user['num']}}
+                                        @else
+                                            {{','.$user['num']}}
+                                        @endif
+                                    @endforeach
+                                </span></div>
                             <span class="uk-text-muted uk-text-small">Usuarios únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $joined !!}</noscript></span></h2>
                         </div>
@@ -134,8 +154,8 @@
 
         $(".peity_accessed").peity("bar", {
             height: 28,
-            width: 200,
-            padding:0.2,
+            width: 64,
+            padding:0.1,
             fill: ["#98DF8A"]
         });
         /*
@@ -152,12 +172,13 @@
         }, 1000);
         */
 
-        $(".peity_visitors").peity("line", {
+        $(".peity_visitors").peity("bar", {
             height: 28,
             width: 48,
-            fill: "#df988a",
-            stroke: "#da4315"
+            padding:0.1,
+            fill: ["#df988a"],
         });
+        /*
         var peityDevices = $(".peity_visitors");
         setInterval(function () {
             var random = Math.round(Math.random() * 10);
@@ -171,15 +192,16 @@
 
 
         }, 1000);
+*/
 
-
-        $(".peity_sale").peity("line", {
+        $(".peity_users").peity("bar", {
             height: 28,
             width: 64,
-            fill: "#d1e4f6",
-            stroke: "#0288d1"
+            padding:0.1,
+            fill: ["#d1e4f6"],
         });
-        var peityConnected = $(".peity_sale");
+        /*
+        var peityConnected = $(".peity_users");
         setInterval(function () {
             var random = Math.round(Math.random() * 10);
             var values = peityConnected.text().split(",");
@@ -192,7 +214,7 @@
 
 
         }, 1000);
-
+*/
 
     </script>
 
