@@ -16,25 +16,36 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">
-                                    <?php $first = true;?>
-                                    @foreach($devices_list as $device)
-                                        @if($first)
-                                            <?php $first = false;?>
-                                            {{$device['num']}}
-                                        @else
-                                            {{','.$device['num']}}
-                                        @endif
-                                    @endforeach
-                                </span></div>
+                            <a href="#devices-graph" data-uk-modal>
+
+                                <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">
+                                        <?php $first = true;?>
+                                        @foreach($devices_list as $device)
+                                            @if($first)
+                                                <?php $first = false;?>
+                                                {{$device['num']}}
+                                            @else
+                                                {{','.$device['num']}}
+                                            @endif
+                                        @endforeach
+                                    </span></div>
+
+                            </a>
                             <span class="uk-text-muted uk-text-small">Dispositivos únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $devices !!}</noscript></span></h2>
                         </div>
                     </div>
                 </div>
+
+
+
+
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
+
+                            <a href="#users-graph" data-uk-modal>
+
                             <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_users peity_data">
                                     <?php $first = true;?>
                                     @foreach($users_list as $user)
@@ -46,6 +57,9 @@
                                         @endif
                                     @endforeach
                                 </span></div>
+
+                            </a>
+
                             <span class="uk-text-muted uk-text-small">Usuarios únicos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $joined !!}</noscript></span></h2>
                         </div>
@@ -54,19 +68,24 @@
                 <div>
                     <div class="md-card">
                         <div class="md-card-content">
-                            <div class="uk-float-right uk-margin-top uk-margin-small-right">
-                                <span class="peity_accessed peity_data">
-                                    <?php $first = true;?>
-                                    @foreach($accessed_list as $acc)
-                                        @if($first)
-                                            <?php $first = false;?>
-                                            {{$acc['num']}}
-                                        @else
-                                            {{','.$acc['num']}}
-                                        @endif
-                                    @endforeach
-                                </span>
-                            </div>
+
+                            <a href="#access-graph" data-uk-modal>
+
+                                <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                                    <span class="peity_accessed peity_data">
+                                        <?php $first = true;?>
+                                        @foreach($accessed_list as $acc)
+                                            @if($first)
+                                                <?php $first = false;?>
+                                                {{$acc['num']}}
+                                            @else
+                                                {{','.$acc['num']}}
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                </div>
+                            </a>
+
                             <span class="uk-text-muted uk-text-small">Accesos</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $completed !!}</noscript></span></h2>
 
@@ -87,7 +106,51 @@
                 </div>
             </div>
 
+            <!-- modals -->
+            <div id="devices-graph" class="uk-modal">
+                <div style="width:760px;" class="uk-modal-dialog uk-modal-dialog-large">
 
+                    <a class="uk-modal-close uk-close"></a>
+
+
+                    <h4 class="heading_a uk-margin-bottom">Disp. únicos por día</h4>
+
+                    <div id="devices-graph-cont">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="users-graph" class="uk-modal">
+                <div style="width:760px;" class="uk-modal-dialog uk-modal-dialog-large">
+
+                    <a class="uk-modal-close uk-close"></a>
+
+
+                    <h4 class="heading_a uk-margin-bottom">Usuarios únicos por día</h4>
+                    <div id="users-graph-cont">
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="access-graph" class="uk-modal">
+                <div style="width:760px;" class="uk-modal-dialog uk-modal-dialog-large">
+
+                    <a class="uk-modal-close uk-close"></a>
+
+
+                    <h4 class="heading_a uk-margin-bottom">Accesos por día</h4>
+                    <div id="access-graph-cont">
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- end modals -->
 
         </div>
     </div>
@@ -106,6 +169,8 @@
             <!-- countUp -->
     {!! HTML::script('bower_components/countUp.js/countUp.min.js') !!}
 
+    {!! HTML::script('bower_components/d3/d3.min.js') !!}
+    {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
 
 
     <script>
@@ -158,19 +223,6 @@
             padding:0.1,
             fill: ["#98DF8A"]
         });
-        /*
-        var peityInteractions = $(".peity_accessed");
-        setInterval(function () {
-            var random = Math.round(Math.random() * 10);
-            var values = peityInteractions.text().split(",");
-            values.shift();
-            values.push(random);
-
-            pityInteractions
-                    .text(values.join(","))
-                    .change();
-        }, 1000);
-        */
 
         $(".peity_visitors").peity("bar", {
             height: 28,
@@ -178,21 +230,6 @@
             padding:0.1,
             fill: ["#df988a"],
         });
-        /*
-        var peityDevices = $(".peity_visitors");
-        setInterval(function () {
-            var random = Math.round(Math.random() * 10);
-            var values = peityDevices.text().split(",");
-            values.shift();
-            values.push(random);
-
-            peityDevices
-                    .text(values.join(","))
-                    .change();
-
-
-        }, 1000);
-*/
 
         $(".peity_users").peity("bar", {
             height: 28,
@@ -200,21 +237,109 @@
             padding:0.1,
             fill: ["#d1e4f6"],
         });
-        /*
-        var peityConnected = $(".peity_users");
-        setInterval(function () {
-            var random = Math.round(Math.random() * 10);
-            var values = peityConnected.text().split(",");
-            values.shift();
-            values.push(random);
-
-            peityConnected
-                    .text(values.join(","))
-                    .change();
 
 
-        }, 1000);
-*/
+        var deviceData=[['x'],['nuevos dispositivos']];
+        @foreach($devices_list as $k=>$device)
+                deviceData[0].push( "{{$k}}" );
+        deviceData[1].push( {{$device['num']}} );
+        @endforeach
+
+        var chart = c3.generate({
+            bindto: '#devices-graph-cont',
+            data: {
+                x: 'x',
+                columns: deviceData,
+                type: 'bar',
+                onclick: function () {
+                    window.open("http://www.w3schools.com");
+                }
+            },
+            size: {
+                width: 700
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d'
+                    }
+                }
+            },
+            bar: {
+                width: {
+                    ratio: 0.7 // this makes bar width 50% of length between ticks
+                }
+            }
+        });
+
+        var usersData=[['x'],['nuevos usuarios']];
+        @foreach($users_list as $k=>$users)
+                usersData[0].push( "{{$k}}" );
+        usersData[1].push( {{$users['num']}} );
+                @endforeach
+
+        var chart = c3.generate({
+                    bindto: '#users-graph-cont',
+                    data: {
+                        x: 'x',
+                        columns: usersData,
+                        type: 'bar',
+                        onclick: function () {
+                            window.open("http://www.w3schools.com");
+                        }
+                    },
+                    size: {
+                        width: 700
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                format: '%Y-%m-%d'
+                            }
+                        }
+                    },
+                    bar: {
+                        width: {
+                            ratio: 0.7 // this makes bar width 50% of length between ticks
+                        }
+                    }
+                });
+
+        var accessData=[['x'],['accesos']];
+        @foreach($accessed_list as $k=>$access)
+                accessData[0].push( "{{$k}}" );
+        accessData[1].push( {{$access['num']}} );
+                @endforeach
+
+        var chart = c3.generate({
+                    bindto: '#access-graph-cont',
+                    data: {
+                        x: 'x',
+                        columns: accessData,
+                        type: 'bar',
+                        onclick: function () {
+                            window.open("http://www.w3schools.com");
+                        }
+                    },
+                    size: {
+                        width: 700
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                format: '%Y-%m-%d'
+                            }
+                        }
+                    },
+                    bar: {
+                        width: {
+                            ratio: 0.7 // this makes bar width 50% of length between ticks
+                        }
+                    }
+                });
 
     </script>
 
