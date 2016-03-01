@@ -201,6 +201,7 @@ class DashboardController extends Controller
             [
                 '$match' => [
                     'user.id' => ['$in' => $userIds],
+                    'device.branch_id' => ['$in' => $branches_id]
                 ]
             ],
             [
@@ -287,6 +288,7 @@ class DashboardController extends Controller
             [
                 '$match' => [
                     'device.mac' => ['$in' => $userIds],
+                    'device.branch_id' => ['$in' => $branches_id]
                 ]
             ],
             [
