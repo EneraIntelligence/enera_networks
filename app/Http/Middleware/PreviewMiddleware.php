@@ -21,9 +21,9 @@ class PreviewMiddleware
         $route = $request->route()->getName();
         $user = Administrator::where('_id', Auth::user()->_id)->first();
         $test = isset($user->routeNetworks) ? $user->routeNetworks : [];
+        $accept = ['home', 'auth.logout', 'campaigns::show', 'branches::show', 'edit.profile'];
 
-        if ($route != "home" && $route != 'auth.logout' && $route != 'campaigns::show' && $route != 'branches::show'
-            && $route != 'edit.profile') {
+        if (!in_array($route, $accept)) {
             array_unshift($test, PreviewHelper::getNameRoute($route) . '/' . $route);
         }
         if (count($test) > 5) {
