@@ -84,9 +84,9 @@
                             </li>
                             <li>
                                 <div class="md-list-content">
-                                    <span class="uk-text-small uk-text-muted uk-display-block">Conexiones</span>
+                                    <span class="uk-text-small uk-text-muted uk-display-block">Logs paso 1</span>
                                     <span class="md-list-heading uk-text-large">
-                                        {{ number_format($branch->campaign_logs()->count(),0,'.',',') }}
+                                        {{ number_format($wlogs,0,'.',',') }}
                                     </span>
                                 </div>
                             </li>
@@ -123,7 +123,7 @@
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
                             <div id="GoogleMap"
-                                 style="margin: 0px auto;width: 91%; max-width: 850px; height: 380px;"></div>
+                                 style="margin: 0px auto; width: 91%; max-width: 850px; height: 380px;"></div>
                         </div>
                     </div>
                 </div>
