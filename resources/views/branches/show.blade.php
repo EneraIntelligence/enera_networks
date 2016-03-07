@@ -84,7 +84,7 @@
                             </li>
                             <li>
                                 <div class="md-list-content">
-                                    <span class="uk-text-small uk-text-muted uk-display-block">Logs paso 1</span>
+                                    <span class="uk-text-small uk-text-muted uk-display-block">Conexiones</span>
                                     <span class="md-list-heading uk-text-large">
                                         {{ number_format($wlogs,0,'.',',') }}
                                     </span>
@@ -297,9 +297,9 @@
                 groups: [
                     ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
                 ],
-                onclick: function () {
+                /*onclick: function () {
                     window.open("http://www.w3schools.com");
-                }
+                }*/
             },
             axis: {
                 x: {
