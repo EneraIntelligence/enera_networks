@@ -35,11 +35,19 @@ class DashboardController extends Controller
 
 
         $uniqueUsersDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
-        $uniqueList = $this->getUniqueUsersLastDays($branches_ids,$days);
-        foreach ($uniqueList as $key => $value) {
+        $list = $this->getUniqueUsersLastDays($branches_ids,$days);
+        //dd($uniqueList);
+
+        foreach ($list['unique'] as $key => $value) {
             if (array_key_exists($key, $uniqueUsersDays))
             {
                 $uniqueUsersDays[$key]['num'] = $value;
+            }
+        }
+        foreach ($list['recurrent'] as $key => $value) {
+            if (array_key_exists($key, $uniqueUsersDays))
+            {
+                $uniqueUsersDays[$key]['rec'] = $value;
             }
         }
 
@@ -236,21 +244,45 @@ class DashboardController extends Controller
 
         ]);
 
-        $count=[];
+        //dd($logs);
+
+        $unique=[];
+        $recurrent=[];
         foreach($logs['result'] as $res)
         {
-            if (array_key_exists($res['dates'][0], $count)) {
-
-                $count[ $res['dates'][0] ]+=1;
-            }
-            else
+            for($i=0;$i< count($res['dates']); $i++)
             {
-                $count[ $res['dates'][0] ]=1;
+                //add the unique user when it was acquired
+                if($i==0)
+                {
+                    if (array_key_exists($res['dates'][0], $unique)) {
+
+                        $unique[ $res['dates'][0] ]+=1;
+                    }
+                    else
+                    {
+                        $unique[ $res['dates'][0] ]=1;
+                    }
+                }
+                else
+                {
+                    if (array_key_exists($res['dates'][$i], $recurrent)) {
+
+                        $recurrent[ $res['dates'][$i] ]+=1;
+                    }
+                    else
+                    {
+                        $recurrent[ $res['dates'][$i] ]=1;
+                    }
+                }
+
             }
+
         }
         //dd( $count );
 
-        return isset($count) ? $count : [];
+
+        return array('recurrent'=>$recurrent,'unique'=>$unique);
 
     }
 

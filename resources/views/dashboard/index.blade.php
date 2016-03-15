@@ -31,7 +31,7 @@
                                     </span></div>
 
                             </a>
-                            <span class="uk-text-muted uk-text-small">Dispositivos únicos</span>
+                            <span class="uk-text-muted uk-text-small">Dispositivos detectados</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $devices !!}</noscript></span></h2>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
 
                             </a>
 
-                            <span class="uk-text-muted uk-text-small">Usuarios únicos</span>
+                            <span class="uk-text-muted uk-text-small">Usuarios recolectados</span>
                             <h2 class="uk-margin-remove"><span class="countUpMe">0<noscript>{!! $joined !!}</noscript></span></h2>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                     <a class="uk-modal-close uk-close"></a>
 
 
-                    <h4 class="heading_a uk-margin-bottom">Usuarios únicos por día</h4>
+                    <h4 class="heading_a uk-margin-bottom">Usuarios por día</h4>
                     <div id="users-graph-cont">
 
                     </div>
@@ -273,11 +273,14 @@
             }
         });
 
-        var usersData=[['x'],['nuevos usuarios']];
+        var usersData=[['x'],['nuevos usuarios'], ['usuarios recurrentes']];
         @foreach($users_list as $k=>$users)
-                usersData[0].push( "{{$k}}" );
-        usersData[1].push( {{$users['num']}} );
-                @endforeach
+            usersData[0].push( "{{$k}}" );
+            usersData[1].push( {{$users['num']}} );
+            @if( isset($users['rec']) )
+            usersData[2].push( {{$users['rec']}} );
+            @endif
+        @endforeach
 
         var chart = c3.generate({
                     bindto: '#users-graph-cont',
@@ -285,6 +288,9 @@
                         x: 'x',
                         columns: usersData,
                         type: 'bar',
+                        groups: [
+                            ['nuevos usuarios', 'usuarios recurrentes']
+                        ],
                         onclick: function () {
                             window.open("http://www.w3schools.com");
                         }
