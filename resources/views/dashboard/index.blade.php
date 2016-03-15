@@ -143,7 +143,7 @@
                     <a class="uk-modal-close uk-close"></a>
 
 
-                    <h4 class="heading_a uk-margin-bottom">Accesos por día</h4>
+                    <h4 class="heading_a uk-margin-bottom">Accesos diarios</h4>
                     <div id="access-graph-cont">
 
                     </div>
@@ -313,18 +313,22 @@
                     }
                 });
 
-        var accessData=[['x'],['accesos']];
+        var accessData=[['x'],['nuevos usuarios'],['usuarios recurrentes']];
         @foreach($accessed_list as $k=>$access)
-                accessData[0].push( "{{$k}}" );
-        accessData[1].push( {{$access['num']}} );
-                @endforeach
+            accessData[0].push( "{{$k}}" );
+            accessData[1].push( {{$access['new']}} );
+            accessData[2].push( {{$access['rec']}} );
+        @endforeach
 
-        var chart = c3.generate({
+        var chart2 = c3.generate({
                     bindto: '#access-graph-cont',
                     data: {
                         x: 'x',
                         columns: accessData,
                         type: 'bar',
+                        groups: [
+                            ['nuevos usuarios', 'usuarios recurrentes']
+                        ],
                         onclick: function () {
                             window.open("http://www.w3schools.com");
                         }

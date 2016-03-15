@@ -36,20 +36,24 @@ class DashboardController extends Controller
 
         $uniqueUsersDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $list = $this->getUniqueUsersLastDays($branches_ids,$days);
-        //dd($uniqueList);
+        //dd($list);
 
-        foreach ($list['unique'] as $key => $value) {
+        $uniqueUsersList = [];
+        foreach ($list['unique'] as $key => $users) {
             if (array_key_exists($key, $uniqueUsersDays))
             {
-                $uniqueUsersDays[$key]['num'] = $value;
+                $uniqueUsersDays[$key]['num'] = count( $users );
+                $uniqueUsersList[$key] = $users;
             }
         }
-        foreach ($list['recurrent'] as $key => $value) {
+        foreach ($list['recurrent'] as $key => $users) {
             if (array_key_exists($key, $uniqueUsersDays))
             {
-                $uniqueUsersDays[$key]['rec'] = $value;
+                $uniqueUsersDays[$key]['rec'] =  count( $users );
             }
         }
+
+        //dd($uniqueUsersList);
 
         $uniqueDevicesDay = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $uniqueDList = $this->getUniqueDevicesLastDays($branches_ids,$days);
@@ -62,11 +66,31 @@ class DashboardController extends Controller
         //dd($uniqueDevicesDay);
 
         $accessedDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
-        $accessedList = $this->getAccessedLastDays($branches_ids,$days);
+        $accessedList = $this->getAccessedLastDays($branches_ids,$days,$uniqueUsersList);
         foreach ($accessedList as $acc) {
+            $uniqueCount=0;
+            if (array_key_exists($acc['_id'], $uniqueUsersList))
+            {
+                //count recurrent user$s
+                $usersCount = array_count_values($acc['users']);
+                //dd($usersCount);
+
+                foreach ($uniqueUsersList[$acc['_id']] as $userId)
+                {
+                    if (array_key_exists($userId, $usersCount))
+                    {
+                        $uniqueCount+=$usersCount[$userId];
+                    }
+                }
+
+
+            }
             $accessedDays[$acc['_id']]['num']= $acc['num'];
+            $accessedDays[$acc['_id']]['new']= $acc['num']-$uniqueCount;
+            $accessedDays[$acc['_id']]['rec']= $uniqueCount;
         }
 
+        //dd($accessedDays);
 
         $devices = $this->getUniqueDevices($branches_ids);
         $joined = $this->getUniqueUsers($branches_ids);
@@ -257,22 +281,26 @@ class DashboardController extends Controller
                 {
                     if (array_key_exists($res['dates'][0], $unique)) {
 
-                        $unique[ $res['dates'][0] ]+=1;
+//                        $unique[ $res['dates'][0] ]+=1;
+                        $unique[ $res['dates'][0] ][]=$res['_id'];
                     }
                     else
                     {
-                        $unique[ $res['dates'][0] ]=1;
+//                        $unique[ $res['dates'][0] ]=1;
+                        $unique[ $res['dates'][0] ]= [ $res['_id'] ];
                     }
                 }
                 else
                 {
                     if (array_key_exists($res['dates'][$i], $recurrent)) {
 
-                        $recurrent[ $res['dates'][$i] ]+=1;
+//                        $recurrent[ $res['dates'][$i] ]+=1;
+                        $recurrent[ $res['dates'][$i] ][]=$res['_id'];
                     }
                     else
                     {
-                        $recurrent[ $res['dates'][$i] ]=1;
+//                        $recurrent[ $res['dates'][$i] ]=1;
+                        $recurrent[ $res['dates'][$i] ]= [ $res['_id'] ];
                     }
                 }
 
@@ -377,7 +405,6 @@ class DashboardController extends Controller
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
 
-        //get all the users _ids into an array
         $devices = $cLogsColl->aggregate([
             [
                 '$match' => [
@@ -393,17 +420,22 @@ class DashboardController extends Controller
                     '_id' => [
                         '$dateToString' => [
                             'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$created_at', 21600000]]
-                        ]
+                        ],
                     ],
                     'num' => [
                         '$sum' => 1
+                    ],
+                    'users'=>[
+                        '$push'=>'$user.id'
                     ]
                 ]
             ]
         ]);
 
-        //$date = DateTime::createFromFormat('z Y', strval($devices['result'][0]['_id']) . ' ' . strval($year));
         //dd($devices['result']);
+
+
+
         return $devices['result'];
 
 
@@ -418,7 +450,7 @@ class DashboardController extends Controller
 
         while ($current <= $last) {
             if (date($format, $current) != '') {
-                $dates[date($format, $current)] = ['num'=>0];
+                $dates[date($format, $current)] = ['num'=>0, 'new'=>0, 'rec'=>0];
                 $current = strtotime($step, $current);
             }
         }
