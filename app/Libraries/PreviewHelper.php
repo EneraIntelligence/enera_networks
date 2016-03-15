@@ -15,6 +15,7 @@ class PreviewHelper
     private static $NAME_ROUTE = array(
         'profile::index' => 'Perfil',
         'branches::index' => 'Nodos',
+        'branches::list' => 'Redes',
         'campaigns::index' => 'Campañas',
     );
 

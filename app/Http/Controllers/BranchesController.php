@@ -301,6 +301,11 @@ class BranchesController extends Controller
                 'int_days' => $IntDays,
                 'words' => $words,
                 'wordCount' => $likesCount,
+                'wlogs' => $branch->campaign_logs()
+                    ->where(function ($q) {
+                        $q->where('interaction.completed', 'exists', true)
+                            ->orWhere('interaction.accessed', 'exists', true);
+                    })->count(),
             ]);
         } else {
             return redirect()->route('branches::index')->with([
