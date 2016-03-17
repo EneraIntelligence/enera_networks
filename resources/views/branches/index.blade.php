@@ -7,14 +7,20 @@
 
 @section('content')
     <div id="page_heading">
-        <h1>{{ $network->name }}</h1>
-        <span class="uk-text-muted uk-text-upper uk-text-small">
-            <b>W: {{ number_format($welcome,0,'.',',') }}</b> |
-            <b>J: {{ number_format($joined,0,'.',',') }}</b> |
-            <b>R: {{ number_format($requested,0,'.',',') }}</b> |
-            <b>L: {{ number_format($loaded,0,'.',',') }}</b> |
-            <b>C: {{ number_format($completed,0,'.',',') }}</b> |
-        </span>
+        <div class="uk-grid">
+            <div class="uk-width-1-10"></div>
+            <div class="uk-width-8-10">
+                <h1>{{ $network->name }}</h1>
+                <span class="uk-text-muted uk-text-upper uk-text-small">
+                    <b>W: {{ number_format($welcome,0,'.',',') }}</b> |
+                    <b>J: {{ number_format($joined,0,'.',',') }}</b> |
+                    <b>R: {{ number_format($requested,0,'.',',') }}</b> |
+                    <b>L: {{ number_format($loaded,0,'.',',') }}</b> |
+                    <b>C: {{ number_format($completed,0,'.',',') }}</b> |
+                </span>
+            </div>
+            <div class="uk-width-1-10"></div>
+        </div>
     </div>
 
     <div id="page_content">
