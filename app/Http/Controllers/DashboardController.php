@@ -434,8 +434,8 @@ class DashboardController extends Controller
                 ]
             ],
             [
-                '$project' =>[
-                    "_id" => -1
+                '$sort' =>[
+                    "_id" => 1
                 ]
             ]
         ]);
