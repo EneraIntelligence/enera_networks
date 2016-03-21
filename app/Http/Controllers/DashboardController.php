@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         $accessedDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $accessedList = $this->getAccessedLastDays($branches_ids,$days);
-        dd($accessedList);
+        //dd($accessedList);
 
 
         foreach ($accessedList as $acc) {
@@ -76,7 +76,12 @@ class DashboardController extends Controller
             {
                 //count recurrent users
                 $usersCount = array_count_values($acc['users']);
-                //dd($usersCount);
+
+                echo $acc['_id'].'\r\n';
+                if ($acc['_id'] == '2016-03-21')
+                {
+                    dd($usersCount);
+                }
 
                 foreach ($uniqueUsersList[$acc['_id']] as $userId)
                 {
