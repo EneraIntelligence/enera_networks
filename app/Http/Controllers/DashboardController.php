@@ -67,7 +67,7 @@ class DashboardController extends Controller
 
         $accessedDays = $this->dateRange(Carbon::today()->subDays($days)->format('Y-m-d') . 'T00:00:00-0600', date('Y-m-d') . 'T00:00:00-0600');
         $accessedList = $this->getAccessedLastDays($branches_ids,$days);
-        //dd($accessedList);
+        dd($accessedList);
 
 
         foreach ($accessedList as $acc) {
