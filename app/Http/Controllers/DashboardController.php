@@ -432,6 +432,11 @@ class DashboardController extends Controller
                         '$push'=>'$user.id'
                     ]
                 ]
+            ],
+            [
+                '$project' =>[
+                    "_id" => -1
+                ]
             ]
         ]);
 
