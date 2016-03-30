@@ -23,7 +23,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $branches = Branche::where('network_id', session('network_id'))->get();
+        $branches = Branche::where('network_id', session('network_id'))->where('status','active')->get();
         $branches_ids = [];
         foreach ($branches as $branch) {
             $branches_ids[] = $branch->_id;
