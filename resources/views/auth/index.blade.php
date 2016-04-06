@@ -31,10 +31,21 @@
 
     <div class="md-card" id="login_card">
         <div class="md-card-content large-padding" id="login_form">
-            <div class="login_heading">
+            <div class="login_heading" style="margin-bottom:15px!important;">
                 <div style="width: 290px;height: 100px; display:inline-block;text-align:center;">
                     <img src="images/logo_networks.png" alt="">
                 </div>
+                {!! session('reset_msg2') !!}
+                @if(session('data')=='active')
+                    <div class="uk-alert uk-alert-success" style="padding-right:10px">
+                        <a href="#" class="uk-alert-close "></a>
+                        Tu cuenta ha sido activada.
+                    </div>
+                @elseif(session('data')=='invalido')
+                    <div class="uk-alert uk-alert-danger" style="padding-right:10px">
+                        <span class="uk-margin">Codigo invalido.</span>
+                    </div>
+                @endif
             </div>
             {!! Form::open(['route'=>'auth.login', 'class'=>'uk-form-stacked', 'id'=>'form_validation']) !!}
             @if( Session::has('error') )
@@ -118,74 +129,76 @@
             <p>Si la contraseña sigue sin funcionar, es hora de <a href="#" id="password_reset_show">restablecer la
                     contraseña</a>.</p>
         </div>
-        <div class="md-card-content large-padding" id="login_password_reset" style="display: none">
+        <div class="md-card-content large-padding" id="login_password_reset" style="display: none;height: 315px">
             <button type="button"
                     class="uk-position-top-right uk-close uk-margin-right uk-margin-top back_to_login"></button>
-            <h2 class="heading_a uk-margin-large-bottom">Restablecer la contraseña</h2>
-
-            <form>
-                <div class="uk-form-row">
-                    <label for="login_email_reset">Email</label>
-                    <input class="md-input" type="text" id="login_email_reset" name="login_email_reset"/>
+            <h2 class="heading_a uk-margin-large-bottom" style="margin-bottom: 0px!important;">Restablecer la
+                contraseña</h2>
+            <div class="md-card-content large-padding" id="reset_msg" style="display: block">
+                {!! session('reset_msg') !!} <strong></strong>
+            </div>
+            {!! Form::open(['route'=>'auth.restore', 'class'=>'uk-form-stacked', 'id'=>'restore']) !!}
+            @if( Session::has('errors') )
+                <div style="text-align: center; color: red;">
+                    hubo un error al verificar el correo
                 </div>
-                <div class="uk-margin-medium-top">
-                    <a href="index.html" class="md-btn md-btn-primary md-btn-block">Restablecer</a>
+            @endif
+            <div class="uk-form-row">
+                <div class="parsley-row">
+                    <label for="reset_password_email" class="req">Email</label>
+                    <input class="md-input" type="text" id="reset_password_email" name="reset_password_email"/>
+                    @foreach($errors->get('reset_password_email') as $m)
+                        <div style="text-align: center; color: red;">{!! $m !!}</div>
+                    @endforeach
                 </div>
-            </form>
+            </div>
+            <div class="uk-margin-medium-top">
+                <button type="submit" class="md-btn md-btn-primary md-btn-block md-btn-large">Restablecer</button>
+            </div>
+            {!! Form::close() !!}
         </div>
-        {{--<div class="md-card-content large-padding" id="register_form" style="display: none">
-            <button type="button" class="uk-position-top-right uk-close uk-margin-right uk-margin-top back_to_login"></button>
-            <h2 class="heading_a uk-margin-medium-bottom">Create an account</h2>
-            <form>
-                <div class="uk-form-row">
-                    <label for="register_username">Username</label>
-                    <input class="md-input" type="text" id="register_username" name="register_username" />
-                </div>
-                <div class="uk-form-row">
-                    <label for="register_password">Password</label>
-                    <input class="md-input" type="password" id="register_password" name="register_password" />
-                </div>
-                <div class="uk-form-row">
-                    <label for="register_password_repeat">Repeat Password</label>
-                    <input class="md-input" type="password" id="register_password_repeat" name="register_password_repeat" />
-                </div>
-                <div class="uk-form-row">
-                    <label for="register_email">E-mail</label>
-                    <input class="md-input" type="text" id="register_email" name="register_email" />
-                </div>
-                <div class="uk-margin-medium-top">
-                    <a href="index.html" class="md-btn md-btn-primary md-btn-block md-btn-large">Sign Up</a>
-                </div>
-            </form>
-        </div>
-    </div>--}}
-        {{--<div class="uk-margin-top uk-text-center">
-            <a href="#" id="signup_form_show">Create an account</a>
-        </div>--}}
     </div>
 </div>
+
 
 <!-- common functions -->
 {!! HTML::script('assets/js/common.min.js') !!}
         <!-- altair core functions -->
 {!! HTML::script('assets/js/altair_admin_common.min.js') !!}
-        <!-- altair login page functions -->
 
 <script>
     // load parsley config (altair_admin_common.js)
     altair_forms.parsley_validation_config();
 </script>
+<!-- altair login page functions -->
+{!! HTML::script('assets/js/pages/login.min.js') !!}
 {!! HTML::script('bower_components/parsleyjs/dist/parsley.min.js') !!}
-{!! HTML::script('assets/js/pages/forms_validation.js') !!}
+{!! HTML::script('bower_components/parsleyjs/src/i18n/es.js') !!}
+{!! HTML::script('assets/js/pages/forms_validation.min.js') !!}
+
 <script>
-    $(function () {
-        // enable hires images
-        altair_helpers.retina_images();
-        // fastClick (touch devices)
-        if (Modernizr.touch) {
-            FastClick.attach(document.body);
+    $(document).ready(function () {
+        var restore = {!! $errors->get('reset_password_email')!=null? true : 'null'  !!}
+        //        console.log(restore);
+        if (restore) {
+//            console.log('true');
+            $("#login_password_reset").show();
+            $("#login_form").hide();
+            $("#create").hide();
         }
+
+        var reset_f = '{!! session('reset_msg') !!}';
+        if (reset_f) {
+//            console.log('true');
+            $("#login_password_reset").show();
+            $("#login_form").hide();
+            $("#create").hide();
+        }
+
     });
+
+    //        llamada al parsley
+    $('#form_validation2').parsley();
 </script>
 
 
