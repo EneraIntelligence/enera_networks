@@ -477,7 +477,7 @@ class DashboardController extends Controller
     {
         return view('dashboard.terms', [
             'user' => Auth::user(),
-            'termsPage'=>true
+            'hideTermsFooter'=>true
         ]);
     }
 

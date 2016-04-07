@@ -379,7 +379,7 @@
 
 @yield('content')
 
-@if(!$termsPage)
+@if(!isset($hideTermsFooter) || !$hideTermsFooter)
 <footer class="uk-text-center">
     <a href="{!! URL::route('terms') !!}">Términos y condiciones</a>
 </footer>
