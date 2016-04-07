@@ -36,6 +36,12 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
 Route::group(['middleware' => 'notauth'], function () {
     Route::get('login', ['as' => 'auth.index', 'uses' => 'AuthController@index']);
     Route::post('login', ['as' => 'auth.login', 'uses' => 'AuthController@login']);
+    Route::post('/restore', ['as' => 'auth.restore', 'uses' => 'AuthController@restore']);  //2do paso de recuperar contraseña
+    Route::get('/restore/password/{id}/{token}', ['as' => 'auth.reset', 'uses' => 'AuthController@verify']); //3er paso de recuperar contraseña valida el token de nueva contraseña
+    Route::get('/register/verify/{id}/{token}', ['as' => 'auth.verify', 'uses' => 'AuthController@verify']); //ruta que valida el correo
+    Route::get('/restore/password', ['as' => 'auth.newpassword', 'uses' => 'AuthController@newpassword']);   //4to paso de recuperar contraseña vista para poner la nueva contraseña
+    Route::post('/restore/password', ['as' => 'auth.newpass', 'uses' => 'AuthController@newpass']);         //5to paso de recuperar contraseña
+    Route::get('/cancel',['as'=> 'auth.cancel','uses'=> 'AuthController@cancel']); //cancela cualquier codigo
 });
 
 Route::get('/choose', ['as' => 'choose.platform', function () {
