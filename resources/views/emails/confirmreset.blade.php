@@ -27,8 +27,12 @@
             <a href="http://networks.enera-intelligence.mx/restore/password//{{$data['id_usuario'].'/'. $data['confirmation_code']}} ">
                 recuperar contraseña</a>
             <br>o copia y pega la siguiente url en tu navegador:
-            http://networks.enera-intelligence.mx/cancel?id={{$data['id_usuario']}}<br>
+            http://admins.enera-intelligence.mx/restore/password/{{$data['id_usuario'].'/'.$data['confirmation_code']}}<br>
             Este enlace expirará después de 24 horas.
+        </p>
+
+        <p>Si no has sido tu quien solicito el cambio de contraseña haz clic en este enlace para cancelar el proceso:
+            http://admins.enera-intelligence.mx/remove?id={{$data['id_usuario']}}<br>
         </p>
         <p>Enera Intelligence</p>
 
