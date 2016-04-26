@@ -17,4 +17,19 @@ elixir(function(mix) {
     mix.sass('profile.scss','public/assets/css/profile.css');
     mix.sass('loader.scss','public/assets/css/loader.css');
     mix.sass('campaign.scss','public/assets/css/campaign.css');
+
+
+    //materialize import to public
+    mix.copy(
+        'node_modules/materialize-css/dist/css/materialize.min.css',
+        'public/css/materialize.css'
+    );
+    mix.copy(
+        'node_modules/materialize-css/dist/js/materialize.min.js',
+        'public/js/materialize.js'
+    );
+    mix.copy(
+        'node_modules/materialize-css/dist/font',
+        'public/font'
+    );
 });
