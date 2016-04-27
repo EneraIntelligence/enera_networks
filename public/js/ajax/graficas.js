@@ -151,16 +151,16 @@ graficas = function () {
 
         if ($(c3chart_area_stacked_id).length) {
 
-            var chart = c3.generate({
-                bindto: '#intXHour',
+            var c3chart_area_stacked = c3.generate({
+                bindto: c3chart_area_stacked_id,
                 data: {
                     x: 'x',
                     columns: columns,
                     types: {
                         Visto: 'area',
-                        Completado: 'area-spline'
+                        Completado: 'area'
                     },
-                    groups: ['Visto', 'Completado']
+                    groups: [['Visto', 'Completado']]
                 },
                 color: {
                     pattern: ['#1565C0', '#727272']
@@ -168,7 +168,7 @@ graficas = function () {
             });
 
             $window.on('debouncedresize', function () {
-                chart.resize();
+                c3chart_area_stacked.resize();
             });
 
         } else {
