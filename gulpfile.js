@@ -17,4 +17,28 @@ elixir(function(mix) {
     mix.sass('profile.scss','public/assets/css/profile.css');
     mix.sass('loader.scss','public/assets/css/loader.css');
     mix.sass('campaign.scss','public/assets/css/campaign.css');
+
+    mix.sass('auth/login.scss','public/css/auth/login.css');
+
+
+    //materialize import to public
+    mix.sass([
+            'material-icons.scss',
+            'sticky-footer.scss',
+            'alignment.scss'
+        ],
+        'public/css/material-extra.css');
+    
+    mix.copy(
+        'node_modules/materialize-css/dist/css/materialize.min.css',
+        'public/css/materialize.css'
+    );
+    mix.copy(
+        'node_modules/materialize-css/dist/js/materialize.min.js',
+        'public/js/materialize.js'
+    );
+    mix.copy(
+        'node_modules/materialize-css/dist/fonts',
+        'public/fonts'
+    );
 });
