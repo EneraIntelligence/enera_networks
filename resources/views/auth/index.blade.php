@@ -1,206 +1,211 @@
-<!doctype html>
-<!--[if lte IE 9]>
-<html class="lte-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html lang="en"> <!--<![endif]-->
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Remove Tap Highlight on Windows Phone IE -->
-    <meta name="msapplication-tap-highlight" content="no"/>
 
-    {{--<link rel="icon" type="image/png" href="{!! URL::asset('assets/img/favicon-16x16.png') !!}" sizes="16x16">
-    <link rel="icon" type="image/png" href="{!! URL::asset('assets/img/favicon-16x16.png') !!}" sizes="32x32">--}}
-    <link rel="icon" type="image/png" href="{!! URL::asset('images/favicon.png') !!}" sizes="32x32">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
 
-    <title>Enera Networks</title>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' type='text/css'>
-    <!-- uikit -->
-    {!! HTML::style('bower_components/uikit/css/uikit.almost-flat.min.css') !!}
+    {{--    <title>@yield('title')</title>--}}
+    <title>Inicio de sesión - Enera Networks</title>
 
-            <!-- altair admin login page -->
-    {!! HTML::style('assets/css/login_page.min.css') !!}
-    {!! HTML::style('assets/css/main.min.css') !!}
+    <!-- css -->
+    {!! HTML::style('css/materialize.css') !!}
+    {!! HTML::style('css/material-extra.css') !!}
 
+    {!! HTML::style('css/auth/login.css') !!}
+
+    {{--@yield('head_scripts')--}}
 </head>
-<body class="login_page">
 
-<div class="login_page_wrapper">
+<body class="blue-grey lighten-5">
 
+{{--@yield('content')--}}
 
-    <div class="md-card" id="login_card">
-        <div class="md-card-content large-padding" id="login_form">
-            <div class="login_heading" style="margin-bottom:15px!important;">
-                <div style="width: 290px;height: 100px; display:inline-block;text-align:center;">
-                    <img src="images/logo_networks.png" alt="">
-                </div>
-                {!! session('reset_msg2') !!}
-                @if(session('data')=='active')
-                    <div class="uk-alert uk-alert-success" style="padding-right:10px">
-                        <a href="#" class="uk-alert-close "></a>
-                        Tu cuenta ha sido activada.
-                    </div>
-                @elseif(session('data')=='invalido')
-                    <div class="uk-alert uk-alert-danger" style="padding-right:10px">
-                        <span class="uk-margin">Codigo invalido.</span>
-                    </div>
-                @endif
+{{--<header>--}}
+{{--@yield('header')--}}
+{{--</header>--}}
+
+<main class="container login-container">
+    <!-- Page Content goes here -->
+    {{--@yield('content')--}}
+
+    <div class="card-panel login-card center-align">
+        <!-- logo -->
+        <img class="responsive-img logo-img" src="{!! asset('images/logo_networks.png') !!}" alt="">
+
+        <div class="divider"></div>
+
+        <div class="container center-align">
+
+            {!! Form::open(['route'=>'auth.login']) !!}
+
+            <!-- email -->
+            <div class="input-field left-align">
+                <i class="material-icons prefix">email</i>
+                <input id="email" required type="email" class="validate" name="email" value="{!! Input::old('email') !!}">
+                <label for="email" data-error="email incorrecto">Email</label>
             </div>
-            {!! Form::open(['route'=>'auth.login', 'class'=>'uk-form-stacked', 'id'=>'form_validation']) !!}
-            @if( Session::has('error') )
-                <div style="text-align: center; color: red;">{{ session('error') }}</div>
-            @endif
+            <!-- email -->
 
-            @foreach($errors->get('email') as $m)
-                <div style="text-align: center; color: red;">{{ $m }}</div>
-            @endforeach
+            <!-- password -->
+            <div class="input-field left-align">
+                <i class="material-icons prefix">lock_outline</i>
+                <input id="login_password" required type="password" class="validate" name="password">
+                <label for="login_password" data-error="email incorrecto">Contraseña</label>
+            </div>
+            <!-- password -->
 
-            @foreach($errors->get('password') as $m)
-                <div style="text-align: center; color: red;">{{ $m }}</div>
-            @endforeach
 
-            <div class="uk-grid" data-uk-grid-margin>
-                <div class="uk-width-medium-1-1">
-                    <div class="parsley-row">
-                        <div class="md-input-wrapper">
-                            <label for="email">Email <span class="req"></span></label>
-                            <input data-parsley-type="email" id="email" name="email" required
-                                   data-parsley-trigger="change" class="md-input" data-parsley-id="4"
-                                   data-parsley-type-message="ingresa un correo valido"
-                                   data-parsley-required-message="Ingresa tu correo"/>
-                            <span class="md-input-bar"> </span>
-                        </div>
-                        {{--<div class="parsley-errors-list filled" id="parsley-id-4">
-                            @foreach($errors->get('email') as $m)
-                                <span class="parsley-type">{{ $m }}</span>
-                            @endforeach
-                        </div>--}}
-                    </div>
-                </div>
-            </div>
+            <!-- send -->
+            <button type="submit" class="waves-effect waves-light btn blue darken-3">
+                <i class="material-icons left">vpn_key</i>
+                Entrar
+            </button>
+            <!-- send -->
 
-            <div class="uk-grid" data-uk-grid-margin>
-                <div class="uk-width-medium-1-1">
-                    <div class="parsley-row uk-margin-top">
-                        <div class="md-input-wrapper">
-                            <label for="login_password">Contraseña</label>
-                            <input type="password" id="login_password" name="password" required
-                                   data-parsley-trigger="change" class="md-input"
-                                   data-parsley-minlength="8" data-parsley-minlength-message="minimo 8 caracteres"
-                                   data-parsley-maxlength="16" data-parsley-maxlength-message="maximo 16 caracteres"
-                                   data-parsley-validation-threshold="10" data-parsley-id="6"
-                                   data-parsley-required-message="No olvides tu contraseña"
-                            />
-                            <span class="md-input-bar"> </span>
-                        </div>
-                        {{--@foreach($errors->get('password') as $m)
-                            <div class="parsley-errors-list filled" id="parsley-id-6">
-                                <span class="parsley-minlength">{{ $m }}</span>
-                            </div>
-                        @endforeach--}}
-                    </div>
-                </div>
-            </div>
-            <div class="uk-margin-medium-top">
-                <button type="submit" class="md-btn md-btn-primary md-btn-block md-btn-large">Entrar</button>
-            </div>
-            <div class="uk-margin-top">
-                <a href="#" id="login_help_show" class="uk-float-right">Necesitas ayuda?</a>
-                <span class="icheck-inline">
-                    <input type="checkbox" name="login_page_stay_signed" id="login_page_stay_signed" data-md-icheck/>
-                    <label for="login_page_stay_signed" class="inline-label">Mantener sesión</label>
-                </span>
-            </div>
+            <!-- keep session -->
+            <p class="center-align">
+                <input type="checkbox" id="login_page_stay_signed" name="login_page_stay_signed"/>
+                <label for="login_page_stay_signed">Recuérdame</label>
+            </p>
+            <!-- keep session -->
+
+            <!-- help -->
+            <a class="waves-effect waves-blue btn-flat modal-trigger"
+               style="margin-top: 20px;"
+               href="#help-modal"
+            >
+                ¿Necesitas ayuda?
+            </a>
+            <!-- help -->
 
             {!! Form::close() !!}
+
+
         </div>
-        <div class="md-card-content large-padding uk-position-relative" id="login_help" style="display: none">
-            <button type="button"
-                    class="uk-position-top-right uk-close uk-margin-right uk-margin-top back_to_login"></button>
-            <h2 class="heading_b uk-text-success">No puedes iniciar sesión?</h2>
 
-            <p>Aquí está la información para que usted vuelva a su cuenta tan pronto como sea posible.</p>
+    </div>
 
-            <p>En primer lugar, trate con lo más sencillo: si usted recuerda su contraseña, pero no funciona, asegúrese
+    <!-- Help modal -->
+    <div id="help-modal" class="modal modal-fixed-footer">
+        <div class="modal-content center-align">
+            <h4 class="heading_b uk-text-success">¿No puedes iniciar sesión?</h4>
+
+            <p class="left-align">Aquí está la información para que usted vuelva a su cuenta tan pronto como sea
+                posible.</p>
+
+            <p class="left-align">En primer lugar, trate con lo más sencillo: si usted recuerda su contraseña, pero no
+                funciona, asegúrese
                 de que Bloq Mayús está apagado y que su nombre de usuario está escrito correctamente, y vuelva a
                 intentarlo.</p>
 
-            <p>Si la contraseña sigue sin funcionar, es hora de <a href="#" id="password_reset_show">restablecer la
+            <p style="text-align: justify;">Si la contraseña sigue sin funcionar, es hora de <a href="#restore-modal"
+                                                                                                onclick="closeHelpModal()"
+                                                                                                class="modal-trigger"
+                                                                                                id="password_reset_show">restablecer
+                    la
                     contraseña</a>.</p>
         </div>
-        <div class="md-card-content large-padding" id="login_password_reset" style="display: none;height: 315px">
-            <button type="button"
-                    class="uk-position-top-right uk-close uk-margin-right uk-margin-top back_to_login"></button>
-            <h2 class="heading_a uk-margin-large-bottom" style="margin-bottom: 0px!important;">Restablecer la
-                contraseña</h2>
-            <div class="md-card-content large-padding" id="reset_msg" style="display: block">
-                {!! session('reset_msg') !!} <strong></strong>
-            </div>
-            {!! Form::open(['route'=>'auth.restore', 'class'=>'uk-form-stacked', 'id'=>'restore']) !!}
-            @if( Session::has('errors') )
-                <div style="text-align: center; color: red;">
-                    hubo un error al verificar el correo
-                </div>
-            @endif
-            <div class="uk-form-row">
-                <div class="parsley-row">
-                    <label for="reset_password_email" class="req">Email</label>
-                    <input class="md-input" type="text" id="reset_password_email" name="reset_password_email"/>
-                    @foreach($errors->get('reset_password_email') as $m)
-                        <div style="text-align: center; color: red;">{!! $m !!}</div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="uk-margin-medium-top">
-                <button type="submit" class="md-btn md-btn-primary md-btn-block md-btn-large">Restablecer</button>
-            </div>
-            {!! Form::close() !!}
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-blue btn-flat">Cerrar</a>
         </div>
     </div>
-</div>
+    <!-- Help modal -->
+
+    <!-- Restore pass modal -->
+    <div id="restore-modal" class="modal modal-fixed-footer">
+
+        {!! Form::open(['route'=>'auth.restore']) !!}
+
+        <div class="modal-content center-align" style="overflow: hidden">
+
+            <div class="container">
+                <h5 class="heading_b uk-text-success">Reestablecer contraseña</h5>
+
+                <!-- Restore email -->
+                <div class="input-field left-align">
+                    <i class="material-icons prefix">email</i>
+                    <input id="restore_email" name="reset_password_email" type="email" required class="validate">
+                    <label for="restore_email" data-error="email incorrecto">Email</label>
+                </div>
+                <!-- Restore email -->
+            </div>
 
 
-<!-- common functions -->
-{!! HTML::script('assets/js/common.min.js') !!}
-        <!-- altair core functions -->
-{!! HTML::script('assets/js/altair_admin_common.min.js') !!}
+        </div>
+
+        <div class="modal-footer">
+            <a href="#!" type="submit" class="left modal-action modal-close waves-effect waves-blue btn-flat">Cerrar</a>
+            <button type="submit" class="right waves-effect waves-blue btn-flat">Enviar</button>
+        </div>
+
+        {!! Form::close() !!}
+
+    </div>
+    <!-- Restore pass modal -->
+
+</main>
+
+<footer class="page-footer grey darken-4">
+    {{--@yield('footer')--}}
+    <div class="footer-copyright">
+        <div class="container">
+            <span class="right">© 2016 Enera</span>
+        </div>
+    </div>
+</footer>
+
+{!! HTML::script(asset('js/jquery.min.js')) !!}
+{!! HTML::script( 'js/materialize.js' ) !!}
 
 <script>
-    // load parsley config (altair_admin_common.js)
-    altair_forms.parsley_validation_config();
-</script>
-<!-- altair login page functions -->
-{!! HTML::script('assets/js/pages/login.min.js') !!}
-{!! HTML::script('bower_components/parsleyjs/dist/parsley.min.js') !!}
-{!! HTML::script('bower_components/parsleyjs/src/i18n/es.js') !!}
-{!! HTML::script('assets/js/pages/forms_validation.min.js') !!}
 
-<script>
+    /**
+     * MENSAJES!
+     */
+    @if( Session::has('errors') )
+    //hubo un error al verificar el correo
+    Materialize.toast('Hubo un error al verificar el correo', 6000, 'red no-word-break');
+    @endif
+
+    @if( session('error') )
+    //hubo un error user o pass
+    Materialize.toast('{!! session('error') !!}', 6000, 'red no-word-break');
+    @endif
+
+    @if( session('reset_msg2') )
+    //mensaje de envío de correo de cambio de contraseña
+    Materialize.toast('{!! session('reset_msg2') !!}', 6000, 'red no-word-break');
+    @endif
+
+    @if( session('reset_msg') )
+    //mensaje de envío de correo de cambio de contraseña
+    Materialize.toast('{!! session('reset_msg') !!}', 6000, 'red no-word-break');
+    @endif
+
+    @if(session('data')=='active')
+        Materialize.toast('Tu cuenta ha sido activada.', 6000, 'green no-word-break');
+    @elseif(session('data')=='invalido')
+        Materialize.toast('Código inválido.', 6000, 'red no-word-break');
+    @endif
+
+    /**
+     * READY!
+     */
     $(document).ready(function () {
-        var restore = {!! $errors->get('reset_password_email')!=null? true : 'null'  !!}
-        //        console.log(restore);
-        if (restore) {
-//            console.log('true');
-            $("#login_password_reset").show();
-            $("#login_form").hide();
-            $("#create").hide();
-        }
-
-        var reset_f = '{!! session('reset_msg') !!}';
-        if (reset_f) {
-//            console.log('true');
-            $("#login_password_reset").show();
-            $("#login_form").hide();
-            $("#create").hide();
-        }
-
+        // activate modal triggers
+        $('.modal-trigger').leanModal();
     });
 
-    //        llamada al parsley
-    $('#form_validation2').parsley();
+    function closeHelpModal() {
+        $('#help-modal').closeModal();
+    }
 </script>
 
+{{--@yield('footer_scripts')--}}
 
 </body>
 </html>

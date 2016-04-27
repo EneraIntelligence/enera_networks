@@ -33,14 +33,18 @@ class AuthController extends Controller
             'email' => 'required|email|min:6|max:250',
             'password' => 'required|alpha_num|min:8|max:16',
         ]);
+
+        Input::flashOnly('email');
+
         if ($validator->passes()) {
             if (auth()->attempt(['email' => Input::get('email'), 'password' => Input::get('password')], Input::get('login_page_stay_signed'))) {
                 return redirect()->route('home');
             } else {
-                return redirect()->route('auth.index')->with('error', 'El correo y/o la contraseña son incorrectos.');
+                return redirect()->route('auth.index')->withInput()->with('error', 'El correo y/o la contraseña son incorrectos.');
             }
         } else {
-            return redirect()->route('auth.index')->withErrors($validator);
+            return redirect()->route('auth.index')->withInput()->with('error', 'El correo y/o la contraseña son incorrectos.');
+//            return redirect()->route('auth.index')->withErrors($validator);
         }
     }
 
@@ -102,10 +106,13 @@ class AuthController extends Controller
 
     public function restore()   //manda correo para recuperar contraseña
     {
+
+        //dd(Input::all());
         $validator = Validator::make(Input::all(), [
             'reset_password_email' => 'required|email|max:250'
         ]);
         if ($validator->passes()) {
+
             $admin = Administrator::where('email', Input::get('reset_password_email'))->first();
             if ($admin != null) {
                 if ($admin && $admin->status == 'active') {
@@ -123,17 +130,18 @@ class AuthController extends Controller
                         'administrator_id' => $admin->_id, 'type' => 'resetPassword', 'token' => $confirmation_code
                     ));
 
+
                     Mail::send('emails.resetpass', ['data' => $data], function ($message) use ($correo, $nombre) {
                         $message->from('notificacion@enera.mx', 'Enera Intelligence');
                         $message->to($correo, $nombre)->subject('Recuperacion de contraseña');
                     });
 
-                    return redirect()->route('auth.index')->with('reset_msg2', 'se a enviado un mail a tu correo: <strong>' . Input::get('reset_password_email') . '</strong> . Para restablecer la contraseña');
+                    return redirect()->route('auth.index')->with('reset_msg2', '<p>Se envió un correo a <strong> ' . Input::get('reset_password_email') . ' </strong>  con instrucciones para restablecer la contraseña </p>');
                 } else if ($admin && $admin->status == 'pending') {
-                    return redirect()->route('auth.index')->with('reset_msg2', 'la cuenta <strong>' . Input::get('reset_password_email') . '</strong> no se ha activado todavía. por favor activa tu cuenta primero ');
+                    return redirect()->route('auth.index')->with('reset_msg2', '<p>La cuenta <strong> ' . Input::get('reset_password_email') . ' </strong>  no se ha activado todavía. por favor activa tu cuenta primero </p>');
                 }
             } else {
-                return redirect()->route('auth.index')->with('reset_msg2', 'se a enviado un mail a tu correo: <strong>' . Input::get('reset_password_email') . '</strong> . Para restablecer la contraseña');
+                return redirect()->route('auth.index')->with('reset_msg2', '<p>Se envió un correo a <strong> ' . Input::get('reset_password_email') . ' </strong>  con instrucciones para restablecer la contraseña </p>');
             }
         } else {
             return redirect()->route('auth.index')->withErrors($validator);
@@ -145,10 +153,11 @@ class AuthController extends Controller
         $data = session('data');
         if ($data != null || session('cc') != null) {
             return view('auth.newpassword')->with('data', $data);
-        } else {
-            $status = 'Introduce la dirección de correo electrónico que usaste para crear la cuenta';
+        } 
+        else {
+            $status = 'Hubo un problema, verifica el enlace de tu correo.';
         }
-        return redirect()->route('auth.index')->with('reset_msg', $status);
+        return redirect()->route('auth.index')->with('error', $status);
     }
 
     public function newpass() //post recibe la nueva contraseña y la pone
