@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main_new')
 
 @section('title', 'Términos y condiciones')
 

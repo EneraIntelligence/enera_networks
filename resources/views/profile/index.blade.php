@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main_new')
 @section('title', ' - Profile')
 
 @section('head_scripts')

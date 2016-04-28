@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main_new')
 @section('head_scripts')
         <!-- c3.js (charts) -->
 {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}

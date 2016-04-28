@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main_new')
 
 @section('title', 'Campañas')
 
@@ -7,11 +7,11 @@
 
 @section('content')
 
-    <div id="page_content">
+     <!--<div id="page_content">
         <div id="page_content_inner">
 
 
-            <!-- network stats -->
+            <!-- network stats
             <div class="uk-grid uk-grid-width-large-1-3 uk-grid-width-medium-1-3 uk-grid-medium hierarchical_show" data-uk-grid-margin>
                 <div>
                     <div class="md-card">
@@ -95,7 +95,7 @@
 
             </div>
 
-            <!-- nodes map -->
+            <!-- nodes map
             <div class="uk-grid">
                 <div class="uk-width-1-1">
                     <div class="md-card" style="height:450px;">
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <!-- modals -->
+            <!-- modals
             <div id="devices-graph" class="uk-modal">
                 <div style="width:760px;" class="uk-modal-dialog uk-modal-dialog-large">
 
@@ -150,10 +150,10 @@
 
                 </div>
             </div>
-            <!-- end modals -->
+            <!-- end modals
 
         </div>
-    </div>
+    </div> -->
 
 
 @stop
