@@ -137,7 +137,7 @@ class AuthController extends Controller
                         $message->from('notificacion@enera.mx', 'Enera Intelligence');
                         $message->to($correo, $nombre)->subject('Recuperacion de contraseña');
                     });
-                    dd($data);
+                    //dd($data);
                     return redirect()->route('auth.index')->with('reset_msg2', '<p>Se envió un correo a <strong> ' . Input::get('reset_password_email') . ' </strong>  con instrucciones para restablecer la contraseña </p>');
                 } else if ($admin && $admin->status == 'pending') {
                     return redirect()->route('auth.index')->with('reset_msg2', '<p>La cuenta <strong> ' . Input::get('reset_password_email') . ' </strong>  no se ha activado todavía. por favor activa tu cuenta primero </p>');
