@@ -111,7 +111,7 @@ class AuthController extends Controller
         $validator = Validator::make(Input::all(), [
             'reset_password_email' => 'required|email|max:250'
         ]);
-        var_dump(Input::all());
+//        var_dump(Input::all());
         if ($validator->passes()) {
 //            dd($validator);
             $admin = Administrator::where('email', Input::get('reset_password_email'))->first();
@@ -131,7 +131,7 @@ class AuthController extends Controller
                         'administrator_id' => $admin->_id, 'type' => 'resetPassword', 'token' => $confirmation_code
                     ));
 //                    var_dump($data);
-                    dd($Token);
+//                    dd($Token);
 
                     Mail::send('emails.resetpass', ['data' => $data], function ($message) use ($correo, $nombre) {
                         $message->from('notificacion@enera.mx', 'Enera Intelligence');
