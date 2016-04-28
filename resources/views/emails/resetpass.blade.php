@@ -15,6 +15,7 @@
     </style>
 </head>
 <body>
+    {!! dd($data) !!}
 <div style="text-align: center;">
     <img src="http://networks.enera-intelligence.mx/images/logo_networks.png" alt="">
 </div>
