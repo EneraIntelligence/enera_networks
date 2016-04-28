@@ -131,7 +131,7 @@ class AuthController extends Controller
                         'administrator_id' => $admin->_id, 'type' => 'resetPassword', 'token' => $confirmation_code
                     ));
 //                    var_dump($data);
-                    var_dump($admin);
+//                    var_dump($admin);
 
                     Mail::send('emails.resetpass', ['data' => $data], function ($message) use ($correo, $nombre) {
                         $message->from('notificacion@enera.mx', 'Enera Intelligence');
