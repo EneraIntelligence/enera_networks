@@ -23,6 +23,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
+        //*/
+        return view('dashboard.index');
+        /*/
         $branches = Branche::where('network_id', session('network_id'))->where('status','active')->get();
         $branches_ids = [];
         foreach ($branches as $branch) {
@@ -78,13 +82,6 @@ class DashboardController extends Controller
                 //count recurrent users
                 $usersCount = array_count_values($acc['users']);
 
-                /*
-                if ($acc['_id'] == '2016-03-21')
-                {
-                    dd($usersCount);
-                }
-                */
-
                 foreach ($uniqueUsersList[$acc['_id']] as $userId)
                 {
                     if (array_key_exists($userId, $usersCount))
@@ -107,7 +104,7 @@ class DashboardController extends Controller
         $completed = $this->getAccessed($branches_ids);
 
 
-        return view('dashboard.index', [
+        return view('dashboard.index_old', [
             'user' => Auth::user(),
             'devices' => $devices,
             'joined' => $joined,
@@ -117,6 +114,8 @@ class DashboardController extends Controller
             'users_list'=>$uniqueUsersDays,
             'devices_list'=>$uniqueDevicesDay
         ]);
+        
+        //*/
     }
 
     private function getUniqueDevices($branches_id)
@@ -251,8 +250,8 @@ class DashboardController extends Controller
                     '_id' => '$user.id',
                     'dates' => [
                         '$addToSet' => ['$dateToString' => [
-                                'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$created_at', 21600000]]
-                            ]
+                            'format' => '%Y-%m-%d', 'date' => ['$subtract' => ['$created_at', 21600000]]
+                        ]
                         ]
 
                     ]
@@ -263,9 +262,9 @@ class DashboardController extends Controller
             ],
             [
                 '$sort' =>
-                [
-                    'dates'=>1
-                ]
+                    [
+                        'dates'=>1
+                    ]
             ],
             [
                 '$group' => [
