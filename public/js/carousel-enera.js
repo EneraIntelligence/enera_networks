@@ -38,12 +38,15 @@
                 Draggable.create(this, {
                     type: "x",
                     edgeResistance: 0.65,
-                    bounds: {top: 0, left: 0, width: cardWidth * 2, height: cardHeight},
+                    //bounds: {top: 0, left: 0, width: cardWidth * 3, height: cardHeight},
                     lockAxis: true,
                     // throwProps:true,
                     onPress: function () {
                         $(this.target).addClass("z-depth-3");
                         dragged = false;
+
+                        cardWidth = $(this.target).outerWidth() + 20;
+
                     },
                     onDrag: function () {
                         //console.log(this.x);
@@ -93,7 +96,7 @@
                     },
 
                     onDragEnd: function () {
-                        console.log(this.x);
+                        console.log(this.x+"_"+cardWidth);
                         // return Math.round(endValue / cardWidth) * cardWidth;
 
                         if (this.x < -40) {
