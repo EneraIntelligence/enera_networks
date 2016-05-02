@@ -33,6 +33,7 @@
                 TweenLite.set(this, {webkitFilter: "blur(" + blur + "px)"});
 
                 var cardWidth = card.outerWidth() + 20;
+                var dragged = false;
 
                 Draggable.create(this, {
                     type: "x",
@@ -40,8 +41,13 @@
                     bounds: {top: 0, left: 0, width: cardWidth * 2, height: cardHeight},
                     lockAxis: true,
                     // throwProps:true,
+                    onPress: function () {
+                        $(this.target).addClass("z-depth-3");
+                        dragged = false;
+                    },
                     onDrag: function () {
                         //console.log(this.x);
+                        dragged = true;
                         var i;
                         var card;
 
@@ -57,18 +63,31 @@
                             TweenLite.set(card, {webkitFilter: "blur(" + 0 + "px)"});
                             // TweenLite.set(card, {css: {zIndex: cards.length }});
                             TweenLite.set(card, {z: 0, x: cardWidth + difX + 30});
+                            $(card).addClass("z-depth-3");
+
+                            $(this.target).removeClass("z-depth-3");
+
 
                         }
                         else {
                             TweenLite.set(this.target, {z: 0});
+                            $(this.target).addClass("z-depth-3");
+
 
                             for (i = 1; i < cards.length; i++) {
                                 card = cards[i];
                                 TweenLite.set(card, {z: i * -18, x: i * -18});
                             }
 
+                            $(card).removeClass("z-depth-3");
                             TweenLite.set(card, {webkitFilter: "blur(" + i - 1 + "px)"});
                             // TweenLite.set(card, {css: {zIndex: 1}});
+
+                        }
+                    },
+                    onRelease: function () {
+                        if (!dragged) {
+                            $(this.target).removeClass("z-depth-3");
 
                         }
                     },
@@ -89,6 +108,9 @@
                             var onCompleteFunction = null;
                             if (finalX != 0) {
                                 onCompleteFunction = cardMovedOut;
+                            }
+                            else {
+                                $(this.target).removeClass("z-depth-3");
                             }
 
                             TweenLite.to(this.target, .3, {
@@ -123,6 +145,8 @@
                     var card = cards[i];
                     var blur = i - 1;
                     if (blur < 0)blur = 0;
+
+                    $(card).removeClass("z-depth-3");
 
                     if (i > 0) {
                         $(card).css("pointer-events", "none");
