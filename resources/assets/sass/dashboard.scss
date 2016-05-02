@@ -1,7 +1,24 @@
+.carousel.dashboard-carousel
+{
+}
+
+.card-panel.carousel-item.my-card
+{
+  width: 260px;
+  min-height: 450px;
+  right:10px;
+  left: auto;
+}
+
+.card-content
+{
+  height: 430px;
+}
+
 .my-card{
-  padding: 0px!important;
+  //padding: 0px!important;
 }
 
 .row-card{
-  margin: 0!important;
+  //margin: 0!important;
 }

@@ -1,4 +1,4 @@
-<span>Usuarios</span>
+<span>Nodos</span>
 
 <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa ea fuga nesciunt pariatur quam reiciendis, sapiente
