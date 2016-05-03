@@ -6,7 +6,7 @@
 
             var card = this.find(".carousel-item:first");
             var cardsLength = this.find(".carousel-item").length;
-            console.log(card);
+            //console.log(card);
 
 
             var cardHeight = card.outerHeight() + 20;
@@ -96,7 +96,7 @@
                     },
 
                     onDragEnd: function () {
-                        console.log(this.x+"_"+cardWidth);
+                        //console.log(this.x+"_"+cardWidth);
                         // return Math.round(endValue / cardWidth) * cardWidth;
 
                         if (this.x < -40) {
@@ -136,7 +136,7 @@
             });
 
             function cardMovedOut() {
-                console.log("salio");
+                //console.log("salio");
                 var outCard = cards.shift();
                 cards.push(outCard);
                 moveCards();

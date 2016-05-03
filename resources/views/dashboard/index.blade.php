@@ -1,6 +1,6 @@
 @extends('layouts.mainmat')
 
-@section('title', 'Campañas')
+@section('title', 'Inicio')
 
 
 @section('head_scripts')

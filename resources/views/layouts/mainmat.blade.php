@@ -21,38 +21,78 @@
     {!! HTML::style('css/materialize.css') !!}
 
             <!-- App - CSS -->
-    {!! HTML::style('assets/css/main.css') !!}
+    {!! HTML::style('assets/css/app.css') !!}
 
 </head>
-<body>
-<main>
+<body style="opacity: 0; filter: alpha(opacity=0);">
+
+
+<head>
     <nav>
-        <div class="nav-wrapper">
-            <a href="javascript:void(0)" class="brand-logo title-menu">
-                <img src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera"> <span style="font-size: 25px;">Networks</span></a>
-            <ul id="nav-mobile" class="right show-on-small">
-                <li><a href="javascript:void(0)"><i class="material-icons user">perm_identity</i></a></li>
+
+        <!-- networks navbar -->
+        <div class="nav-wrapper grey darken-3" >
+
+            <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
+                <img class="menu-logo" src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera">
+                <span class="menu-text" style="font-size: 25px;">Networks</span>
+                <i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>
+            </a>
+
+            <div id="nav-mobile" class="right platform-hide">
+                <a href="javascript:void(0)"><i class="material-icons user">perm_identity</i></a>
                 {{--<img class="responsive-img" src="{{asset('assets/img/logo_main.png')}}"> para poner la imagen del usuario  --}}
-            </ul>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a class="dropdown-button" href="javascript:void(0)" data-activates="networks">Nodos
-                        <i class="material-icons right mi-1_5">wifi</i></a>
-                </li>
-                <li><a href="javascript:void(0)"><i class="material-icons mi-1_5">&#xE8B6;</i></a></li>
-                <li><a href="javascript:void(0)"><i class="material-icons mi-1_5">&#xE7F4;</i></a></li>
-            </ul>
-            <i class="material-icons mobil-menu hide-on-large-only">menu</i>
+            </div>
+
+
+            <i class="material-icons mobil-menu hide-on-large-only platform-hide">menu</i>
+
         </div>
+
+        <!-- publishers -->
+        <div class="nav-wrapper blue" data-url="http://publishers.enera-intelligence.mx">
+
+            <a href="javascript:void(0)" class="brand-logo center title-menu">
+                <img class="menu-logo" src="{{asset('assets/img/logo_enera_publishers.png')}}" alt="Enera">
+                <span class="menu-text" style="font-size: 25px;">Publishers</span>
+            </a>
+
+        </div>
+
+        <!-- admins -->
+        <div class="nav-wrapper red" data-url="http://admins.enera-intelligence.mx">
+
+            <a href="javascript:void(0)" class="brand-logo center title-menu">
+                <img class="menu-logo" src="{{asset('assets/img/logo_enera_admins.png')}}" alt="Enera">
+                <span class="menu-text" style="font-size: 25px;">Admins</span>
+            </a>
+
+        </div>
+
     </nav>
+
     <ul id="networks" class="dropdown-content dropdown-menu up-arrow">
         <li><a href="javascript:void(0)">one</a></li>
         <li><a href="javascript:void(0)">two</a></li>
         <li><a href="javascript:void(0)">three</a></li>
     </ul>
+</head>
+
+
+<div class="progress page-loader grey lighten-5">
+    <div class="indeterminate grey darken-2"></div>
+</div>
+
+
+<main>
 
     @yield('content')
+
 </main>
-<footer class="page-footer">
+
+
+
+<footer class="page-footer grey darken-3">
     <div class="footer-copyright">
         <div class="container">
             @if(!isset($hideTermsFooter) || !$hideTermsFooter)
@@ -89,6 +129,7 @@
 <!-- Material - JS -->
 {!! HTML::script('js/jquery.min.js') !!}
 {!! HTML::script('js/materialize.js') !!}
+{!! HTML::script('js/platform_menu.js') !!}
 
 
 
@@ -96,7 +137,14 @@
 
 <script>
     $(document).ready(function () {
+
+
+        platformMenu.initialize();
+
         $(".dropdown-button").dropdown();
+
+        $("body").css("opacity",1);
+        $("body").css("filter","alpha(opacity=40)");
 
     });
 </script>
