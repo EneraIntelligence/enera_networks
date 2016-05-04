@@ -41,7 +41,7 @@
                         <li data-icon="keyboard_arrow_right">Aps: {{count($branche->aps)}}</li>
                         <li data-icon="keyboard_arrow_right">Red: {{$branche->network->name}}</li>
                     </ul>
-                    <a href="#" class="center">Ver más detalles</a>
+                    <a href="{{route('branches::show', ['id' => $branche->id])}}" class="center">Ver más detalles</a>
                 </div>
             </li>
         @endforeach
