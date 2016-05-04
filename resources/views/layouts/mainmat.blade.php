@@ -107,11 +107,6 @@
 
     </nav>
 
-    <ul id="networks" class="dropdown-content dropdown-menu up-arrow">
-        <li><a href="javascript:void(0)">one</a></li>
-        <li><a href="javascript:void(0)">two</a></li>
-        <li><a href="javascript:void(0)">three</a></li>
-    </ul>
 </head>
 
 

@@ -32,7 +32,7 @@ var platformMenu =
             var barHeight = vHeight / platformMenu.navBars.length;
 
             TweenLite.set("nav", {css: {position: "relative"}});
-            TweenLite.set("nav", {css: {zIndex: 9999}});
+            TweenLite.set("nav", {css: {zIndex: 900}});
 
             TweenLite.to("nav", .3, {
                 y: vHeight - barHeight,
@@ -41,20 +41,31 @@ var platformMenu =
             });
             platformMenu.open = true;
 
+            $("body").css("overflow","hidden");
+
             platformMenu.iconsHidden(true);
             platformMenu.barsDepth(true);
             platformMenu.barsGrow(true);
         }
         else {
             console.log("close");
+
+            //TweenLite.set("nav", {css: {position: "inherit"}});
+            TweenLite.set("nav", {css: {zIndex: 1}});
+
             // TweenLite.set("nav", {css: { position:"relative" } });
             // TweenLite.set("nav", {css: { zIndex:auto } });
             TweenLite.to("nav", .3, {
                 y: 0,
-                onComplete: platformMenu.addActions,
-                onCompleteParams: [false]
+                onComplete: function(){
+                    $("nav").removeAttr( 'style' );
+                    platformMenu.addActions(false);
+                }
             });
             platformMenu.open = false;
+
+            $("body").css("overflow","auto");
+
 
             platformMenu.iconsHidden(false);
             platformMenu.barsDepth(false);
@@ -103,7 +114,7 @@ var platformMenu =
         if (grow) {
             // set vars
             var vHeight = $(window).height();
-            var barHeight = vHeight / platformMenu.navBars.length;
+            var barHeight = Math.ceil(vHeight / platformMenu.navBars.length);
 
             //animate logo and text
             $(".menu-logo").each(function () {
