@@ -162,9 +162,14 @@
     })();
 </script>
 
-<!-- Material - JS -->
+<!-- Material - JS and GSAP-->
 {!! HTML::script('js/jquery.min.js') !!}
 {!! HTML::script('js/materialize.js') !!}
+{!! HTML::script('js/greensock/TweenLite.min.js') !!}
+{!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
+{!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
+{!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
+
 {!! HTML::script('js/platform_menu.js') !!}
 
 

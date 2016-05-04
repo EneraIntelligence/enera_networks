@@ -73,11 +73,6 @@
 
 @section('scripts')
 
-    {!! HTML::script('js/greensock/TweenLite.min.js') !!}
-    {!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
-    {!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
-    {!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
-
     {!! HTML::script('js/carousel-enera.js') !!}
 
 
