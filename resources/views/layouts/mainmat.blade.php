@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">--}}
     <link rel="icon" type="image/png" href="{!! URL::asset('images/favicon.png') !!}" sizes="32x32">
     <title>Enera Networks - @yield('title')</title>
-    @yield('head_scripts')
+
 
             <!-- Material - CSS -->
     {!! HTML::style('css/material-extra.css') !!}
@@ -22,6 +22,7 @@
 
             <!-- App - CSS -->
     {!! HTML::style('assets/css/app.css') !!}
+    @yield('head_scripts')
 
 </head>
 <body style="opacity: 0; filter: alpha(opacity=0);" class="grey lighten-3">
