@@ -33,19 +33,55 @@
         <!-- networks navbar -->
         <div class="nav-wrapper grey darken-3" >
 
+            <!-- platform logo -->
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera">
                 <span class="menu-text" style="font-size: 25px;">Networks</span>
                 <i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>
             </a>
 
-            <div id="nav-mobile" class="right platform-hide">
-                <a href="javascript:void(0)"><i class="material-icons user">perm_identity</i></a>
-                {{--<img class="responsive-img" src="{{asset('assets/img/logo_main.png')}}"> para poner la imagen del usuario  --}}
-            </div>
+
+            <!-- desktop menu left-->
+            <ul class="left hide-on-med-and-down platform-hide">
+                <li>
+                    <a class="dropdown-button" href="#!" data-activates="networksDropdown">
+                        Red: Red X
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
+
+                    <!-- Dropdown Structure -->
+                    <ul id="networksDropdown" class="dropdown-content">
+                        <li><a href="#!">Red X</a></li>
+                        <li><a href="#!">Red Y</a></li>
+                        <li><a href="#!">Red Z</a></li>
+                    </ul>
+
+                </li>
+
+                <li><a href="badges.html">Nodos</a></li>
+                <li><a href="mobile.html">Campañas</a></li>
+            </ul>
+
+            <!-- desktop menu right-->
+            <ul class="right platform-hide">
+                <li class="hide-on-med-and-down"><a href="collapsible.html">Reportes</a></li>
+                <li><a href="collapsible.html"><i class="material-icons">perm_identity</i></a></li>
+            </ul>
 
 
-            <i class="material-icons mobil-menu hide-on-large-only platform-hide">menu</i>
+
+            <!-- mobile menu button -->
+            <a href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse platform-hide">
+                <i class="material-icons">menu</i>
+            </a>
+
+            <!-- mobile side menu -->
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="sass.html">Redes</a></li>
+                <li><a href="badges.html">Nodos</a></li>
+                <li><a href="mobile.html">Campañas</a></li>
+                <li><a href="collapsible.html">Reportes</a></li>
+            </ul>
 
         </div>
 
@@ -138,13 +174,16 @@
 <script>
     $(document).ready(function () {
 
-
         platformMenu.initialize();
 
+        //materialize elemenst initialization
+        $(".button-collapse").sideNav();
         $(".dropdown-button").dropdown();
 
-        $("body").css("opacity",1);
-        $("body").css("filter","alpha(opacity=40)");
+        //show page when all ready
+        var body = $("body");
+        body.css("opacity",1);
+        body.css("filter","alpha(opacity=100)");
 
     });
 </script>
