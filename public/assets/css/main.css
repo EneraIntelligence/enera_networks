@@ -14,7 +14,6 @@
 .nav-wrapper,
 .page-footer,
 .footer-copyright {
-  background-color: #424242 !important;
   padding: 0 !important;
 }
 
@@ -46,6 +45,11 @@ nav ul a i span.badge {
 
 .dropdown-menu {
   margin-top: 64px;
+}
+
+.page-loader {
+  display: none;
+  margin-top: 0;
 }
 
 @media only screen and (max-width: 992px) {
