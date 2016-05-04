@@ -24,7 +24,7 @@
     {!! HTML::style('assets/css/app.css') !!}
 
 </head>
-<body style="opacity: 0; filter: alpha(opacity=0);">
+<body style="opacity: 0; filter: alpha(opacity=0);" class="grey lighten-3">
 
 
 <head>
