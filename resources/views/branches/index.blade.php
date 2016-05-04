@@ -61,8 +61,8 @@
                                 <li data-icon="keyboard_arrow_right">Red: {{$branche->network->name}}</li>
                             </ul>
                         </div>
-                        <div class="card-action">
-                            <a href="#">Ver más detalles</a>
+                        <div class="card-action ">
+                            <a href="{{route('branches::show', ['id' => $branche->id])}}">Ver más detalles</a>
                         </div>
                     </div>
                 </div>
