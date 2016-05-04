@@ -31,7 +31,7 @@
     <nav>
 
         <!-- networks navbar -->
-        <div class="nav-wrapper grey darken-3" >
+        <div class="nav-wrapper grey darken-3">
 
             <!-- platform logo -->
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
@@ -44,16 +44,54 @@
             <!-- desktop menu left-->
             <ul class="left hide-on-med-and-down platform-hide">
                 <li>
-                    <a class="dropdown-button" href="#!" data-activates="networksDropdown">
-                        Red: Red X
-                        <i class="material-icons right">arrow_drop_down</i>
-                    </a>
+
+                    <?php
+                        $networkCount = auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count();
+                        $currentNetworkName = \Networks\Network::find(session('network_id'))->name;
+                    ?>
+
+                    @if($networkCount>0)
+                        <a class="dropdown-button" href="#!" data-activates="networksDropdown">
+                            {{ $currentNetworkName }}
+                            <i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    @else
+                        <a class="dropdown-button" href="#!" >
+                            {{ $currentNetworkName }}
+                        </a>
+                    @endif
 
                     <!-- Dropdown Structure -->
                     <ul id="networksDropdown" class="dropdown-content">
-                        <li><a href="#!">Red X</a></li>
-                        <li><a href="#!">Red Y</a></li>
-                        <li><a href="#!">Red Z</a></li>
+
+                        <li>
+                            <a href="#!">
+                                {{ $currentNetworkName }}
+                            </a>
+                        </li>
+
+                        @if(auth()->user()->role->name == 'Enera Admin')
+                            @foreach(\Networks\Network::all() as $network)
+                                @if($network->name!=$currentNetworkName)
+                                <li>
+                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}">
+                                        {{ $network->name }}
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach(auth()->user()->client->networks as $network)
+                                @if($network->name!=$currentNetworkName)
+                                <li>
+                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}">
+                                        {{ $network->name }}
+                                    </a>
+                                </li>
+                                @endif
+                            @endforeach
+                        @endif
+
                     </ul>
 
                 </li>
@@ -69,15 +107,18 @@
             </ul>
 
 
-
             <!-- mobile menu button -->
-            <a href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse platform-hide">
-                <i class="material-icons">menu</i>
-            </a>
+            <ul class="left platform-hide">
+                <li>
+                    <a href="javascript:void(0)" data-activates="mobile-demo" class="button-collapse ">
+                        <i class="material-icons">menu</i>
+                    </a>
+                </li>
+            </ul>
+
 
             <!-- mobile side menu -->
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="sass.html">Redes</a></li>
                 <li><a href="badges.html">Nodos</a></li>
                 <li><a href="mobile.html">Campañas</a></li>
                 <li><a href="collapsible.html">Reportes</a></li>
@@ -107,6 +148,15 @@
 
     </nav>
 
+
+    <div class="current-network hide-on-large-only">
+        <a class="dropdown-button btn z-depth-2 blue-grey darken-1" href="#!" data-activates="networksDropdown">
+            <i class="material-icons left">wifi</i>
+            {{ \Networks\Network::find(session('network_id'))->name }}
+            <i class="material-icons right">arrow_drop_down</i>
+        </a>
+    </div>
+
 </head>
 
 
@@ -122,15 +172,21 @@
 </main>
 
 
-
 <footer class="page-footer grey darken-3">
+
     <div class="footer-copyright">
         <div class="container">
+
+            <a class="left grey-text text-lighten-2" href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
+                condiciones</a>
+
+            <!--
             @if(!isset($hideTermsFooter) || !$hideTermsFooter)
-                <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
+                    <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
                     condiciones</a>
             @endif
-            <span class="grey-text text-lighten-4 right"> © 2016 Copyright Text </span>
+                    -->
+            <span class="grey-text text-lighten-4 right"> © 2016 Enera </span>
 
         </div>
     </div>
@@ -182,8 +238,8 @@
 
         //show page when all ready
         var body = $("body");
-        body.css("opacity",1);
-        body.css("filter","alpha(opacity=100)");
+        body.css("opacity", 1);
+        body.css("filter", "alpha(opacity=100)");
 
     });
 </script>
