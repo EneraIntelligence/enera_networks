@@ -9,7 +9,7 @@
             //console.log(card);
 
 
-            var cardHeight = card.outerHeight() + 20;
+            var cardHeight = card.outerHeight() + 50;
             this.css("height", cardHeight);
 
             var cards = [];

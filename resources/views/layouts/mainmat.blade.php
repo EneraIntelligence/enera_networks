@@ -38,7 +38,8 @@
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera">
                 <span class="menu-text" style="font-size: 25px;">Networks</span>
-                <i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>
+                {{--<i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>--}}
+                <i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide grey-text">keyboard_arrow_down</i>
             </a>
 
 
@@ -66,7 +67,8 @@
                     <ul id="networksDropdown" class="dropdown-content">
 
                         <li>
-                            <a href="#!">
+                            <a href="#!"
+                               class="black-text text-darken-1">
                                 {{ $currentNetworkName }}
                             </a>
                         </li>
@@ -75,7 +77,8 @@
                             @foreach(\Networks\Network::all() as $network)
                                 @if($network->name!=$currentNetworkName)
                                 <li>
-                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}">
+                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                        class="grey-text text-darken-1">
                                         {{ $network->name }}
                                     </a>
                                 </li>
@@ -85,7 +88,8 @@
                             @foreach(auth()->user()->client->networks as $network)
                                 @if($network->name!=$currentNetworkName)
                                 <li>
-                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}">
+                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                       class="grey-text text-darken-1">
                                         {{ $network->name }}
                                     </a>
                                 </li>
@@ -151,7 +155,7 @@
 
 
     <div class="current-network hide-on-large-only">
-        <a class="dropdown-button btn z-depth-2 blue-grey darken-1" href="#!" data-activates="networksDropdown">
+        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdown">
             <i class="material-icons left">wifi</i>
             {{ \Networks\Network::find(session('network_id'))->name }}
             <i class="material-icons right">arrow_drop_down</i>
