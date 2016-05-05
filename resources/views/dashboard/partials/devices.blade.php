@@ -40,23 +40,11 @@
         </div>
 
     </div>
-    <!--
-        <span style="font-weight: 300;">Esta semana:</span>
-        <span class="right" style="font-weight: 200;">15,000
-            <span style="font-size:14px;font-weight:300;" class="green-text">
-                <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>23%
-            </span>
-        </span>
-        <br>
-        <span style="font-size: 12px; font-weight: 300;">28 abril - 4 mayo</span>
-        <span class="right green-text" style="font-size:10px;font-weight:300;">
-            Respecto a la última semana
-        </span>-->
 </div>
 
 <div class="divider grey darken-1"></div>
 
 <div class="section">
-    <a style="width:100%;"
+    <a style="width:80%; margin-left:10%;"
        class="btn cyan" href="#!">Ver más</a>
 </div>
