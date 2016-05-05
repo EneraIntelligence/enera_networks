@@ -22,7 +22,7 @@
         </div>
 
         <div class="col s6 right-align" style="padding:0;">
-            <span style="font-weight: 200;">15,000
+            <span style="font-weight: 200;font-size:19px;">150,000
                 <span style="font-size:14px;font-weight:300;" class="green-text">
                     <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>23%
                 </span>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col s6 right-align" style="padding:0;">
-            <span style="font-size:14px; font-weight: 300; vertical-align:top;">28 abril - 4 mayo</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">28 abril - 4 mayo</span>
         </div>
 
         <div class="col s6 right-align" style="padding:0;">
