@@ -10,17 +10,13 @@
 
 @section('content')
 
-    <div class="col s12 m12 my-card">
+    <div class="col s12 m12 my-card hide-on-large-only">
 
         <div class="carousel dashboard-carousel">
 
-            <div class="card-panel carousel-item my-card">
-                <div class="row row-card">
-                    <div class="col s12 m12">
-                        <div class="card-content">
-                            @include('dashboard/partials/devices')
-                        </div>
-                    </div>
+            <div class="card-panel carousel-item my-card grey darken-3 white-text">
+                <div class="card-content">
+                    @include('dashboard/partials/devices')
                 </div>
             </div>
 
@@ -83,13 +79,13 @@
         });
 
         /*
-        $(document).ready(function () {
-            $('.carousel').carouselEnera({
-                dist: -30,
-                time_constant: 200,
-                padding: -400
-            });
-        });*/
+         $(document).ready(function () {
+         $('.carousel').carouselEnera({
+         dist: -30,
+         time_constant: 200,
+         padding: -400
+         });
+         });*/
 
         //$('.height').css('height', screen.height - (screen.height * .30))
 

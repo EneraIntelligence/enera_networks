@@ -45,6 +45,9 @@
 
             <!-- desktop menu left-->
             <ul class="left hide-on-med-and-down platform-hide">
+
+                <li style="padding:0 10px;" class="hide-on-med-and-down"><a href="{{ route("home") }}">Inicio</a></li>
+
                 <li>
 
                     <?php
@@ -101,13 +104,13 @@
 
                 </li>
 
-                <li><a href="badges.html">Nodos</a></li>
-                <li><a href="mobile.html">Campañas</a></li>
+                <li><a href="{{ route("branches::index") }}">Nodos</a></li>
+                <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
             </ul>
 
             <!-- desktop menu right-->
             <ul class="right platform-hide">
-                <li class="hide-on-med-and-down"><a href="collapsible.html">Reportes</a></li>
+                <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
                 <li><a href="collapsible.html"><i class="material-icons">perm_identity</i></a></li>
             </ul>
 
@@ -124,9 +127,10 @@
 
             <!-- mobile side menu -->
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="badges.html">Nodos</a></li>
-                <li><a href="mobile.html">Campañas</a></li>
-                <li><a href="collapsible.html">Reportes</a></li>
+                <li><a href="{{ route("home") }}">Inicio</a></li>
+                <li><a href="{{ route("branches::index") }}">Nodos</a></li>
+                <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
+                <li><a href="#!">Reportes</a></li>
             </ul>
 
         </div>
@@ -155,12 +159,48 @@
 
 
     <div class="current-network hide-on-large-only">
-        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdown">
+        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile">
             <i class="material-icons left">wifi</i>
             {{ \Networks\Network::find(session('network_id'))->name }}
             <i class="material-icons right">arrow_drop_down</i>
         </a>
     </div>
+
+    <!-- Dropdown Structure -->
+    <ul id="networksDropdownMobile" class="dropdown-content">
+
+        <li>
+            <a href="#!"
+               class="black-text text-darken-1">
+                {{ $currentNetworkName }}
+            </a>
+        </li>
+
+        @if(auth()->user()->role->name == 'Enera Admin')
+            @foreach(\Networks\Network::all() as $network)
+                @if($network->name!=$currentNetworkName)
+                    <li>
+                        <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                           class="grey-text text-darken-1">
+                            {{ $network->name }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        @else
+            @foreach(auth()->user()->client->networks as $network)
+                @if($network->name!=$currentNetworkName)
+                    <li>
+                        <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                           class="grey-text text-darken-1">
+                            {{ $network->name }}
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        @endif
+
+    </ul>
 
 </head>
 
