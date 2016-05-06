@@ -2,26 +2,76 @@
 {
 }
 
-.card-panel.carousel-item.my-card
+.section.image-card
 {
-  width: 85%;
-  min-height: 450px;
-  right:10px;
-  left: auto;
-  padding-left:10px;
-  padding-right:10px;
+  padding-top:0;
+  //margin: -1rem -0.75rem 0;
+  margin: -20px -20px 0;
 
 }
-
-.card-content
+/*
+.desktop-card
 {
-  height: 430px;
+  width: 300px;
+}
+*/
+
+
+.strong
+{
+  font-weight: 300;
+}
+.stronger
+{
+  font-weight:400;
+}
+.thin
+{
+  font-weight: 200;
 }
 
-.my-card{
-  //padding: 0px!important;
+.container.desktop-container
+{
+  width: 96%;
 }
 
-.row-card{
-  //margin: 0!important;
+
+@media only screen and (max-width: 992px) {
+
+  //ipad and down
+  .container.col.m6.l4
+  {
+
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  //mobile only
+
+  .dash-data
+  {
+    .right-align
+    {
+
+      padding: 0;
+    }
+  }
+
+  .card-panel.carousel-item.my-card {
+    width: 85%;
+    min-height: 450px;
+    right: 10px;
+    left: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .section.image-card
+  {
+    padding-top:0;
+    margin: -20px -10px 0;
+  }
+
 }

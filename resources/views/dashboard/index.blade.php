@@ -10,7 +10,7 @@
 
 @section('content')
 
-    <div class="col s12 m12 my-card hide-on-large-only">
+    <div class="col s12 m12 my-card hide-on-med-and-up">
 
         <div class="carousel dashboard-carousel">
 
@@ -21,48 +21,81 @@
             </div>
 
             <div class="card-panel carousel-item my-card">
-                <div class="row row-card">
-                    <div class="col s12 m12">
-                        <div class="card-content">
-                            @include('dashboard/partials/users')
-                        </div>
-                    </div>
+                <div class="card-content">
+                    @include('dashboard/partials/users')
                 </div>
             </div>
 
             <div class="card-panel carousel-item my-card">
-                <div class="row row-card">
-                    <div class="col s12 m12">
-                        <div class="card-content">
-                            @include('dashboard/partials/access')
-                        </div>
-                    </div>
+                <div class="card-content">
+                    @include('dashboard/partials/access')
                 </div>
             </div>
 
             <div class="card-panel carousel-item my-card">
-                <div class="row row-card">
-                    <div class="col s12 m12">
-                        <div class="card-content">
-                            @include('dashboard/partials/branches')
-                        </div>
-                    </div>
+                <div class="card-content">
+                    @include('dashboard/partials/branches')
                 </div>
             </div>
 
             <div class="card-panel carousel-item my-card">
-                <div class="row row-card">
-                    <div class="col s12 m12">
-                        <div class="card-content">
-                            @include('dashboard/partials/campaigns')
-                        </div>
-                    </div>
+                <div class="card-content">
+                    @include('dashboard/partials/campaigns')
                 </div>
             </div>
 
         </div><!-- carousel -->
 
+    </div> <!-- mobile content -->
+
+    <div class="container desktop-container hide-on-small-only">
+        <div class="row">
+
+            <div class="container col m6 l4">
+                <div class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/devices')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container col m6 l4">
+                <div class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/users')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container col m6 l4">
+                <div class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/access')
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container col m6 l4">
+                <div class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/branches')
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container col m6 l4">
+                <div class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/campaigns')
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
 
 @stop
 

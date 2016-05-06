@@ -9,7 +9,7 @@
             //console.log(card);
 
 
-            var cardHeight = card.outerHeight() + 50;
+            var cardHeight = card.outerHeight() + 60;
             this.css("height", cardHeight);
 
             var cards = [];
@@ -26,7 +26,7 @@
 
                 cards.push(this);
 
-                TweenLite.set(this, {x: (index * -18), z: (index * -20)});
+                TweenLite.set(this, {x: (index * -18), z: (index * -20), y:20});
                 TweenLite.set(this, {css: {zIndex: cardsLength - index}});
                 var blur = index - 1;
                 if (blur < 0)blur = 0;
