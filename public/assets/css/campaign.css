@@ -1,3 +1,59 @@
+.menu {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.icon-menu {
+  background-color: #1565c0;
+  padding: 5px 1px 5px 5px;
+  margin: 0 18px 0 0;
+  border-radius: 50%;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.data-menu {
+  float: right;
+}
+
+.l-margin {
+  margin-left: 50px;
+}
+
+.zero {
+  margin: 0;
+  padding: 0;
+}
+
+[data-icon]::before {
+  content: attr(data-icon);
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  /* Preferred icon size */
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+}
+
 #vista {
   min-width: 239px;
 }

@@ -20,28 +20,28 @@
                 </div>
             </div>
         </li>
-        @foreach($branches as $branche)
+        @foreach($branches as $branch)
             <li>
                 <div class="collapsible-header">
                     <span class="icon-menu">
-                        {{strtoupper(substr($branche->name, 0, 2)) }}
+                        {{strtoupper(substr($branch->name, 0, 2)) }}
                     </span>
                     <span>
-                        {{$branche->name}}
+                        {{$branch->name}}
                     </span>
                     <span class="data-menu" style="padding: 0 10px 0 0;">
-                        {{ $branche->campaign_logs()->where('interaction.welcome_loaded','exists',true)->count() }}
-                        / {{ count($branche->aps) }}
+                        {{ $branch->campaign_logs()->where('interaction.welcome_loaded','exists',true)->count() }}
+                        / {{ count($branch->aps) }}
                     </span>
                 </div>
                 <div class="collapsible-body">
                     <ul class="list black-text">
-                        <li data-icon="keyboard_arrow_right">Status: {{$branche->status}}</li>
-                        <li data-icon="keyboard_arrow_right">Globales: {{($branche->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
-                        <li data-icon="keyboard_arrow_right">Aps: {{count($branche->aps)}}</li>
-                        <li data-icon="keyboard_arrow_right">Red: {{$branche->network->name}}</li>
+                        <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                        <li data-icon="keyboard_arrow_right">Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                        <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
+                        <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
                     </ul>
-                    <a href="{{route('branches::show', ['id' => $branche->id])}}" class="center">Ver más detalles</a>
+                    <a href="{{route('branches::show', ['id' => $branch->id])}}" class="center">Ver más detalles</a>
                 </div>
             </li>
         @endforeach
@@ -49,20 +49,23 @@
 
     <div class="hide-on-small-only">
         <div class="row">
-            @foreach($branches as $branche)
+            @foreach($branches as $branch)
                 <div class="col m4 l3">
                     <div class="card blue-grey white">
                         <div class="card-content white-text">
-                            <span class="card-title black-text">{{$branche->name}}</span>
+                            <span class="card-title black-text">{{$branch->name}}</span>
                             <ul class="list black-text">
-                                <li data-icon="keyboard_arrow_right">Status: {{$branche->status}}</li>
-                                <li data-icon="keyboard_arrow_right">Globales: {{($branche->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
-                                <li data-icon="keyboard_arrow_right">Aps: {{count($branche->aps)}}</li>
-                                <li data-icon="keyboard_arrow_right">Red: {{$branche->network->name}}</li>
+                                <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
                             </ul>
                         </div>
                         <div class="card-action ">
-                            <a href="{{route('branches::show', ['id' => $branche->id])}}">Ver más detalles</a>
+                            <a href="{{route('branches::show', ['id' => $branch->id])}}">Ver más detalles</a>
                         </div>
                     </div>
                 </div>
