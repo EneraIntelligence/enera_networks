@@ -7,8 +7,10 @@ use DB;
 use Illuminate\Http\Request;
 
 use MongoDate;
+use Networks\AccessPoint;
 use Networks\Branche;
 
+use Networks\Campaign;
 use Networks\CampaignLog;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
@@ -288,13 +290,14 @@ class BranchesController extends Controller
             //array with pages names
             $words = $this->getPagesNames($likes_ids);
 
-            //dd($likesCount);
+            $aps = AccessPoint::WhereIn('mac', $branch->aps)->get();
             /*
              * wordcloud
              */
 
             return view('branches.show', [
                 'branch' => $branch,
+                'aps' => $aps,
                 'network' => Network::find(session('network_id')),
                 'devices' => $devices['result'][0]['count'],
                 'users' => $users['result'][0]['count'],

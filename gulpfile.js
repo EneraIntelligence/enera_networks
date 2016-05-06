@@ -20,6 +20,7 @@ elixir(function(mix) {
     mix.sass('dashboard.scss','public/assets/css/dashboard.css');
     mix.sass('auth/login.scss','public/css/auth/login.css');
     mix.sass('nodes.scss','public/assets/css/nodes.css');
+    mix.sass('welcome.scss','public/assets/css/welcome.css');
 
 
     //materialize import to public

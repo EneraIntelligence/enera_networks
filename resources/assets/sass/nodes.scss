@@ -62,3 +62,24 @@ $blue: #1565c0;
 .show{
   padding: 0 20px 20px 10px !important;
 }
+
+
+#table-wrapper {
+  position:relative;
+  height: 483px;
+}
+#table-scroll {
+  height:483px;
+  overflow:auto;
+}
+#table-wrapper table {
+  width:100%;
+
+}
+#mydiv {
+  position: absolute;
+  top: 72px;
+  left: 23px;
+  width: 205px;
+  height: 326px;
+}
