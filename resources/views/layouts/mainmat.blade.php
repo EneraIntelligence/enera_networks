@@ -46,7 +46,10 @@
             <!-- desktop menu left-->
             <ul class="left hide-on-med-and-down platform-hide">
 
-                <li style="padding:0 10px;" class="hide-on-med-and-down"><a href="{{ route("home") }}">Inicio</a></li>
+                <li style="padding:0 10px 0 0;" class="hide-on-med-and-down"><a href="{{ route("home") }}">
+                        <i class="material-icons">home</i>
+                    </a>
+                </li>
 
                 <li>
 
@@ -111,7 +114,7 @@
             <!-- desktop menu right-->
             <ul class="right platform-hide">
                 <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
-                <li><a href="collapsible.html"><i class="material-icons">perm_identity</i></a></li>
+                <li><a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a></li>
             </ul>
 
 
