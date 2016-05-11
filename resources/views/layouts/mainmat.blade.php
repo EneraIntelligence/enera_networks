@@ -25,14 +25,16 @@
     @yield('head_scripts')
 
 </head>
+
 <body style="opacity: 0; filter: alpha(opacity=0);" class="grey lighten-3">
 
 
-<head>
+<header>
     <nav>
 
+
         <!-- networks navbar -->
-        <div class="nav-wrapper grey darken-3">
+        <div class="nav-wrapper grey darken-3" style="overflow-y: hidden;">
 
             <!-- platform logo -->
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
@@ -114,7 +116,11 @@
             <!-- desktop menu right-->
             <ul class="right platform-hide">
                 <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
-                <li><a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a></li>
+
+                <li class="{{ isset($navData) && $navData["profileState"]?$navData["profileState"]:""  }}">
+                    <a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>
+                </li>
+
             </ul>
 
 
@@ -160,6 +166,7 @@
 
     </nav>
 
+    @if( !isset($navData) || !$navData['hideNetworkSelector'] )
 
     <div class="current-network hide-on-large-only">
         <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile">
@@ -205,7 +212,9 @@
 
     </ul>
 
-</head>
+    @endif
+
+</header>
 
 
 <div class="progress page-loader grey lighten-5">

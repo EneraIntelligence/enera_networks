@@ -18,11 +18,16 @@ class UserController extends Controller
      */
     public function index()
     {
+        $navData=array(
+            "hideNetworkSelector"=>true,
+            "profileState"=> "active"
+        );
+        
         $all = Campaign::where('administrator_id', Auth::user()->_id)->limit(10)->get();
         $active = Campaign::where('administrator_id', Auth::user()->_id)->where('status', 'active')->count();
         $closed = Campaign::where('administrator_id', Auth::user()->_id)->where('status', 'closed')->count();
         $canceled = Campaign::where('administrator_id', Auth::user()->_id)->where('status', 'canceled')->count();
-        return view('profile.index', ['user' => Auth::user(), 'all' => $all, 'active' => $active, 'closed' => $closed, 'canceled' => $canceled]);
+        return view('profile.index', ['user' => Auth::user(), 'all' => $all, 'active' => $active, 'closed' => $closed, 'canceled' => $canceled, 'navData'=>$navData]);
     }
 
 

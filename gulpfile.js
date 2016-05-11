@@ -21,6 +21,8 @@ elixir(function(mix) {
     mix.sass('auth/login.scss','public/css/auth/login.css');
     mix.sass('nodes.scss','public/assets/css/nodes.css');
     mix.sass('welcome.scss','public/assets/css/welcome.css');
+    
+    mix.sass('profile_v2.scss','public/assets/css/profile_v2.css');
 
 
     //materialize import to public
