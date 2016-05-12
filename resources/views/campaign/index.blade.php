@@ -33,16 +33,18 @@
                         <li data-icon="keyboard_arrow_right">Status: {{$campaign->status}}</li>
                         <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
                         ' '. $campaign->administrator->name['last']}}</li>
-                        <li data-icon="keyboard_arrow_right">Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
-                        <li data-icon="keyboard_arrow_right">Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
+                        <li data-icon="keyboard_arrow_right">
+                            Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
+                        <li data-icon="keyboard_arrow_right">
+                            Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
                         <li data-icon="keyboard_arrow_right">Dias:
-                                            @if(isset($campaign->filters['week_days'] ))
-                                    @foreach($campaign->filters['week_days'] as $dia)
-                                        {{ trans('days.'.$dia) }},
-                                    @endforeach
-                                @else
-                                    no definido
-                                @endif
+                            @if(isset($campaign->filters['week_days'] ))
+                                @foreach($campaign->filters['week_days'] as $dia)
+                                    {{ trans('days.'.$dia) }},
+                                @endforeach
+                            @else
+                                no definido
+                            @endif
                         </li>
                     </ul>
                     <a href="{{route('campaigns::show', ['id' => $campaign->id])}}" class="center">Ver más detalles</a>
@@ -55,7 +57,7 @@
     <div class="hide-on-small-only">
         <div class="row">
             @foreach($campaigns as $campaign)
-                <div class="col m4 l3">
+                <div class="col m6 l4">
                     <div class="card blue-grey white">
                         <div class="card-content white-text">
                             <span class="card-title black-text">{{$campaign->name}}</span>
@@ -65,9 +67,11 @@
                                 <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
                         ' '. $campaign->administrator->name['last']}}</li>
                                 <hr>
-                                <li data-icon="keyboard_arrow_right">Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
                                 <hr>
-                                <li data-icon="keyboard_arrow_right">Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
                                 <hr>
                                 <li data-icon="keyboard_arrow_right">Dias:
                                     @if(isset($campaign->filters['week_days'] ))

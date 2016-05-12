@@ -24,6 +24,14 @@ elixir(function(mix) {
     
     mix.sass('profile_v2.scss','public/assets/css/profile_v2.css');
 
+    //interactions scss
+    mix.sass('captcha.scss','public/assets/css/captcha.css');
+    mix.sass('bannerLink.scss','public/assets/css/bannerLink.css');
+    mix.sass('video.scss','public/assets/css/video.css');
+    mix.sass('mailing_list.scss','public/assets/css/mailing_list.css');
+    mix.sass('like.scss','public/assets/css/like.css');
+    mix.sass('survey.scss','public/assets/css/survey.css');
+
 
     //materialize import to public
     mix.sass([
