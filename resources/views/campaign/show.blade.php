@@ -11,7 +11,7 @@
     <?php $size = sizeof($cam->filters['day_hours']) ?>
     <div class="hide-on-med-and-up">
         <div class="col s14">
-            <div class="card-panel teal avatar circle">
+            <div class="card-panel blue-grey avatar circle">
                 <img class="svg" src="{!! URL::asset('images/icons/'.
                          CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
                      alt="Enera"/>

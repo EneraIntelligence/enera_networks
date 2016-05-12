@@ -42,10 +42,10 @@
         <i class="uk-icon-file-picture-o "
            style="margin-right:10px;"></i>Imagen encuesta :
         <a class="waves-effect waves-light modal-trigger"
-           href="#survey-image">{!! $cam->content['images']['large'] !!}</a>
+           href="#survey-image">{!! $cam->content['images']['survey'] !!}</a>
         <div id="survey-image" class="modal">
             <div class="modal-content">
-                <h5>{!! $cam->content['images']['large'] !!}</h5>
+                <h5>{!! $cam->content['images']['survey'] !!}</h5>
                 <img class="responsive-img"
                      src="{!! "https://s3-us-west-1.amazonaws.com/enera-publishers/items/". $cam->content['images']['survey'] !!}"
                      alt=""/>

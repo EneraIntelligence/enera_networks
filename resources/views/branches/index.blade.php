@@ -53,7 +53,11 @@
                 <div class="col m4 l3">
                     <div class="card blue-grey white">
                         <div class="card-content white-text">
-                            <span class="card-title black-text">{{$branch->name}}</span>
+                            <div class="card-image">
+                                <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/". ($branch->portal['image'] )}}"
+                                     class="responsive-img" height="258" width="258">
+                                <span class="card-title">{{$branch->name}}</span>
+                            </div>
                             <ul class="list black-text">
                                 <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
                                 <hr>

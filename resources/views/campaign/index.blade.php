@@ -60,7 +60,12 @@
                 <div class="col m6 l4">
                     <div class="card blue-grey white">
                         <div class="card-content white-text">
-                            <span class="card-title black-text">{{$campaign->name}}</span>
+                            <div class="card-image">
+                                <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}"
+                                class="responsive-img">
+                                <span class="card-title">{{$campaign->name}}</span>
+                            </div>
+                            {{--<span class="card-title black-text">{{$campaign->name}}</span>--}}
                             <ul class="list black-text">
                                 <li data-icon="keyboard_arrow_right">Status: {{$campaign->status}}</li>
                                 <hr>
