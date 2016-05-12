@@ -5,7 +5,7 @@
            style="margin-right:10px;"></i>Imagen chica :
         <a class="waves-effect waves-light modal-trigger"
            href="#image-small">{!! $cam->content['images']['small'] !!}</a>
-        <div id="image-large" class="modal">
+        <div id="image-small" class="modal">
             <div class="modal-content">
                 <h5>{!! $cam->content['images']['small'] !!}</h5>
                 <img class="responsive-img"
