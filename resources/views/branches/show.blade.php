@@ -105,7 +105,7 @@
                 <div class="card blue-grey white" style="min-height: 570px;">
                     <div class="card-content black-text">
                         <span class="card-title">Vista Previa</span>
-                        <div style="position: relative; width: 250px; margin: 0 auto;" >
+                        <div style="position: relative; width: 250px; margin: 0 auto;">
                             <div class="preview" style="text-align: center;">
                                 <img src="{{asset('images/android_placeholder.png')}}" alt="">
                             </div>
@@ -123,7 +123,8 @@
                                             <p class="center-align">
 
                                                 <input type="checkbox" id="terms-checkbox"/>
-                                                <label for="terms-checkbox">Acepto los <a class="modal-trigger" href="javascript:void(0)">Términos
+                                                <label for="terms-checkbox">Acepto los <a class=""
+                                                                                          href="javascript:void(0)">Términos
                                                         y
                                                         condiciones</a></label>
                                             </p>
@@ -200,8 +201,8 @@
                 </div>
             </div>
             <div class="col s6 hide-on-small-only hide-on-large-only" style="height: 570px;">
-                <div class="card blue-grey white" >
-                    <div class="card-content black-text" >
+                <div class="card blue-grey white">
+                    <div class="card-content black-text">
                         <span class="card-title">Like Frecuentes</span>
                         <div id="table-wrapper">
                             <div id="table-scroll">
@@ -298,7 +299,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+            <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
         </div>
     </div>
 

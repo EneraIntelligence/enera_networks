@@ -178,6 +178,7 @@ class CampaignController extends Controller
                     ]
                 ]
             ]);
+
             $IntCompleted = $collection->aggregate([
                 [
                     '$match' => [
@@ -239,7 +240,65 @@ class CampaignController extends Controller
                     ]
                 ]
             ])['result'];
+
             $unique_users = isset($unique_users_query[0]['cnt']) ? $unique_users_query[0]['cnt'] : 0;
+            $count = 0;
+            $chart5 = [];
+
+            $json = "{}";
+            if ($campaign->interaction['name'] == 'survey') {
+                foreach ($campaign->content['survey'] as $q) {
+                    $survey = $collection->aggregate([
+                        [
+                            '$match' => [
+                                'campaign_id' => $campaign->_id,
+                                'survey.q' . $count => ['$exists' => true]
+                            ]
+                        ],
+                        [
+                            '$group' => [
+                                '_id' =>
+                                    ['answer' => '$survey.q' . $count,
+                                        'gender' => '$user.gender',
+                                        'question' => ['$literal' => 'q' . ($count)]
+                                    ],
+                                'cnt' => ['$sum' => 1]
+                            ]
+                        ],
+                        [
+                            '$sort' => ['_id' => 1]
+                        ]
+                    ])['result'];
+                    $count++;
+                    array_push($chart5, $survey);
+                }
+                
+                $json = json_decode($json);
+                foreach ($campaign->content['survey'] as $key => $value) {
+                    $json->$key = array('total' => 0, 'data' => $value ,'a0' => array('male' => 0, 'female' => 0) );
+                }
+                foreach ($chart5 as $v) {
+                    foreach ($v as $c) {
+                        if ($c['_id']['gender'] == 'male') {
+                            $json->{$c['_id']['question']}['total'] += $c['cnt'];
+                            if (isset($json->{$c['_id']['question']}{$c['_id']['answer']})) {
+                                $json->{$c['_id']['question']}{$c['_id']['answer']}['male'] += $c['cnt'];
+                            } else {
+                                $json->{$c['_id']['question']}{$c['_id']['answer']} = array('male' => $c['cnt'], 'female' => 0);
+                            }
+                        } else {
+                            $json->{$c['_id']['question']}['total'] += $c['cnt'];
+                            if (isset($json->{$c['_id']['question']}{$c['_id']['answer']})) {
+                                $json->{$c['_id']['question']}{$c['_id']['answer']}['female'] += $c['cnt'];
+                            } else {
+                                $json->{$c['_id']['question']}{$c['_id']['answer']} = array('male' => 0, 'female' => $c['cnt']);
+                            }
+                        }
+                    }
+                }
+                json_encode($json);
+            }
+
 
             /****         SI EL BRANCH TIENE ALL SE MOSTRARA COMO GLOBAL       ***************/
             $lugares = in_array('all', $campaign->branches) ? 'global' : $campaign->branches;
@@ -252,6 +311,7 @@ class CampaignController extends Controller
                 'porcentaje' => $porcentaje,
                 'IntHours' => $IntHours,
                 'unique_users' => $unique_users,
+                'json' => $json
             ]);
         } else {
             return redirect()->route('campaign::index')->with('data', 'errorCamp');
