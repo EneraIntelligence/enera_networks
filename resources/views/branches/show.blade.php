@@ -123,7 +123,7 @@
                                             <p class="center-align">
 
                                                 <input type="checkbox" id="terms-checkbox"/>
-                                                <label for="terms-checkbox">Acepto los <a class="modal-trigger"
+                                                <label for="terms-checkbox">Acepto los <a class=""
                                                                                           href="javascript:void(0)">Términos
                                                         y
                                                         condiciones</a></label>
