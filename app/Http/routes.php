@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
 
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+        Route::get('/settings', ['as' => 'settings', 'uses' => 'UserController@settings']);
     });
 
     Route::group(['prefix' => 'nodes', 'as' => 'branches::'], function () {

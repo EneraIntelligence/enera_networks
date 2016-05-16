@@ -31,4 +31,9 @@ class UserController extends Controller
     }
 
 
+    public function settings()
+    {
+        return view('profile.settings');
+    }
+    
 }

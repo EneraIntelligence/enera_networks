@@ -34,9 +34,15 @@
 }
 
 .card-content{
-  p{
+
+  h5{
     display: inline-flex;
     vertical-align: middle;
-    font-size: 16px;
   }
+
+  h6{
+    display: inline-flex;
+    vertical-align: middle;
+  }
+
 }

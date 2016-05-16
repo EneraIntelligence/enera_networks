@@ -34,7 +34,7 @@
 
 
         <!-- networks navbar -->
-        <div class="nav-wrapper grey darken-3" style="overflow-y: hidden;">
+        <div class="nav-wrapper grey darken-3">
 
             <!-- platform logo -->
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
@@ -57,6 +57,7 @@
 
                     <?php
                         $networkCount = auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count();
+
                         $currentNetworkName = \Networks\Network::find(session('network_id'))->name;
                     ?>
 
@@ -117,8 +118,29 @@
             <ul class="right platform-hide">
                 <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
 
+                <li class="hide-on-med-and-down">
+                    <a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>
+                </li>
+
                 <li class="{{ isset($navData) && $navData["profileState"]?$navData["profileState"]:""  }}">
-                    <a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>
+                    {{--<a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>--}}
+
+                    <!-- avatar -->
+
+                    <a class="valign-wrapper" href="{{ route("profile::index") }}" style="padding: 7px 0 0 0;">
+
+                    <div class="circle" style="width: 50px; overflow: hidden; height: 50px;
+                    background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    ">
+
+                    </div>
+
+                    </a>
+
+
                 </li>
 
             </ul>
@@ -140,6 +162,7 @@
                 <li><a href="{{ route("branches::index") }}">Nodos</a></li>
                 <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
                 <li><a href="#!">Reportes</a></li>
+                <li><a href="{{ route("profile::settings") }}">Ajustes de red</a></li>
             </ul>
 
         </div>
