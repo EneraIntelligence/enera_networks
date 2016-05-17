@@ -157,7 +157,6 @@
                 card = cards[i];
 
                 card.height(minHeight);
-                console.log(minHeight)
             }
         }
 

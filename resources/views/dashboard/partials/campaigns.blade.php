@@ -17,7 +17,7 @@
         ?>
 
 
-        <a href="#!" class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
+        <a href="{{route("campaigns::show",$id)}}" class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
             {{$name}}
             <i class="material-icons secondary-content">forward</i>
         </a>
@@ -35,7 +35,7 @@
 
         <li class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
             <div>{{$name}}
-                <a href="#!" class="secondary-content">
+                <a href="{{route("campaigns::show",$id)}}" class="secondary-content">
                     <i class="material-icons">forward</i>
                 </a>
             </div>
