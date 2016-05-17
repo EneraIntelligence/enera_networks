@@ -75,6 +75,11 @@
                 </div>
             </div>
 
+        </div>
+
+
+        <!--
+        <div class="row">
 
             <div class="container col m6 l4">
                 <div class="card-panel hoverable grey darken-3 white-text">
@@ -94,6 +99,8 @@
             </div>
 
         </div>
+        -->
+
     </div>
 
 

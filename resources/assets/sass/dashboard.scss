@@ -35,6 +35,19 @@
   width: 96%;
 }
 
+.left-border
+{
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #757575;
+
+}
+
+.card-panel.hoverable
+{
+  padding-bottom:0;
+}
+
 
 @media only screen and (max-width: 992px) {
 
