@@ -59,17 +59,17 @@
                                 <span class="card-title">{{$branch->name}}</span>
                             </div>
                             <ul class="list black-text">
+                                <li data-icon="keyboard_arrow_right">Nombre: {{$branch->name}}</li>
+                                <hr>
                                 <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
                                 <hr>
                                 <li data-icon="keyboard_arrow_right">Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
                                 <hr>
-                                <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
-                                <hr>
                                 <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
                             </ul>
                         </div>
-                        <div class="card-action ">
-                            <a href="{{route('branches::show', ['id' => $branch->id])}}">Ver más detalles</a>
+                        <div class="card-action">
+                            <a class="blue-text" href="{{route('branches::show', ['id' => $branch->id])}}">Ver más detalles</a>
                         </div>
                     </div>
                 </div>
