@@ -62,6 +62,12 @@ nav ul a i span.badge {
   }
 }
 
+@media only screen and (min-width: 993px) {
+  .height-menu {
+    height: 64px;
+  }
+}
+
 nav
 {
   height:64px !important;
