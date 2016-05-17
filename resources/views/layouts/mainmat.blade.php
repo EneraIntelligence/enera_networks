@@ -29,7 +29,7 @@
 <body style="opacity: 0; filter: alpha(opacity=0);" class="grey lighten-3">
 
 
-<header>
+<header style="height: 64px;">
     <nav>
 
 

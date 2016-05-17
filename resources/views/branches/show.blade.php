@@ -243,16 +243,27 @@
                     </div>
                 </div>
             </div>
-            <div class="col l12 hide-on-med-and-down">
-                <div class="card blue-grey white">
+            <div class="col l4 hide-on-med-and-down">
+                <div class="card blue-grey white" style="min-height: 494px;">
                     <div class="card-content black-text">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
                             <span class="card-title">Ubicación</span>
-                            <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
-                                <i class="material-icons">border_all</i></a>
                             <div id="GoogleMap"
                                  style="margin: 0px auto; width: 91%; max-width: 850px; height: 380px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l8 hide-on-med-and-down">
+                <div class="card blue-grey white">
+                    <div class="card-content black-text">
+                        <div class="uk-grid uk-grid-divider uk-grid-medium">
+                            {{-- Google Maps --}}
+                            <span class="card-title">World Cloud</span>
+                            <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
+                                <i class="material-icons">border_all</i></a>
+                            <div class="word_cloud" style="width:800px; position: relative;">
                         </div>
                     </div>
                 </div>
