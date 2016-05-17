@@ -5,6 +5,7 @@ namespace Networks\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 
+use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use DB;
@@ -25,7 +26,12 @@ class DashboardController extends Controller
     {
 
         //*/
-        return view('dashboard.index');
+        $network = Network::find(session('network_id'));
+
+        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name","_id");
+        $campaigns = auth()->user()->campaigns->lists("name","_id");
+
+        return view('dashboard.index',['branches' => $branches, 'campaigns' => $campaigns]);
         /*/
         $branches = Branche::where('network_id', session('network_id'))->where('status','active')->get();
         $branches_ids = [];

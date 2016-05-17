@@ -189,7 +189,13 @@
 
     </nav>
 
-    @if( !isset($navData) || !$navData['hideNetworkSelector'] )
+
+</header>
+
+
+<!-- network selector should be hidden? -->
+@if( !isset($navData) || !$navData['hideNetworkSelector'] )
+
 
     <div class="current-network hide-on-large-only">
         <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile">
@@ -235,9 +241,7 @@
 
     </ul>
 
-    @endif
-
-</header>
+@endif <!-- end network selector -->
 
 
 <div class="progress page-loader grey lighten-5">

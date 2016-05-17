@@ -35,6 +35,11 @@
   width: 96%;
 }
 
+.blank-space
+{
+  height:100px;
+}
+
 .left-border
 {
   border-left-style: solid;
@@ -45,9 +50,29 @@
 
 .card-panel.hoverable
 {
-  padding-bottom:0;
+  padding-bottom:10px;
+  min-height: 100%;
+  position: relative;
 }
 
+.card-bottom
+{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+}
+
+.flex
+{
+  display: flex;
+}
+
+.flex-card
+{
+  display: flex;
+  width: 100%;
+}
 
 @media only screen and (max-width: 992px) {
 

@@ -45,7 +45,9 @@
 
 <div class="divider grey darken-1"></div>
 
-<div class="section">
+<div class="blank-space"></div>
+
+<div class="section card-bottom">
     <a style="width:80%; margin-left:10%;"
        class="btn cyan" href="#!">Ver más</a>
 </div>
