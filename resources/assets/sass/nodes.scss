@@ -88,7 +88,14 @@ $white: #FFFFFF;
 .c3 .c3-axis-y path, .c3 .c3-axis-y line {
   stroke: white;
 }
-tspan, .c3-legend-item{
+.c3 .c3-axis-x path, .c3 .c3-axis-x line {
+  stroke: white;
+}
+tspan{
+  stroke: white;
+}
+
+.c3-legend-item text{
   stroke: white;
 }
 
