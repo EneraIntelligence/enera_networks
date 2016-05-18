@@ -5,13 +5,14 @@
 {!! HTML::style('assets/css/welcome.css') !!}
 {!! HTML::style('assets/css/campaign.css') !!}
 
+
 @endsection
 
 @section('content')
     <?php $size = sizeof($cam->filters['day_hours']) ?>
     <div class="hide-on-med-and-up">
         <div class="col s14">
-            <div class="card-panel blue-grey avatar circle">
+            <div class="card-panel grey darken-3 white-text avatar circle">
                 <img class="svg" src="{!! URL::asset('images/icons/'.
                          CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
                      alt="Enera"/>
@@ -19,9 +20,9 @@
             </div>
         </div>
 
-        <div class="card blue-grey white">
-            <div class="card-content black-text show">
-                <ul class="black-text">
+        <div class="card grey darken-3 white-text white">
+            <div class="card-content white-text show">
+                <ul class="white-text">
                     <span class="card-title">Información</span>
                     <li data-icon="keyboard_arrow_right">Status: {{$cam->status}}</li>
                     <hr>
@@ -34,7 +35,7 @@
                     <li data-icon="keyboard_arrow_right">Interacción: {{$cam->interaction['name']}}</li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">Fitros:
-                        <ul class="black-text">
+                        <ul class="white-text">
                             <li data-icon="remove" style="margin-left: 25px;">
                                 Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</li>
                             <li data-icon="remove" style="margin-left: 25px;">
@@ -65,7 +66,7 @@
 
     <div class="hide-on-small-only">
         <div class="col m12">
-            <div class="card blue-grey darken-1">
+            <div class="card grey darken-3 white-text">
                 <div class="card-content white-text">
                     <div class="row" style="height: 120px;">
                         <div class="col m3 l2">
@@ -85,9 +86,9 @@
 
         <div class="row">
             <div class="col m6 l4">
-                <div class="card white darken-1">
-                    <div class="card-content black-text">
-                        <ul class="black-text">
+                <div class="card grey darken-3 white-text">
+                    <div class="card-content white-text">
+                        <ul class="white-text">
                             <span class="card-title">Información</span>
                             <li data-icon="keyboard_arrow_right">Status: {{$cam->status}}</li>
                             <hr>
@@ -100,7 +101,7 @@
                             <li data-icon="keyboard_arrow_right">Interacción: {{$cam->interaction['name']}}</li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">Fitros:
-                                <ul class="black-text">
+                                <ul class="white-text">
                                     <li data-icon="remove" style="margin-left: 25px;">
                                         Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</li>
                                     <li data-icon="remove" style="margin-left: 25px;">
@@ -127,8 +128,8 @@
                     </div>
                 </div>
 
-                <div class="card white darken-1">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text">
+                    <div class="card-content white-text">
                         <span class="card-title">Elemento de campaña</span>
                         @if(view()->exists('campaign.partials.content'))
                             @include('campaign.partials.content', ['type' => $cam->interaction['name']])
@@ -137,8 +138,8 @@
                 </div>
             </div>
             <div class="col m6 l4">
-                <div class="card white darken-1" style="min-height: 611px;">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text" style="min-height: 611px;">
+                    <div class="card-content white-text">
                         <span class="card-title">Contenido</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
                             <div class="preview" style="text-align: center;">
@@ -146,7 +147,7 @@
                             </div>
                             <div class="preview" id="mydiv" style="overflow: scroll;">
                                 @if(view()->exists('campaign.partials.preview_'.$cam->interaction['name']))
-                                    @include('campaign.partials.preview_'.$cam->interaction['name'], ['fb_id' => 10206656662069174])
+                                    @include('campaign.partials.preview_'.$cam->interaction['name'], ['fb_id' => 10206656662069174, 'cam' => $cam])
                                 @endif
                             </div>
                         </div>
@@ -156,9 +157,9 @@
             </div>
 
             <div class="col l4 hide-on-med-and-down">
-                <div class="card white darken-1" style="min-height: 611px;">
+                <div class="card grey darken-3 white-text" style="min-height: 611px;">
                     <div class="card-content black-text">
-                        <span class="card-title">Graficas</span>
+                        <span class="card-title white-text">Graficas</span>
                         <div id="genderAge" class="md-card-content"></div>
                         <div id="so" class="md-card-content"></div>
                     </div>

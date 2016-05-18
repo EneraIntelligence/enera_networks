@@ -7,7 +7,7 @@
 <!-- Banner card -->
 <div class="banner card-panel z-depth-2 center-align">
     <img class="responsive-img image-small" style="margin-bottom: -6px;"
-         src="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! '1461297338.jpg' !!}">
+         src="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! $cam->content['images']['small'] !!}">
 
 </div>
 <!-- Banner card -->

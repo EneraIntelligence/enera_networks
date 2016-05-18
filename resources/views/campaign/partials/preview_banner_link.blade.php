@@ -5,7 +5,7 @@
 <!-- Main card -->
 <div class="banner card z-depth-2">
     <img class="responsive-img image-small" style="margin-bottom: -6px;"
-         src="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! '1461297338.jpg' !!}">
+         src="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! $cam->content['images']['small'] !!}">
 </div>
 <!-- Main card -->
 

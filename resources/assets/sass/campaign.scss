@@ -95,6 +95,20 @@ canvas {
   height: 326px;
 }
 
+.c3 .c3-axis-y path, .c3 .c3-axis-y line {
+  stroke: white;
+}
+tspan, .c3-legend-item{
+  stroke: white;
+}
+
+.btn-mobil{
+  margin-left: 15%;
+  width: 75%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 
 //old css
 #vista{

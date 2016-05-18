@@ -10,16 +10,16 @@
 
 @section('content')
     <div class="col s12 hide-on-med-and-up">
-        <div class="card blue-grey white zero">
-            <div class="card-content black-text show">
+        <div class="card grey darken-3 white-text zero">
+            <div class="card-content show">
                 <span class="card-title">{{ $branch->name }}</span>
                 <p class="">{{ $branch->network->name }}</p>
             </div>
         </div>
 
-        <div class="card blue-grey white">
-            <div class="card-content black-text show">
-                <ul class="black-text">
+        <div class="card grey darken-3 white-text">
+            <div class="card-content white-text show">
+                <ul class="white-text">
                     <span class="card-title">Información</span>
                     <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
                     <hr>
@@ -40,7 +40,7 @@
                     <li data-icon="keyboard_arrow_right">Antenas: {{ count($branch->aps) }}</li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">Campañas:
-                        <ul class="black-text">
+                        <ul class="white-text">
                             @foreach($aps as $ap)
                                 <li data-icon="remove" style="margin-left: 25px;">{{$ap->name}}</li>
                             @endforeach
@@ -93,8 +93,8 @@
     </div>
 
     <div class="col m12  hide-on-small-only">
-        <div class="card blue-grey white zero">
-            <div class="card-content black-text show">
+        <div class="card grey darken-3 white-text zero">
+            <div class="card-content white-text show">
                 <span class="card-title">{{ $branch->name }}</span>
                 <p class="">{{ $branch->network->name }}</p>
             </div>
@@ -102,8 +102,8 @@
 
         <div class="row">
             <div class="col s6 l4">
-                <div class="card blue-grey white" style="min-height: 570px;">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text" style="min-height: 570px;">
+                    <div class="card-content white-text">
                         <span class="card-title">Vista Previa</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
                             <div class="preview" style="text-align: center;">
@@ -158,18 +158,18 @@
                 </div>
             </div>
             <div class="col s6 l4">
-                <div class="card blue-grey white">
-                    <div class="card-content black-text" style="min-height: 570px;">
-                        <span class="card-title">Analiticos</span>
+                <div class="card grey darken-3 black-text">
+                    <div class="card-content" style="min-height: 570px;">
+                        <span class="card-title white-text">Analiticos</span>
                         <div id="analitics"></div>
                     </div>
                 </div>
             </div>
             <div class="col s6 l4">
-                <div class="card blue-grey white" style="min-height: 570px;">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text" style="min-height: 570px;">
+                    <div class="card-content white-text">
                         <span class="card-title">Información</span>
-                        <ul class="black-text">
+                        <ul class="white-text">
                             <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">
@@ -190,7 +190,7 @@
                             <li data-icon="keyboard_arrow_right">Antenas: {{ count($branch->aps) }}</li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">Campañas:
-                                <ul class="black-text">
+                                <ul class="white-text">
                                     @foreach($aps as $ap)
                                         <li data-icon="remove" style="margin-left: 25px;">{{$ap->name}}</li>
                                     @endforeach
@@ -201,8 +201,8 @@
                 </div>
             </div>
             <div class="col s6 hide-on-small-only hide-on-large-only" style="height: 570px;">
-                <div class="card blue-grey white">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text">
+                    <div class="card-content white-text">
                         <span class="card-title">Like Frecuentes</span>
                         <div id="table-wrapper">
                             <div id="table-scroll">
@@ -244,20 +244,22 @@
                 </div>
             </div>
             <div class="col l4 hide-on-med-and-down">
-                <div class="card blue-grey white" style="min-height: 494px;">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text" style="min-height: 494px;">
+                    <div class="card-content white-text">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
                             <span class="card-title">Ubicación</span>
-                            <div id="GoogleMap"
-                                 style="margin: 0px auto; width: 91%; max-width: 850px; height: 380px;"></div>
+                            <div class="image-card">
+                                <div id="GoogleMap"
+                                     style="margin: 0px auto; width: 91%; max-width: 850px; height: 380px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col l8 hide-on-med-and-down">
-                <div class="card blue-grey white">
-                    <div class="card-content black-text">
+                <div class="card grey darken-3 white-text">
+                    <div class="card-content white-text">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
                             <span class="card-title">World Cloud</span>
