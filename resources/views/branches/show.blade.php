@@ -245,13 +245,13 @@
             </div>
             <div class="col l4 hide-on-med-and-down">
                 <div class="card grey darken-3" style="min-height: 494px;">
-                    <div class="card-content black-text">
+                    <div class="card-content black-text" style="padding: 20px 0;">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
-                            <span class="card-title white-text">Ubicación</span>
+                            <span class="card-title white-text" style="margin: 20px;">Ubicación</span>
                             <div class="image-card">
                                 <div id="GoogleMap"
-                                     style="margin: 0px auto; width: 91%; max-width: 850px; height: 380px;"></div>
+                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 380px;"></div>
                             </div>
                         </div>
                     </div>
