@@ -19,5 +19,10 @@ class Network extends Model
     {
         return $this->hasMany('Networks\Branche');
     }
+    
+    public function summary()
+    {
+        return $this->hasMany('Networks\SummaryNetwork');
+    }
     // end relations
 }
