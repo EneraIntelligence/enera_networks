@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name","_id");
         $campaigns = auth()->user()->campaigns->lists("name","_id");
         $devices = 0;
-        $user = User::all()->count();
+        $user = 0;//User::all()->count();
         $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
         $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access');
 
