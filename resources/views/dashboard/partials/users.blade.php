@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{count($user)}}</span>
+    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{$user}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
