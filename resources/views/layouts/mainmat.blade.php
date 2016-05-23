@@ -62,7 +62,7 @@
                     ?>
 
                     @if($networkCount>0)
-                        <a class="dropdown-button" href="#!" data-activates="networksDropdown">
+                        <a class="dropdown-button" href="#!" data-activates="networksDropdown" data-beloworigin="true">
                             {{ $currentNetworkName }}
                             <i class="material-icons right">arrow_drop_down</i>
                         </a>
@@ -119,7 +119,18 @@
                 <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
 
                 <li class="hide-on-med-and-down">
-                    <a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>
+                    {{--<a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>--}}
+                    <a class='dropdown-button' href="#!" data-activates='settingsMenu' data-beloworigin="true"><i class="material-icons">settings</i></a>
+
+                    <!-- Dropdown settings Structure -->
+                    <ul id='settingsMenu' class='dropdown-content'>
+                        <!-- TODO llenar con mas opciones como ajustes de red, etc -->
+                        {{--<li><a href="#!">one</a></li>--}}
+                        {{--<li><a href="#!">two</a></li>--}}
+                        <li class="divider"></li>
+                        <li><a href="{!! URL::route('auth.logout') !!}">Salir</a></li>
+                    </ul>
+
                 </li>
 
                 <li class="{{ isset($navData) && $navData["profileState"]?$navData["profileState"]:""  }}">
@@ -127,7 +138,7 @@
 
                     <!-- avatar -->
 
-                    <a class="valign-wrapper" href="{{ route("profile::index") }}" style="padding: 7px 0 0 0;">
+                    <a class="valign-wrapper" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">
 
                     <div class="circle" style="width: 50px; overflow: hidden; height: 50px;
                     background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');
@@ -162,7 +173,9 @@
                 <li><a href="{{ route("branches::index") }}">Nodos</a></li>
                 <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
                 <li><a href="#!">Reportes</a></li>
-                <li><a href="{{ route("profile::settings") }}">Ajustes de red</a></li>
+                <li class="divider"></li>
+                {{--<li><a href="{{ route("profile::settings") }}">Ajustes de red</a></li>--}}
+                <li><a href="{{ URL::route('auth.logout') }}">Salir</a></li>
             </ul>
 
         </div>
@@ -192,13 +205,17 @@
 
 </header>
 
+<!-- platform change loader -->
+<div class="progress page-loader grey lighten-5">
+    <div class="indeterminate grey darken-2"></div>
+</div>
 
 <!-- network selector should be hidden? -->
 @if( !isset($navData) || !$navData['hideNetworkSelector'] )
 
 
     <div class="current-network hide-on-large-only">
-        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile">
+        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile" data-beloworigin="true">
             <i class="material-icons left">wifi</i>
             {{ \Networks\Network::find(session('network_id'))->name }}
             <i class="material-icons right">arrow_drop_down</i>
@@ -244,9 +261,7 @@
 @endif <!-- end network selector -->
 
 
-<div class="progress page-loader grey lighten-5">
-    <div class="indeterminate grey darken-2"></div>
-</div>
+
 
 
 <main>
