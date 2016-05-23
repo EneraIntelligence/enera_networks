@@ -87,6 +87,26 @@ canvas {
   height: 326px;
 }
 
+.c3 .c3-axis-y path,
+.c3 .c3-axis-y line {
+  stroke: white;
+}
+
+tspan {
+  stroke: white;
+}
+
+.c3-legend-item text {
+  stroke: white;
+}
+
+.btn-mobil {
+  margin-left: 15%;
+  width: 75%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 #vista {
   min-width: 239px;
 }

@@ -21,8 +21,9 @@ elixir(function(mix) {
     mix.sass('auth/login.scss','public/css/auth/login.css');
     mix.sass('nodes.scss','public/assets/css/nodes.css');
     mix.sass('welcome.scss','public/assets/css/welcome.css');
-    
+
     mix.sass('profile_v2.scss','public/assets/css/profile_v2.css');
+    mix.sass('campaign_wizard.scss','public/assets/css/campaign_wizard.css');
 
     //interactions scss
     mix.sass('captcha.scss','public/assets/css/captcha.css');

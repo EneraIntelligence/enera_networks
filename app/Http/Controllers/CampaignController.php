@@ -4,6 +4,8 @@ namespace Networks\Http\Controllers;
 
 use DateTime;
 use DB;
+use Input;
+use Validator;
 use MongoDate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,6 +28,23 @@ class CampaignController extends Controller
         return view('campaign.index', [
             'campaigns' => auth()->user()->campaigns,
         ]);
+    }
+
+    public function newCampaign()
+    {
+        $validate = Validator::make(Input::all(), [
+            'name' => 'required',
+        ]);
+        if ($validate->passes())
+        {
+            return view('campaign.new');
+        }
+        else
+        {
+            //redirect to campaigns list
+            return redirect()->route("campaigns::index");
+        }
+        
     }
 
     public function show($id)

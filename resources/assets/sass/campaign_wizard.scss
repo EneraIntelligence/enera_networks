@@ -1,0 +1,30 @@
+
+.main-container
+{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wizard-nav
+{
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+
+  .nav-btn
+  {
+    display: inline-block;
+    padding: 0;
+    border-radius: 0;
+  }
+
+}
+
+
+@media screen and (max-width: 600px) {
+  .wizard-card
+  {
+    margin-left: -5%;
+    margin-right: -5%;
+  }
+}

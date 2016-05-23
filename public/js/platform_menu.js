@@ -27,7 +27,7 @@ var platformMenu =
             e.stopPropagation();
 
         if (!platformMenu.open) {
-            console.log("open");
+            //console.log("open");
             var vHeight = $(window).height();
             var barHeight = vHeight / platformMenu.navBars.length;
 
@@ -48,7 +48,7 @@ var platformMenu =
             platformMenu.barsGrow(true);
         }
         else {
-            console.log("close");
+            //console.log("close");
 
             //TweenLite.set("nav", {css: {position: "inherit"}});
             TweenLite.set("nav", {css: {zIndex: 1}});
@@ -196,7 +196,7 @@ var platformMenu =
         }
         else {
             //remove click event
-            console.log("remove click event");
+            //console.log("remove click event");
 
             for (i = 0; i < platformMenu.navBars.length; i++) {
 
@@ -217,14 +217,14 @@ var platformMenu =
         }
         else {
             //console.log($(this));
-            console.log(url);
+            //console.log(url);
             window.location.href = url;
             platformMenu.closeWith(this);
 
         }
     },
     closeWith: function (bar) {
-        console.log("close");
+        //console.log("close");
         // TweenLite.set("nav", {css: { position:"relative" } });
         // TweenLite.set("nav", {css: { zIndex:auto } });
         TweenLite.to("nav", .3, {
