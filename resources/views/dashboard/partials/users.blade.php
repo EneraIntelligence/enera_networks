@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">3,302,673</span>
+    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{count($user)}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">28 abril - 4 mayo</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
         </div>
 
         <div class="col s6 right-align">

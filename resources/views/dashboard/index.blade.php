@@ -9,26 +9,24 @@
 
 
 @section('content')
-
     <div class="col s12 m12 my-card hide-on-med-and-up">
-
         <div class="carousel dashboard-carousel">
 
             <div id="mobile-card-1" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/devices')
+                    @include('dashboard/partials/devices', ['devices' => $devices])
                 </div>
             </div>
 
             <div id="mobile-card-2" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/users')
+                    @include('dashboard/partials/users', ['user' => $user])
                 </div>
             </div>
 
             <div id="mobile-card-3" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/access')
+                    @include('dashboard/partials/access', ['access' => $access])
                 </div>
             </div>
 

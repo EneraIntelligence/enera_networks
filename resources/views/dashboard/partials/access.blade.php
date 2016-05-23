@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">3,302,673</span>
+    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{count($access)}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -13,7 +13,7 @@
     <div class="col s6 left-align">
         <span style="font-weight: 400;">Esta semana:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">28 abril - 4 mayo</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
         <br>
         <i class="green-text material-icons" style="vertical-align:bottom;">arrow_drop_up</i>
         <span style="font-weight: 200;font-size:19px;">10,000</span>
@@ -22,7 +22,7 @@
     <div class="col s6 left-align left-border">
         <span style="font-weight: 400;">Este mes:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">4 abril - 4 mayo</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}} - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
         <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
         <span style="font-weight: 200;font-size:19px;">16,000</span>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">28 abril - 4 mayo</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
         </div>
 
         <div class="col s6 right-align">

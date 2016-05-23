@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 
 use Networks\Campaign;
+use Networks\CampaignLog;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use DB;
@@ -14,6 +15,8 @@ use Networks\Branche;
 
 use MongoDate;
 use Carbon\Carbon;
+use Networks\SummaryNetwork;
+use Networks\User;
 
 class DashboardController extends Controller
 {
@@ -27,11 +30,14 @@ class DashboardController extends Controller
 
         //*/
         $network = Network::find(session('network_id'));
-
         $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name","_id");
         $campaigns = auth()->user()->campaigns->lists("name","_id");
+        $devices = 0;
+        $user = User::all();
+        $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
+        $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access');
 
-        return view('dashboard.index',['branches' => $branches, 'campaigns' => $campaigns]);
+        return view('dashboard.index', $dashboard);
         /*/
         $branches = Branche::where('network_id', session('network_id'))->where('status','active')->get();
         $branches_ids = [];
