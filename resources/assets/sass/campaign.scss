@@ -123,6 +123,20 @@ tspan{
   font-size: 16px;
 }
 
+input.error {
+  color:#f23;
+}
+
+input.error:focus{
+  color:#f23;
+  border: none;
+  border-bottom: 1px solid red;
+}
+
+div.error{
+  color: red;
+}
+
 //old css
 #vista{
   min-width:239px;
