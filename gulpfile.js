@@ -33,6 +33,14 @@ elixir(function(mix) {
     mix.sass('like.scss','public/assets/css/like.css');
     mix.sass('survey.scss','public/assets/css/survey.css');
 
+    //new campaign wizard scripts
+    mix.scripts([
+        "campaign_wizard/data.js",
+        "campaign_wizard/dates.js",
+        "campaign_wizard/filters.js",
+        "campaign_wizard/interactions.js",
+        "campaign_wizard/summary.js"
+    ], 'public/assets/js/campaign_wizard/wizard.js');
 
     //materialize import to public
     mix.sass([
