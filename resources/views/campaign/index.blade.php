@@ -111,12 +111,13 @@
     <div id="modal1" class="modal">
         <div class="modal-content" style="height: 70px;">
             <div class="row">
-                <form class="col m12 formValidate" action="" method="get" id="validate" novalidate="novalidate">
+                <form class="col m12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
                     <div class="row">
                         <div class="input-field col m10">
-                            <input id="campaign" type="text" name="campaign" required>
-                            <label for="campaign">Nombre de Campaña</label>
+                            <input id="name" type="text" name="name" required>
+                            <label for="name">Nombre de Campaña</label>
                         </div>
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="input-field col m2">
                             {{--<a class="waves-effect waves-light btn">Crear</a>--}}
                             <button type="submit" class="sbm-button teal lighten-2">Crear</button>
@@ -143,7 +144,7 @@
         });
         $("#validate").validate({
             rules: {
-                campaign: {
+                name: {
                     required: true,
                     minlength: 5,
                     maxlength: 30
@@ -151,7 +152,7 @@
             },
             //For custom messages
             messages: {
-                campaign:{
+                name:{
                     required: "* Ingresa un nombre para la campaña",
                     minlength: "* La campaña debe tener por lo menos 5 caracteres",
                     maxlength: "* La campaña debe tener maximo 30 caracteres"
