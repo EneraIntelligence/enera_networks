@@ -9,9 +9,10 @@ var EventDispatcher = (function () {
             on:function (event, func) {
                 $("#event_dispatcher").on(event,func);
             },
-            trigger:function(event)
+            trigger:function(event, params)
             {
-                $("#event_dispatcher").trigger(event);
+                params = params||[];
+                $("#event_dispatcher").trigger(event,params);
             }
         };
     }

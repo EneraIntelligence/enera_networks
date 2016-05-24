@@ -59,17 +59,33 @@
 @section('scripts')
 
     {!! HTML::script('js/events/EventDispatcher.js') !!}
+    {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}
 
 
     <script>
-
         var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_dates, wizard_summary];
-        var currentStep = 1;
+        var currentStep = 0;
         var interactionId = "";
 
+        //setup events
+        var ev = EventDispatcher.getInstance();
+        ev.on(WizardEvents.interactionSelected, changeInteraction);
+        ev.on(WizardEvents.validForm, enableNext);
+        ev.on(WizardEvents.invalidForm, disableNext);
+
+
+        disableNext();
+        $("#next-btn").click(goNext);
+        $("#prev-btn").click(goPrev);
+
         setup();
-        initialize();
+        initializeCurrentStep();
+
+        $(document).ready(function () {
+            TweenLite.set("#prev-btn", {css: {width: "0%"}});
+            TweenLite.set("#next-btn", {css: {width: "100%"}});
+        });
 
         function setup()
         {
@@ -82,41 +98,81 @@
 
         }
 
-        function initialize()
+        function initializeCurrentStep()
         {
             var step = steps[currentStep];
             step.initialize(interactionId);
             var container = step.getContainer();
             TweenLite.set( container,{ css:{ display:"block" } });
+            TweenLite.fromTo( container, .25, { alpha:0 }, {alpha:1});
         }
 
-
-        var ev = EventDispatcher.getInstance();
-        ev.on("custom", function()
+        function changeInteraction(event,id)
         {
-            console.log("completed animation");
-        });
+            interactionId = id;
+        }
 
-        ev.on("custom", function()
+        function enableNext(event)
         {
-            console.log("another function triggered");
-        });
+            setEnabled("#next-btn",true);
+        }
+        function disableNext(event)
+        {
+            setEnabled("#next-btn",false);
+        }
 
-        $(document).ready(function () {
-            TweenLite.set("#prev-btn", {css: {width: "0%"}});
-            TweenLite.set("#next-btn", {css: {width: "100%"}});
+        function removeCurrentStep()
+        {
+            var step = steps[currentStep];
+            var container = step.getContainer();
+            TweenLite.set( container,{ css:{ display:"none" } });
+        }
 
-            setTimeout(showPrevButton,2000);
-            setTimeout(hidePrevButton,5000);
-            setTimeout(function()
+        function goNext()
+        {
+            if($(this).hasClass("disabled"))
+                    return;
+
+            if(currentStep<steps.length-1)
             {
-                setEnabled("#next-btn",false);
+                var step = steps[currentStep];
 
-                var ev = EventDispatcher.getInstance();
-                ev.trigger("custom");
+                if(step.isValid())
+                {
+                    removeCurrentStep();
 
-            },7000);
-        });
+                    currentStep++;
+
+                    if (currentStep > 0)
+                        showPrevButton();
+
+                    initializeCurrentStep();
+                    disableNext();
+                }
+
+            }
+            else
+            {
+                //TODO submit form
+
+            }
+        }
+
+        function goPrev()
+        {
+            if(currentStep>0)
+            {
+                removeCurrentStep();
+
+                currentStep--;
+
+                if(currentStep==0)
+                    hidePrevButton();
+
+                initializeCurrentStep();
+            }
+        }
+
 
         function showPrevButton() {
             TweenLite.to("#prev-btn", .3001, {css: {width: "30%"}});
