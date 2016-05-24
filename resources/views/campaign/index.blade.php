@@ -100,9 +100,76 @@
         </div>
     </div>
 
+    <div class="fixed-action-btn hide-on-small-only" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#modal1">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content" style="height: 70px;">
+            <div class="row">
+                <form class="col m12 formValidate" action="" method="get" id="validate" novalidate="novalidate">
+                    <div class="row">
+                        <div class="input-field col m10">
+                            <input id="campaign" type="text" name="campaign" required>
+                            <label for="campaign">Nombre de Campaña</label>
+                        </div>
+                        <div class="input-field col m2">
+                            {{--<a class="waves-effect waves-light btn">Crear</a>--}}
+                            <button type="submit" class="sbm-button teal lighten-2">Crear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!"  class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        </div>
+    </div>
+
+
+
 @stop
 
 @section('scripts')
+    {!! HTML::script('js/jquery-validation/dist/jquery.validate.js') !!}
 
+    <script>
+        $(document).ready(function(){
+            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+            $('.modal-trigger').leanModal();
+        });
+
+
+        $("#validate").validate({
+            rules: {
+                campaign: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 30
+                }
+            },
+            //For custom messages
+            messages: {
+                campaign:{
+                    required: "* Ingresa un nombre para la campaña",
+                    minlength: "* La campaña debe tener por lo menos 5 caracteres",
+                    maxlength: "* La campaña debe tener maximo 30 caracteres"
+
+                },
+                curl: "Enter your website"
+            },
+            errorElement : 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    </script>
 @stop
 
