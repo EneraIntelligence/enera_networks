@@ -113,6 +113,29 @@ tspan{
   margin-bottom: 20px;
 }
 
+.sbm-button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+input.error {
+  color:#f23;
+}
+
+input.error:focus{
+  color:#f23;
+  border: none;
+  border-bottom: 1px solid red;
+}
+
+div.error{
+  color: red;
+}
 
 //old css
 #vista{
