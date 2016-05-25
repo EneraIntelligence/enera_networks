@@ -20,6 +20,29 @@
 
 }
 
+.animate-all
+{
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.side-margin-20px
+{
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+.clickable
+{
+  cursor: pointer;
+}
+
+.overflow-hidden
+{
+  overflow: hidden;
+}
 
 @media screen and (max-width: 600px) {
   .wizard-card
