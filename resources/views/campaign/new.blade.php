@@ -133,6 +133,7 @@
                 TweenLite.set(container,{y:targetY});
             }
 
+
             TweenLite.fromTo( container, .35,
                     {
                         x: container.outerWidth() *direction,
@@ -149,7 +150,8 @@
             var step = steps[currentStep];
             var container = step.getContainer();
 
-            TweenLite.set(container,{y:0});
+
+
             if(direction==-1)
             {
                 setTimeout(function()
@@ -160,10 +162,14 @@
                 },10);
 
             }
+            else
+            {
+                TweenLite.set(container,{y:0});
+            }
 
-            TweenLite.to( container,.35,{
+            TweenLite.to( container,.30,{
                 x:-(container.outerWidth()+100)*direction,
-                alpha:0,
+                alpha:1,
                 onComplete:function()
                 {
                     TweenLite.set( container,{ y:0, css:{ display:"none" } });
@@ -218,6 +224,9 @@
 
                     changeContainerSize(prevHeight, currentHeight);
                     disableNext();
+
+                    var topWizard = $("#wizard-content").offset().top;
+                    TweenLite.to(window, .5, {scrollTo:{y:topWizard}, ease:Power2.easeOut});
                 }
 
             }
@@ -264,6 +273,10 @@
                 var currentHeight = step.getContainer().outerHeight();
 
                 changeContainerSize(prevHeight, currentHeight);
+
+                var topWizard = $("#wizard-content").offset().top;
+                TweenLite.to(window, .5, {scrollTo:{y:topWizard}, ease:Power2.easeOut});
+
             }
         }
 

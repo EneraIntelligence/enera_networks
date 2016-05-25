@@ -4,7 +4,6 @@ var wizard_interactions =
     validForm: false,
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
-        TweenLite.to(window, .5, {scrollTo:{y:70}, ease:Power2.easeOut});
 
         var ev = EventDispatcher.getInstance();
 
