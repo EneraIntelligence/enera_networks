@@ -22,11 +22,13 @@
 
                     <!-- wizard content -->
                     <div id="wizard-content" class="card-content overflow-hidden">
+
                         <div id="step_1" class="step">@include('campaign/wizard/interactions')</div>
                         <div id="step_2" class="step">@include('campaign/wizard/data')</div>
                         <div id="step_3" class="step">@include('campaign/wizard/filters')</div>
                         <div id="step_4" class="step">@include('campaign/wizard/dates')</div>
                         <div id="step_5" class="step">@include('campaign/wizard/summary')</div>
+
                     </div>
 
                     <!-- next / prev buttons -->
@@ -58,6 +60,8 @@
 
 @section('scripts')
 
+    {!! HTML::script('js/greensock/plugins/ScrollToPlugin.min.js') !!}
+
     {!! HTML::script('js/events/EventDispatcher.js') !!}
     {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}
@@ -87,6 +91,10 @@
         $(document).ready(function () {
             TweenLite.set("#prev-btn", {css: {width: "30%", display:"none"}});
             TweenLite.set("#next-btn", {css: {width: "70%", display:"none"}});
+
+            //setup initial height
+            var currentStepContainer = steps[currentStep].getContainer();
+            changeContainerSize(0, currentStepContainer.outerHeight() );
         });
 
         $(window).load(function()
@@ -94,8 +102,6 @@
             //setup initial height
             var currentStepContainer = steps[currentStep].getContainer();
             changeContainerSize(0, currentStepContainer.outerHeight() );
-
-
         });
 
         function setup()
@@ -105,7 +111,7 @@
                 var step = steps[i];
                 var container = step.getContainer();
 
-                TweenLite.set( container,{ css:{ display:"none" } });
+                TweenLite.set( container,{ css:{ alpha:0 } });
             }
 
         }
@@ -117,24 +123,24 @@
             var step = steps[currentStep];
             step.initialize(interactionId);
             var container = step.getContainer();
-            TweenLite.set( container,{ css:{
-                display:"inline-block",
-                width:"100%"
-//                position:"absolute"
-            } });
+            TweenLite.set( container,{ css:{ display:"block" } });
+
+            TweenLite.set(container,{y:0});
+
+            if(direction==1)
+            {
+                var targetY = $("#wizard-content").offset().top-container.offset().top+20;
+                TweenLite.set(container,{y:targetY});
+            }
+
             TweenLite.fromTo( container, .35,
                     {
-                        css:{marginLeft: (container.outerWidth()+100) *direction},
+                        x: container.outerWidth() *direction,
                         alpha:0
                     },
                     {
-                        css:{marginLeft:0},
-                        alpha:1,
-                        onComplete:function()
-                        {
-                            TweenLite.set( container,{ css:{ display:"inline-block", position:"relative" } });
-
-                        }
+                        x:0,
+                        alpha:1
                     });
         }
 
@@ -143,19 +149,30 @@
             var step = steps[currentStep];
             var container = step.getContainer();
 
-//            container.css("position","absolute");
-            container.css("display","inline-block");
-            container.css("width","100%");
+            TweenLite.set(container,{y:0});
+            if(direction==-1)
+            {
+                setTimeout(function()
+                {
+//                    console.log(direction);
+                    var targetY = $("#wizard-content").offset().top-container.offset().top+20;
+                    TweenLite.set(container,{y:targetY});
+                },10);
+
+            }
 
             TweenLite.to( container,.35,{
-                css:{marginLeft:-container.outerWidth()*direction},
+                x:-(container.outerWidth()+100)*direction,
                 alpha:0,
-                onComplete: function(){
-//                    container.css("position","relative");
-                    container.css("display","none");
+                onComplete:function()
+                {
+                    TweenLite.set( container,{ y:0, css:{ display:"none" } });
+
+                    var newStep = steps[currentStep];
+                    var newContainer = newStep.getContainer();
+                    TweenLite.set(newContainer, {y:0});
                 }
             });
-            //TweenLite.set( container,{ css:{ display:"none" } });
         }
 
         function changeInteraction(event,id)
@@ -194,12 +211,12 @@
                     if (currentStep > 0)
                         showPrevButton();
 
+                    initializeCurrentStep(1);
+
                     step = steps[currentStep];
                     var currentHeight = step.getContainer().outerHeight();
 
                     changeContainerSize(prevHeight, currentHeight);
-
-                    initializeCurrentStep(1);
                     disableNext();
                 }
 
@@ -213,6 +230,9 @@
 
         function changeContainerSize(currentHeight, nextHeight)
         {
+            //added some padding below
+            nextHeight+=25;
+
             if(currentHeight<nextHeight)
             {
                 TweenLite.to("#wizard-content", .2, { css:{height:nextHeight} });
@@ -238,12 +258,12 @@
                 if(currentStep==0)
                     hidePrevButton();
 
+                initializeCurrentStep(-1);
+
                 step = steps[currentStep];
                 var currentHeight = step.getContainer().outerHeight();
 
                 changeContainerSize(prevHeight, currentHeight);
-
-                initializeCurrentStep(-1);
             }
         }
 

@@ -3,16 +3,21 @@
 
     <div class="row">
         <form class="col s12">
+
             <div class="row">
-                <div class="input-field col s6">
-                    <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                    <label for="first_name">First Name</label>
-                </div>
-                <div class="input-field col s6">
-                    <input id="last_name" type="text" class="validate">
-                    <label for="last_name">Last Name</label>
+                <div class="input-field col s12">
+                    <input placeholder="http://misitio.com" id="link-input" type="text" class="validate">
+                    <label for="first_name">Enlace</label>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="mi producto" id="link" type="text" class="validate">
+                    <label for="first_name">Captcha</label>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="input-field col s12">
                     <input disabled value="I am not editable" id="disabled" type="text" class="validate">
