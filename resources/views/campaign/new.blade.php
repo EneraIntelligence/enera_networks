@@ -250,7 +250,7 @@
 
         function showPrevButton() {
             TweenLite.set("#prev-btn", {css: {height: "auto", display:"inline-block"}});
-            TweenLite.set("#next-btn", .{css: {height: "auto", display:"inline-block"}});
+            TweenLite.set("#next-btn", {css: {height: "auto", display:"inline-block"}});
         }
 
         function hidePrevButton() {
