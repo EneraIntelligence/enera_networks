@@ -55,11 +55,19 @@ elixir(function(mix) {
         'public/css/materialize.css'
     );
     mix.copy(
+        'node_modules/materialize-css/extras/noUiSlider/nouislider.css',
+        'public/css/nouislider.css'
+    );
+    mix.copy(
         'node_modules/materialize-css/dist/js/materialize.min.js',
         'public/js/materialize.js'
     );
     mix.copy(
         'node_modules/materialize-css/dist/fonts',
         'public/fonts'
+    );
+    mix.copy(
+        'node_modules/materialize-css/extras/noUiSlider/nouislider.js',
+        'public/js/nouislider.js'
     );
 });

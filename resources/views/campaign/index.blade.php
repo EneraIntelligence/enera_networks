@@ -103,12 +103,12 @@
     </div>
 
     <div class="fixed-action-btn hide-on-small-only" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#modal1">
+        <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#create">
             <i class="material-icons">add</i>
         </a>
     </div>
 
-    <div id="modal1" class="modal">
+    <div id="create" class="modal">
         <div class="modal-content" style="height: 70px;">
             <div class="row">
                 <form class="col m12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
@@ -146,7 +146,6 @@
             rules: {
                 name: {
                     required: true,
-                    minlength: 5,
                     maxlength: 30
                 }
             },
@@ -154,7 +153,6 @@
             messages: {
                 name:{
                     required: "* Ingresa un nombre para la campaña",
-                    minlength: "* La campaña debe tener por lo menos 5 caracteres",
                     maxlength: "* La campaña debe tener maximo 30 caracteres"
 
                 },

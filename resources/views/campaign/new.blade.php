@@ -6,6 +6,7 @@
 @section('head_scripts')
 
     {!! HTML::style('assets/css/campaign_wizard.css') !!}
+    {!! HTML::style('css/nouislider.css') !!}
 
 @stop
 
@@ -32,7 +33,8 @@
                     <!-- next / prev buttons -->
                     <div class="wizard-nav card-image">
                         <a id="prev-btn" class="waves-effect waves-light btn nav-btn">
-                            <i class="material-icons">navigate_before</i></a><a id="next-btn" class="waves-effect waves-light btn nav-btn">
+                            <i class="material-icons">navigate_before</i></a><a id="next-btn"
+                                                                                class="waves-effect waves-light btn nav-btn">
                             <i class="material-icons">navigate_next</i>
                         </a>
                     </div>
@@ -61,11 +63,12 @@
     {!! HTML::script('js/events/EventDispatcher.js') !!}
     {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}
+    {!! HTML::script('js/nouislider.js') !!}
 
 
     <script>
         var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_dates, wizard_summary];
-        var currentStep = 0;
+        var currentStep = 2;
         var interactionId = "";
 
         //setup events
@@ -87,58 +90,48 @@
             TweenLite.set("#next-btn", {css: {width: "100%"}});
         });
 
-        function setup()
-        {
-            for(var i=0;i<steps.length;i++)
-            {
+        function setup() {
+            for (var i = 0; i < steps.length; i++) {
                 var step = steps[i];
                 var container = step.getContainer();
-                TweenLite.set( container,{ css:{ display:"none" } });
+                TweenLite.set(container, {css: {display: "none"}});
             }
 
         }
 
-        function initializeCurrentStep()
-        {
+        function initializeCurrentStep() {
             var step = steps[currentStep];
             step.initialize(interactionId);
             var container = step.getContainer();
-            TweenLite.set( container,{ css:{ display:"block" } });
-            TweenLite.fromTo( container, .25, { alpha:0 }, {alpha:1});
+            TweenLite.set(container, {css: {display: "block"}});
+            TweenLite.fromTo(container, .25, {alpha: 0}, {alpha: 1});
         }
 
-        function changeInteraction(event,id)
-        {
+        function changeInteraction(event, id) {
             interactionId = id;
         }
 
-        function enableNext(event)
-        {
-            setEnabled("#next-btn",true);
+        function enableNext(event) {
+            setEnabled("#next-btn", true);
         }
-        function disableNext(event)
-        {
-            setEnabled("#next-btn",false);
+        function disableNext(event) {
+            setEnabled("#next-btn", false);
         }
 
-        function removeCurrentStep()
-        {
+        function removeCurrentStep() {
             var step = steps[currentStep];
             var container = step.getContainer();
-            TweenLite.set( container,{ css:{ display:"none" } });
+            TweenLite.set(container, {css: {display: "none"}});
         }
 
-        function goNext()
-        {
-            if($(this).hasClass("disabled"))
-                    return;
+        function goNext() {
+            if ($(this).hasClass("disabled"))
+                return;
 
-            if(currentStep<steps.length-1)
-            {
+            if (currentStep < steps.length - 1) {
                 var step = steps[currentStep];
 
-                if(step.isValid())
-                {
+                if (step.isValid()) {
                     removeCurrentStep();
 
                     currentStep++;
@@ -151,22 +144,19 @@
                 }
 
             }
-            else
-            {
+            else {
                 //TODO submit form
 
             }
         }
 
-        function goPrev()
-        {
-            if(currentStep>0)
-            {
+        function goPrev() {
+            if (currentStep > 0) {
                 removeCurrentStep();
 
                 currentStep--;
 
-                if(currentStep==0)
+                if (currentStep == 0)
                     hidePrevButton();
 
                 initializeCurrentStep();
@@ -190,6 +180,92 @@
             else
                 $(btnId).addClass("disabled");
         }
+
+
+        var slider = document.getElementById('slider');
+        noUiSlider.create(slider, {
+            start: [20, 80],
+            connect: true,
+            step: 1,
+            range: {
+                'min': 0,
+                'max': 100
+            },
+            format: wNumb({
+                decimals: 0
+            })
+        });
+
+        $('#all').change(function () {
+            var checkboxes = $(this).closest('form').find(':checkbox');
+            if ($(this).is(':checked')) {
+                checkboxes.prop('checked', true);
+            } else {
+                checkboxes.prop('checked', false);
+            }
+        });
+
+        $('#sel').change(function () {
+            var checkboxes = $(this).closest('form').find(':checkbox');
+            if ($(this).is(':checked')) {
+                checkboxes.prop('checked', false);
+            } else {
+                checkboxes.prop('checked', true);
+            }
+        });
+
+        $(':checkbox').change(function () {
+            $("#sel").prop("checked", true);
+            $("#all").prop("checked", false);
+        });
+
+        var d = new Date();
+
+         month = d.getMonth();
+         day = d.getDate() - 1;
+         year = d.getYear();
+
+
+        var $input_date = $('#start').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year
+            onSet: function (arg) {
+                $("#end").prop('disabled', false);
+                if ('select' in arg) { //prevent closing on selecting month/year
+                    this.close();
+                }
+                 endDay = picker_ini.get('select', 'dd');
+                 endMonth = picker_ini.get('select', 'mm');
+                 endYear = picker_ini.get('select', 'yyyy');
+
+            },
+            disable: [
+                true,
+                {from: ['year','month', 'day'], to: [2300, 11, 31]}
+            ]
+        });
+
+        var picker_ini = $input_date.pickadate('picker');
+
+
+
+        var $input_end = $('#end').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year
+            onSet: function (arg) {
+                if ('select' in arg) { //prevent closing on selecting month/year
+                    this.close();
+                }
+            },
+            onOpen: function () {
+                this.render(true)
+            }
+
+        });
+
+
+
+
     </script>
 
 @stop
