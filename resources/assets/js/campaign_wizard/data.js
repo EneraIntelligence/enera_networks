@@ -6,7 +6,11 @@ var wizard_data =
         setTimeout(function()
         {
             $( "#link-input" ).focus();
+
+            var ev = EventDispatcher.getInstance();
+            ev.trigger(WizardEvents.validForm);
         },400);
+
 
     },
     getContainer:function()
@@ -21,7 +25,7 @@ var wizard_data =
     },
     isValid: function () {
         //return true if form is valid and filled, false when there's an error
-        
+        return true;
     }
 
 };

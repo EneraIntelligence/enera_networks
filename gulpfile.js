@@ -36,7 +36,7 @@ elixir(function(mix) {
     //new campaign wizard scripts
     mix.scripts([
         "campaign_wizard/data.js",
-        "campaign_wizard/dates.js",
+        "campaign_wizard/nodes.js",
         "campaign_wizard/filters.js",
         "campaign_wizard/interactions.js",
         "campaign_wizard/summary.js"

@@ -27,7 +27,7 @@
                         <div id="step_1" class="step">@include('campaign/wizard/interactions')</div>
                         <div id="step_2" class="step">@include('campaign/wizard/data')</div>
                         <div id="step_3" class="step">@include('campaign/wizard/filters')</div>
-                        <div id="step_4" class="step">@include('campaign/wizard/dates')</div>
+                        <div id="step_4" class="step">@include('campaign/wizard/nodes')</div>
                         <div id="step_5" class="step">@include('campaign/wizard/summary')</div>
                     </div>
 
@@ -70,7 +70,7 @@
 
 
     <script>
-        var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_dates, wizard_summary];
+        var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_nodes, wizard_summary];
         var currentStep = 0;
         var interactionId = "";
 
@@ -298,86 +298,6 @@
         }
 
 
-        var slider = document.getElementById('slider');
-        noUiSlider.create(slider, {
-            start: [20, 80],
-            connect: true,
-            step: 1,
-            range: {
-                'min': 0,
-                'max': 100
-            },
-            format: wNumb({
-                decimals: 0
-            })
-        });
-
-        $('#all').change(function () {
-            var checkboxes = $(this).closest('form').find(':checkbox');
-            if ($(this).is(':checked')) {
-                checkboxes.prop('checked', true);
-            } else {
-                checkboxes.prop('checked', false);
-            }
-        });
-
-        $('#sel').change(function () {
-            var checkboxes = $(this).closest('form').find(':checkbox');
-            if ($(this).is(':checked')) {
-                checkboxes.prop('checked', false);
-            } else {
-                checkboxes.prop('checked', true);
-            }
-        });
-
-        $(':checkbox').change(function () {
-            $("#sel").prop("checked", true);
-            $("#all").prop("checked", false);
-        });
-
-        var d = new Date();
-
-         month = d.getMonth();
-         day = d.getDate() - 1;
-         year = d.getYear();
-
-
-        var $input_date = $('#start').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year
-            onSet: function (arg) {
-                $("#end").prop('disabled', false);
-                if ('select' in arg) { //prevent closing on selecting month/year
-                    this.close();
-                }
-                 endDay = picker_ini.get('select', 'dd');
-                 endMonth = picker_ini.get('select', 'mm');
-                 endYear = picker_ini.get('select', 'yyyy');
-
-            },
-            disable: [
-                true,
-                {from: ['year','month', 'day'], to: [2300, 11, 31]}
-            ]
-        });
-
-        var picker_ini = $input_date.pickadate('picker');
-
-
-
-        var $input_end = $('#end').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year
-            onSet: function (arg) {
-                if ('select' in arg) { //prevent closing on selecting month/year
-                    this.close();
-                }
-            },
-            onOpen: function () {
-                this.render(true)
-            }
-
-        });
 
 
 
