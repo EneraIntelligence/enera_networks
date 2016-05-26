@@ -2,7 +2,12 @@ var wizard_data =
 {
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
-        console.log("wizard data blade initialized with interaction: "+interaction_id);
+        // console.log("wizard data blade initialized with interaction: "+interaction_id);
+        setTimeout(function()
+        {
+            $( "#link-input" ).focus();
+        },400);
+
     },
     getContainer:function()
     {

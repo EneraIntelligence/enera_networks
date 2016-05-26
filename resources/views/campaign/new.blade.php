@@ -22,7 +22,8 @@
                 <div class="card wizard-card">
 
                     <!-- wizard content -->
-                    <div class="card-content">
+                    <div id="wizard-content" class="card-content overflow-hidden">
+
                         <div id="step_1" class="step">@include('campaign/wizard/interactions')</div>
                         <div id="step_2" class="step">@include('campaign/wizard/data')</div>
                         <div id="step_3" class="step">@include('campaign/wizard/filters')</div>
@@ -60,6 +61,8 @@
 
 @section('scripts')
 
+    {!! HTML::script('js/greensock/plugins/ScrollToPlugin.min.js') !!}
+
     {!! HTML::script('js/events/EventDispatcher.js') !!}
     {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}
@@ -68,7 +71,7 @@
 
     <script>
         var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_dates, wizard_summary];
-        var currentStep = 2;
+        var currentStep = 0;
         var interactionId = "";
 
         //setup events
@@ -76,6 +79,7 @@
         ev.on(WizardEvents.interactionSelected, changeInteraction);
         ev.on(WizardEvents.validForm, enableNext);
         ev.on(WizardEvents.invalidForm, disableNext);
+        ev.on(WizardEvents.goNext, goNext);
 
 
         disableNext();
@@ -86,92 +90,204 @@
         initializeCurrentStep();
 
         $(document).ready(function () {
-            TweenLite.set("#prev-btn", {css: {width: "0%"}});
-            TweenLite.set("#next-btn", {css: {width: "100%"}});
+            TweenLite.set("#prev-btn", {css: {width: "30%", display:"none"}});
+            TweenLite.set("#next-btn", {css: {width: "70%", display:"none"}});
+
+            //setup initial height
+            var currentStepContainer = steps[currentStep].getContainer();
+            changeContainerSize(0, currentStepContainer.outerHeight() );
+        });
+
+        $(window).load(function()
+        {
+            //setup initial height
+            var currentStepContainer = steps[currentStep].getContainer();
+            changeContainerSize(0, currentStepContainer.outerHeight() );
         });
 
         function setup() {
             for (var i = 0; i < steps.length; i++) {
                 var step = steps[i];
                 var container = step.getContainer();
-                TweenLite.set(container, {css: {display: "none"}});
+
+                TweenLite.set( container,{ css:{ alpha:0 } });
             }
 
         }
 
-        function initializeCurrentStep() {
+        function initializeCurrentStep(direction)
+        {
+            direction = direction || 0;
+
             var step = steps[currentStep];
             step.initialize(interactionId);
             var container = step.getContainer();
-            TweenLite.set(container, {css: {display: "block"}});
-            TweenLite.fromTo(container, .25, {alpha: 0}, {alpha: 1});
+            TweenLite.set( container,{ css:{ display:"block" } });
+
+            TweenLite.set(container,{y:0});
+
+            if(direction==1)
+            {
+                var targetY = $("#wizard-content").offset().top-container.offset().top+20;
+                TweenLite.set(container,{y:targetY});
+            }
+
+
+            TweenLite.fromTo( container, .35,
+                    {
+                        x: container.outerWidth() *direction,
+                        alpha:0
+                    },
+                    {
+                        x:0,
+                        alpha:1
+                    });
         }
 
-        function changeInteraction(event, id) {
+        function removeCurrentStep(direction)
+        {
+            var step = steps[currentStep];
+            var container = step.getContainer();
+
+
+
+            if(direction==-1)
+            {
+                setTimeout(function()
+                {
+//                    console.log(direction);
+                    var targetY = $("#wizard-content").offset().top-container.offset().top+20;
+                    TweenLite.set(container,{y:targetY});
+                },10);
+
+            }
+            else
+            {
+                TweenLite.set(container,{y:0});
+            }
+
+            TweenLite.to( container,.30,{
+                x:-(container.outerWidth()+100)*direction,
+                alpha:1,
+                onComplete:function()
+                {
+                    TweenLite.set( container,{ y:0, css:{ display:"none" } });
+
+                    var newStep = steps[currentStep];
+                    var newContainer = newStep.getContainer();
+                    TweenLite.set(newContainer, {y:0});
+                }
+            });
+        }
+
+        function changeInteraction(event,id)
+        {
+            //console.log("interaction changed to "+id);
             interactionId = id;
         }
 
-        function enableNext(event) {
-            setEnabled("#next-btn", true);
+        function enableNext(event)
+        {
+            setEnabled("#next-btn",true);
         }
-        function disableNext(event) {
-            setEnabled("#next-btn", false);
-        }
-
-        function removeCurrentStep() {
-            var step = steps[currentStep];
-            var container = step.getContainer();
-            TweenLite.set(container, {css: {display: "none"}});
+        function disableNext(event)
+        {
+            setEnabled("#next-btn",false);
         }
 
-        function goNext() {
-            if ($(this).hasClass("disabled"))
-                return;
 
-            if (currentStep < steps.length - 1) {
+
+        function goNext()
+        {
+            if($(this).hasClass("disabled"))
+                    return;
+
+            if(currentStep<steps.length-1)
+            {
                 var step = steps[currentStep];
 
-                if (step.isValid()) {
-                    removeCurrentStep();
+                if(step.isValid())
+                {
+                    var prevHeight = step.getContainer().outerHeight();
+                    removeCurrentStep(1);
 
                     currentStep++;
 
                     if (currentStep > 0)
                         showPrevButton();
 
-                    initializeCurrentStep();
+                    initializeCurrentStep(1);
+
+                    step = steps[currentStep];
+                    var currentHeight = step.getContainer().outerHeight();
+
+                    changeContainerSize(prevHeight, currentHeight);
                     disableNext();
+
+                    var topWizard = $("#wizard-content").offset().top;
+                    TweenLite.to(window, .5, {scrollTo:{y:topWizard}, ease:Power2.easeOut});
                 }
 
             }
-            else {
+            else
+            {
                 //TODO submit form
 
             }
         }
 
-        function goPrev() {
-            if (currentStep > 0) {
-                removeCurrentStep();
+        function changeContainerSize(currentHeight, nextHeight)
+        {
+            //added some padding below
+            nextHeight+=25;
+
+            if(currentHeight<nextHeight)
+            {
+                TweenLite.to("#wizard-content", .2, { css:{height:nextHeight} });
+            }
+            else
+            {
+                TweenLite.to("#wizard-content", .2, { delay:.35, css:{height:nextHeight} });
+
+            }
+        }
+
+        function goPrev()
+        {
+            if(currentStep>0)
+            {
+                var step = steps[currentStep];
+                var prevHeight = step.getContainer().outerHeight();
+
+                removeCurrentStep(-1);
 
                 currentStep--;
 
-                if (currentStep == 0)
+                if(currentStep==0)
                     hidePrevButton();
 
-                initializeCurrentStep();
+                initializeCurrentStep(-1);
+
+                step = steps[currentStep];
+                var currentHeight = step.getContainer().outerHeight();
+
+                changeContainerSize(prevHeight, currentHeight);
+
+                var topWizard = $("#wizard-content").offset().top;
+                TweenLite.to(window, .5, {scrollTo:{y:topWizard}, ease:Power2.easeOut});
+
             }
         }
 
 
         function showPrevButton() {
-            TweenLite.to("#prev-btn", .3001, {css: {width: "30%"}});
-            TweenLite.to("#next-btn", .3, {css: {width: "70%"}});
+            TweenLite.set("#prev-btn", {css: {height: "auto", display:"inline-block"}});
+            TweenLite.set("#next-btn", {css: {height: "auto", display:"inline-block"}});
         }
 
         function hidePrevButton() {
-            TweenLite.to("#prev-btn", .29, {css: {width: "0%"}});
-            TweenLite.to("#next-btn", .3, {css: {width: "100%"}});
+            TweenLite.set("#prev-btn", {css: {height: "0", display:"none"}});
+            TweenLite.set("#next-btn", {css: {height: "0", display:"none"}});
         }
 
         function setEnabled(btnId, enable) {
