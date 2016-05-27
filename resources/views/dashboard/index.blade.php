@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="col s12 m12 my-card hide-on-med-and-up">
-        <div class="carousel dashboard-carousel">
+        <div class="carousel carousel-mobile dashboard-carousel">
 
             <div id="mobile-card-1" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
@@ -47,6 +47,54 @@
     </div> <!-- end mobile content -->
 
     <div class="container desktop-container hide-on-small-only">
+
+        <div class="slider-container">
+
+            <div class="container slider-item">
+                <div id="card-1" class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/devices')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container slider-item">
+                <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/users')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container slider-item">
+                <div id="card-3" class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/access')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container slider-item">
+                <div id="card-4" class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/branches')
+                    </div>
+                </div>
+            </div>
+
+            <div class="container slider-item">
+                <div id="card-5" class="card-panel hoverable grey darken-3 white-text">
+                    <div class="card-content">
+                        @include('dashboard/partials/campaigns')
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!--
         <div class="row">
 
             <div class="container col m6 l4">
@@ -92,7 +140,7 @@
             </div>
 
         </div>
-
+-->
 
     </div><!-- end medium and large content -->
 
@@ -103,12 +151,15 @@
 @section('scripts')
 
     {!! HTML::script('js/carousel-enera.js') !!}
+    {!! HTML::script('js/card-slider-enera.js') !!}
 
 
     <script>
 
         $(document).ready(function () {
-            $('.carousel').carouselEnera();
+            $('.carousel-mobile').carouselEnera();
+
+
         });
 
         $(window).load(function () {
@@ -135,7 +186,7 @@
                 setSameHeight(mCards);
             });
 
-
+            $('.slider-container').cardSliderEnera();
 
         });
 

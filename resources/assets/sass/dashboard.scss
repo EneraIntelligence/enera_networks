@@ -74,6 +74,25 @@
   width: 100%;
 }
 
+
+.desktop-container
+{
+
+}
+.slider-container
+{
+  width:100%;
+
+  .slider-item
+  {
+    position: absolute;
+    width: 290px;
+    left:50%;
+    top:50%;
+  }
+}
+
+
 @media only screen and (max-width: 992px) {
 
   //ipad and down
