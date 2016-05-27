@@ -51,11 +51,11 @@
                 cardSlider.height(tallestCardHeight + 40);
 
                 cardSlider.append(
-                    '<div id="prev-btn" class="card-panel z-depth-2"> <i class="material-icons">navigate_before</i> </div>'
+                    '<div id="prev-btn" class="card-panel z-depth-1"> <i class="material-icons">navigate_before</i> </div>'
                 );
 
                 cardSlider.append(
-                    '<div id="next-btn" class="card-panel z-depth-2"> <i class="material-icons">navigate_next</i> </div>'
+                    '<div id="next-btn" class="card-panel z-depth-1"> <i class="material-icons">navigate_next</i> </div>'
                 );
 
                 TweenLite.set("#prev-btn",{css:{cursor:"pointer", width:70, position:"absolute", top:tallestCardHeight/2-35, left:10}})
@@ -65,11 +65,23 @@
                 $("#prev-btn").click(function()
                 {
                     methods.prevCard();
+                }).hover(function()
+                {
+                    $(this).addClass("z-depth-2");
+                }, function()
+                {
+                    $(this).removeClass("z-depth-2");
                 });
 
                 $("#next-btn").click(function()
                 {
                     methods.nextCard();
+                }).hover(function()
+                {
+                    $(this).addClass("z-depth-2");
+                }, function()
+                {
+                    $(this).removeClass("z-depth-2");
                 });
 
             }
