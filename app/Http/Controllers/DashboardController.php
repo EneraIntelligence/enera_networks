@@ -3,6 +3,7 @@
 namespace Networks\Http\Controllers;
 
 use Auth;
+use DateTime;
 use Illuminate\Http\Request;
 
 use Networks\Campaign;
@@ -31,11 +32,33 @@ class DashboardController extends Controller
         //*/
         $network = Network::find(session('network_id'));
         $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name","_id");
-        $campaigns = auth()->user()->campaigns->lists("name","_id");
+        $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get();
         $devices = 0;
+        $camData = "{}";
+        $camData = json_decode($camData);
+        foreach ($campaigns as $cam){
+
+            $end = new DateTime(date('d-m-Y',$cam->filters['date']['end']->sec));
+            $start = new DateTime(date('d-m-Y', $cam->filters['date']['start']->sec));
+            $differ = $start->diff($end);
+            $daysCampaign = $differ->format('%a');
+            if ($end > new DateTime()) {
+                $restCampaign = $end->diff(new DateTime());
+                $missingDays = $restCampaign->format('%a');
+                $percentage = round(($missingDays * 100) / $daysCampaign, 0);
+                $camData->{$cam->_id} = ['percentage' => $percentage, 'daysCampaign' => $daysCampaign, 'missingDays' => $missingDays, 'name' => $cam->name];
+            }else{
+                $camData->{$cam->_id} = ['percentage' => '100%', 'daysCampaign' => $daysCampaign, 'missingDays' => 0, 'name' => $cam->name];
+            }
+
+        }
+        json_encode($camData);
+        
+        
+
         $user = User::count();
         $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
-        $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access');
+        $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access', 'camData');
 
         return view('dashboard.index', $dashboard);
         /*/

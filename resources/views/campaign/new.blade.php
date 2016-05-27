@@ -62,7 +62,6 @@
 @section('scripts')
 
     {!! HTML::script('js/greensock/plugins/ScrollToPlugin.min.js') !!}
-
     {!! HTML::script('js/events/EventDispatcher.js') !!}
     {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}

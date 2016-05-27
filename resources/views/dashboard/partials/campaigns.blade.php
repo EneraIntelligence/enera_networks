@@ -6,40 +6,32 @@
     <span style="font-weight: 400;">Campañas</span>
 </div>
 
-
-<div class="collection black-text hide-on-small-only" style="margin-bottom:20px; height:250px; overflow-y:scroll;border: none;">
-    @foreach($campaigns as $id=>$name)
-
-        <?php
-        $max_chars=28;
-        if (strlen($name) > $max_chars)
-            $name = substr($name, 0, $max_chars-3) . '...';
-        ?>
-
-
-        <a href="{{route("campaigns::show",$id)}}" class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
-            {{$name}}
-            <i class="material-icons secondary-content">forward</i>
-        </a>
-    @endforeach
-</div>
-
-<ul class="collection black-text hide-on-med-and-up" style="height:250px; overflow-y:scroll; border: none;">
-    @foreach($campaigns as $id=>$name)
-
-        <?php
-        $max_chars=27;
-        if (strlen($name) > $max_chars)
-            $name = substr($name, 0, $max_chars-3) . '...';
-        ?>
-
-        <li class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
-            <div>{{$name}}
-                <a href="{{route("campaigns::show",$id)}}" class="secondary-content">
-                    <i class="material-icons">forward</i>
-                </a>
-            </div>
-        </li>
-
-    @endforeach
+<ul class="collection" style="border: none;">
+    <li class="collection-item avatar" style="margin: 5px 0 5px 0;">
+        <img src="{{asset('images/icons/banner_link.svg')}}" alt="" class="circle" style="top: 20px;">
+        <span class="title black-text">Nombre de la campaña</span>
+        <div class="progress" style="width: 80%;">
+            <div class="determinate" style="width: 70%"></div>
+        </div>
+        <span class="title black-text">Dias restantes: 20</span>
+        <a href="javascript:void(0)" class="secondary-content" style="top: 30px;"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar" style="margin: 5px 0 5px 0;">
+        <img src="{{asset('images/icons/banner_link.svg')}}" alt="" class="circle" style="top: 20px;">
+        <span class="title black-text">Nombre de la campaña</span>
+        <div class="progress" style="width: 80%;">
+            <div class="determinate" style="width: 70%"></div>
+        </div>
+        <span class="title black-text">Dias restantes: 20</span>
+        <a href="javascript:void(0)" class="secondary-content" style="top: 30px;"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar" style="margin: 5px 0 5px 0;">
+        <img src="{{asset('images/icons/banner_link.svg')}}" alt="" class="circle" style="top: 20px;">
+        <span class="title black-text">Nombre de la campaña</span>
+        <div class="progress" style="width: 80%;">
+            <div class="determinate" style="width: 70%"></div>
+        </div>
+        <span class="title black-text">Dias restantes: 20</span>
+        <a href="javascript:void(0)" class="secondary-content" style="top: 30px;"><i class="material-icons">grade</i></a>
+    </li>
 </ul>
