@@ -10,6 +10,11 @@
 
 @section('content')
     <div class="col s12 m12 my-card hide-on-med-and-up">
+
+        <div class="swipe-animation">
+
+        </div>
+
         <div class="carousel carousel-mobile dashboard-carousel">
 
             <div id="mobile-card-1" class="card-panel carousel-item my-card grey darken-3 white-text">
@@ -50,13 +55,7 @@
 
         <div class="slider-container">
 
-            <div class="container slider-item">
-                <div id="card-1" class="card-panel hoverable grey darken-3 white-text">
-                    <div class="card-content">
-                        @include('dashboard/partials/devices')
-                    </div>
-                </div>
-            </div>
+
 
             <div class="container slider-item">
                 <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
@@ -90,56 +89,19 @@
                 </div>
             </div>
 
-        </div>
 
-
-        <!--
-        <div class="row">
-
-            <div class="container col m6 l4">
+            <div class="container slider-item">
                 <div id="card-1" class="card-panel hoverable grey darken-3 white-text">
                     <div class="card-content">
                         @include('dashboard/partials/devices')
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container col m6 l4">
-            <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
-                <div class="card-content">
-                    @include('dashboard/partials/users')
-                </div>
-            </div>
-        </div>
-
-        <div class="container col m6 l4">
-            <div id="card-3" class="card-panel hoverable grey darken-3 white-text">
-                <div class="card-content">
-                    @include('dashboard/partials/access')
-                </div>
-            </div>
         </div>
 
 
-        <div class="container col m6 l4 offset-l2">
-            <div id="card-4" class="card-panel hoverable grey darken-3 white-text">
-                <div class="card-content">
-                    @include('dashboard/partials/branches')
-                </div>
-            </div>
-        </div>
 
-
-        <div class="container col m6 l4">
-            <div id="card-5" class="card-panel hoverable grey darken-3 white-text">
-                <div class="card-content">
-                    @include('dashboard/partials/campaigns', ['camData' => $camData])
-                </div>
-            </div>
-        </div>
-
-    </div>
--->
 
     </div><!-- end medium and large content -->
 
@@ -151,15 +113,12 @@
 
     {!! HTML::script('js/carousel-enera.js') !!}
     {!! HTML::script('js/card-slider-enera.js') !!}
+    {!! HTML::script('js/swipe-animation.js') !!}
 
 
     <script>
-
-        $(document).ready(function () {
-            $('.carousel-mobile').carouselEnera();
-
-
-        });
+        var swipeAnim=null;
+        var cardCarousel=null;
 
         $(window).load(function () {
             var cards = [];
@@ -184,7 +143,21 @@
                 setSameHeight(mCards);
             });
 
+            //make desktop slider
             $('.slider-container').cardSliderEnera();
+
+            //mobile card slider
+            cardCarousel = $('.carousel-mobile').carouselEnera();
+
+            //finger swipe animation
+            swipeAnim = $('.swipe-animation').swipeAnimation();
+
+            //remove finger swipe animation on first drag
+            cardCarousel.onCardDrag(function()
+            {
+                swipeAnim.stop();
+                cardCarousel.removeCardDragCallbacks();
+            });
 
         });
 

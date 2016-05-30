@@ -12,6 +12,7 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "laravelcollective/html": "5.1.*",
         "guzzlehttp/guzzle": "~5.3|~6.0",
+        "jenssegers/agent": "^2.3",
         "pda/pheanstalk": "~3.0"
     },
     "require-dev": {

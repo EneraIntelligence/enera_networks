@@ -2,6 +2,7 @@
 
     var methods = {
 
+        cardDragFunctions:[],
         init: function () {
 
             var card = this.find(".carousel-item:first");
@@ -53,6 +54,11 @@
                         dragged = true;
                         var i;
                         var card;
+                        
+                        for(var current=0;current<methods.cardDragFunctions.length;current++)
+                        {
+                            methods.cardDragFunctions[current]();
+                        }
 
                         if (this.x < 0) {
                             var difX = this.x;
@@ -167,6 +173,17 @@
                     });
                 }
             }
+            
+            return {
+                onCardDrag:function(callback)
+                {
+                    methods.cardDragFunctions.push(callback);
+                },
+                removeCardDragCallbacks:function()
+                {
+                    methods.cardDragFunctions=[];
+                }
+            };
 
         }
     };

@@ -19,6 +19,8 @@ use Carbon\Carbon;
 use Networks\SummaryNetwork;
 use Networks\User;
 
+use Jenssegers\Agent\Agent;
+
 class DashboardController extends Controller
 {
     /**
@@ -28,6 +30,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $agent = new Agent();
 
         //*/
         $network = Network::find(session('network_id'));
@@ -52,11 +55,13 @@ class DashboardController extends Controller
             }
 
         }
-
-
+        json_encode($camData);
+        
+        
+        $isMobile = $agent->isMobile();
         $user = User::count();
         $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
-        $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access', 'camData');
+        $dashboard = compact('devices', 'campaigns', 'branches', 'network', 'user', 'access', 'camData', 'isMobile');
 
         return view('dashboard.index', $dashboard);
         /*/
@@ -466,6 +471,7 @@ class DashboardController extends Controller
         ]);
 
         //dd($devices['result']);
+
 
 
         return $devices['result'];
