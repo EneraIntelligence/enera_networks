@@ -19,6 +19,7 @@
                 if(methods.stopped)
                     return;
 
+                circle.css("display","block");
                 var targetY = Math.min($(window).height()-200, 450);
 
                 TweenLite.fromTo(circle, .2,

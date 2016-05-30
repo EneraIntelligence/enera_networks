@@ -114,6 +114,7 @@
     {!! HTML::script('js/carousel-enera.js') !!}
     {!! HTML::script('js/card-slider-enera.js') !!}
     {!! HTML::script('js/swipe-animation.js') !!}
+    {!! HTML::script('js/js-cookie.js') !!}
 
 
     <script>
@@ -152,12 +153,24 @@
             //finger swipe animation
             swipeAnim = $('.swipe-animation').swipeAnimation();
 
-            //remove finger swipe animation on first drag
-            cardCarousel.onCardDrag(function()
+            if(Cookies.get('swipeAnimationDone')=="true")
             {
+                //if the cookie has been set before stop the animation
                 swipeAnim.stop();
-                cardCarousel.removeCardDragCallbacks();
-            });
+            }
+            else
+            {
+                //remove finger swipe animation on first drag
+                cardCarousel.onCardDrag(function()
+                {
+                    //set cookie so the animation shows only the first time
+                    Cookies.set('swipeAnimationDone', 'true', { expires: 20 });
+                    swipeAnim.stop();
+                    cardCarousel.removeCardDragCallbacks();
+                });
+            }
+
+
 
         });
 
