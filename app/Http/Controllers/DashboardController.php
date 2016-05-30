@@ -31,14 +31,14 @@ class DashboardController extends Controller
 
         //*/
         $network = Network::find(session('network_id'));
-        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name","_id");
+        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
         $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get();
         $devices = 0;
         $camData = "{}";
         $camData = json_decode($camData);
-        foreach ($campaigns as $cam){
+        foreach ($campaigns as $cam) {
 
-            $end = new DateTime(date('d-m-Y',$cam->filters['date']['end']->sec));
+            $end = new DateTime(date('d-m-Y', $cam->filters['date']['end']->sec));
             $start = new DateTime(date('d-m-Y', $cam->filters['date']['start']->sec));
             $differ = $start->diff($end);
             $daysCampaign = $differ->format('%a');
@@ -46,15 +46,13 @@ class DashboardController extends Controller
                 $restCampaign = $end->diff(new DateTime());
                 $missingDays = $restCampaign->format('%a');
                 $percentage = round(($missingDays * 100) / $daysCampaign, 0);
-                $camData->{$cam->_id} = ['percentage' => $percentage, 'daysCampaign' => $daysCampaign, 'missingDays' => $missingDays, 'name' => $cam->name];
-            }else{
-                $camData->{$cam->_id} = ['percentage' => '100%', 'daysCampaign' => $daysCampaign, 'missingDays' => 0, 'name' => $cam->name];
+                $camData->{$cam->_id} = ['percentage' => $percentage . '%', 'daysCampaign' => $daysCampaign, 'missingDays' => $missingDays, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
+            } else {
+                $camData->{$cam->_id} = ['percentage' => '100%', 'daysCampaign' => $daysCampaign, 'missingDays' => 0, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
             }
 
         }
-        json_encode($camData);
-        
-        
+
 
         $user = User::count();
         $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
@@ -266,10 +264,9 @@ class DashboardController extends Controller
         ]);
 
         //dd( $users['result'] );
-        $userIds=[];
-        foreach($users['result'] as $res)
-        {
-            array_push($userIds,$res['_id']);
+        $userIds = [];
+        foreach ($users['result'] as $res) {
+            array_push($userIds, $res['_id']);
         }
 //        dd($userIds);
 
@@ -293,12 +290,12 @@ class DashboardController extends Controller
                 ]
             ],
             [
-                '$unwind'=>'$dates'
+                '$unwind' => '$dates'
             ],
             [
                 '$sort' =>
                     [
-                        'dates'=>1
+                        'dates' => 1
                     ]
             ],
             [
@@ -314,37 +311,28 @@ class DashboardController extends Controller
 
         //dd($logs);
 
-        $unique=[];
-        $recurrent=[];
-        foreach($logs['result'] as $res)
-        {
-            for($i=0;$i< count($res['dates']); $i++)
-            {
+        $unique = [];
+        $recurrent = [];
+        foreach ($logs['result'] as $res) {
+            for ($i = 0; $i < count($res['dates']); $i++) {
                 //add the unique user when it was acquired
-                if($i==0)
-                {
+                if ($i == 0) {
                     if (array_key_exists($res['dates'][0], $unique)) {
 
 //                        $unique[ $res['dates'][0] ]+=1;
-                        $unique[ $res['dates'][0] ][]=$res['_id'];
-                    }
-                    else
-                    {
+                        $unique[$res['dates'][0]][] = $res['_id'];
+                    } else {
 //                        $unique[ $res['dates'][0] ]=1;
-                        $unique[ $res['dates'][0] ]= [ $res['_id'] ];
+                        $unique[$res['dates'][0]] = [$res['_id']];
                     }
-                }
-                else
-                {
+                } else {
                     if (array_key_exists($res['dates'][$i], $recurrent)) {
 
 //                        $recurrent[ $res['dates'][$i] ]+=1;
-                        $recurrent[ $res['dates'][$i] ][]=$res['_id'];
-                    }
-                    else
-                    {
+                        $recurrent[$res['dates'][$i]][] = $res['_id'];
+                    } else {
 //                        $recurrent[ $res['dates'][$i] ]=1;
-                        $recurrent[ $res['dates'][$i] ]= [ $res['_id'] ];
+                        $recurrent[$res['dates'][$i]] = [$res['_id']];
                     }
                 }
 
@@ -354,7 +342,7 @@ class DashboardController extends Controller
         //dd( $count );
 
 
-        return array('recurrent'=>$recurrent,'unique'=>$unique);
+        return array('recurrent' => $recurrent, 'unique' => $unique);
 
     }
 
@@ -381,10 +369,9 @@ class DashboardController extends Controller
         ]);
 
         //dd( $users['result'] );
-        $userIds=[];
-        foreach($users['result'] as $res)
-        {
-            array_push($userIds,$res['_id']);
+        $userIds = [];
+        foreach ($users['result'] as $res) {
+            array_push($userIds, $res['_id']);
         }
 //        dd($userIds);
 
@@ -408,12 +395,12 @@ class DashboardController extends Controller
                 ]
             ],
             [
-                '$unwind'=>'$dates'
+                '$unwind' => '$dates'
             ],
             [
                 '$sort' =>
                     [
-                        'dates'=>1
+                        'dates' => 1
                     ]
             ],
             [
@@ -427,16 +414,13 @@ class DashboardController extends Controller
 
         ]);
 
-        $count=[];
-        foreach($logs['result'] as $res)
-        {
+        $count = [];
+        foreach ($logs['result'] as $res) {
             if (array_key_exists($res['dates'][0], $count)) {
 
-                $count[ $res['dates'][0] ]+=1;
-            }
-            else
-            {
-                $count[ $res['dates'][0] ]=1;
+                $count[$res['dates'][0]] += 1;
+            } else {
+                $count[$res['dates'][0]] = 1;
             }
         }
         //dd( $count );
@@ -445,7 +429,7 @@ class DashboardController extends Controller
 
     }
 
-    private function getAccessedLastDays($branches_id,$numDays)
+    private function getAccessedLastDays($branches_id, $numDays)
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
 
@@ -469,20 +453,19 @@ class DashboardController extends Controller
                     'num' => [
                         '$sum' => 1
                     ],
-                    'users'=>[
-                        '$push'=>'$user.id'
+                    'users' => [
+                        '$push' => '$user.id'
                     ]
                 ]
             ],
             [
-                '$sort' =>[
+                '$sort' => [
                     "_id" => 1
                 ]
             ]
         ]);
 
         //dd($devices['result']);
-
 
 
         return $devices['result'];
@@ -499,7 +482,7 @@ class DashboardController extends Controller
 
         while ($current <= $last) {
             if (date($format, $current) != '') {
-                $dates[date($format, $current)] = ['num'=>0, 'new'=>0, 'rec'=>0];
+                $dates[date($format, $current)] = ['num' => 0, 'new' => 0, 'rec' => 0];
                 $current = strtotime($step, $current);
             }
         }
@@ -511,7 +494,7 @@ class DashboardController extends Controller
     {
         return view('dashboard.terms', [
             'user' => Auth::user(),
-            'hideTermsFooter'=>true
+            'hideTermsFooter' => true
         ]);
     }
 

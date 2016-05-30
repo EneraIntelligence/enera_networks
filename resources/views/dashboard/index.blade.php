@@ -93,7 +93,6 @@
         </div>
 
 
-
         <!--
         <div class="row">
 
@@ -101,45 +100,45 @@
                 <div id="card-1" class="card-panel hoverable grey darken-3 white-text">
                     <div class="card-content">
                         @include('dashboard/partials/devices')
-                    </div>
                 </div>
             </div>
-
-            <div class="container col m6 l4">
-                <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
-                    <div class="card-content">
-                        @include('dashboard/partials/users')
-                    </div>
-                </div>
-            </div>
-
-            <div class="container col m6 l4">
-                <div id="card-3" class="card-panel hoverable grey darken-3 white-text">
-                    <div class="card-content">
-                        @include('dashboard/partials/access')
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container col m6 l4 offset-l2">
-                <div id="card-4" class="card-panel hoverable grey darken-3 white-text">
-                    <div class="card-content">
-                        @include('dashboard/partials/branches')
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="container col m6 l4">
-                <div id="card-5" class="card-panel hoverable grey darken-3 white-text">
-                    <div class="card-content">
-                        @include('dashboard/partials/campaigns')
-                    </div>
-                </div>
-            </div>
-
         </div>
+
+        <div class="container col m6 l4">
+            <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
+                <div class="card-content">
+                    @include('dashboard/partials/users')
+                </div>
+            </div>
+        </div>
+
+        <div class="container col m6 l4">
+            <div id="card-3" class="card-panel hoverable grey darken-3 white-text">
+                <div class="card-content">
+                    @include('dashboard/partials/access')
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container col m6 l4 offset-l2">
+            <div id="card-4" class="card-panel hoverable grey darken-3 white-text">
+                <div class="card-content">
+                    @include('dashboard/partials/branches')
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container col m6 l4">
+            <div id="card-5" class="card-panel hoverable grey darken-3 white-text">
+                <div class="card-content">
+                    @include('dashboard/partials/campaigns', ['camData' => $camData])
+                </div>
+            </div>
+        </div>
+
+    </div>
 -->
 
     </div><!-- end medium and large content -->
@@ -180,8 +179,7 @@
             setSameHeight(cards);
             setSameHeight(mCards);
 
-            $( window ).resize(function()
-            {
+            $(window).resize(function () {
                 setSameHeight(cards);
                 setSameHeight(mCards);
             });
@@ -190,13 +188,12 @@
 
         });
 
-        function setSameHeight(cards)
-        {
+        function setSameHeight(cards) {
             var minHeight = 0;
-            var card,i;
+            var card, i;
             for (i = 0; i < cards.length; i++) {
                 card = cards[i];
-                card.css("height","auto");
+                card.css("height", "auto");
 
                 if (card.height() > minHeight)
                     minHeight = card.height();

@@ -16,7 +16,7 @@
     <title>Enera Networks - @yield('title')</title>
 
 
-            <!-- Material - CSS -->
+    <!-- Material - CSS -->
     {!! HTML::style('css/material-extra.css') !!}
     {!! HTML::style('css/materialize.css') !!}
 
@@ -41,7 +41,8 @@
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera">
                 <span class="menu-text" style="font-size: 25px;">Networks</span>
                 {{--<i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>--}}
-                <i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide grey-text">keyboard_arrow_down</i>
+                <i style="top: 20px; position: absolute; left: 60px;"
+                   class="tiny material-icons platform-hide grey-text">keyboard_arrow_down</i>
             </a>
 
 
@@ -56,9 +57,9 @@
                 <li>
 
                     <?php
-                        $networkCount = auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count();
+                    $networkCount = auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count();
 
-                        $currentNetworkName = \Networks\Network::find(session('network_id'))->name;
+                    $currentNetworkName = \Networks\Network::find(session('network_id'))->name;
                     ?>
 
                     @if($networkCount>0)
@@ -67,46 +68,46 @@
                             <i class="material-icons right">arrow_drop_down</i>
                         </a>
                     @else
-                        <a class="dropdown-button" href="#!" >
+                        <a class="dropdown-button" href="#!">
                             {{ $currentNetworkName }}
                         </a>
-                    @endif
-
-                    <!-- Dropdown Structure -->
-                    <ul id="networksDropdown" class="dropdown-content">
-
-                        <li>
-                            <a href="#!"
-                               class="black-text text-darken-1">
-                                {{ $currentNetworkName }}
-                            </a>
-                        </li>
-
-                        @if(auth()->user()->role->name == 'Enera Admin')
-                            @foreach(\Networks\Network::all() as $network)
-                                @if($network->name!=$currentNetworkName)
-                                <li>
-                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}"
-                                        class="grey-text text-darken-1">
-                                        {{ $network->name }}
-                                    </a>
-                                </li>
-                                @endif
-                            @endforeach
-                        @else
-                            @foreach(auth()->user()->client->networks as $network)
-                                @if($network->name!=$currentNetworkName)
-                                <li>
-                                    <a href="{!! Request::url().'?network_id='.$network->_id !!}"
-                                       class="grey-text text-darken-1">
-                                        {{ $network->name }}
-                                    </a>
-                                </li>
-                                @endif
-                            @endforeach
                         @endif
 
-                    </ul>
+                                <!-- Dropdown Structure -->
+                        <ul id="networksDropdown" class="dropdown-content">
+
+                            <li>
+                                <a href="#!"
+                                   class="black-text text-darken-1">
+                                    {{ $currentNetworkName }}
+                                </a>
+                            </li>
+
+                            @if(auth()->user()->role->name == 'Enera Admin')
+                                @foreach(\Networks\Network::all() as $network)
+                                    @if($network->name!=$currentNetworkName)
+                                        <li>
+                                            <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                               class="grey-text text-darken-1">
+                                                {{ $network->name }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @else
+                                @foreach(auth()->user()->client->networks as $network)
+                                    @if($network->name!=$currentNetworkName)
+                                        <li>
+                                            <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                               class="grey-text text-darken-1">
+                                                {{ $network->name }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                        </ul>
 
                 </li>
 
@@ -120,7 +121,8 @@
 
                 <li class="hide-on-med-and-down">
                     {{--<a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>--}}
-                    <a class='dropdown-button' href="#!" data-activates='settingsMenu' data-beloworigin="true"><i class="material-icons">settings</i></a>
+                    <a class='dropdown-button' href="#!" data-activates='settingsMenu' data-beloworigin="true"><i
+                                class="material-icons">settings</i></a>
 
                     <!-- Dropdown settings Structure -->
                     <ul id='settingsMenu' class='dropdown-content'>
@@ -136,18 +138,17 @@
                 <li class="{{ isset($navData) && $navData["profileState"]?$navData["profileState"]:""  }}">
                     {{--<a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>--}}
 
-                    <!-- avatar -->
+                            <!-- avatar -->
 
                     <a class="valign-wrapper" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">
 
-                    <div class="circle" style="width: 50px; overflow: hidden; height: 50px;
-                    background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: 50% 50%;
-                    ">
-
-                    </div>
+                        <div style="width: 50px; overflow: hidden; height: 50px;
+                                background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                ">
+                        </div>
 
                     </a>
 
@@ -215,7 +216,8 @@
 
 
     <div class="current-network hide-on-large-only">
-        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile" data-beloworigin="true">
+        <a class="dropdown-button btn z-depth-2 grey darken-2" href="#!" data-activates="networksDropdownMobile"
+           data-beloworigin="true">
             <i class="material-icons left">wifi</i>
             {{ \Networks\Network::find(session('network_id'))->name }}
             <i class="material-icons right">arrow_drop_down</i>
@@ -258,91 +260,92 @@
 
     </ul>
 
-@endif <!-- end network selector -->
+    @endif <!-- end network selector -->
 
 
 
 
 
-<main>
+    <main>
 
-    @yield('content')
+        @yield('content')
 
-</main>
+    </main>
 
 
-<footer class="page-footer grey darken-3">
+    <footer class="page-footer grey darken-3">
 
-    <div class="footer-copyright">
-        <div class="container">
+        <div class="footer-copyright">
+            <div class="container">
 
-            <a class="left grey-text text-lighten-2" href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
-                condiciones</a>
+                <a class="left grey-text text-lighten-2" href="{!! URL::route('terms') !!}"
+                   class="grey-text text-lighten-4 left">Términos y
+                    condiciones</a>
 
-            <!--
+                <!--
             @if(!isset($hideTermsFooter) || !$hideTermsFooter)
-                    <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
+                        <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
                     condiciones</a>
             @endif
-                    -->
-            <span class="grey-text text-lighten-4 right"> © 2016 Enera </span>
+                        -->
+                <span class="grey-text text-lighten-4 right"> © 2016 Enera </span>
 
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<!-- google web fonts -->
-<script>
-    WebFontConfig = {
-        google: {
-            families: [
-                'Source+Code+Pro:400,700:latin',
-                'Roboto:400,300,500,700,400italic:latin'
-            ]
-        }
-    };
-    (function () {
-        var wf = document.createElement('script');
-        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-                '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-        wf.type = 'text/javascript';
-        wf.async = 'true';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(wf, s);
-    })();
-</script>
+    <!-- google web fonts -->
+    <script>
+        WebFontConfig = {
+            google: {
+                families: [
+                    'Source+Code+Pro:400,700:latin',
+                    'Roboto:400,300,500,700,400italic:latin'
+                ]
+            }
+        };
+        (function () {
+            var wf = document.createElement('script');
+            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+                    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })();
+    </script>
 
-<!-- Material - JS and GSAP-->
-{!! HTML::script('js/jquery.min.js') !!}
-{!! HTML::script('js/materialize.js') !!}
-{!! HTML::script('js/greensock/TweenLite.min.js') !!}
-{!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
-{!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
-{!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
+    <!-- Material - JS and GSAP-->
+    {!! HTML::script('js/jquery.min.js') !!}
+    {!! HTML::script('js/materialize.js') !!}
+    {!! HTML::script('js/greensock/TweenLite.min.js') !!}
+    {!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
+    {!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
+    {!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
 
-{!! HTML::script('js/platform_menu.js') !!}
-
+    {!! HTML::script('js/platform_menu.js') !!}
 
 
-@yield('scripts')
 
-<script>
-    $(document).ready(function () {
+    @yield('scripts')
 
-        platformMenu.initialize();
+    <script>
+        $(document).ready(function () {
 
-        //materialize elemenst initialization
-        $(".button-collapse").sideNav();
-        $(".dropdown-button").dropdown({
-            constrain_width: false
+            platformMenu.initialize();
+
+            //materialize elemenst initialization
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown({
+                constrain_width: false
+            });
+
+            //show page when all ready
+            var body = $("body");
+            body.css("opacity", 1);
+            body.css("filter", "alpha(opacity=100)");
+
         });
-
-        //show page when all ready
-        var body = $("body");
-        body.css("opacity", 1);
-        body.css("filter", "alpha(opacity=100)");
-
-    });
-</script>
+    </script>
 </body>
 </html>
