@@ -12,6 +12,30 @@ var wizard_data =
         },400);
 
 
+        var validator = $("#data-form").validate({
+            onsubmit:false,
+            onfocusout:labelFix,
+            //onkeyup:labelFix,
+            rules:
+            {
+                link:
+                {
+                    required:true,
+                    url:true
+                },
+                captcha:
+                {
+                    required:true
+                }
+            }
+        });
+
+        function labelFix(element, event)
+        {
+            validator.element(element);
+            Materialize.updateTextFields();
+        }
+        // validator.showErrors({"link":"Pasa el zelda"});
     },
     getContainer:function()
     {

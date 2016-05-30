@@ -44,6 +44,26 @@
   overflow: hidden;
 }
 
+//validator styles
+label.error.active {
+  color:#f23;
+  //margin-left: 100px;
+  text-align: center;
+}
+input.error {
+  color:#f23;
+}
+
+input.error:focus{
+  color:#f23;
+  border: none;
+  border-bottom: 1px solid red;
+}
+
+div.error{
+  color: red;
+}
+
 @media screen and (max-width: 600px) {
   .wizard-card
   {

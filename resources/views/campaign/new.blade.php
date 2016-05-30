@@ -66,6 +66,8 @@
     {!! HTML::script('js/events/WizardEvents.js') !!}
     {!! HTML::script('assets/js/campaign_wizard/wizard.js') !!}
     {!! HTML::script('js/nouislider.js') !!}
+    {!! HTML::script('js/jquery-validation/dist/jquery.validate.min.js') !!}
+    {!! HTML::script('js/jquery-validation/dist/localization/messages_es.min.js') !!}
 
 
     <script>
