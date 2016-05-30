@@ -49,15 +49,15 @@ class DashboardController extends Controller
                 $restCampaign = $end->diff(new DateTime());
                 $missingDays = $restCampaign->format('%a');
                 $percentage = round(($missingDays * 100) / $daysCampaign, 0);
-                $camData->{$cam->_id} = ['percentage' => $percentage . '%', 'daysCampaign' => $daysCampaign, 'missingDays' => $missingDays, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
+                $camData->{$cam->_id} = ['percentage' => $percentage, 'daysCampaign' => $daysCampaign, 'missingDays' => $missingDays, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
             } else {
-                $camData->{$cam->_id} = ['percentage' => '100%', 'daysCampaign' => $daysCampaign, 'missingDays' => 0, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
+                $camData->{$cam->_id} = ['percentage' => '100', 'daysCampaign' => $daysCampaign, 'missingDays' => 0, 'name' => $cam->name, 'type' => $cam->interaction['name'], '_id' => $cam->id];
             }
 
         }
         json_encode($camData);
-        
-        
+
+
         $isMobile = $agent->isMobile();
         $user = User::count();
         $access = CampaignLog::whereIn('device.branch_id', $network->branches)->get();
@@ -471,7 +471,6 @@ class DashboardController extends Controller
         ]);
 
         //dd($devices['result']);
-
 
 
         return $devices['result'];

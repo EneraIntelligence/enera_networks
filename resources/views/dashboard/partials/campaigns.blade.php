@@ -12,12 +12,14 @@
             <img class="circle indigo lighten-4 animate-all" style="margin-top:10px; top:15px;"
                  src="{{ asset("images/icons/".$data['type'].'.svg') }}" alt="like icon">
             <span class="title black-text">{{$data['name']}}</span>
-            <div class="progress" style="width: 70%; top: 5px;">
-                <div class="determinate" style="width: {{$data['percentage']}}"></div>
+            <div class="progress" style="width: 70%; top: 7px;">
+                <div class="determinate" style="width: {{$data['percentage']}}%; background-color:{{($data['percentage'] > 85 ? 'red': ($data['percentage'] < 86 && $data['percentage'] > 50 ? 'yellow' : 'green'))}}"></div>
             </div>
-            <span class="title black-text">Dias restantes: {{$data['missingDays']}}</span>
-            <a href="{{route('campaigns::show', ['id' => $data['_id']])}}" class="secondary-content button cyan"
-               style="top: 30px; right: 5px">VER MÁS</a>
+            <span class="sub-title black-text " style="top: -5px; position: relative;">Dias restantes: {{$data['missingDays']}}</span>
+            <a href="{{route('campaigns::show', ['id' => $data['_id']])}}" class="secondary-content button cyan hide-on-med-and-up"
+               style="top: 30px; right: 10px">Más...</a>
+            <a href="{{route('campaigns::show', ['id' => $data['_id']])}}" class="secondary-content button cyan hide-on-small-only"
+               style="top: 30px; right: 12px">Ver más</a>
         </li>
     @endforeach
 </ul>
