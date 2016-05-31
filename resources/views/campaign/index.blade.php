@@ -102,7 +102,7 @@
         </div>
     </div>
 
-    <div class="fixed-action-btn hide-on-small-only" style="bottom: 45px; right: 24px;">
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
         <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#create">
             <i class="material-icons">add</i>
         </a>

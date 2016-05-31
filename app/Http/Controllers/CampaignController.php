@@ -5,6 +5,7 @@ namespace Networks\Http\Controllers;
 use DateTime;
 use DB;
 use Input;
+use Networks\Network;
 use Validator;
 use MongoDate;
 use Carbon\Carbon;
@@ -37,7 +38,12 @@ class CampaignController extends Controller
         ]);
         if ($validate->passes())
         {
-            return view('campaign.new');
+            $network = Network::find(session('network_id'));
+            $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
+
+            $dashboard = compact('branches');
+
+            return view('campaign.new', $dashboard);
         }
         else
         {

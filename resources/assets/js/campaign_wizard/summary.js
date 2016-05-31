@@ -6,7 +6,7 @@ var wizard_summary =
     getContainer:function()
     {
         //return the DOM element that contains the form
-        return "#cont";
+        return $("#cont");
 
     },
     getData:function()
