@@ -24,11 +24,10 @@
 
                     <!-- wizard content -->
                     <div id="wizard-content" class="card-content overflow-hidden">
-
                         <div id="step_1" class="step">@include('campaign/wizard/interactions')</div>
                         <div id="step_2" class="step">@include('campaign/wizard/data')</div>
                         <div id="step_3" class="step">@include('campaign/wizard/filters')</div>
-                        <div id="step_4" class="step">@include('campaign/wizard/nodes')</div>
+                        <div id="step_4" class="step">@include('campaign/wizard/nodes', ['branches' => $branches])</div>
                         <div id="step_5" class="step">@include('campaign/wizard/summary')</div>
                     </div>
 
@@ -74,7 +73,7 @@
 
     <script>
         var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_nodes, wizard_summary];
-        var currentStep = 0;
+        var currentStep = 4;
         var interactionId = "";
 
         //setup events
@@ -113,7 +112,7 @@
                 var step = steps[i];
                 var container = step.getContainer();
 
-                TweenLite.set( container,{ css:{ alpha:0 } });
+                TweenLite.set( container,{ css:{ display: 'none' } });
             }
 
         }
