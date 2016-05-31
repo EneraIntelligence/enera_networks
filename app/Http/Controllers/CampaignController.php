@@ -9,12 +9,16 @@ use Validator;
 use MongoDate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Storage;
+use Auth;
 
 use Networks\Branche;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Libraries\CampaignStyleHelper;
+use Networks\Item;
+
 
 class CampaignController extends Controller
 {
@@ -337,4 +341,158 @@ class CampaignController extends Controller
         }
     }
 
+
+
+    /**
+     * @param Request $request
+     */
+    public function saveImageItem(Request $request)
+    {
+
+        //echo "{success: 'true', img_length:".print_r($request)."}";
+
+
+        if (Input::get("imgType") == "#image-small") {
+            //saving small image
+            $img = Input::get('imgToSave');
+            $imageType = "small";
+        } else if (Input::get("imgType") == "#image-large") {
+            //saving large image
+            $img = Input::get('imgToSave');
+            $imageType = "large";
+
+        } else if (Input::get("imgType") == "#image-survey") {
+
+            $img = Input::get('imgToSave');
+            $imageType = "survey";
+        } else {
+            $res = array('success' => false, 'msg' => 'error with image type');
+            echo $res;
+        }
+
+        //transforming string to image file
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+        $filename = time() . ".png";
+
+        //transferring file to storage
+        $file = storage_path() . '/app/' . $filename;
+        $success = file_put_contents($file, $data);
+        $pngToDelete = $filename;
+
+        //compress png to jpg
+        $png = $file;
+        $filename = time() . ".jpg";
+        $file = storage_path() . '/app/' . $filename;
+        $image = imagecreatefrompng($png);
+        imagejpeg($image, $file, 90);
+        imagedestroy($image);
+
+
+        if ($success) {
+            //image copied to server successfully
+
+            /*
+            $fc = new FileCloud();
+
+            //get uploaded file and copy it to cloud
+            $uploadedFile = Storage::get($filename);
+            $fileSaved = $fc->put(time() . ".jpg", $uploadedFile);*/
+
+            //upload to S3
+            $uploadedFile = Storage::get($filename);
+            Storage::disk('s3')->put("items/" . $filename, $uploadedFile, "public");
+
+            //delete server file
+            Storage::delete($filename);
+            Storage::delete($pngToDelete);
+
+            //created item related to campaign
+            $item = Item::create(
+                [
+                    "filename" => $filename,
+                    "administrator_id" => Auth::user()->_id,
+                    "type" => 'image',
+                ]
+            );
+
+            $res = array('success' => true, 'filename' => $filename, 'item_id' => $item->_id, 'imageType' => $imageType);
+
+            echo json_encode($res);
+
+        } else {
+            $res = array('success' => false, 'msg' => 'error saving cropped image on storage');
+            echo json_encode($res);
+        }
+
+
+    }
+
+
+    /**
+     * @param Request $request
+     */
+    public function saveVideoItem(Request $request)
+    {
+        if (!$request->hasFile('video')) {
+            $res = array('success' => false, 'msg' => 'no file selected');
+            echo json_encode($res);
+        }
+
+        if (!$request->file('video')->isValid()) {
+            $res = array('success' => false, 'msg' => 'file is not valid');
+            echo json_encode($res);
+        }
+
+        $video = $request->file('video');
+
+        $v = Validator::make(
+            $request->all(),
+            ['video' => 'required|max:10240']//10mb max
+        );
+
+        if ($v->fails()) {
+            $res = array('success' => false, 'msg' => $v->errors());
+            echo json_encode($res);
+        }
+
+        $filename = "v_" . time() . "_" . $video->getClientOriginalName();
+
+        //transferring file to storage
+        $path = storage_path() . '/app/';
+        $success = $video->move($path, $filename);
+        $videoToDelete = $filename;
+
+        if ($success) {
+            //image copied to server successfully
+
+            //upload to S3
+            $uploadedFile = Storage::get($filename);
+            Storage::disk('s3')->put("items/" . $filename, $uploadedFile, "public");
+
+            //delete server file
+            Storage::delete($videoToDelete);
+
+            //created item related to campaign
+            $item = Item::create(
+                [
+                    "filename" => $filename,
+                    "administrator_id" => Auth::user()->_id,
+                    "type" => 'video',
+                ]
+            );
+
+            $res = array('success' => true, 'filename' => $filename, 'item_id' => $item->_id);
+
+            echo json_encode($res);
+
+        } else {
+            $res = array('success' => false, 'msg' => 'error saving cropped image on storage');
+            echo json_encode($res);
+        }
+
+
+    }
+    
 }

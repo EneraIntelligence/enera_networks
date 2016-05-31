@@ -45,11 +45,34 @@
 }
 
 //validator styles
-label.error.active {
+label.error {
   color:#f23;
   //margin-left: 100px;
   text-align: center;
 }
+
+.btn
+{
+  //error label on buttons
+  label.error{
+    width: 100%;
+    transform: translateY(-104%);
+    font-size: 0.8rem;
+    text-transform: none;
+  }
+}
+
+.mBottom-20
+{
+  margin-bottom: 20px;
+}
+
+.centered-loader
+{
+  margin: 10px auto 0;
+  display: block;
+}
+
 input.error {
   color:#f23;
 }
