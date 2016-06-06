@@ -140,7 +140,7 @@
 
                             <!-- avatar -->
 
-                    <a class="valign-wrapper" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">
+                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">
 
                         <div style="width: 50px; overflow: hidden; height: 50px;
                                 background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');

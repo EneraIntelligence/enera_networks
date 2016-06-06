@@ -94,3 +94,13 @@ div.error{
     margin-right: -5%;
   }
 }
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}

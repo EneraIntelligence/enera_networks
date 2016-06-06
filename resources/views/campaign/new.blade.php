@@ -70,10 +70,13 @@
     {!! HTML::script('js/jquery-validation/dist/jquery.validate.min.js') !!}
     {!! HTML::script('js/jquery-validation/dist/localization/messages_es.min.js') !!}
 
+        <!-- wysiwyg -->
+    {!! HTML::script('js/tinymce/tinymce.min.js') !!}
+
 
     <script>
         var steps = [wizard_interactions, wizard_data, wizard_filters, wizard_nodes, wizard_summary];
-        var currentStep = 4;
+        var currentStep = 0;
         var interactionId = "";
 
         //setup events
@@ -92,8 +95,17 @@
         initializeCurrentStep();
 
         $(document).ready(function () {
-            TweenLite.set("#prev-btn", {css: {width: "30%", display: "none"}});
-            TweenLite.set("#next-btn", {css: {width: "70%", display: "none"}});
+
+            //initialize wysiwyg
+            tinymce.init({
+                selector:'#mailing_content',
+                language: 'es_MX',
+                plugins: 'code',
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code'
+            });
+
+            TweenLite.set("#prev-btn", {css: {width: "30%", display:"none"}});
+            TweenLite.set("#next-btn", {css: {width: "70%", display:"none"}});
 
             //setup initial height
             var currentStepContainer = steps[currentStep].getContainer();

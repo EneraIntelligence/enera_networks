@@ -45,6 +45,7 @@ var wizard_data =
 
 
         //TODO hide unnecesary items and set validation rules
+        wizard_data.hideAllExcept(interaction_id);
 
 
         wizard_data.form = $("#data-form");
@@ -348,6 +349,11 @@ var wizard_data =
             //inputField.value = "";
 
         });
+    },
+    
+    hideAllExcept:function(interaction)
+    {
+        $(".data-field").css("display","none");
+        $(".data-"+interaction).css("display","block");
     }
-
 };

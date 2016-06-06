@@ -40,7 +40,7 @@
 
         <div class="container center-align">
 
-            {!! Form::open(['route'=>'auth.login']) !!}
+            {!! Form::open(['route'=>'auth.login', 'class'=>'login-form']) !!}
 
             <!-- email -->
             <div class="input-field left-align">
