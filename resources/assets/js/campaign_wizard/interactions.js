@@ -1,5 +1,6 @@
 var wizard_interactions =
 {
+    interaction: 'no data',
     firstTime: true,
     validForm: false,
     initialize: function (interaction_id) {
@@ -21,7 +22,6 @@ var wizard_interactions =
                 {
                     var ev = EventDispatcher.getInstance();
                     ev.trigger(WizardEvents.interactionSelected, $(this).data("interaction") );
-
                     $(this).addClass("indigo active");
 
                     $(this).find("img").removeClass("indigo");
@@ -31,8 +31,10 @@ var wizard_interactions =
                     ev.trigger(WizardEvents.validForm);
                     ev.trigger(WizardEvents.goNext);
 
+                    wizard_interactions.interaction = $(this).data("interaction") ;
                 });
             });
+
 
 
         }
@@ -49,7 +51,10 @@ var wizard_interactions =
 
     },
     getData: function () {
+
         //return the json form data
+        var interaction = {'interaction' : wizard_interactions.interaction};
+        return interaction;
 
     },
     isValid: function () {

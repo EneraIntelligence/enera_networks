@@ -6,7 +6,7 @@
     <br>
     <div class="container">
         <div class="row">
-            <form class="col s12">
+            <form class="col s12" id="data-filters">
                 <div class="row">
                     <div class="col s12">
                         <p>Edad:</p>
@@ -14,13 +14,13 @@
                         <br>
 
                         <p class="range-field">
-                        <div id="slider"></div>
+                        <div id="slider" name="slider"></div>
                         </p>
 
                     </div>
 
                 </div>
-                <p id="age_text">Personas de 13 a 80 años</p>
+                <p id="age_text" name="age">Personas de 13 a 80 años</p>
                 <br>
 
                 <div class="divider"></div>
@@ -59,11 +59,11 @@
                         <br>
                         <p>
                             <label for="start">Inicio de campaña</label>
-                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="start" >
+                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="start" name="star">
                         </p>
                         <p>
                             <label for="end">Fin de campaña</label>
-                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="end" disabled>
+                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="end" name="end" disabled>
                         </p>
 
                     </div>

@@ -66,6 +66,20 @@ var wizard_data =
             }
         });
 
+        // $("#data-form").change(function(){
+        //     var serialized = $(this).serializeArray(),
+        //         jsonCam = {};
+        //     // build key-values
+        //     $.each(serialized, function(){
+        //         jsonCam [this.name] = this.value;
+        //     });
+        //     // and the json string
+        //     var jsonCam = JSON.stringify(jsonCam);
+        //
+        //     console.log(jsonCam);
+        //
+        // });
+
         function labelFix(element, event)
         {
             wizard_data.validator.element(element);
@@ -81,6 +95,17 @@ var wizard_data =
     getData:function()
     {
         //return the json form data
+        var serialized = $("#data-form").serializeArray(),
+                jsonCam = {};
+        
+            // build key-values
+            $.each(serialized, function(){
+                jsonCam [this.name] = this.value;
+            });
+
+        
+        
+        return jsonCam;
         
     },
     isValid: function () {

@@ -10,17 +10,17 @@ var wizard_nodes =
             }
         });
 
-        $('#all').click(function(event) {  //on click
-            if(this.checked) { // check select status
-                $('.checkbox').each(function() { //loop through each checkbox
+        $('#all').click(function () {  //on click
+            if (this.checked) { // check select status
+                $('.checkbox').each(function () { //loop through each checkbox
                     this.checked = true;  //select all checkboxes with class "checkbox1"
                 });
             }
         });
 
-        $('#sel').click(function(event) {  //on click
-            if(this.checked) { // check select status
-                $('.checkbox').each(function() { //loop through each checkbox
+        $('#sel').click(function () {  //on click
+            if (this.checked) { // check select status
+                $('.checkbox').each(function () { //loop through each checkbox
                     this.checked = false;  //select all checkboxes with class "checkbox1"
                 });
             }
@@ -31,22 +31,46 @@ var wizard_nodes =
             $("#all").prop("checked", false);
         });
 
-        $(".checkbox").change(function(){
+        $(".checkbox").change(function () {
             if ($('.checkbox:checked').length == $('.checkbox').length) {
                 $("#sel").prop("checked", false);
                 $("#all").prop("checked", true);
             }
         });
+
+        // $("#data-nodes").change(function () {
+        //     tagOutput = $(':checkbox[name=node]').map(function () {
+        //         if(this.checked) {
+        //             var op = this.id;
+        //             var objCamp = [];
+        //             objCamp.push(op);
+        //         }
+        //         return objCamp;
+        //     }).get();
+        // });
+
+
     },
-    getContainer:function()
-    {
+    getContainer: function () {
         //return the DOM element that contains the form
         return $(".nodos");
 
     },
-    getData:function()
-    {
+    getData: function () {
         //return the json form data
+
+        tagOutput = $(':checkbox[name=node]').map(function () {
+            if(this.checked) {
+                var op = this.id;
+                var objCamp = [];
+                objCamp.push(op);
+            }
+            return objCamp;
+        }).get();
+        
+        tagOutput = JSON.stringify(tagOutput);
+
+        return {'nodos': tagOutput};
 
     },
     isValid: function () {

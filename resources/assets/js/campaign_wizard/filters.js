@@ -1,6 +1,8 @@
 var wizard_filters =
 {
-    validForm:false,
+    validForm: false,
+    menor: 13,
+    mayor: 100,
     firstTime: true,
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
@@ -11,7 +13,7 @@ var wizard_filters =
                 start: [13, 100],
                 connect: true,
                 step: 1,
-                margin:1,
+                margin: 1,
                 range: {
                     'min': 0,
                     'max': 100
@@ -21,13 +23,13 @@ var wizard_filters =
                 })
             });
 
-            slider.noUiSlider.on('slide',function()
-            {
+            slider.noUiSlider.on('slide', function () {
                 //console.log(slider.noUiSlider.get());
-                if(slider.noUiSlider.get()[0]<13)
-                    slider.noUiSlider.set( [13] );
-
-                $("#age_text").text("Personas de  "+slider.noUiSlider.get()[0]+" a "+slider.noUiSlider.get()[1]+" años.")
+                if (slider.noUiSlider.get()[0] < 13)
+                    slider.noUiSlider.set([13]);
+                wizard_filters.menor = slider.noUiSlider.get()[0];
+                wizard_filters.mayor = slider.noUiSlider.get()[1];
+                $("#age_text").text("Personas de  " + slider.noUiSlider.get()[0] + " a " + slider.noUiSlider.get()[1] + " años.")
             });
 
             $('#all').change(function () {
@@ -63,11 +65,11 @@ var wizard_filters =
             var $input_date = $('#start').pickadate({
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15, // Creates a dropdown of 15 years to control year
-                container:"body",
-                monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
-                monthsShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
-                weekdaysFull: [ 'domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado' ],
-                weekdaysShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
+                container: "body",
+                monthsFull: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+                monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+                weekdaysFull: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+                weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
                 today: 'hoy',
                 clear: 'borrar',
                 close: 'cerrar',
@@ -83,9 +85,9 @@ var wizard_filters =
 
                     var ev = EventDispatcher.getInstance();
                     ev.trigger(WizardEvents.invalidForm);
-                    wizard_filters.validForm=false;
+                    wizard_filters.validForm = false;
                     picker_end.clear();
-                    picker_end.set("min",[endYear, endMonth-1, endDay+1] );
+                    picker_end.set("min", [endYear, endMonth - 1, endDay + 1]);
 
                 },
                 disable: [
@@ -100,11 +102,11 @@ var wizard_filters =
             var $input_end = $('#end').pickadate({
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15, // Creates a dropdown of 15 years to control year
-                container:"body",
-                monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
-                monthsShort: [ 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic' ],
-                weekdaysFull: [ 'domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado' ],
-                weekdaysShort: [ 'dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb' ],
+                container: "body",
+                monthsFull: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+                monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+                weekdaysFull: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+                weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
                 today: 'hoy',
                 clear: 'borrar',
                 close: 'cerrar',
@@ -112,7 +114,7 @@ var wizard_filters =
                     if ('select' in arg) { //prevent closing on selecting month/year
                         var ev = EventDispatcher.getInstance();
                         ev.trigger(WizardEvents.validForm);
-                        wizard_filters.validForm=true;
+                        wizard_filters.validForm = true;
 
                         this.close();
                     }
@@ -127,6 +129,23 @@ var wizard_filters =
             var picker_end = $input_end.pickadate('picker');
         }
 
+        // $("#data-filters").change(function(){
+        //     var serialized = $(this).serializeArray(),
+        //         jsonCam = {};
+        //
+        //     // build key-values
+        //     $.each(serialized, function(){
+        //         jsonCam [this.name] = this.value;
+        //     });
+        //
+        //     // and the json string
+        //     var jsonCam = JSON.stringify(jsonCam);
+        //
+        //     console.log(jsonCam);
+        //     wizard_data.getData(jsonCam)
+        //
+        // });
+
 
     },
     getContainer: function () {
@@ -136,6 +155,15 @@ var wizard_filters =
     },
     getData: function () {
         //return the json form data
+        var serialized = $("#data-filters").serializeArray(),
+            jsonCam = {'menor': wizard_filters.menor, 'mayor': wizard_filters.mayor};
+
+        // build key-values
+        $.each(serialized, function () {
+            jsonCam [this.name] = this.value;
+        });
+        return jsonCam;
+
 
     },
     isValid: function () {

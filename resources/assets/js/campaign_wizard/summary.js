@@ -12,6 +12,7 @@ var wizard_summary =
     getData:function()
     {
         //return the json form data
+        return '';
 
     },
     isValid: function () {
