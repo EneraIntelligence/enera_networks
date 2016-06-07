@@ -8,6 +8,8 @@
     {!! HTML::style('assets/css/campaign_wizard.css') !!}
     {!! HTML::style('css/nouislider.css') !!}
     {!! HTML::style('css/cropper.min.css') !!}
+    {!! HTML::style('assets/css/welcome.css') !!}
+    {!! HTML::style('assets/css/campaign.css') !!}
 
 @stop
 
@@ -47,7 +49,17 @@
             <!-- preview container -->
             <div class="container col m4 hide-on-small-only">
                 <div class="card-panel">
-                    preview
+                    <span class="card-title">Preview</span>
+                    <div style="position: relative; width: 250px; margin: 0 auto;">
+                        <div class="preview" style="text-align: center;">
+                            <img src="{{asset('images/android_placeholder.png')}}" alt="">
+                        </div>
+                        <div class="preview" id="mydiv" style="overflow: scroll;">
+                            @if(view()->exists('campaign.partials.preview_'.$cam->interaction['name']))
+                                @include('campaign.partials.preview_'.$cam->interaction['name'])
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
 

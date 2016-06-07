@@ -40,21 +40,77 @@ class CampaignController extends Controller
         $validate = Validator::make(Input::all(), [
             'name' => 'required',
         ]);
-        if ($validate->passes())
-        {
+        if ($validate->passes()) {
             $network = Network::find(session('network_id'));
             $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
+            $cam = [
+                "content" => [
+                    "images" => [
+                        "small" => "banner_reaccion.jpg",
+                        "large" => "banner_reaccion.jpg",
+                        "survey" => "banner_reaccion.jpg",
+                    ],
+                    "like_url" => "https://www.facebook.com/ReaccionMX/",
+                    "captcha" => "demo",
+                    "video" => "superman.mp4"
+                ],
+                "survey" => [
+                    "q1" => [
+                        "question" => "¿Tienes coche propio?",
+                        "answers" => [
+                            "a0" => "Si",
+                            "a1" => "No"
+                        ]
+                    ],
+                    "q2" => [
+                        "question" => "¿Cada cuando sales de viaje de negocios?",
+                        "answers" => [
+                            "a0" => "3-5 veces por mes",
+                            "a1" => "1-2 veces por mes",
+                            "a2" => "cada dos meses",
+                            "a3" => "No salgo de viaje"
+                        ]
+                    ],
+                    "q3" => [
+                        "question" => "¿Cada cuando sales viaje por placer?",
+                        "answers" => [
+                            "a0" => "4-7 veces al año",
+                            "a1" => "2-3 veces al año",
+                            "a2" => "1 vez año",
+                            "a3" => "No salgo de viaje"
+                        ]
+                    ],
+                    "q4" => [
+                        "question" => "Cuando sales de viaje por placer ¿Con quién viajas? ",
+                        "answers" => [
+                            "a0" => "Familia",
+                            "a1" => "Amigos",
+                            "a2" => "Pareja",
+                            "a3" => "Solo"
+                        ]
+                    ],
+                    "q5" => [
+                        "question" => "¿Que paginas para reservar hoteles utilizas? ",
+                        "answers" => [
+                            "a0" => "hoteles.com",
+                            "a1" => "trivago.com",
+                            "a2" => "expedia.com",
+                            "a3" => "otro"
+                        ]
+                    ]
+                ]
+            ];
 
-            $dashboard = compact('branches');
+            $cam = (object)$cam;
+
+            $dashboard = compact('branches', 'cam');
 
             return view('campaign.new', $dashboard);
-        }
-        else
-        {
+        } else {
             //redirect to campaigns list
             return redirect()->route("campaigns::index");
         }
-        
+
     }
 
     public function show($id)
@@ -301,10 +357,10 @@ class CampaignController extends Controller
                     $count++;
                     array_push($chart5, $survey);
                 }
-                
+
                 $json = json_decode($json);
                 foreach ($campaign->content['survey'] as $key => $value) {
-                    $json->$key = array('total' => 0, 'data' => $value ,'a0' => array('male' => 0, 'female' => 0) );
+                    $json->$key = array('total' => 0, 'data' => $value, 'a0' => array('male' => 0, 'female' => 0));
                 }
                 foreach ($chart5 as $v) {
                     foreach ($v as $c) {
@@ -346,7 +402,6 @@ class CampaignController extends Controller
             return redirect()->route('campaign::index')->with('data', 'errorCamp');
         }
     }
-
 
 
     /**
@@ -500,5 +555,5 @@ class CampaignController extends Controller
 
 
     }
-    
+
 }

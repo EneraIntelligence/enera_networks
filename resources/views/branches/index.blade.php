@@ -35,45 +35,50 @@
                     </span>
                 </div>
                 <div class="collapsible-body">
-                   <div class="container">
-                       <ul class="list grey darken-3 white-text">
-                           <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
-                           <li data-icon="keyboard_arrow_right">Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
-                           <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
-                           <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
-                       </ul>
-                       <a href="{{route('branches::show', ['id' => $branch->id])}}" class="waves-effect waves-light btn btn-mobil">Ver más detalles</a>
-                   </div>
+                    <div class="container">
+                        <ul class="list grey darken-3 white-text">
+                            <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                            <li data-icon="keyboard_arrow_right">
+                                Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                            <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
+                            <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
+                        </ul>
+                        <a href="{{route('branches::show', ['id' => $branch->id])}}"
+                           class="waves-effect waves-light btn btn-mobil">Ver más detalles</a>
+                    </div>
                 </div>
             </li>
         @endforeach
     </ul>
 
-    <div class="hide-on-small-only">
-        <div class="row">
-            @foreach($branches as $branch)
-                <div class="col m4 l3">
-                    <div class="card grey darken-3 white-text">
-                        <div class="card-content white-text">
-                            <div class="card-image">
-                                <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/". ($branch->portal['image'] )}}"
-                                     class="responsive-img" height="258" width="258">
-                                <span class="card-title">{{$branch->name}}</span>
+    <div class="container">
+        <div class="hide-on-small-only">
+            <div class="row">
+                @foreach($branches as $branch)
+                    <div class="col m4 l3">
+                        <div class="card grey darken-3 white-text">
+                            <div class="card-content white-text">
+                                <div class="card-image">
+                                    <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/". ($branch->portal['image'] )}}"
+                                         class="responsive-img" height="258" width="258">
+                                </div>
+                                <ul class="list white-text">
+                                    <li data-icon="keyboard_arrow_right">Nombre: {{$branch->name}}</li>
+                                    <hr>
+                                    <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                                    <hr>
+                                    <li data-icon="keyboard_arrow_right">
+                                        Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                                </ul>
                             </div>
-                            <ul class="list white-text">
-                                <li data-icon="keyboard_arrow_right">Nombre: {{$branch->name}}</li>
-                                <hr>
-                                <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
-                                <hr>
-                                <li data-icon="keyboard_arrow_right">Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
-                            </ul>
-                        </div>
-                        <div class="card-action">
-                            <a class="blue-text" href="{{route('branches::show', ['id' => $branch->id])}}">Ver más detalles</a>
+                            <div class="card-action">
+                                <a class="blue-text" href="{{route('branches::show', ['id' => $branch->id])}}">Ver más
+                                    detalles</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 
