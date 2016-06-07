@@ -46,52 +46,6 @@
 </div>
 
 
-<script>
-    var video = $("#theVideo");
-    var bannerVideo=$('video').get(0);
-    var playing = false;
-    makeVideoPlayableInline(bannerVideo);
-
-
-    function playVideo()
-    {
-        if (!playing)
-        {
-            $(".icon-play").css("display","none");
-
-            var actionsCard = $(".actions-card");
-            TweenLite.to(actionsCard, .3, {y: -actionsCard.outerHeight()});
-
-            playing = true;
-//                console.log(video);
-            bannerVideo.play();
-        }
-    }
-
-    $(document).ready(function ()
-    {
-
-
-        var clicked = false;
-
-        video.on('ended', myHandler);
-
-        function myHandler(e)
-        {
-            console.log('Video Ended');
-
-            var actionsCard = $(".actions-card");
-
-            var playBtn= $(".play-btn");
-            var navBtn = $(".nav-btn");
-            playBtn.css("display", "none");
-            navBtn.css("display", "block");
-            TweenLite.fromTo(actionsCard, .3, {y: -actionsCard.outerHeight()}, {y: 0, ease: Quad.easeOut});
-
-        }
-    });
-</script>
-
 <!-- end preview -->
 
 <!-- campaign elements -->

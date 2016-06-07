@@ -10,12 +10,14 @@
 <!-- Main card -->
 
 <div class="card-panel center-align actions-card">
-    <a class="btn waves-effect waves-light nav-btn indigo z-depth-2" href="javascript:void(0)"
+
+    <a class="btn waves-effect waves-light subscribe-btn indigo z-depth-2" href="#!"
        success_url="{{Input::get('base_grant_url') }}">
-            <span class="white-text left">
-                Navegar en Internet
+            <span class="white-text left" style="font-size: 10px;">
+                Navegar en internet
             </span>
         <i class="right material-icons">wifi</i>
+
     </a>
 </div>
 <!-- login buttons -->
