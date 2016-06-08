@@ -33,7 +33,7 @@ var wizard_interactions =
 
                     wizard_interactions.interaction = $(this).data("interaction");
                     
-                    $('.'+ wizard_interactions.interaction).css('display', 'block')
+                    //$('.'+ wizard_interactions.interaction).css('display', 'block')
                 });
             });
 

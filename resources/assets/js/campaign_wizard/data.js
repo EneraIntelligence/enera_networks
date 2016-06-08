@@ -4,10 +4,13 @@ var wizard_data =
     images: {},//data that will hold the uploaded image items
     cropData: null,//object used to store the crop tool data
     form: null,//temporary form object to send via ajax
+    interactionId: "",
     firstTime: true,
     validator: null,
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
+
+        wizard_data.interactionId = interaction_id;
 
         if (wizard_data.firstTime) {
             wizard_data.firstTime = false;
@@ -76,7 +79,7 @@ var wizard_data =
             wizard_data.validator.focusInvalid();
             Materialize.updateTextFields();
         }
-        else if( tinymce.activeEditor.getContent()=="")
+        else if( wizard_data.interactionId == "mailing_list" && tinymce.activeEditor.getContent()=="")
         {
             //text area not valid
             Materialize.toast('¡Debes llenar el contenido del correo!', 4000)
