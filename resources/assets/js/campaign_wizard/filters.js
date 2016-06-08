@@ -129,6 +129,16 @@ var wizard_filters =
             var picker_end = $input_end.pickadate('picker');
         }
 
+        if(wizard_filters.validForm)
+        {
+            setTimeout(function () {
+                $("#link-input").focus();
+
+                var ev = EventDispatcher.getInstance();
+                ev.trigger(WizardEvents.validForm);
+            }, 400);
+        }
+
         // $("#data-filters").change(function(){
         //     var serialized = $(this).serializeArray(),
         //         jsonCam = {};
