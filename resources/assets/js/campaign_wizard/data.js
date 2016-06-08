@@ -1,17 +1,16 @@
 var wizard_data =
 {
-    video:null,//data that will hold the uploaded video item
-    images:{},//data that will hold the uploaded image items
-    cropData:null,//object used to store the crop tool data
-    form:null,//temporary form object to send via ajax
-    firstTime:true,
-    validator:null,
+    video: null,//data that will hold the uploaded video item
+    images: {},//data that will hold the uploaded image items
+    cropData: null,//object used to store the crop tool data
+    form: null,//temporary form object to send via ajax
+    firstTime: true,
+    validator: null,
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
-        
-        if(wizard_data.firstTime)
-        {
-            wizard_data.firstTime=false;
+
+        if (wizard_data.firstTime) {
+            wizard_data.firstTime = false;
 
             //initialize image changes
             $("#image-small").change(function () {
@@ -23,7 +22,7 @@ var wizard_data =
             $("#image-survey").change(function () {
                 wizard_data.showPreview(event, "#image-survey", 684, 400)
             });
-            
+
             //video upload
             $("#video-input").change(function () {
                 wizard_data.uploadVideo();
@@ -35,87 +34,56 @@ var wizard_data =
             });
         }
 
-        setTimeout(function()
-        {
-            $( "#link-input" ).focus();
+        setTimeout(function () {
+            $("#link-input").focus();
 
             var ev = EventDispatcher.getInstance();
             ev.trigger(WizardEvents.validForm);
-        },400);
+        }, 400);
 
 
-        //TODO hide unnecesary items and set validation rules
+        //hide unnecesary fields and set validation rules
         wizard_data.hideAllExcept(interaction_id);
 
-
         wizard_data.form = $("#data-form");
-        wizard_data.validator = wizard_data.form.validate({
-            onsubmit:false,
-            onfocusout:labelFix,
-            //onkeyup:labelFix,
-            rules:
-            {
-                link:
-                {
-                    required:true,
-                    url:true
-                },
-                captcha:
-                {
-                    required:true
-                }
-            }
-        });
+        wizard_data.validator = wizard_validators.getValidator(interaction_id);
 
-        // $("#data-form").change(function(){
-        //     var serialized = $(this).serializeArray(),
-        //         jsonCam = {};
-        //     // build key-values
-        //     $.each(serialized, function(){
-        //         jsonCam [this.name] = this.value;
-        //     });
-        //     // and the json string
-        //     var jsonCam = JSON.stringify(jsonCam);
-        //
-        //     console.log(jsonCam);
-        //
-        // });
-
-        function labelFix(element, event)
-        {
-            wizard_data.validator.element(element);
-            Materialize.updateTextFields();
-        }
 
     },
-    getContainer:function()
-    {
+    getContainer: function () {
         //return the DOM element that contains the form
         return $("#data_cont");
     },
-    getData:function()
-    {
+    getData: function () {
         //return the json form data
         var serialized = $("#data-form").serializeArray(),
-                jsonCam = {};
-        
-            // build key-values
-            $.each(serialized, function(){
-                jsonCam [this.name] = this.value;
-            });
+            jsonCam = {};
 
-        
-        
+        // build key-values
+        $.each(serialized, function () {
+            jsonCam [this.name] = this.value;
+        });
+
+
         return jsonCam;
-        
+
     },
     isValid: function () {
         //return true if form is valid and filled, false when there's an error
-        if(!wizard_data.form.valid())
-        {
+
+        if (!wizard_data.form.valid()) {
+            //fields not valid
             wizard_data.validator.focusInvalid();
             Materialize.updateTextFields();
         }
+        else if( tinymce.activeEditor.getContent()=="")
+        {
+            //text area not valid
+            Materialize.toast('¡Debes llenar el contenido del correo!', 4000)
+            tinymce.execCommand('mceFocus',false,'#mailing_content');
+            return false;
+        }
+
         return wizard_data.form.valid();
     },
 
@@ -144,8 +112,7 @@ var wizard_data =
 
                 $('#modal-image').openModal({
                     dismissible: false, // Modal can't be dismissed by clicking outside of the modal
-                    complete: function()
-                    {
+                    complete: function () {
                         //close on cancel
                         var input = event.target;
                         input.value = "";
@@ -225,7 +192,7 @@ var wizard_data =
         //paint canvas with croped portion of image
         resize_canvas.getContext('2d').drawImage(img, x, y, width, height, 0, 0, expWidth, expHeight);
         var pic = resize_canvas.toDataURL("image/png");
-        $(wizard_data.cropData.previewId+"-cropped").attr('src', pic);
+        $(wizard_data.cropData.previewId + "-cropped").attr('src', pic);
 
         //fill data to send to ajax
         input.value = "";
@@ -238,9 +205,9 @@ var wizard_data =
 
         //div to receive any possible error
         /*
-        var errorDiv = $(previewId + "-errors");
-        errorDiv.html('');
-        */
+         var errorDiv = $(previewId + "-errors");
+         errorDiv.html('');
+         */
 
         var inputId = "#" + previewId.substring(1, previewId.length);
         //console.log("inputId: " + inputId);
@@ -260,6 +227,9 @@ var wizard_data =
 
             wizard_data.images[data.imageType] = data.item_id;
 
+            inputField.rules("remove");
+
+
             $('#modal-loader').closeModal();
             $('#modal-image').closeModal();
 
@@ -268,12 +238,14 @@ var wizard_data =
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-/*
-            inputField.required = true;
 
-            errorDiv.html('<span class="parsley-required uk-text-center md-input-danger">' +
-                'Hubo un problema al subir tu imagen. Por favor intenta de nuevo.' +
-                '</span>');*/
+
+            /*
+             inputField.required = true;
+
+             errorDiv.html('<span class="parsley-required uk-text-center md-input-danger">' +
+             'Hubo un problema al subir tu imagen. Por favor intenta de nuevo.' +
+             '</span>');*/
             alert("Hubo un problema al subir la imagen. Revisa tu conexión a internet e intenta de nuevo.")
 
             setTimeout(function () {
@@ -291,13 +263,13 @@ var wizard_data =
         $('#modal-loader').openModal({
             dismissible: false // Modal can't be dismissed by clicking outside of the modal
         });
-        
+
         var form_data = new FormData($('#data-form')[0]);
 
         /*
-        //div to receive any possible error
-        var errorDiv = $(".video-errors");
-        errorDiv.html('');*/
+         //div to receive any possible error
+         var errorDiv = $(".video-errors");
+         errorDiv.html('');*/
 
         var inputId = "#video-input";
         var inputField = $(inputId);
@@ -314,30 +286,31 @@ var wizard_data =
             processData: false
         }).done(function (data) {
             /*
-            inputField.removeAttr("required");
+             inputField.removeAttr("required");
 
-            console.log(inputField);
-            console.log("success");
-            console.log(data);
-*/
-            
+             console.log(inputField);
+             console.log("success");
+             console.log(data);
+             */
+
             wizard_data.video = data.item_id;
             //console.log(create_campaign_helper);
             $('#modal-loader').closeModal();
+            inputField.rules("remove");
 
             //inputField.value = "";
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
             /*
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
+             console.log(jqXHR);
+             console.log(textStatus);
+             console.log(errorThrown);
 
-            inputField.required = true;
+             inputField.required = true;
 
-            errorDiv.html('<span class="parsley-required uk-text-center md-input-danger">' +
-                'Hubo un problema al subir tu video. Verifica que el peso del archivo sea menor a 10mb.' +
-                '</span>');*/
+             errorDiv.html('<span class="parsley-required uk-text-center md-input-danger">' +
+             'Hubo un problema al subir tu video. Verifica que el peso del archivo sea menor a 10mb.' +
+             '</span>');*/
 
             alert("Hubo un problema al subir la imagen. Verifica que el peso del archivo sea menor a 10mb.")
 
@@ -350,10 +323,99 @@ var wizard_data =
 
         });
     },
-    
-    hideAllExcept:function(interaction)
-    {
-        $(".data-field").css("display","none");
-        $(".data-"+interaction).css("display","block");
+
+    hideAllExcept: function (interaction) {
+        $(".data-field").css("display", "none");
+        $(".data-" + interaction).css("display", "block");
+    },
+    labelFix: function (element, event) {
+        wizard_data.validator.element(element);
+        Materialize.updateTextFields();
+
+    }
+};
+
+
+var wizard_validators =
+{
+    validator:null,
+    rules: {
+        onsubmit: false,
+        onfocusout: wizard_data.labelFix,
+        //onkeyup:labelFix,
+        rules: {
+            link: {
+                required: true,
+                url: true
+            },
+            like: {
+                required: true,
+                url: true
+            },
+            captcha: {
+                required: true
+            },
+            mail_name: {
+                required: true
+            },
+            mail_subject: {
+                required: true
+            },
+            mailing_content: {
+                required: true
+            },
+            mail_address:{
+                required:true,
+                email:true
+            },
+            question_1:
+            {
+                required:true
+            },
+            answer_1_1:
+            {
+                required:true
+            },
+            answer_1_2:
+            {
+                required:true
+            },
+            image_small:
+            {
+                required:true
+            },
+            image_large:
+            {
+                required:true
+
+            },
+            image_survey:
+            {
+                required:true
+            },
+            video:
+            {
+                required:true
+            }
+        }
+
+    },
+    getValidator: function (interactionId) {
+
+        if(wizard_validators.validator)
+            return wizard_validators.validator;
+
+        // var validatorObject = wizard_validators.validators[interactionId];
+        var validatorObject = wizard_validators.rules;
+
+        if (validatorObject) {
+            wizard_validators.validator=wizard_data.form.validate(validatorObject);
+            return wizard_validators.validator;
+        }
+        else {
+            console.log("Error:  wizard_validators.validator for --> " + interactionId + " not created");
+            return null;
+        }
+
     }
 };

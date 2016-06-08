@@ -101,7 +101,15 @@
                 selector:'#mailing_content',
                 language: 'es_MX',
                 plugins: 'code',
-                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code'
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
+                // update validation status on change
+                setup: function(editor) {
+                    editor.on('change', function(e) {
+                        //console.log(editor.id);
+                        tinymce.triggerSave();
+                        $("#" + editor.id).valid();
+                    });
+                }
             });
 
             TweenLite.set("#prev-btn", {css: {width: "30%", display:"none"}});
