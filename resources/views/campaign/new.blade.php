@@ -8,6 +8,8 @@
     {!! HTML::style('assets/css/campaign_wizard.css') !!}
     {!! HTML::style('css/nouislider.css') !!}
     {!! HTML::style('css/cropper.min.css') !!}
+    {!! HTML::style('assets/css/welcome.css') !!}
+    {!! HTML::style('assets/css/campaign.css') !!}
 
 @stop
 
@@ -47,7 +49,45 @@
             <!-- preview container -->
             <div class="container col m4 hide-on-small-only">
                 <div class="card-panel">
-                    preview
+                    <span class="card-title">Preview</span>
+                    <div style="position: relative; width: 250px; margin: 0 auto;">
+                        <div class="preview" style="text-align: center;">
+                            <img src="{{asset('images/android_placeholder.png')}}" alt="">
+                        </div>
+                        <div class="preview data-field" id="mydiv" style="overflow: scroll;">
+
+                        </div>
+                        <div class="preview data-field banner_link" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_banner_link'))
+                                @include('campaign.partials.preview_banner_link')
+                            @endif
+                        </div>
+                        <div class="preview data-field like" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_like'))
+                                @include('campaign.partials.preview_like')
+                            @endif
+                        </div>
+                        <div class="preview data-field mailing_list" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_mailing_list'))
+                                @include('campaign.partials.preview_mailing_list')
+                            @endif
+                        </div>
+                        <div class="preview data-field captcha" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_captcha'))
+                                @include('campaign.partials.preview_captcha')
+                            @endif
+                        </div>
+                        <div class="preview data-field survey" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_captcha'))
+                                @include('campaign.partials.preview_survey')
+                            @endif
+                        </div>
+                        <div class="preview data-field video" id="mydiv" style="overflow: scroll; display:none">
+                            @if(view()->exists('campaign.partials.preview_video'))
+                                @include('campaign.partials.preview_video')
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -56,10 +96,10 @@
     </div>
 
 
-@stop
+    @stop
 
 
-@section('scripts')
+    @section('scripts')
 
     {!! HTML::script('js/greensock/plugins/ScrollToPlugin.min.js') !!}
     {!! HTML::script('js/events/EventDispatcher.js') !!}
@@ -70,7 +110,7 @@
     {!! HTML::script('js/jquery-validation/dist/jquery.validate.min.js') !!}
     {!! HTML::script('js/jquery-validation/dist/localization/messages_es.min.js') !!}
 
-        <!-- wysiwyg -->
+            <!-- wysiwyg -->
     {!! HTML::script('js/tinymce/tinymce.min.js') !!}
 
 
@@ -98,7 +138,7 @@
 
             //initialize wysiwyg
             tinymce.init({
-                selector:'#mailing_content',
+                selector: '#mailing_content',
                 language: 'es_MX',
                 plugins: 'code',
                 toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent code',
@@ -112,8 +152,8 @@
                 }
             });
 
-            TweenLite.set("#prev-btn", {css: {width: "30%", display:"none"}});
-            TweenLite.set("#next-btn", {css: {width: "70%", display:"none"}});
+            TweenLite.set("#prev-btn", {css: {width: "30%", display: "none"}});
+            TweenLite.set("#next-btn", {css: {width: "70%", display: "none"}});
 
             //setup initial height
             var currentStepContainer = steps[currentStep].getContainer();

@@ -31,7 +31,9 @@ var wizard_interactions =
                     ev.trigger(WizardEvents.validForm);
                     ev.trigger(WizardEvents.goNext);
 
-                    wizard_interactions.interaction = $(this).data("interaction") ;
+                    wizard_interactions.interaction = $(this).data("interaction");
+                    
+                    $('.'+ wizard_interactions.interaction).css('display', 'block')
                 });
             });
 
@@ -76,3 +78,4 @@ var wizard_interactions =
         });
     }
 };
+

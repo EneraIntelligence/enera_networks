@@ -13,12 +13,12 @@
 <!-- Banner card -->
 
 <!-- botón de navegar -->
-<div class="card-panel center-align actions-card">
-    <div id="captcha">
+<div class="card-panel center-align actions-card" style="padding: 0;">
+    <div id="captcha" style="margin: 0 15px 0 15px;">
 
         <form action="#">
             <div class="input-field col s12">
-                <input id="captcha-value" type="text" name="captcha">
+                <input id="captcha-value" type="text" name="captcha" style="margin: 0;">
                 <label for="captcha-value" data-error="wrong" data-success="right">Captcha</label>
             </div>
         </form>
