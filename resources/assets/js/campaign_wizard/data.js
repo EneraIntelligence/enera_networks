@@ -123,6 +123,7 @@ var wizard_data =
             //fields not valid
             wizard_data.validator.focusInvalid();
             Materialize.updateTextFields();
+            // return true; // descomentar esta liena para saltar la validación en data_step 
         }
         else if( wizard_data.interactionId == "mailing_list" && tinymce.activeEditor.getContent()=="")
         {
