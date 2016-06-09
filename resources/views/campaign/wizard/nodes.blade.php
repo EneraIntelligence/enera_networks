@@ -1,5 +1,5 @@
 <div class="nodos">
-    <h5>Segmentación</h5>
+    <h5>Nodos</h5>
     <br>
     <div class="divider"></div>
     <br>

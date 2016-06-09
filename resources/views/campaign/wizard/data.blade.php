@@ -51,7 +51,7 @@
 
             <div class="row data-field data-mailing_list">
                 <div class="input-field col s12">
-                    <textarea style="height:600px" id="mailing_content" name="mailing_content"> </textarea>
+                    <textarea style="height:450px" id="mailing_content" name="mailing_content"> </textarea>
                 </div>
             </div>
 

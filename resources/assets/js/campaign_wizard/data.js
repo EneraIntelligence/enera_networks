@@ -360,7 +360,7 @@ var wizard_data =
              'Hubo un problema al subir tu video. Verifica que el peso del archivo sea menor a 10mb.' +
              '</span>');*/
 
-            alert("Hubo un problema al subir la imagen. Verifica que el peso del archivo sea menor a 10mb.")
+            alert("Hubo un problema al subir el video. Verifica que el peso del archivo sea menor a 10mb.")
 
 
             setTimeout(function () {
