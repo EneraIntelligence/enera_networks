@@ -21,7 +21,7 @@
         <div class="row">
 
             <!-- wizard container -->
-            <div class="container col s12 m8">
+            <div class="container col s12 m12 l8">
                 <div class="card wizard-card">
 
                     <!-- wizard content -->
@@ -47,7 +47,7 @@
             </div>
 
             <!-- preview container -->
-            <div class="container col m4 hide-on-small-only">
+            <div class="container col l4 hide-on-med-and-down">
                 <div class="card-panel">
                     <span class="card-title">Preview</span>
                     <div style="position: relative; width: 250px; margin: 0 auto;">

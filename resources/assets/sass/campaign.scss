@@ -137,6 +137,25 @@ div.error{
   color: red;
 }
 
+@media only screen and (max-width: 600px){
+  .modal{
+    width: 100%;
+  }
+
+  #btn-modal{
+    padding: 10px 15px;
+  }
+}
+
+.card_info{
+  margin: 0 0 0 30px;
+  padding: 15px 0 0 0;
+}
+
+.head-info{
+  margin: 10.500px;
+}
+
 //old css
 //#vista{
 //  min-width:239px;

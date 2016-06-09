@@ -93,14 +93,23 @@
     </div>
 
     <div class="col m12  hide-on-small-only">
-        <div class="card grey darken-3 white-text zero">
-            <div class="card-content white-text show">
-                <span class="card-title">{{ $branch->name }}</span>
-                <p class="">{{ $branch->network->name }}</p>
-            </div>
-        </div>
+
 
         <div class="row">
+
+
+            <div class="col s12 l12 head-info">
+                <div class="card grey darken-3 white-text zero">
+                    <div class="card-content white-text show">
+                        <span class="card-title">{{ $branch->name }}</span>
+                        <p class="">{{ $branch->network->name }}</p>
+                        <a href="#!" class="breadcrumb">First</a>
+                        <a href="#!" class="breadcrumb">Second</a>
+                        <a href="#!" class="breadcrumb">Third</a>
+                    </div>
+                </div>
+            </div>
+
             <div class="col s6 l4">
                 <div class="card grey darken-3 white-text" style="min-height: 570px;">
                     <div class="card-content white-text">
@@ -266,230 +275,231 @@
                             <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
                                 <i class="material-icons">border_all</i></a>
                             <div class="word_cloud" style="width:800px; position: relative;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    {{--modal--}}
-    <div id="cloud" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h4 class="heading_a uk-margin-bottom">Likes frecuentes</h4>
-            <table class="striped">
-                <thead>
-                <tr>
-                    <th>Nombre de la página</th>
-                    <th>#</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @for($i=0;$i<count($wordCount);$i++)
-
-                    <?php
-                    $w_count = 0;
-                    for ($j = 0; $j < count($words); $j++) {
-                        if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
-                            $w_count = $wordCount[$i]['count'];
-                            $w_index = $j;
-                        }
-                    }
-
-                    ?>
-
+        {{--modal--}}
+        <div id="cloud" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4 class="heading_a uk-margin-bottom">Likes frecuentes</h4>
+                <table class="striped">
+                    <thead>
                     <tr>
-                        <td>{!! $words[$w_index]['name'] !!}</td>
-                        <td>{!! $w_count !!}</td>
+                        <th>Nombre de la página</th>
+                        <th>#</th>
                     </tr>
+                    </thead>
+                    <tbody>
 
-                @endfor
+                    @for($i=0;$i<count($wordCount);$i++)
 
-
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-        </div>
-    </div>
-
-
-@endsection
-
-@section('scripts')
-    {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
-    {!! HTML::script('bower_components/d3/d3.min.js') !!}
-    {!! HTML::script('http://maps.google.com/maps/api/js') !!}
-    {!! HTML::script('js/d3.layout.cloud.js') !!}
-
-    <script>
-        var datos = [
-            ['x'],
-            ['Welcome'],
-            ['Joined'],
-            ['Requested'],
-            ['Loaded'],
-            ['Completed'],
-        ];
-        @foreach($int_days as $k => $day)
-                datos[0].push('{!! $k !!}');
-        datos[1].push({!! $day['welcome'] !!});
-        datos[2].push({!! $day['joined'] !!});
-        datos[3].push({!! $day['requested'] !!});
-        datos[4].push({!! $day['loaded'] !!});
-        datos[5].push({!! $day['completed'] !!});
-                @endforeach
-
-        var chart = c3.generate({
-                    bindto: '#analitics',
-                    data: {
-                        x: 'x',
-                        columns: datos,
-                        type: 'bar',
-                        groups: [
-                            ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
-                        ],
-                        /*onclick: function () {
-                         window.open("http://www.w3schools.com");
-                         }*/
-                    },
-                    padding: {
-                        top: 50,
-                        bottom: 40
-                    },
-                    size: {
-                        height: 450
-                    },
-                    axis: {
-                        x: {
-                            type: 'timeseries',
-                            tick: {
-                                format: '%m-%d'
+                        <?php
+                        $w_count = 0;
+                        for ($j = 0; $j < count($words); $j++) {
+                            if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
+                                $w_count = $wordCount[$i]['count'];
+                                $w_index = $j;
                             }
                         }
-                    },
-                    bar: {
-                        width: {
-                            ratio: 0.7 // this makes bar width 50% of length between ticks
-                        }
-                    }
+
+                        ?>
+
+                        <tr>
+                            <td>{!! $words[$w_index]['name'] !!}</td>
+                            <td>{!! $w_count !!}</td>
+                        </tr>
+
+                    @endfor
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)"
+                   class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+            </div>
+        </div>
+
+
+        @endsection
+
+        @section('scripts')
+            {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
+            {!! HTML::script('bower_components/d3/d3.min.js') !!}
+            {!! HTML::script('http://maps.google.com/maps/api/js') !!}
+            {!! HTML::script('js/d3.layout.cloud.js') !!}
+
+            <script>
+                var datos = [
+                    ['x'],
+                    ['Welcome'],
+                    ['Joined'],
+                    ['Requested'],
+                    ['Loaded'],
+                    ['Completed'],
+                ];
+                @foreach($int_days as $k => $day)
+                        datos[0].push('{!! $k !!}');
+                datos[1].push({!! $day['welcome'] !!});
+                datos[2].push({!! $day['joined'] !!});
+                datos[3].push({!! $day['requested'] !!});
+                datos[4].push({!! $day['loaded'] !!});
+                datos[5].push({!! $day['completed'] !!});
+                        @endforeach
+
+                var chart = c3.generate({
+                            bindto: '#analitics',
+                            data: {
+                                x: 'x',
+                                columns: datos,
+                                type: 'bar',
+                                groups: [
+                                    ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
+                                ],
+                                /*onclick: function () {
+                                 window.open("http://www.w3schools.com");
+                                 }*/
+                            },
+                            padding: {
+                                top: 50,
+                                bottom: 40
+                            },
+                            size: {
+                                height: 450
+                            },
+                            axis: {
+                                x: {
+                                    type: 'timeseries',
+                                    tick: {
+                                        format: '%m-%d'
+                                    }
+                                }
+                            },
+                            bar: {
+                                width: {
+                                    ratio: 0.7 // this makes bar width 50% of length between ticks
+                                }
+                            }
+                        });
+
+                function MarkerMap(lat, lng, zoom, DOMElement) {
+                    this.center = new google.maps.LatLng(lat, lng);
+                    this.zoom = zoom;
+                    //
+                    var properties = {
+                        center: this.center,
+                        zoom: this.zoom,
+                        scrollwheel: false,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    var map = new google.maps.Map(DOMElement, properties);
+
+                    var marker = new google.maps.Marker({
+                        title: '{!! $branch->name !!}',
+                        position: new google.maps.LatLng(lat, lng),
+                        animation: google.maps.Animation.DROP,
+//                icon: imgOff,
+                    });
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: '<b>{!! $branch->name !!}</b><br>{!! $network->name !!}',
+                    });
+
+                    marker.addListener('click', function () {
+                        infowindow.open(map, marker);
+                    });
+
+                    marker.setMap(map);
+                    infowindow.open(map, marker);
+                }
+
+                $(document).ready(function () {
+                    MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
                 });
 
-        function MarkerMap(lat, lng, zoom, DOMElement) {
-            this.center = new google.maps.LatLng(lat, lng);
-            this.zoom = zoom;
-            //
-            var properties = {
-                center: this.center,
-                zoom: this.zoom,
-                scrollwheel: false,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+                //word cloud
+                var fill = d3.scale.category20();
 
-            var map = new google.maps.Map(DOMElement, properties);
+                var canvasWidth = 800;
+                var canvasHeight = 400;
 
-            var marker = new google.maps.Marker({
-                title: '{!! $branch->name !!}',
-                position: new google.maps.LatLng(lat, lng),
-                animation: google.maps.Animation.DROP,
-//                icon: imgOff,
-            });
+                //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
+                var wordValues = {
+                    @for($i=0;$i<count($wordCount);$i++)
+                    <?php
+                            $w_count = 0;
+                            $w_index = 0;
 
-            var infowindow = new google.maps.InfoWindow({
-                content: '<b>{!! $branch->name !!}</b><br>{!! $network->name !!}',
-            });
+                            for ($j = 0; $j < count($words); $j++) {
+                                if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
+                                    $w_count = $wordCount[$i]['count'];
+                                    $w_index = $j;
+                                }
+                            }
 
-            marker.addListener('click', function () {
-                infowindow.open(map, marker);
-            });
+                            ?>
+                    "{!! $words[$w_index]['name'] !!}":{!! $w_count !!},
 
-            marker.setMap(map);
-            infowindow.open(map, marker);
-        }
+                    @endfor
+                };
 
-        $(document).ready(function () {
-            MarkerMap({!! $branch->location[0] !!}, {!! $branch->location[1] !!}, 16, document.getElementById('GoogleMap'));
-        });
+                var words = [
+                    @for($i=0;$i<count($words);$i++)
+                            "{!! $words[$i]['name'] !!}",
+                    @endfor
+                ];
 
-        //word cloud
-        var fill = d3.scale.category20();
+                var sumWords = 0;
+                for (var k in wordValues) {
+                    sumWords += wordValues[k];
+                }
 
-        var canvasWidth = 800;
-        var canvasHeight = 400;
+                d3.layout.cloud().size([canvasWidth, canvasHeight])
+                        .words(words.map(function (d) {
+                            return {text: d, size: Math.max(60 * (Math.log(wordValues[d]) / Math.log(sumWords)), 20)};
+                        }))
+                        .rotate(function () {
+                            return 0;
+                        })
+                        .font("Impact")
+                        .fontSize(function (d) {
+                            return d.size;
+                        })
+                        .on("end", draw)
+                        .start();
 
-        //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
-        var wordValues = {
-            @for($i=0;$i<count($wordCount);$i++)
-            <?php
-                    $w_count = 0;
-                    $w_index = 0;
+                function draw(words) {
+                    d3.select(".word_cloud").append("svg")
+                            .attr("width", canvasWidth)
+                            .attr("height", canvasHeight)
+                            .append("g")
+                            .attr("transform", "translate(" + canvasWidth / 2 + "," + canvasHeight / 2 + ")")
+                            .selectAll("text")
+                            .data(words)
+                            .enter().append("text")
+                            .style("font-size", function (d) {
+                                return d.size + "px";
+                            })
+                            .style("font-family", "Impact")
+                            .style("fill", function (d, i) {
+                                return fill(i);
+                            })
+                            .attr("text-anchor", "middle")
+                            .attr("transform", function (d) {
+                                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                            })
+                            .text(function (d) {
+                                return d.text;
+                            });
+                }
 
-                    for ($j = 0; $j < count($words); $j++) {
-                        if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
-                            $w_count = $wordCount[$i]['count'];
-                            $w_index = $j;
-                        }
-                    }
-
-                    ?>
-            "{!! $words[$w_index]['name'] !!}":{!! $w_count !!},
-
-            @endfor
-        };
-
-        var words = [
-            @for($i=0;$i<count($words);$i++)
-                    "{!! $words[$i]['name'] !!}",
-            @endfor
-        ];
-
-        var sumWords = 0;
-        for (var k in wordValues) {
-            sumWords += wordValues[k];
-        }
-
-        d3.layout.cloud().size([canvasWidth, canvasHeight])
-                .words(words.map(function (d) {
-                    return {text: d, size: Math.max(60 * (Math.log(wordValues[d]) / Math.log(sumWords)), 20)};
-                }))
-                .rotate(function () {
-                    return 0;
-                })
-                .font("Impact")
-                .fontSize(function (d) {
-                    return d.size;
-                })
-                .on("end", draw)
-                .start();
-
-        function draw(words) {
-            d3.select(".word_cloud").append("svg")
-                    .attr("width", canvasWidth)
-                    .attr("height", canvasHeight)
-                    .append("g")
-                    .attr("transform", "translate(" + canvasWidth / 2 + "," + canvasHeight / 2 + ")")
-                    .selectAll("text")
-                    .data(words)
-                    .enter().append("text")
-                    .style("font-size", function (d) {
-                        return d.size + "px";
-                    })
-                    .style("font-family", "Impact")
-                    .style("fill", function (d, i) {
-                        return fill(i);
-                    })
-                    .attr("text-anchor", "middle")
-                    .attr("transform", function (d) {
-                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-                    })
-                    .text(function (d) {
-                        return d.text;
-                    });
-        }
-
-        $('.modal-trigger').leanModal();
-    </script>
+                $('.modal-trigger').leanModal();
+            </script>
 @stop

@@ -65,26 +65,28 @@
 
 
     <div class="hide-on-small-only">
-        <div class="col m12">
-            <div class="card grey darken-3 white-text">
-                <div class="card-content white-text">
-                    <div class="row" style="height: 120px;">
-                        <div class="col m3 l2">
-                            <div class="avatar circle" id="circle" style="height: 150px;">
-                                <img class="svg" src="{!! URL::asset('images/icons/'.
-                         CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
-                                     alt="Enera"/>
-                            </div>
-                        </div>
-                        <div class="col m9 l10">
-                            <h4 class="white-text left-align">{{$cam->name}}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
 
         <div class="row">
+            <div class="col m12">
+                <div class="card grey darken-3 white-text head-info">
+                    <div class="card-content white-text">
+                        <div class="row" style="height: 120px;">
+                            <div class="col m3 l2">
+                                <div class="avatar circle" id="circle" style="height: 150px;">
+                                    <img class="svg" src="{!! URL::asset('images/icons/'.
+                         CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
+                                         alt="Enera"/>
+                                </div>
+                            </div>
+                            <div class="col m9 l10">
+                                <h4 class="white-text left-align">{{$cam->name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             <div class="col m6 l4">
                 <div class="card grey darken-3 white-text">
                     <div class="card-content white-text">

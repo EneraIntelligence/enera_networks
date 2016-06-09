@@ -28,9 +28,9 @@
                         {{$campaign->name}}
                     </span>
                 </div>
-                <div class="collapsible-body grey darken-3 white-text">
+                <div class="collapsible-body grey">
                     <div class="container">
-                        <ul class="list grey darken-3 white-text">
+                        <ul class="list grey white-text card_info" >
                             <li data-icon="keyboard_arrow_right">Status: {{$campaign->status}}</li>
                             <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
                         ' '. $campaign->administrator->name['last']}}</li>
@@ -111,16 +111,16 @@
     <div id="create" class="modal">
         <div class="modal-content" style="height: 70px;">
             <div class="row">
-                <form class="col m12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
+                <form class="col m12 s12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
                     <div class="row">
-                        <div class="input-field col m10">
+                        <div class="input-field col m10 s9">
                             <input id="name" type="text" name="name" required>
                             <label for="name">Nombre de Campaña</label>
                         </div>
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        <div class="input-field col m2">
+                        <div class="input-field col m2 s3">
                             {{--<a class="waves-effect waves-light btn">Crear</a>--}}
-                            <button type="submit" class="sbm-button teal lighten-2">Crear</button>
+                            <button type="submit" class="sbm-button teal lighten-2" id="btn-modal">Crear</button>
                         </div>
                     </div>
                 </form>
