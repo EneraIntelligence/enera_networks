@@ -21,7 +21,7 @@
         <div class="row">
 
             <!-- wizard container -->
-            <div class="container col s12 m8">
+            <div class="container col s12 m12 l8">
                 <div class="card wizard-card">
 
                     <!-- wizard content -->
@@ -47,7 +47,7 @@
             </div>
 
             <!-- preview container -->
-            <div class="container col m4 hide-on-small-only">
+            <div class="container col l4 hide-on-med-and-down">
                 <div class="card-panel">
                     <span class="card-title">Preview</span>
                     <div style="position: relative; width: 250px; margin: 0 auto;">
@@ -57,32 +57,32 @@
                         <div class="preview data-field" id="mydiv" style="overflow: scroll;">
 
                         </div>
-                        <div class="preview data-field data-banner_link" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-banner_link preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_banner_link'))
                                 @include('campaign.partials.preview_banner_link')
                             @endif
                         </div>
-                        <div class="preview data-field data-like" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-like preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_like'))
                                 @include('campaign.partials.preview_like')
                             @endif
                         </div>
-                        <div class="preview data-field data-mailing_list" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-mailing_list preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_mailing_list'))
                                 @include('campaign.partials.preview_mailing_list')
                             @endif
                         </div>
-                        <div class="preview data-field data-captcha" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-captcha preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_captcha'))
                                 @include('campaign.partials.preview_captcha')
                             @endif
                         </div>
-                        <div class="preview data-field data-survey" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-survey preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_captcha'))
                                 @include('campaign.partials.preview_survey')
                             @endif
                         </div>
-                        <div class="preview data-field data-video" id="mydiv" style="overflow: scroll; display:none">
+                        <div class="preview data-field data-video preview-overflow" id="mydiv">
                             @if(view()->exists('campaign.partials.preview_video'))
                                 @include('campaign.partials.preview_video')
                             @endif

@@ -34,9 +34,9 @@
                         / {{ count($branch->aps) }}
                     </span>
                 </div>
-                <div class="collapsible-body">
+                <div class="collapsible-body grey">
                     <div class="container">
-                        <ul class="list grey darken-3 white-text">
+                        <ul class="list grey white-text card_info">
                             <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
                             <li data-icon="keyboard_arrow_right">
                                 Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
