@@ -98,14 +98,14 @@
         <div class="row">
 
 
-            <div class="col s12 l12 head-info">
-                <div class="card grey darken-3 white-text zero">
-                    <div class="card-content white-text show">
-                        <span class="card-title">{{ $branch->name }}</span>
-                        <p class="">{{ $branch->network->name }}</p>
-                        <a href="#!" class="breadcrumb">First</a>
-                        <a href="#!" class="breadcrumb">Second</a>
-                        <a href="#!" class="breadcrumb">Third</a>
+            <div class="col s12 l12 head-info black-text">
+                <div class="zero">
+                    <div class="black-text">
+                        {{--<span class="card-title">{{ $branch->name }}</span>--}}
+                        {{--<p class="">{{ $branch->network->name }}</p>--}}
+                        <a href="{{route('home')}}" class="breadcrumb">Home</a>
+                        <a href="{{route('branches::index')}}" class="breadcrumb">Node</a>
+                        <a href="javascript:void(0)" class="breadcrumb">{{ $branch->name }} - {{ $branch->network->name }}</a>
                     </div>
                 </div>
             </div>
