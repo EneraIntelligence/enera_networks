@@ -86,7 +86,7 @@ var wizard_nodes =
             return objCamp;
         }).get();
         
-        tagOutput = JSON.stringify(tagOutput);
+        //tagOutput = JSON.stringify(tagOutput);
 
         return {'nodos': tagOutput};
 

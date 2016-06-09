@@ -7,10 +7,35 @@ var wizard_data =
     interactionId: "",
     firstTime: true,
     validator: null,
-    initialize: function (interaction_id) {
-        //initialize rules for the form depending on the interaction
 
+    data_mask:null,//selected interaction data mask
+    //mask to send only the data that is needed by an interaction
+    dataMasks: {
+        "banner_link": {"link":true, "image_small":true, "image_large":true},
+        "like": {"like":true, "image_small":true, "image_large":true},
+        "mailing_list": {"mail_name":true, "mail_address":true, "mail_subject":true, "mailing_content":true},
+        "captcha": {"captcha":true, "image_small":true, "image_large":true},
+        "survey": {"image_survey":true},
+        "video": {"video":true, "image_video":true}
+    },
+
+
+    initialize: function (interaction_id) {
+
+        //initialize mask with all the question fields
+        for(var q=1;q<=5;q++)
+        {
+            var surveyMask = wizard_data.dataMasks['survey'];
+            surveyMask["question_"+q]=true;
+            for(var ans=1;ans<=4;ans++)
+            {
+                surveyMask["answer_"+q+"_"+ans]=true;
+            }
+        }
+
+        //initialize rules for the form depending on the interaction
         wizard_data.interactionId = interaction_id;
+        wizard_data.data_mask = wizard_data.dataMasks[interaction_id];
 
         if (wizard_data.firstTime) {
             wizard_data.firstTime = false;
@@ -24,6 +49,9 @@ var wizard_data =
             });
             $("#image-survey").change(function () {
                 wizard_data.showPreview(event, "#image-survey", 684, 400)
+            });
+            $("#image-video").change(function () {
+                wizard_data.showPreview(event, "#image-video", 640, 360)
             });
 
             //video upload
@@ -59,14 +87,31 @@ var wizard_data =
     },
     getData: function () {
         //return the json form data
-        var serialized = $("#data-form").serializeArray(),
-            jsonCam = {};
+        var serialized = $("#data-form").serializeArray();
+        var jsonCam = {};
 
+        var mask = wizard_data.data_mask;
         // build key-values
         $.each(serialized, function () {
-            jsonCam [this.name] = this.value;
+            if(mask[this.name] && this.value!="")
+                jsonCam [this.name] = this.value;
         });
 
+
+        //inject images to data
+        if(mask["image_small"] && wizard_data.images['small'])
+            jsonCam["image_small"] = wizard_data.images['small'];
+        if(mask["image_large"] && wizard_data.images['large'])
+            jsonCam["image_large"] = wizard_data.images['large'];
+        if(mask["image_survey"] && wizard_data.images['survey'])
+            jsonCam["image_survey"] = wizard_data.images['survey'];
+        if(mask["image_video"] && wizard_data.images['video'])
+            jsonCam["image_video"] = wizard_data.images['video'];
+
+        if(mask["video"] && wizard_data.video)
+            jsonCam["video"] = wizard_data.video;
+
+        //console.log(wizard_data.images);
 
         return jsonCam;
 

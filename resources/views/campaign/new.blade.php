@@ -265,6 +265,17 @@
                     initializeCurrentStep(1);
 
                     step = steps[currentStep];
+                    if(currentStep==steps.length-1)
+                    {
+                        //on summary step
+                        var dataCamp = {};
+                        for (var i = 0; i < steps.length - 1; i++) {
+                            $.extend(true, dataCamp, steps[i].getData());
+                        }
+//                        console.log(dataCamp);
+                        step.setSummaryData(dataCamp);
+                    }
+
                     var currentHeight = step.getContainer().outerHeight();
 
                     changeContainerSize(prevHeight, currentHeight);
@@ -278,11 +289,12 @@
             else {
 
                 //TODO submit form
+                /*
                 var dataCamp = {};
                 for (var i = 0; i < steps.length - 1; i++) {
                     $.extend(true, dataCamp, steps[i].getData());
                 }
-                console.log(dataCamp);
+                console.log(dataCamp);*/
             }
         }
 

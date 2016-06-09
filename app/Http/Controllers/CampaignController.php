@@ -426,7 +426,11 @@ class CampaignController extends Controller
 
             $img = Input::get('imgToSave');
             $imageType = "survey";
-        } else {
+        } else if (Input::get("imgType") == "#image-video") {
+
+            $img = Input::get('imgToSave');
+            $imageType = "video";
+        }else {
             $res = array('success' => false, 'msg' => 'error with image type');
             echo $res;
         }

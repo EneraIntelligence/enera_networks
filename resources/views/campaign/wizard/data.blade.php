@@ -80,6 +80,21 @@
 
             </div>
 
+            <!-- video image -->
+            <div class="row data-field data-video">
+                <div class="input-field file-field btn col s6 offset-s3">
+
+                    <span> <i class="material-icons left">file_upload</i> <i class="material-icons left">collections</i> (640x360)</span>
+                    <input id="image-video" name="image_video" type="file" accept='image/*'>
+
+                </div>
+
+                <img id="image-video-cropped" class="responsive-img col s6 offset-s3 mBottom-20"
+                     src="http://placehold.it/640x360?text=640x360" alt="">
+
+            </div>
+
+
             <!-- survey questions -->
             <ul class="collapsible data-field data-survey" data-collapsible="accordion">
 
@@ -134,30 +149,30 @@
 
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input placeholder="" name="question" id="question" type="text" class="validate">
-                                    <label for="question">Pregunta</label>
+                                    <input placeholder="" name="question_2" id="question_2" type="text" class="validate">
+                                    <label for="question_2">Pregunta</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_1" id="answer_1" type="text" class="validate">
-                                    <label for="answer_1">Opción 1</label>
+                                    <input placeholder="" name="answer_2_1" id="answer_2_1" type="text" class="validate">
+                                    <label for="answer_2_1">Opción 1</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_2" id="answer_2" type="text" class="validate">
-                                    <label for="answer_2">Opción 2</label>
+                                    <input placeholder="" name="answer_2_2" id="answer_2_2" type="text" class="validate">
+                                    <label for="answer_2_2">Opción 2</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_3" id="answer_3" type="text" class="validate">
-                                    <label for="answer_3">Opción 3</label>
+                                    <input placeholder="" name="answer_2_3" id="answer_2_3" type="text" class="validate">
+                                    <label for="answer_2_3">Opción 3</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_4" id="answer_4" type="text" class="validate">
-                                    <label for="answer_4">Opción 4</label>
+                                    <input placeholder="" name="answer_2_4" id="answer_2_4" type="text" class="validate">
+                                    <label for="answer_2_4">Opción 4</label>
                                 </div>
 
                             </div>
@@ -175,30 +190,30 @@
 
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input placeholder="" name="question" id="question" type="text" class="validate">
-                                    <label for="question">Pregunta</label>
+                                    <input placeholder="" name="question_3" id="question_3" type="text" class="validate">
+                                    <label for="question_3">Pregunta</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_1" id="answer_1" type="text" class="validate">
-                                    <label for="answer_1">Opción 1</label>
+                                    <input placeholder="" name="answer_3_1" id="answer_3_1" type="text" class="validate">
+                                    <label for="answer_3_1">Opción 1</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_2" id="answer_2" type="text" class="validate">
-                                    <label for="answer_2">Opción 2</label>
+                                    <input placeholder="" name="answer_3_2" id="answer_3_2" type="text" class="validate">
+                                    <label for="answer_3_2">Opción 2</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_3" id="answer_3" type="text" class="validate">
-                                    <label for="answer_3">Opción 3</label>
+                                    <input placeholder="" name="answer_3_3" id="answer_3_3" type="text" class="validate">
+                                    <label for="answer_3_3">Opción 3</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_4" id="answer_4" type="text" class="validate">
-                                    <label for="answer_4">Opción 4</label>
+                                    <input placeholder="" name="answer_3_4" id="answer_3_4" type="text" class="validate">
+                                    <label for="answer_3_4">Opción 4</label>
                                 </div>
                             </div>
 
@@ -216,30 +231,30 @@
 
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input placeholder="" name="question" id="question" type="text" class="validate">
-                                    <label for="question">Pregunta</label>
+                                    <input placeholder="" name="question_4" id="question_4" type="text" class="validate">
+                                    <label for="question_4">Pregunta</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_1" id="answer_1" type="text" class="validate">
-                                    <label for="answer_1">Opción 1</label>
+                                    <input placeholder="" name="answer_4_1" id="answer_4_1" type="text" class="validate">
+                                    <label for="answer_4_1">Opción 1</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_2" id="answer_2" type="text" class="validate">
-                                    <label for="answer_2">Opción 2</label>
+                                    <input placeholder="" name="answer_4_2" id="answer_4_2" type="text" class="validate">
+                                    <label for="answer_4_2">Opción 2</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_3" id="answer_3" type="text" class="validate">
-                                    <label for="answer_3">Opción 3</label>
+                                    <input placeholder="" name="answer_4_3" id="answer_4_3" type="text" class="validate">
+                                    <label for="answer_4_3">Opción 3</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_4" id="answer_4" type="text" class="validate">
-                                    <label for="answer_4">Opción 4</label>
+                                    <input placeholder="" name="answer_4_4" id="answer_4_4" type="text" class="validate">
+                                    <label for="answer_4_4">Opción 4</label>
                                 </div>
                             </div>
 
@@ -257,30 +272,30 @@
 
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <input placeholder="" name="question" id="question" type="text" class="validate">
-                                    <label for="question">Pregunta</label>
+                                    <input placeholder="" name="question_5" id="question_5" type="text" class="validate">
+                                    <label for="question_5">Pregunta</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_1" id="answer_1" type="text" class="validate">
-                                    <label for="answer_1">Opción 1</label>
+                                    <input placeholder="" name="answer_5_1" id="answer_5_1" type="text" class="validate">
+                                    <label for="answer_5_1">Opción 1</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_2" id="answer_2" type="text" class="validate">
-                                    <label for="answer_2">Opción 2</label>
+                                    <input placeholder="" name="answer_5_2" id="answer_5_2" type="text" class="validate">
+                                    <label for="answer_5_2">Opción 2</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_3" id="answer_3" type="text" class="validate">
-                                    <label for="answer_3">Opción 3</label>
+                                    <input placeholder="" name="answer_5_3" id="answer_5_3" type="text" class="validate">
+                                    <label for="answer_5_3">Opción 3</label>
                                 </div>
 
                                 <div class="input-field col s12 m6">
-                                    <input placeholder="" name="answer_4" id="answer_4" type="text" class="validate">
-                                    <label for="answer_4">Opción 4</label>
+                                    <input placeholder="" name="answer_5_4" id="answer_5_4" type="text" class="validate">
+                                    <label for="answer_5_4">Opción 4</label>
                                 </div>
                             </div>
 
@@ -291,7 +306,7 @@
             </ul>
 
 
-            <div class="row data-field data-banner_link data-captcha data-like data-video">
+            <div class="row data-field data-banner_link data-captcha data-like">
 
                 <div class="col s6 offset-s3 m4 offset-m1">
 
