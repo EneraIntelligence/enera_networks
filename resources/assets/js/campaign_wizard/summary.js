@@ -11,6 +11,12 @@ var wizard_summary =
     },
     initialize: function (interaction_id) {
         //initialize rules for the form depending on the interaction
+        setTimeout(function () {
+            //activate send btn
+            var ev = EventDispatcher.getInstance();
+            ev.trigger(WizardEvents.validForm);
+        }, 400);
+
     },
     setSummaryData: function(data)
     {
@@ -129,8 +135,11 @@ var wizard_summary =
 
         content+="<span>de "+data.menor+" a "+data.mayor+" años</span><br>";
 
-        var startDate = data.start.replace(","," de");
-        var endDate = data.end.replace(","," de");
+        var startDate = data.start.replace("."," de ");
+        startDate = startDate.replace("."," de ");
+        var endDate = data.end.replace("."," de ");
+        endDate = endDate.replace("."," de ");
+
         content+="<span>del "+startDate+" al "+endDate+".</span><br>";
 
         content+=" <a href='#!' onclick='wizard_summary.openNodesModal()'> <span>Nodos ("+data.nodos.length+") <i class='material-icons v-middle'>link</i></span>  </a> <br><br>";
@@ -251,7 +260,112 @@ var wizard_summary =
     getData:function()
     {
         //return the json form data
-        return '';
+
+        /*'title' => 'required',
+         'start_date' => 'required',
+         'end_date' => 'required',
+         'time' => 'required',
+         'days' => 'required',
+         'gender' => 'required',
+         'age' => 'required',
+         'images' => 'required',
+         'ubication' => 'required',
+         'interactionId' => 'required',
+         'budget' => 'required',
+         /* condicionales *
+        'banner_link' => 'required_if:interactionId,like',
+        'from' => 'required_if:interactionId,mailing_list',
+        'from_mail' => 'required_if:interactionId,mailing_list',
+        'subject' => 'required_if:interactionId,mailing_list',
+        'mailing_content' => 'required_if:interactionId,mailing_list',
+        'survey' => 'required_if:interactionId,survey',
+        'captcha' => 'required_if:interactionId,captcha',
+        'video' => 'required_if:interactionId,video',
+        'branches' => 'required_if:ubication,select',
+        */
+
+        var data = wizard_summary.data;
+
+        //console.log(data);
+
+        var gender="both";
+        if(data.sex=="caballeros")
+        {
+            gender="male";
+        }
+        else if(data.sex=="damas")
+        {
+            gender="female";
+        }
+
+        var branches=[];
+        for(var i=0;i<data.nodos.length;i++)
+        {
+            branches.push(data.nodos[i].id);
+        }
+
+        var survey=[];
+        for(var q=1;q<=5;q++)
+        {
+            if(data["question_"+q])
+            {
+                var obj = {};
+                obj.question=data["question_"+q];
+                obj.answers=[];
+                for(var ans=1;ans<=4;ans++)
+                {
+                    if(data["answer_"+q+"_"+ans])
+                    {
+                        obj.answers.push(data["answer_"+q+"_"+ans]);
+                    }
+                }
+
+                survey.push(obj);
+
+            }
+        }
+
+
+        var images = {};
+        if(data.image_small)
+            images.small=data.image_small.item_id;
+        if(data.image_large)
+            images.large=data.image_large.item_id;
+        if(data.image_survey)
+            images.survey=data.image_survey.item_id;
+        if(data.image_video)
+            images.video=data.image_video.item_id;
+
+        var video = null;
+        if(data.video)
+            video = data.video.item_id;
+
+        var campaignData = {
+            "title":getUrlParameter("name"),
+            'start_date': data.start,
+            'end_date': data.end,
+            'time': '0;23',
+            'days': ["1","2","3","4","5","6","7"],
+            'gender': gender,
+            'age': data.menor+";"+data.mayor,
+            'images': images,
+            'ubication': 'select',
+            'interactionId': data.interaction,
+            'budget': '$ 0.00',
+
+            'banner_link': data.link,
+            'from': data.mail_name,
+            'from_mail': data.mail_address,
+            'subject': data.mail_subject,
+            'mailing_content': data.mailing_content,
+            'survey': survey,
+            'captcha': data.captcha,
+            'video': video,
+            'branches': branches
+        };
+
+        return campaignData;
+        // return wizard_summary.data;
 
     },
     isValid: function () {
@@ -259,4 +373,20 @@ var wizard_summary =
 
     }
 
+};
+
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
 };

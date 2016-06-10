@@ -299,12 +299,15 @@
             else {
 
                 //TODO submit form
-                /*
-                var dataCamp = {};
-                for (var i = 0; i < steps.length - 1; i++) {
-                    $.extend(true, dataCamp, steps[i].getData());
-                }
-                console.log(dataCamp);*/
+
+                $("#modal-summary-content").html(
+                        "<pre>"+
+                            JSON.stringify( steps[currentStep].getData(), null, '\t' )+
+                        "</pre>"
+                );
+
+                $("#modal-summary").openModal();
+
             }
         }
 

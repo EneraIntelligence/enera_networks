@@ -1,5 +1,7 @@
 var wizard_filters =
 {
+    start_date:"",
+    end_date:"",
     validForm: false,
     menor: 13,
     mayor: 100,
@@ -70,6 +72,7 @@ var wizard_filters =
                 monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
                 weekdaysFull: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
                 weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+                formatSubmit: 'dd.mm.yyyy',
                 today: 'hoy',
                 clear: 'borrar',
                 close: 'cerrar',
@@ -89,6 +92,8 @@ var wizard_filters =
                     picker_end.clear();
                     picker_end.set("min", [endYear, endMonth - 1, endDay + 1]);
 
+                    wizard_filters.start_date = picker_ini.get("select", "dd.mm.yyyy");
+
                 },
                 disable: [
                     true,
@@ -107,6 +112,7 @@ var wizard_filters =
                 monthsShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
                 weekdaysFull: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
                 weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+                formatSubmit: 'dd.mm.yyyy',
                 today: 'hoy',
                 clear: 'borrar',
                 close: 'cerrar',
@@ -115,6 +121,8 @@ var wizard_filters =
                         var ev = EventDispatcher.getInstance();
                         ev.trigger(WizardEvents.validForm);
                         wizard_filters.validForm = true;
+
+                        wizard_filters.end_date = picker_end.get("select", "dd.mm.yyyy");
 
                         this.close();
                     }
@@ -172,6 +180,9 @@ var wizard_filters =
         $.each(serialized, function () {
             jsonCam [this.name] = this.value;
         });
+        jsonCam.start = wizard_filters.start_date;
+        jsonCam.end = wizard_filters.end_date;
+        
         return jsonCam;
 
 
