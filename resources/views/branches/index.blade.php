@@ -58,7 +58,7 @@
                     <div class="col m4 l3">
                         <div class="card grey darken-3 white-text">
                             <div class="card-content white-text">
-                                <div class="card-image">
+                                <div class="card-image margin-image">
                                     <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/". ($branch->portal['image'] )}}"
                                          class="responsive-img" height="258" width="258">
                                 </div>

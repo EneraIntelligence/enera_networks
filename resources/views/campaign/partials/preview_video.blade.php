@@ -11,7 +11,7 @@
     <i class="large material-icons icon-play">&#xE038;</i>
 
     <video id="theVideo" class="responsive-video banner-video"
-           poster="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! $cam->content['images']['small'] !!}">
+           poster="https://s3-us-west-1.amazonaws.com/enera-publishers/items/{!! $cam->content['images']['video'] !!}">
     <source src="https://s3-us-west-1.amazonaws.com/enera-publishers/items/trailer.mp4" type="video/mp4">
 
     {{--<source src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">--}}

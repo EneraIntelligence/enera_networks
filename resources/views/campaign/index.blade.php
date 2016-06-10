@@ -60,26 +60,26 @@
         <div class="container">
             <div class="row">
                 @foreach($campaigns as $campaign)
-                    <div class="col m6 l4">
-                        <div class="card grey darken-3 white-text">
+                    <div class="col m4 l3">
+                        <div class="card grey darken-3 white-text card-campaign">
                             <div class="card-content white-text">
-                                <div class="card-image">
+                                <div class="card-image margin-image">
                                     <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}"
                                          class="responsive-img">
-                                    <span class="card-title">{{$campaign->name}}</span>
+                                    {{--<span class="card-title">{{$campaign->name}}</span>--}}
                                 </div>
                                 {{--<span class="card-title black-text">{{$campaign->name}}</span>--}}
                                 <ul class="list white-text">
-                                    <li data-icon="keyboard_arrow_right">Status: {{$campaign->status}}</li>
+                                    <li data-icon="keyboard_arrow_right card-li">Nombre: {{$campaign->name}}</li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
                         ' '. $campaign->administrator->name['last']}}</li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">
-                                        Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
+                                        Inicio: {{date('y-m-d',$campaign->filters['date']['start']->sec)}}</li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">
-                                        Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
+                                        Fin: {{date('y-m-d',$campaign->filters['date']['end']->sec)}}</li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">Dias:
                                         @if(isset($campaign->filters['week_days'] ))
@@ -110,6 +110,7 @@
 
     <div id="create" class="modal">
         <div class="modal-content" style="height: 70px;">
+            <i class="material-icons right-corner">close</i>
             <div class="row">
                 <form class="col m12 s12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
                     <div class="row">
@@ -126,9 +127,6 @@
                 </form>
             </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!"  class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        </div>
     </div>
 
 
@@ -141,6 +139,10 @@
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal-trigger').leanModal();
+            
+            $('.right-corner').click(function () {
+                $('.modal').closeModal();
+            })
         });
         $("#validate").validate({
             rules: {

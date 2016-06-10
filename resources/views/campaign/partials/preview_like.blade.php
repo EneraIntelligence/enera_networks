@@ -12,10 +12,10 @@
 
 <!-- botón de like -->
 <div class="card-panel center-align actions-card">
-    <div class="container like-container z-depth-2">
+    <div class="container like-container z-depth-2" style="width: 60px; height: 25px;">
         <!-- like button -->
-        <div class="fb-like"  data-send="false" data-layout="button" data-width="200"
-             data-show-faces="false"><img src="{{asset('images/like_facebook.png')}}" alt=""></div>
+        <div class="fb-like" data-send="false" data-layout="button" data-width="200"
+             data-show-faces="false"><img src="{{asset('images/like_facebook.png')}}" alt="" style="width: 115%;"></div>
     </div>
 
 
