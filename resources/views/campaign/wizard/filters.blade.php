@@ -31,12 +31,12 @@
                         <br>
                         <div class="row">
                             <div class="col s6 m4">
-                                <input class="with-gap" name="sex" type="radio" id="val1" value="damas"/>
+                                <input class="with-gap" name="sex" type="radio" id="val1" value="caballeros"/>
                                 <label for="val1">Hombres</label>
                             </div>
 
                             <div class="col s6 m4">
-                                <input class="with-gap" name="sex" type="radio" id="val2" value="caballeros"/>
+                                <input class="with-gap" name="sex" type="radio" id="val2" value="damas"/>
                                 <label for="val2">Mujeres</label>
                             </div>
 
@@ -59,7 +59,7 @@
                         <br>
                         <p>
                             <label for="start">Inicio de campaña</label>
-                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="start" name="star">
+                            <input type="date" placeholder="seleccionar fecha" class="datepicker" id="start" name="start">
                         </p>
                         <p>
                             <label for="end">Fin de campaña</label>

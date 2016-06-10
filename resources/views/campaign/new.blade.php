@@ -93,6 +93,16 @@
 
         </div>
 
+
+        <!-- Modal summary -->
+        <div id="modal-summary" class="modal">
+            <div class="modal-content">
+                <div id="modal-summary-content">
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

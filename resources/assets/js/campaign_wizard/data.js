@@ -128,7 +128,7 @@ var wizard_data =
         else if( wizard_data.interactionId == "mailing_list" && tinymce.activeEditor.getContent()=="")
         {
             //text area not valid
-            Materialize.toast('¡Debes llenar el contenido del correo!', 4000)
+            Materialize.toast('¡Debes llenar el contenido del correo!', 4000);
             tinymce.execCommand('mceFocus',false,'#mailing_content');
             return false;
         }
@@ -274,7 +274,7 @@ var wizard_data =
             processData: false
         }).done(function (data) {
 
-            wizard_data.images[data.imageType] = data.item_id;
+            wizard_data.images[data.imageType] = data;
 
             inputField.rules("remove");
 
@@ -341,11 +341,18 @@ var wizard_data =
              console.log("success");
              console.log(data);
              */
-
-            wizard_data.video = data.item_id;
-            //console.log(create_campaign_helper);
-            $('#modal-loader').closeModal();
             inputField.rules("remove");
+
+
+            wizard_data.video = data;
+            //console.log(create_campaign_helper);
+
+            wizard_data.validator.element("#video-input");
+
+            $('#modal-loader').closeModal();
+
+            Materialize.toast('Video subido exitosamente.', 4000);
+
 
             //inputField.value = "";
 
@@ -439,6 +446,10 @@ var wizard_validators =
 
             },
             image_survey:
+            {
+                required:true
+            },
+            image_video:
             {
                 required:true
             },

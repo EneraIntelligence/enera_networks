@@ -79,7 +79,10 @@ var wizard_nodes =
 
         tagOutput = $(':checkbox[name=node]').map(function () {
             if(this.checked) {
-                var op = this.id;
+                var op = {
+                    "id":this.id,
+                    "name":$(this).val()
+                };
                 var objCamp = [];
                 objCamp.push(op);
             }
