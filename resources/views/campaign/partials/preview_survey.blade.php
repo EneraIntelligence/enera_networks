@@ -12,7 +12,7 @@
 <!-- botones -->
 <div class="card-panel center-align actions-card">
     <div class="question black-text" id="step_0" style="display:block">
-        <h5 style="margin-top: 0;">¿Tienes coche propio?</h5>
+        <p style="margin-top: 0;">¿Tienes coche propio?</p>
         <div>
             <a class="answer btn waves-effect waves-light indigo z-depth-2" href="#!">
                         <span class="white-text left">

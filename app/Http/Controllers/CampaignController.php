@@ -49,6 +49,7 @@ class CampaignController extends Controller
                         "small" => "placeholder600X602.png",
                         "large" => "placeholder600X602.png",
                         "survey" => "placeholder600X602.png",
+                        "video" => "placeholder640X360.png"
                     ],
                     "like_url" => "https://www.facebook.com/ReaccionMX/",
                     "captcha" => "demo",

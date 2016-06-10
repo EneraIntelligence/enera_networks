@@ -11,9 +11,9 @@
 
 <div class="card-panel center-align actions-card">
 
-    <a class="btn waves-effect waves-light subscribe-btn indigo z-depth-2" href="#!"
+    <a class="btn waves-effect waves-light subscribe-btn indigo z-depth-2" href="#!" style="font-size: 9px !important;"
        success_url="{{Input::get('base_grant_url') }}">
-            <span class="white-text left" style="font-size: 10px;">
+            <span class="white-text left" >
                 Navegar en internet
             </span>
         <i class="right material-icons">wifi</i>

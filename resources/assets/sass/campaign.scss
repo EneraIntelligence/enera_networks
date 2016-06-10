@@ -116,7 +116,7 @@ tspan{
 .sbm-button {
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 15px 25px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -145,6 +145,8 @@ div.error{
   #btn-modal{
     padding: 10px 15px;
   }
+
+
 }
 
 .card_info{
@@ -159,6 +161,26 @@ div.error{
 .preview-overflow{
   overflow: hidden;
   display: none;
+}
+
+.right-corner{
+  position: absolute;
+  right:    5px;
+  top:   5px;
+  color: #c9c9c9;
+}
+
+
+.card-campaign{
+  min-height: 575px;
+}
+
+.card-li{
+  min-height: 42px !important;
+}
+
+.margin-image{
+  margin: -20px -20px 5px -20px;
 }
 
 //old css
