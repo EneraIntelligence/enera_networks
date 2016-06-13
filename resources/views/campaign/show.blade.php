@@ -66,26 +66,26 @@
 
     <div class="hide-on-small-only">
 
-        </div>
+    </div>
 
-        <div class="row">
-            <div class="col m12">
-                <div class="card grey darken-3 white-text head-info">
-                    <div class="card-content white-text">
-                        <div class="row" style="height: 120px;">
-                            <div class="col m3 l2">
-                                <div class="avatar circle" id="circle" style="height: 150px;">
-                                    <img class="svg" src="{!! URL::asset('images/icons/'.
+    <div class="row">
+        <div class="col m12">
+            <div class="card grey darken-3 white-text head-info">
+                <div class="card-content white-text">
+                    <div class="row" style="height: 120px;">
+                        <div class="col m3 l2">
+                            <div class="avatar circle" id="circle" style="height: 150px;">
+                                <img class="svg" src="{!! URL::asset('images/icons/'.
                          CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
-                                         alt="Enera"/>
-                                </div>
+                                     alt="Enera"/>
                             </div>
-                            <div class="col m9 l10">
-                                <h4 class="white-text left-align">{{$cam->name}}</h4>
-                            </div>
+                        </div>
+                        <div class="col m9 l10">
+                            <h4 class="white-text left-align">{{$cam->name}}</h4>
                         </div>
                     </div>
                 </div>
+            </div>
 
             <div class="col m6 l4">
                 <div class="card grey darken-3 white-text">
@@ -105,7 +105,9 @@
                             <li data-icon="keyboard_arrow_right">Fitros:
                                 <ul class="white-text">
                                     <li data-icon="remove" style="margin-left: 25px;">
-                                        Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</li>
+                                        <p>
+                                            Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</p>
+                                    </li>
                                     <li data-icon="remove" style="margin-left: 25px;">
                                         Genero: {{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</li>
                                     <li data-icon="remove" style="margin-left: 25px;">

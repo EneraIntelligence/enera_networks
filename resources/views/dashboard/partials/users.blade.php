@@ -23,7 +23,7 @@
 
         <div class="col s6 right-align">
             <span style="font-weight: 200;font-size:19px;">150,000
-                <span style="font-size:14px;font-weight:300;" class="green-text">
+                <span style="font-size:14px;font-weight:300;" class="green-text-light">
                     <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>23%
                 </span>
             </span>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px;font-weight:400; vertical-align:top;" class="green-text">
+            <span style="font-size:9px;font-weight:400; vertical-align:top;" class="green-text-light">
                 Frente a los 7 días anteriores
             </span>
         </div>

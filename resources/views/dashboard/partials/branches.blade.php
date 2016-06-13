@@ -34,7 +34,7 @@
 
         <li class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
             <div>{{$name}}
-                <a href="{{route("branches::show",$id)}}" class="secondary-content">
+                <a href="{{route("branches::show",$id)}}" class="secondary-content btn">
                     <i class="material-icons">forward</i>
                 </a>
             </div>
