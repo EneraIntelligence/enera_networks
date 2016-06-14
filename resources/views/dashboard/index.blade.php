@@ -4,7 +4,9 @@
 
 
 @section('head_scripts')
+    {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     {!! HTML::style('assets/css/dashboard.css') !!}
+
 @stop
 
 
@@ -111,10 +113,14 @@
 
 @section('scripts')
 
+    {!! HTML::script('bower_components/d3/d3.min.js') !!}
+    {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
+
     {!! HTML::script('js/carousel-enera.js') !!}
     {!! HTML::script('js/card-slider-enera.js') !!}
     {!! HTML::script('js/swipe-animation.js') !!}
     {!! HTML::script('js/js-cookie.js') !!}
+
 
 
     <script>
@@ -193,6 +199,31 @@
         }
 
     </script>
+
+
+    <!-- user chart -->
+    <script>
+
+        $( document ).ready(function() {
+
+            console.log("test");
+            var chart = c3.generate({
+                bindto: '#user-chart',
+                data: {
+                    columns: [
+                        ['data1', 30, 200, 100, 400, 150, 250],
+                        ['data2', 50, 20, 10, 40, 15, 25]
+                    ]
+                }
+            });
+
+
+        });
+
+
+
+    </script>
+
 
 @stop
 

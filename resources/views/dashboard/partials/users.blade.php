@@ -9,7 +9,12 @@
 <div class="divider grey darken-1"></div>
 
 <div class="section" style="height: 100px;">
-    Gráfica
+
+
+    <!-- gráfica -->
+    <div id="user-chart"></div>
+
+
 </div>
 
 <div class="divider grey darken-1"></div>

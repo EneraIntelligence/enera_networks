@@ -11,14 +11,14 @@
             <p>Publica un banner y recibe usuarios en tu sitio. </p>
         </li>
 
-        <li class="collection-item avatar animate-all" data-interaction="like">
+        <li class="collection-item avatar animate-all" id="like" data-interaction="like">
             <img class="circle indigo lighten-4 animate-all" style="margin-top:10px;"
                  src="{{ asset("images/icons/like.svg") }}" alt="like icon">
             <span class="title"><strong>Like</strong></span>
             <p>Invita a los usuarios de la red a dar like a una página. </p>
         </li>
 
-        <li class="collection-item avatar animate-all" data-interaction="mailing_list">
+        <li class="collection-item avatar animate-all" id="mailing_list" data-interaction="mailing_list">
             <img class="circle indigo lighten-4 animate-all" style="margin-top:10px;"
                  src="{{ asset("images/icons/mailing.svg") }}" alt="mailing icon">
             <span class="title"><strong>Mailing list</strong></span>
@@ -32,14 +32,14 @@
             <p>Haz que los usuarios escriban algo relacionado a tu producto.</p>
         </li>
 
-        <li class="collection-item avatar animate-all" data-interaction="survey">
+        <li class="collection-item avatar animate-all" id="survey" data-interaction="survey">
             <img class="circle indigo lighten-4 animate-all" style="margin-top:10px;"
                  src="{{ asset("images/icons/survey.svg") }}" alt="survey icon">
             <span class="title"><strong>Encuesta</strong></span>
             <p>Crea una encuesta que contestarán los usuarios.</p>
         </li>
 
-        <li class="collection-item avatar animate-all" data-interaction="video">
+        <li class="collection-item avatar animate-all" id="video" data-interaction="video">
             <img class="circle indigo lighten-4 animate-all" style="margin-top:10px;"
                  src="{{ asset("images/icons/video.svg") }}" alt="video icon">
             <span class="title"><strong>Video</strong></span>
