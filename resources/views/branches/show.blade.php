@@ -21,28 +21,37 @@
             <div class="card-content white-text show">
                 <ul class="white-text">
                     <span class="card-title">Información</span>
-                    <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                    <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$branch->status}}</span>
+                    </li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">
-                        Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                        Globales: <span
+                                class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
+                    </li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
+                    <li data-icon="keyboard_arrow_right">Red: <span class="light-text">{{$branch->network->name}}</span>
+                    </li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">Tipo: {{$branch->network->type}}</li>
+                    <li data-icon="keyboard_arrow_right">Tipo: <span
+                                class="light-text">{{$branch->network->type}}</span></li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">Conexiones: {{ number_format($wlogs,0,'.',',') }}</li>
+                    <li data-icon="keyboard_arrow_right">Conexiones: <span
+                                class="light-text">{{ number_format($wlogs,0,'.',',') }}</span></li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">Dispositivos: {{ number_format($devices,0,'.',',') }}</li>
+                    <li data-icon="keyboard_arrow_right">Dispositivos: <span
+                                class="light-text">{{ number_format($devices,0,'.',',') }}</span></li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">Usuarios
-                        Recolectados: {{ number_format($users,0,'.',',') }}</li>
+                        Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span></li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">Antenas: {{ count($branch->aps) }}</li>
+                    <li data-icon="keyboard_arrow_right">Antenas: <span
+                                class="light-text">{{ count($branch->aps) }}</span></li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">Campañas:
                         <ul class="white-text">
                             @foreach($aps as $ap)
-                                <li data-icon="remove" style="margin-left: 25px;">{{$ap->name}}</li>
+                                <li data-icon="remove" style="margin-left: 25px;"><span
+                                            class="light-text">{{$ap->name}}</span></li>
                             @endforeach
                         </ul>
                     </li>
@@ -93,23 +102,19 @@
     </div>
 
     <div class="col m12  hide-on-small-only">
-
-
         <div class="row">
-
-
             <div class="col s12 l12 head-info black-text">
                 <div class="zero">
                     <div class="black-text">
                         {{--<span class="card-title">{{ $branch->name }}</span>--}}
                         {{--<p class="">{{ $branch->network->name }}</p>--}}
-                        <a href="{{route('home')}}" class="breadcrumb">Home</a>
-                        <a href="{{route('branches::index')}}" class="breadcrumb">Node</a>
-                        <a href="javascript:void(0)" class="breadcrumb">{{ $branch->name }} - {{ $branch->network->name }}</a>
+                        <a href="{{route('home')}}" class="breadcrumb black-text">Home</a>
+                        <a href="{{route('branches::index')}}" class="breadcrumb black-text">Node</a>
+                        <a href="javascript:void(0)" class="breadcrumb black-text">{{ $branch->name }}
+                            - {{ $branch->network->name }}</a>
                     </div>
                 </div>
             </div>
-
             <div class="col s6 l4">
                 <div class="card grey darken-3 white-text" style="min-height: 570px;">
                     <div class="card-content white-text">
@@ -132,8 +137,9 @@
                                             <p class="center-align">
 
                                                 <input type="checkbox" id="terms-checkbox"/>
-                                                <label for="terms-checkbox">Acepto los <a class=""
-                                                                                          href="javascript:void(0)">Términos
+                                                <label style="font-size: 9px;" for="terms-checkbox">Acepto los <a
+                                                            class=""
+                                                            href="javascript:void(0)">Términos
                                                         y
                                                         condiciones</a></label>
                                             </p>
@@ -179,29 +185,38 @@
                     <div class="card-content white-text">
                         <span class="card-title">Información</span>
                         <ul class="white-text">
-                            <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                            <li data-icon="keyboard_arrow_right">Status: <span
+                                        class="light-text">{{$branch->status}}</span></li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">
-                                Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                                Globales: <span
+                                        class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
+                            </li>
                             <hr>
-                            <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
+                            <li data-icon="keyboard_arrow_right">Red: <span
+                                        class="light-text">{{$branch->network->name}}</span></li>
                             <hr>
-                            <li data-icon="keyboard_arrow_right">Tipo: {{$branch->network->type}}</li>
+                            <li data-icon="keyboard_arrow_right">Tipo: <span
+                                        class="light-text">{{$branch->network->type}}</span></li>
                             <hr>
-                            <li data-icon="keyboard_arrow_right">Conexiones: {{ number_format($wlogs,0,'.',',') }}</li>
+                            <li data-icon="keyboard_arrow_right">Conexiones: <span
+                                        class="light-text">{{ number_format($wlogs,0,'.',',') }}</span></li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">
-                                Dispositivos: {{ number_format($devices,0,'.',',') }}</li>
+                                Dispositivos: <span
+                                        class="light-text">{{ number_format($devices,0,'.',',') }}</span></li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">Usuarios
-                                Recolectados: {{ number_format($users,0,'.',',') }}</li>
+                                Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span></li>
                             <hr>
-                            <li data-icon="keyboard_arrow_right">Antenas: {{ count($branch->aps) }}</li>
+                            <li data-icon="keyboard_arrow_right">Antenas: <span
+                                        class="light-text">{{ count($branch->aps) }}</span></li>
                             <hr>
                             <li data-icon="keyboard_arrow_right">Campañas:
                                 <ul class="white-text">
-                                    @foreach($aps as $ap)
-                                        <li data-icon="remove" style="margin-left: 25px;">{{$ap->name}}</li>
+                                    @foreach($aps as $key => $ap)
+                                        <li data-icon="remove" style="margin-left: 25px;"><span
+                                                    class="light-text">{{$ap->name}}</span></li>
                                     @endforeach
                                 </ul>
                             </li>

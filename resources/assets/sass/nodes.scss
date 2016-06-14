@@ -93,6 +93,7 @@ $white: #FFFFFF;
 }
 tspan{
   stroke: white;
+  font-weight: lighter;
 }
 
 .c3-legend-item text{
@@ -117,4 +118,14 @@ tspan{
 
 .margin-image{
   margin: -20px -20px 5px -20px;
+}
+
+.light-text{
+  font-weight: lighter;
+}
+
+.breadcrumb:before {
+  content: '\E5CC';
+  color: rgb(0, 0, 0);
+
 }

@@ -31,20 +31,20 @@
                 <div class="collapsible-body grey">
                     <div class="container">
                         <ul class="list grey white-text card_info" >
-                            <li data-icon="keyboard_arrow_right">Status: {{$campaign->status}}</li>
-                            <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
-                        ' '. $campaign->administrator->name['last']}}</li>
+                            <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$campaign->status}}</span></li>
+                            <li data-icon="keyboard_arrow_right">Administrador: <span class="light-text">{{$campaign->administrator->name['first'].
+                        ' '. $campaign->administrator->name['last']}}</span></li>
                             <li data-icon="keyboard_arrow_right">
-                                Inicio: {{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</li>
+                                Inicio: <span class="light-text">{{date('Y-m-d',$campaign->filters['date']['start']->sec)}}</span></li>
                             <li data-icon="keyboard_arrow_right">
-                                Terminación: {{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</li>
+                                Fin: <span class="light-text">{{date('Y-m-d',$campaign->filters['date']['end']->sec)}}</span></li>
                             <li data-icon="keyboard_arrow_right">Dias:
                                 @if(isset($campaign->filters['week_days'] ))
                                     @foreach($campaign->filters['week_days'] as $dia)
-                                        {{ trans('days.'.$dia) }},
+                                        <span class="light-text">{{ trans('days.'.$dia) }},</span>
                                     @endforeach
                                 @else
-                                    no definido
+                                    <span class="light-text">no definido</span>
                                 @endif
                             </li>
                         </ul>
@@ -61,7 +61,7 @@
             <div class="row">
                 @foreach($campaigns as $campaign)
                     <div class="col m4 l3">
-                        <div class="card grey darken-3 white-text card-campaign">
+                        <div class="card grey darken-3 white-text card-campaign" style="min-height: 610px;">
                             <div class="card-content white-text">
                                 <div class="card-image margin-image">
                                     <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}"
@@ -70,24 +70,26 @@
                                 </div>
                                 {{--<span class="card-title black-text">{{$campaign->name}}</span>--}}
                                 <ul class="list white-text">
-                                    <li data-icon="keyboard_arrow_right card-li">Nombre: {{$campaign->name}}</li>
+                                    <li data-icon="keyboard_arrow_right card-li">Nombre: <span class="light-text">{{$campaign->name}}</span></li>
                                     <hr>
-                                    <li data-icon="keyboard_arrow_right">Administrador: {{$campaign->administrator->name['first'].
-                        ' '. $campaign->administrator->name['last']}}</li>
-                                    <hr>
-                                    <li data-icon="keyboard_arrow_right">
-                                        Inicio: {{date('y-m-d',$campaign->filters['date']['start']->sec)}}</li>
+                                    <li data-icon="keyboard_arrow_right">Administrador: <span class="light-text">{{$campaign->administrator->name['first'].
+                        ' '. $campaign->administrator->name['last']}}</span></li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">
-                                        Fin: {{date('y-m-d',$campaign->filters['date']['end']->sec)}}</li>
+                                        Inicio: <span class="light-text">
+                                            {{date('y-m-d',$campaign->filters['date']['start']->sec)}}
+                                        </span></li>
+                                    <hr>
+                                    <li data-icon="keyboard_arrow_right">
+                                        Fin: <span class="light-text">{{date('y-m-d',$campaign->filters['date']['end']->sec)}}</span></li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">Dias:
                                         @if(isset($campaign->filters['week_days'] ))
                                             @foreach($campaign->filters['week_days'] as $dia)
-                                                {{ trans('days.'.$dia) }},
+                                                <span class="light-text">{{ trans('days.'.$dia) }}</span>,
                                             @endforeach
                                         @else
-                                            no definido
+                                            <span class="light-text">no definido</span>
                                         @endif
                                     </li>
                                 </ul>
@@ -109,9 +111,9 @@
     </div>
 
     <div id="create" class="modal">
-        <div class="modal-content" style="height: 70px;">
-            <i class="material-icons right-corner">close</i>
-            <div class="row">
+        <div class="modal-content" style="height: 100px;">
+            <i class="material-icons right-corner" style="cursor: pointer">close</i>
+            <div class="row" style="margin: 0;">
                 <form class="col m12 s12 formValidate" action="/campaigns/new" method="get" id="validate" novalidate="novalidate">
                     <div class="row">
                         <div class="input-field col m10 s9">
@@ -121,7 +123,7 @@
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="input-field col m2 s3">
                             {{--<a class="waves-effect waves-light btn">Crear</a>--}}
-                            <button type="submit" class="sbm-button teal lighten-2" id="btn-modal">Crear</button>
+                            <button type="submit" class="sbm-button waves-light teal lighten-2" id="btn-modal">Crear</button>
                         </div>
                     </div>
                 </form>

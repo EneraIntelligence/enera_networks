@@ -37,11 +37,12 @@
                 <div class="collapsible-body grey">
                     <div class="container">
                         <ul class="list grey white-text card_info">
-                            <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                            <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$branch->status}}</span></li>
                             <li data-icon="keyboard_arrow_right">
-                                Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
-                            <li data-icon="keyboard_arrow_right">Aps: {{count($branch->aps)}}</li>
-                            <li data-icon="keyboard_arrow_right">Red: {{$branch->network->name}}</li>
+                                Globales: <span class="light-text">{{$branch->status}}</span></li>
+                            <li data-icon="keyboard_arrow_right">Aps: <span class="light-text">
+                                    {{count($branch->aps)}}
+                                </span></li>
                         </ul>
                         <a href="{{route('branches::show', ['id' => $branch->id])}}"
                            class="waves-effect waves-light btn btn-mobil">Ver más detalles</a>
@@ -63,12 +64,12 @@
                                          class="responsive-img" height="258" width="258">
                                 </div>
                                 <ul class="list white-text">
-                                    <li data-icon="keyboard_arrow_right">Nombre: {{$branch->name}}</li>
+                                    <li data-icon="keyboard_arrow_right">Nombre: <span class="light-text">{{$branch->name}}</span></li>
                                     <hr>
-                                    <li data-icon="keyboard_arrow_right">Status: {{$branch->status}}</li>
+                                    <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$branch->status}}</span></li>
                                     <hr>
-                                    <li data-icon="keyboard_arrow_right">
-                                        Globales: {{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</li>
+                                    <li data-icon="keyboard_arrow_right">Ap´s: <span class="light-text">{{count($branch->aps)}}</span></li>
+                                    <hr>
                                 </ul>
                             </div>
                             <div class="card-action">

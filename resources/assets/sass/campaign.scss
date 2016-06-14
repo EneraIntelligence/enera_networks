@@ -97,9 +97,11 @@ canvas {
 
 .c3 .c3-axis-y path, .c3 .c3-axis-y line {
   stroke: white;
+  font-weight: lighter;
 }
 tspan{
   stroke: white;
+  font-weight: lighter;
 }
 
 .c3-legend-item text{
@@ -181,6 +183,10 @@ div.error{
 
 .margin-image{
   margin: -20px -20px 5px -20px;
+}
+
+.light-text{
+  font-weight: lighter;
 }
 
 

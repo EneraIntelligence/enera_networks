@@ -16,7 +16,7 @@
                 <img class="svg" src="{!! URL::asset('images/icons/'.
                          CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
                      alt="Enera"/>
-                <h4 class="white-text center-align enera-title">{{$cam->name}}</h4>
+                <h4 class="white-text center-align enera-title"><span class="light-text">{{$cam->name}}</span></h4>
             </div>
         </div>
 
@@ -24,37 +24,34 @@
             <div class="card-content white-text show">
                 <ul class="white-text">
                     <span class="card-title">Información</span>
-                    <li data-icon="keyboard_arrow_right">Status: {{$cam->status}}</li>
+                    <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$cam->status}}</span></li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">
-                        Administrador: {{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</li>
+                        Administrador: <span class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span></li>
                     <hr>
-                    <li data-icon="keyboard_arrow_right">
-                        Balance:{{' $ ' .number_format($cam->balance['current'], 2, '.', ',')}}</li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Interacción: {{$cam->interaction['name']}}</li>
+                    <li data-icon="keyboard_arrow_right">Interacción: <span class="light-text">{{$cam->interaction['name']}}</span></li>
                     <hr>
                     <li data-icon="keyboard_arrow_right">Fitros:
                         <ul class="white-text">
                             <li data-icon="remove" style="margin-left: 25px;">
-                                Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</li>
+                                Edad: <span class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span></li>
                             <li data-icon="remove" style="margin-left: 25px;">
-                                Genero: {{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</li>
+                                Genero: <span class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span></li>
                             <li data-icon="remove" style="margin-left: 25px;">
                                 Días:@if(isset($cam->filters['week_days'] ))
                                     @foreach($cam->filters['week_days'] as $dia)
-                                        {{ trans('days.'.$dia) }},
+                                        <span class="light-text">{{ trans('days.'.$dia) }},</span>
                                     @endforeach
                                 @else
-                                    no definido
+                                    <span class="light-text">no definido</span>
                                 @endif</li>
                             <li data-icon="remove" style="margin-left: 25px;">
-                                Horario: {{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</li>
+                                Horario: <span class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span></li>
                             </li>
                             <li data-icon="remove" style="margin-left: 25px;">
-                                {{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</li>
+                                <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span></li>
                             <li data-icon="remove" style="margin-left: 25px;">
-                                {{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</li>
+                                <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span></li>
                         </ul>
                     </li>
                     <hr>
@@ -66,106 +63,102 @@
 
     <div class="hide-on-small-only">
 
-    </div>
 
-    <div class="row">
-        <div class="col m12">
-            <div class="card grey darken-3 white-text head-info">
-                <div class="card-content white-text">
-                    <div class="row" style="height: 120px;">
-                        <div class="col m3 l2">
-                            <div class="avatar circle" id="circle" style="height: 150px;">
-                                <img class="svg" src="{!! URL::asset('images/icons/'.
+        <div class="row">
+            <div class="col m12">
+                <div class="card grey darken-3 white-text head-info">
+                    <div class="card-content white-text">
+                        <div class="row" style="height: 120px;">
+                            <div class="col m3 l2">
+                                <div class="avatar circle" id="circle" style="height: 150px;">
+                                    <img class="svg" src="{!! URL::asset('images/icons/'.
                          CampaignStyle::getCampaignIcon( $cam->interaction['name']) ) !!}2.svg"
-                                     alt="Enera"/>
+                                         alt="Enera"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col m9 l10">
-                            <h4 class="white-text left-align">{{$cam->name}}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col m6 l4">
-                <div class="card grey darken-3 white-text">
-                    <div class="card-content white-text">
-                        <ul class="white-text">
-                            <span class="card-title">Información</span>
-                            <li data-icon="keyboard_arrow_right">Status: {{$cam->status}}</li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">
-                                Administrador: {{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">
-                                Balance:{{' $ ' .number_format($cam->balance['current'], 2, '.', ',')}}</li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Interacción: {{$cam->interaction['name']}}</li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Fitros:
-                                <ul class="white-text">
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        <p>
-                                            Edad: {{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</p>
-                                    </li>
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        Genero: {{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</li>
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        Días:@if(isset($cam->filters['week_days'] ))
-                                            @foreach($cam->filters['week_days'] as $dia)
-                                                {{ trans('days.'.$dia) }},
-                                            @endforeach
-                                        @else
-                                            no definido
-                                        @endif</li>
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        Horario: {{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</li>
-                                    </li>
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        {{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</li>
-                                    <li data-icon="remove" style="margin-left: 25px;">
-                                        {{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</li>
-                                </ul>
-                            </li>
-                            <hr>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="card grey darken-3 white-text">
-                    <div class="card-content white-text">
-                        <span class="card-title">Elemento de campaña</span>
-                        @if(view()->exists('campaign.partials.content'))
-                            @include('campaign.partials.content', ['type' => $cam->interaction['name']])
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col m6 l4">
-                <div class="card grey darken-3 white-text" style="min-height: 611px;">
-                    <div class="card-content white-text">
-                        <span class="card-title">Contenido</span>
-                        <div style="position: relative; width: 250px; margin: 0 auto;">
-                            <div class="preview" style="text-align: center;">
-                                <img src="{{asset('images/android_placeholder.png')}}" alt="">
-                            </div>
-                            <div class="preview" id="mydiv" style="overflow: scroll;">
-                                @if(view()->exists('campaign.partials.preview_'.$cam->interaction['name']))
-                                    @include('campaign.partials.preview_'.$cam->interaction['name'], ['fb_id' => 10206656662069174, 'cam' => $cam])
-                                @endif
+                            <div class="col m9 l10">
+                                <h4 class="white-text left-align"><span class="light-text">{{$cam->name}}</span></h4>
                             </div>
                         </div>
                     </div>
-                    {{--<span style="padding: 10px;">*Vista previa puede variar de la reailidad</span>--}}
                 </div>
-            </div>
 
-            <div class="col l4 hide-on-med-and-down">
-                <div class="card grey darken-3 white-text" style="min-height: 611px;">
-                    <div class="card-content black-text">
-                        <span class="card-title white-text">Graficas</span>
-                        <div id="genderAge" class="md-card-content"></div>
-                        <div id="so" class="md-card-content"></div>
+                <div class="col m6 l4">
+                    <div class="card grey darken-3 white-text">
+                        <div class="card-content white-text">
+                            <ul class="white-text">
+                                <span class="card-title">Información</span>
+                                <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$cam->status}}</span></li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">
+                                    Administrador: <span class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span></li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">Interacción: <span class="light-text">{{$cam->interaction['name']}}</span></li>
+                                <hr>
+                                <li data-icon="keyboard_arrow_right">Fitros:
+                                    <ul class="white-text">
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            Edad: <span class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span>
+                                        </li>
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            Genero: <span class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span></li>
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            Días:@if(isset($cam->filters['week_days'] ))
+                                                @foreach($cam->filters['week_days'] as $dia)
+                                                    <span class="light-text">{{ trans('days.'.$dia) }},</span>
+                                                @endforeach
+                                            @else
+                                                <span class="light-text">no definido</span>
+                                            @endif</li>
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            Horario: <span class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span></li>
+                                        </li>
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span></li></li>
+                                        <li data-icon="remove" style="margin-left: 25px;">
+                                            <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span></li>
+                                    </ul>
+                                </li>
+                                <hr>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card grey darken-3 white-text">
+                        <div class="card-content white-text">
+                            <span class="card-title">Elemento de campaña</span>
+                            @if(view()->exists('campaign.partials.content'))
+                                @include('campaign.partials.content', ['type' => $cam->interaction['name']])
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col m6 l4">
+                    <div class="card grey darken-3 white-text" style="min-height: 611px;">
+                        <div class="card-content white-text">
+                            <span class="card-title">Contenido</span>
+                            <div style="position: relative; width: 250px; margin: 0 auto;">
+                                <div class="preview" style="text-align: center;">
+                                    <img src="{{asset('images/android_placeholder.png')}}" alt="">
+                                </div>
+                                <div class="preview" id="mydiv" style="overflow: hidden;">
+                                    @if(view()->exists('campaign.partials.preview_'.$cam->interaction['name']))
+                                        @include('campaign.partials.preview_'.$cam->interaction['name'], ['fb_id' => 10206656662069174, 'cam' => $cam])
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        {{--<span style="padding: 10px;">*Vista previa puede variar de la reailidad</span>--}}
+                    </div>
+                </div>
+
+                <div class="col l4 hide-on-med-and-down">
+                    <div class="card grey darken-3 white-text" style="min-height: 611px;">
+                        <div class="card-content black-text">
+                            <span class="card-title white-text">Graficas</span>
+                            <div id="genderAge" class="md-card-content"></div>
+                            <div id="so" class="md-card-content"></div>
+                        </div>
                     </div>
                 </div>
             </div>
