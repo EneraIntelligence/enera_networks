@@ -203,19 +203,101 @@
 
     <!-- user chart -->
     <script>
+        var userChart;
 
         $( document ).ready(function() {
 
-            console.log("test");
-            var chart = c3.generate({
-                bindto: '#user-chart',
+            var chartDesktop = $( ".user-chart:eq(1)" );
+            chartDesktop.removeClass("user-chart");
+            chartDesktop.addClass("desktop-chart");
+
+
+            var chartOptions = {
+                size:
+                {
+                    height:70,
+//                    width: 250
+                },
+                padding:
+                {
+//                    left:40
+                },
                 data: {
                     columns: [
-                        ['data1', 30, 200, 100, 400, 150, 250],
-                        ['data2', 50, 20, 10, 40, 15, 25]
-                    ]
+                        ['Hombres', 30, 200, 300],
+                        ['Mujeres', -130, -100, -100]
+                    ],
+                    type: 'bar',
+                    groups: [
+                        ['Hombres', 'Mujeres']
+                    ],
+                    colors: {
+                        Hombres: "#9C27B0",
+                        Mujeres: '#2196F3',
+                    }
+                },
+                grid: {
+                    y: {
+                        lines: [{value:0}]
+                    }
+                },
+                axis:
+                {
+                    rotated:true,
+                    x:{
+                        show:false
+                    },
+                    y:
+                    {
+                        show:false,
+                        min:-300,
+                        max:300
+                    }
+                },
+                legend:
+                {
+                    show:false
+                },
+                tooltip:
+                {
+                    format:
+                    {
+                        title:function(x)
+                        {
+                            if(x==0)
+                            {
+                                return "13-18 años";
+                            }
+                            else if(x==1)
+                            {
+                                return "19-24 años";
+                            }
+
+                            return "25-34 años";
+                        },
+                        value: function(value, ratio, id, index){
+                            return Math.abs(value);
+                        }
+                    }
                 }
-            });
+
+            };
+
+
+            chartOptions.bindto = ".user-chart";
+//            chartOptions.size.width = 225;
+//            chartOptions.padding.left = 38;
+            var userChart = c3.generate(chartOptions);
+
+            chartOptions.bindto = ".desktop-chart";
+//            chartOptions.size.width = 250;
+//            chartOptions.padding.left = 40;
+            var chart = c3.generate(chartOptions);
+
+
+            //console.log( userChart );
+
+
 
 
         });

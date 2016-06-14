@@ -8,11 +8,48 @@
 
 <div class="divider grey darken-1"></div>
 
-<div class="section" style="height: 100px;">
+<div class="section" style="height: 150px;">
 
+    <div class="num1" style="position: absolute; right: 50%; margin-right: 35px; margin-top:5px;">
+        123,234
+    </div>
+
+    <div class="num2" style="position: absolute; left: 50%; margin-left: 35px; margin-top:5px;">
+        456,214
+    </div>
+
+    <div style="width: 64px; margin: 0 auto;">
+        <img style="width:30px;" width="30" src="{{asset('images/dashboard/male.png')}}" alt="">
+        <img style="width:30px;" width="30" src="{{asset('images/dashboard/female.png')}}" alt="">
+    </div>
+
+
+    <div class="label_1_left" style="position: absolute; left: 15px; margin-top:7px;">
+        13-18
+    </div>
+
+    <div class="label_1_right" style="position: absolute; right: 15px; margin-top:7px;">
+        13-18
+    </div>
+
+    <div class="label_2_left" style="position: absolute; left: 15px; margin-top:29px;">
+        19-24
+    </div>
+
+    <div class="label_2_right" style="position: absolute; right: 15px; margin-top:29px;">
+        19-24
+    </div>
+
+    <div class="label_3_left" style="position: absolute; left: 15px; margin-top:51px;">
+        25-34
+    </div>
+
+    <div class="label_3_right" style="position: absolute; right: 15px; margin-top:51px;">
+        25-34
+    </div>
 
     <!-- gráfica -->
-    <div id="user-chart"></div>
+    <div class="user-chart black-text" style="width: 75%; margin: 0 auto;"></div>
 
 
 </div>
