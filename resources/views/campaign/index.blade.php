@@ -84,7 +84,7 @@
                                 </div>
                                 {{--<span class="card-title black-text">{{$campaign->name}}</span>--}}
                                 <ul class="list white-text">
-                                    <li data-icon="keyboard_arrow_right card-li">Nombre: <span class="light-text">{{$campaign->name}}</span></li>
+                                    <li data-icon="keyboard_arrow_right">Nombre: <span class="light-text">{{$campaign->name}}</span></li>
                                     <hr>
                                     <li data-icon="keyboard_arrow_right">Administrador: <span class="light-text">{{$campaign->administrator->name['first'].
                         ' '. $campaign->administrator->name['last']}}</span></li>

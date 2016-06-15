@@ -6,6 +6,22 @@
     {!! HTML::style('assets/css/nodes.css') !!}
     {!! HTML::style('assets/css/welcome.css') !!}
     {!! HTML::style('bower_components/c3js-chart/c3.min.css')!!}
+
+    <style>
+        .table-striped > tbody > tr:nth-child(odd) > td,
+        .table-striped > tbody > tr:nth-child(odd) > th {
+            background-color: #424242;
+        }
+
+        .table-striped > tbody > tr:nth-child(even) > td,
+        .table-striped > tbody > tr:nth-child(even) > th {
+            background-color: #ccc;
+        }
+
+        .table-striped > thead > tr > th {
+            background-color: #ccc;
+        }
+    </style>
 @stop
 
 @section('content')
@@ -214,10 +230,33 @@
                             <hr>
                             <li data-icon="keyboard_arrow_right">Campañas:
                                 <ul class="white-text">
-                                    @foreach($aps as $key => $ap)
-                                        <li data-icon="remove" style="margin-left: 25px;"><span
-                                                    class="light-text">{{$ap->name}}</span></li>
-                                    @endforeach
+                                    @for($i = 0; $i < 5 ; $i++)
+                                        @if(isset($aps[$i]))
+                                            <li data-icon="remove" style="margin-left: 25px;"><span
+                                                        class="light-text">{{$aps[$i]->name}}</span></li>
+                                        @endif
+                                    @endfor
+                                    @if(count($aps) > 4 )
+                                        <li style="text-align: center;"><a
+                                                    class="waves-effect waves-light btn modal-trigger"
+                                                    href="#aps">Modal</a>
+                                        </li>
+                                        <!-- Modal Structure -->
+                                        <div id="aps" class="modal modal-fixed-footer">
+                                            <div class="modal-content black-text">
+                                                <i class="material-icons right-corner">close</i>
+                                                <h4>Lista de campañas</h4>
+                                                <table class="striped">
+                                                    <tbody>
+                                                    @foreach($aps as $ap)
+                                                        <tr>
+                                                            <td>{{$ap->name}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    @endif
                                 </ul>
                             </li>
                         </ul>
@@ -230,7 +269,7 @@
                         <span class="card-title">Like Frecuentes</span>
                         <div id="table-wrapper">
                             <div id="table-scroll">
-                                <table class="striped" style="overflow: auto;">
+                                <table class="table-striped" style="overflow: auto;">
                                     <thead>
                                     <tr>
                                         <th>Nombre de la página</th>
@@ -515,6 +554,13 @@
                             });
                 }
 
-                $('.modal-trigger').leanModal();
+                $(document).ready(function () {
+                    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                    $('.modal-trigger').leanModal();
+
+                    $('.right-corner').click(function () {
+                        $('.modal').closeModal();
+                    })
+                });
             </script>
 @stop
