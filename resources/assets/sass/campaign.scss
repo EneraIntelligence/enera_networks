@@ -97,11 +97,9 @@ canvas {
 
 .c3 .c3-axis-y path, .c3 .c3-axis-y line {
   stroke: white;
-  font-weight: lighter;
 }
 tspan{
   stroke: white;
-  font-weight: lighter;
 }
 
 .c3-legend-item text{
@@ -170,6 +168,7 @@ div.error{
   right:    5px;
   top:   5px;
   color: #c9c9c9;
+  cursor: pointer;
 }
 
 

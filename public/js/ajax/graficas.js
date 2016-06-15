@@ -60,7 +60,7 @@ graficas = function () {
                 groups: [ ['hombres','mujeres'] ]
             },
             color: {
-                pattern: ['#5294C2', '#fc92cc']
+                pattern: ['#9C27B0', '#2196F3']
             },
             axis: {
                 rotated: true,

@@ -222,6 +222,8 @@
                 {
 //                    left:40
                 },
+            var chart = c3.generate({
+                bindto: '#chart',
                 data: {
                     columns: [
                         ['Hombres', 30, 200, 300],
