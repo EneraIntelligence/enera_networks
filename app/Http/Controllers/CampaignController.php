@@ -31,6 +31,7 @@ class CampaignController extends Controller
     public function index()
     {
         return view('campaign.index', [
+//            'campaigns'=>[]
             'campaigns' => auth()->user()->campaigns,
         ]);
     }

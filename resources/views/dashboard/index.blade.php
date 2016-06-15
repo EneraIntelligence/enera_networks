@@ -233,7 +233,7 @@
                     ],
                     colors: {
                         Hombres: "#9C27B0",
-                        Mujeres: '#2196F3',
+                        Mujeres: '#2196F3'
                     }
                 },
                 grid: {

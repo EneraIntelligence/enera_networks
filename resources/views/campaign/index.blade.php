@@ -7,7 +7,10 @@
 @stop
 
 @section('content')
-    <ul class="collapsible  hide-on-med-and-up menu grey darken-3 white-text" data-collapsible="accordion">
+    @if( count($campaigns) > 0 )
+        <ul class="collapsible hide-on-med-and-up menu grey darken-3 white-text" data-collapsible="accordion">
+
+
         <li>
             <div class="collapsible-header grey darken-3 white-text">
                 <div class="row zero">
@@ -17,6 +20,7 @@
                 </div>
             </div>
         </li>
+
 
         @foreach($campaigns as $campaign)
             <li>
@@ -53,8 +57,18 @@
                 </div>
             </li>
         @endforeach
+
+
     </ul>
 
+    @endif
+
+
+    @if( count($campaigns) == 0 )
+        <div class="container hide-on-med-and-up">
+            <h5 style="text-align:center;">Aún no tienes campañas. <br>Crea tu primer campaña.</h5>
+        </div>
+    @endif
 
     <div class="hide-on-small-only">
         <div class="container">
@@ -100,11 +114,27 @@
                         </div>
                     </div>
                 @endforeach
+
+
+                @if( count($campaigns) == 0 )
+                    <div class="empty-message" style="width: 80%; margin:20px auto 0;">
+                        <img style="margin:0 auto; width:200px; display:block;" src="{!! URL::asset('images/icons/banner_new.svg') !!}" alt="">
+                        <h3 style="text-align:center;">
+                            Aún no tienes campañas. <br>Crea tu primer campaña.
+                        </h3>
+                    </div>
+                @endif
+
             </div>
         </div>
     </div>
 
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+
+        @if( count($campaigns) == 0 )
+            <i class="large material-icons animated-arrow grey-text" style="right: -15px; bottom: 30px; position: absolute;" >arrow_drop_down</i>
+        @endif
+
         <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#create">
             <i class="material-icons">add</i>
         </a>
@@ -137,6 +167,25 @@
 
 @section('scripts')
     {!! HTML::script('js/jquery-validation/dist/jquery.validate.js') !!}
+
+    @if( count($campaigns) == 0 )
+
+        <!-- animated arrow for new campaign button -->
+        <script>
+            $( document ).ready(function() {
+                animateArrow();
+
+                function animateArrow() {
+                    TweenLite.to(".animated-arrow", .7, {
+                        y: -50, ease:Quad.easeOut,onComplete: function () {
+                            TweenLite.to(".animated-arrow", .7, {y: 0, ease:Quad.easeIn, onComplete: animateArrow});
+                        }
+                    });
+                }
+            });
+        </script>
+    @endif
+
     <script>
         $(document).ready(function(){
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
