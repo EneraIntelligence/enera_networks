@@ -6,39 +6,14 @@
     <span style="font-weight: 400;">Nodos</span>
 </div>
 
-<div class="collection black-text hide-on-small-only" style="margin-bottom:20px; height:250px; overflow-y:scroll;border: none;">
-    @foreach($branches as $id=>$name)
-
-        <?php
-        $max_chars=28;
-        if (strlen($name) > $max_chars)
-            $name = substr($name, 0, $max_chars-3) . '...';
-        ?>
-
-
-        <a href="{{route("branches::show",$id)}}" class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
-            {{$name}}
-            <i class="material-icons secondary-content">forward</i>
-        </a>
-    @endforeach
-</div>
-
-<ul class="collection black-text hide-on-med-and-up" style="height:250px; overflow-y:scroll; border: none;">
-    @foreach($branches as $id=>$name)
-
-        <?php
-            $max_chars=27;
-            if (strlen($name) > $max_chars)
-                $name = substr($name, 0, $max_chars-3) . '...';
-        ?>
-
-        <li class="collection-item white-text" style="background-color: rgba(0, 0, 0, 0);">
-            <div>{{$name}}
-                <a href="{{route("branches::show",$id)}}" class="secondary-content btn">
-                    <i class="material-icons">forward</i>
-                </a>
-            </div>
+<ul class="collection" style="border: none;">
+    @foreach($branches as $data)
+        <li class="collection-item grey lighten-2" style="margin: 10px 0 10px 0; position: relative;">
+            <h4 class="black-text center-align" style="margin-top: 0;">{{$data['name']}}</h4>
+            <p class="black-text p-small">> Usuarios:{{$data['name']}}</p>
+            <p class="black-text p-small">> Conexiones:{{$data['name']}}</p>
+            <a class="waves-effect waves-teal btn-flat" style="position: absolute;bottom: 25px; right: 10px;"><i
+                        class="material-icons">&#xE89E;</i></a>
         </li>
-
     @endforeach
 </ul>

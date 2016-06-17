@@ -34,9 +34,11 @@ class DashboardController extends Controller
 
         //*/
         $network = Network::find(session('network_id'));
-        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
+        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->take(3)->get();
         $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get();
         $devices = 0;
+
+
         $camData = "{}";
         $camData = json_decode($camData);
         foreach ($campaigns as $cam) {
@@ -56,7 +58,7 @@ class DashboardController extends Controller
 
         }
         json_encode($camData);
-
+        
 
         $isMobile = $agent->isMobile();
         $user = User::count();
