@@ -3,7 +3,10 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{$summary_access['accumulated']}}</span>
+    <span style="font-weight: 400;">Accesos</span>
+    <span style="font-weight: 200;" class="right">
+        {{ number_format($summary_access['accumulated'],0,'.',',') }}
+    </span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -13,7 +16,8 @@
     <div class="col s6 left-align">
         <span style="font-weight: 400;">Esta semana:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}}
+            - {{date('d-M')}}</span>
         <br>
         <i class="green-text-light material-icons" style="vertical-align:bottom;">arrow_drop_up</i>
         <span style="font-weight: 200;font-size:19px;">10,000</span>
@@ -22,7 +26,8 @@
     <div class="col s6 left-align left-border">
         <span style="font-weight: 400;">Este mes:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}} - {{date('d-M', strtotime('last day of this month'))}}</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}}
+            - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
         <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
         <span style="font-weight: 200;font-size:19px;">16,000</span>
@@ -48,7 +53,8 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}}
+                - {{date('d-M')}}</span>
         </div>
 
         <div class="col s6 right-align">
