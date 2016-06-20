@@ -117,7 +117,7 @@
 
             <!-- desktop menu right-->
             <ul class="right platform-hide">
-                <li class="hide-on-med-and-down"><a href="#!">Reportes</a></li>
+                <li class="hide-on-med-and-down"><a href="{{ route("reports::index") }}">Reportes</a></li>
 
                 <li class="hide-on-med-and-down">
                     {{--<a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>--}}
@@ -140,7 +140,8 @@
 
                             <!-- avatar -->
 
-                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">
+{{--                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">--}}
+                    <a class="valign-wrapper profile-link" href="#!" style="padding: 7px 5px 0 0;">
 
                         <div style="width: 50px; overflow: hidden; height: 50px;
                                 background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');

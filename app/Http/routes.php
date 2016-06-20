@@ -24,6 +24,10 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
         Route::get('/view/{id}', ['as' => 'show', 'uses' => 'CampaignController@show']);
     });
 
+    Route::group(['prefix' => 'reports', 'as' => 'reports::'], function () {
+        Route::get('/', ['as' => 'index', 'uses' => 'ReportController@index']);
+    });
+
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
         Route::get('/settings', ['as' => 'settings', 'uses' => 'UserController@settings']);
