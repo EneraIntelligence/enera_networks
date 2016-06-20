@@ -56,6 +56,9 @@ class DashboardController extends Controller
                 'tw' => ($summary_network->accumulated['devices']['total'] - $t2->accumulated['devices']['total']),
                 'tm' => ($summary_network->accumulated['devices']['total'] - $m2->accumulated['devices']['total']),
             ],
+            'summary_access' => [
+                'accumulated' => $summary_network->accumulated['connections'],
+            ],
             'isMobile' => $agent->isMobile(),
         ]);
     }
