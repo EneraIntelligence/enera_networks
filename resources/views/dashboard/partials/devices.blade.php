@@ -48,7 +48,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         </div>
 
         <div class="col s6 right-align">
