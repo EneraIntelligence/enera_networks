@@ -33,7 +33,7 @@
 
             <div id="mobile-card-3" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/access', ['access' => $access])
+                    @include('dashboard/partials/access', ['access' => $summary_access])
                 </div>
             </div>
 
