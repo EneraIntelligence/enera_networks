@@ -3,7 +3,10 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Dispositivos</span><span style="font-weight: 200;" class="right">{{$summary_devices['accumulated']}}</span>
+    <span style="font-weight: 400;">Dispositivos</span>
+    <span style="font-weight: 200;" class="right">
+        {{ number_format($summary_devices['accumulated'],0,'.',',') }}
+    </span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -13,10 +16,10 @@
     <div class="col s6 left-align">
         <span style="font-weight: 400;">Adquiridos:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
         <br>
-        <i class="green-text-light material-icons" style="vertical-align:bottom;">add</i>
-        <span style="font-weight: 200;font-size:19px;">{{$summary_devices['tw']}}</span>
+        <i class="green-text-light material-icons" style="vertical-align:bottom;">arrow_drop_up</i>
+        <span style="font-weight: 200;font-size:19px;">{{ number_format($summary_devices['tm'],0,'.',',') }}</span>
     </div>
 
     <div class="col s6 left-align left-border">
@@ -24,8 +27,8 @@
         <br>
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}} - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
-        <i class="red-text material-icons" style="vertical-align:bottom;">remove</i>
-        <span style="font-weight: 200;font-size:19px;">{{$summary_devices['tm']}}</span>
+        <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
+        <span style="font-weight: 200;font-size:19px;">{{ number_format($summary_devices['tm'],0,'.',',') }}</span>
 
     </div>
 </div>

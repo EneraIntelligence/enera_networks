@@ -3,7 +3,10 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{$summary_access['accumulated']}}</span>
+    <span style="font-weight: 400;">Accesos</span>
+    <span style="font-weight: 200;" class="right">
+        {{ number_format($summary_access['accumulated'],0,'.',',') }}
+    </span>
 </div>
 
 <div class="divider grey darken-1"></div>
