@@ -65,7 +65,7 @@
 
         <div class="col s6 right-align">
             <span style="font-weight: 200;font-size:19px;">{{$summary_users['tw']}}
-                <span style="font-size:14px;font-weight:300;" class="{{$summary_users['diff'] > 0 ? 'green-text-light': 'red-text-light'}}">
+                <span style="font-size:14px;font-weight:300;" class="{{$summary_users['diff'] > 0 ? 'green-text-light': 'red-text'}}">
                     <i style="vertical-align:bottom;" class="material-icons">{{$summary_users['diff'] > 0 ? 'arrow_drop_up': 'arrow_drop_down'}}</i>
                     {{ number_format($summary_users['diff'],0,'.',',') }}%
                 </span>
