@@ -24,7 +24,7 @@
         <br>
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}} - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
-        <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
+        <i class="red-text material-icons" style="vertical-align:bottom;">remove</i>
         <span style="font-weight: 200;font-size:19px;">{{$summary_devices['tm']}}</span>
 
     </div>
