@@ -8,7 +8,8 @@ use Jenssegers\Mongodb\Model;
 class SummaryNetwork extends Model
 {
     //Relaciones
-    public function network(){
+    public function network()
+    {
         return $this->belongsTo('Networks\Network');
     }
 

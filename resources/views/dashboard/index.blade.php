@@ -27,7 +27,7 @@
 
             <div id="mobile-card-2" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/users', ['user' => $user])
+                    @include('dashboard/partials/users', ['users' => $summary_users])
                 </div>
             </div>
 
@@ -56,7 +56,6 @@
     <div class="container desktop-container hide-on-small-only">
 
         <div class="slider-container">
-
 
 
             <div class="container slider-item">
@@ -103,8 +102,6 @@
         </div>
 
 
-
-
     </div><!-- end medium and large content -->
 
 
@@ -124,8 +121,8 @@
 
 
     <script>
-        var swipeAnim=null;
-        var cardCarousel=null;
+        var swipeAnim = null;
+        var cardCarousel = null;
 
         $(window).load(function () {
             var cards = [];
@@ -159,23 +156,19 @@
             //finger swipe animation
             swipeAnim = $('.swipe-animation').swipeAnimation();
 
-            if(Cookies.get('swipeAnimationDone')=="true")
-            {
+            if (Cookies.get('swipeAnimationDone') == "true") {
                 //if the cookie has been set before stop the animation
                 swipeAnim.stop();
             }
-            else
-            {
+            else {
                 //remove finger swipe animation on first drag
-                cardCarousel.onCardDrag(function()
-                {
+                cardCarousel.onCardDrag(function () {
                     //set cookie so the animation shows only the first time
-                    Cookies.set('swipeAnimationDone', 'true', { expires: 20 });
+                    Cookies.set('swipeAnimationDone', 'true', {expires: 20});
                     swipeAnim.stop();
                     cardCarousel.removeCardDragCallbacks();
                 });
             }
-
 
 
         });
@@ -205,21 +198,19 @@
     <script>
         var userChart;
 
-        $( document ).ready(function() {
+        $(document).ready(function () {
 
-            var chartDesktop = $( ".user-chart:eq(1)" );
+            var chartDesktop = $(".user-chart:eq(1)");
             chartDesktop.removeClass("user-chart");
             chartDesktop.addClass("desktop-chart");
 
 
             var chartOptions = {
-                size:
-                {
-                    height:70,
+                size: {
+                    height: 70,
 //                    width: 250
                 },
-                padding:
-                {
+                padding: {
 //                    left:40
                 },
                 data: {
@@ -238,44 +229,36 @@
                 },
                 grid: {
                     y: {
-                        lines: [{value:0}]
+                        lines: [{value: 0}]
                     }
                 },
-                axis:
-                {
-                    rotated:true,
-                    x:{
-                        show:false
+                axis: {
+                    rotated: true,
+                    x: {
+                        show: false
                     },
-                    y:
-                    {
-                        show:false,
-                        min:-300,
-                        max:300
+                    y: {
+                        show: false,
+                        min: -300,
+                        max: 300
                     }
                 },
-                legend:
-                {
-                    show:false
+                legend: {
+                    show: false
                 },
-                tooltip:
-                {
-                    format:
-                    {
-                        title:function(x)
-                        {
-                            if(x==0)
-                            {
+                tooltip: {
+                    format: {
+                        title: function (x) {
+                            if (x == 0) {
                                 return "13-18 años";
                             }
-                            else if(x==1)
-                            {
+                            else if (x == 1) {
                                 return "19-24 años";
                             }
 
                             return "25-34 años";
                         },
-                        value: function(value, ratio, id, index){
+                        value: function (value, ratio, id, index) {
                             return Math.abs(value);
                         }
                     }
@@ -298,10 +281,7 @@
             //console.log( userChart );
 
 
-
-
         });
-
 
 
     </script>
