@@ -58,6 +58,10 @@ class DashboardController extends Controller
 
         }
         json_encode($camData);
+
+        $dataBranch = '{}';
+        $dataBranch = json_encode($dataBranch);
+
         
 
         $isMobile = $agent->isMobile();
