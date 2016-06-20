@@ -36,6 +36,7 @@ class DashboardController extends Controller
         $t2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(7)->first();
         $t3 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(14)->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
+        dd($summary_network);
         return view('dashboard.index', [
             'network' => Network::find(session('network_id')),
             'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
