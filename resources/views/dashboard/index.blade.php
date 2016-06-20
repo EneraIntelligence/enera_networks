@@ -27,7 +27,7 @@
 
             <div id="mobile-card-2" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/users', ['users' => $summary_users])
+                    @include('dashboard/partials/users')
                 </div>
             </div>
 
@@ -45,7 +45,7 @@
 
             <div id="mobile-card-5" class="card-panel carousel-item my-card grey darken-3 white-text">
                 <div class="card-content">
-                    @include('dashboard/partials/campaigns')
+                    @include('dashboard/partials/campaigns', ['campaigns'=> $campaigns])
                 </div>
             </div>
 
