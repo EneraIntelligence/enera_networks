@@ -125,7 +125,7 @@
                         {{--<span class="card-title">{{ $branch->name }}</span>--}}
                         {{--<p class="">{{ $branch->network->name }}</p>--}}
                         <a href="{{route('home')}}" class="breadcrumb black-text">Home</a>
-                        <a href="{{route('branches::index')}}" class="breadcrumb black-text">Node</a>
+                        <a href="{{route('branches::index')}}" class="breadcrumb black-text">Nodo</a>
                         <a href="javascript:void(0)" class="breadcrumb black-text">{{ $branch->name }}
                             - {{ $branch->network->name }}</a>
                     </div>
@@ -228,7 +228,7 @@
                             <li data-icon="keyboard_arrow_right">Antenas: <span
                                         class="light-text">{{ count($branch->aps) }}</span></li>
                             <hr>
-                            <li data-icon="keyboard_arrow_right">Campañas:
+                            {{--<li data-icon="keyboard_arrow_right">Campañas:
                                 <ul class="white-text">
                                     @for($i = 0; $i < 5 ; $i++)
                                         @if(isset($aps[$i]))
@@ -258,7 +258,7 @@
                                             </div>
                                     @endif
                                 </ul>
-                            </li>
+                            </li>--}}
                         </ul>
                     </div>
                 </div>
@@ -376,7 +376,7 @@
             </div>
             <div class="modal-footer">
                 <a href="javascript:void(0)"
-                   class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                   class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
             </div>
         </div>
 
