@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{$summary}}</span>
+    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{$access['accumulated']}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px;font-weight:400; vertical-align:top;" class="green-text-light">
+            <span style="font-size:9px;font-weight:400; vertical-align:top;" class="green-text">
                 Frente a los 7 días anteriores
             </span>
         </div>

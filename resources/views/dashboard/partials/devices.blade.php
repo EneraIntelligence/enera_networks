@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Dispositivos</span><span style="font-weight: 200;" class="right">{{$devices['total']}}</span>
+    <span style="font-weight: 400;">Dispositivos</span><span style="font-weight: 200;" class="right">{{$devices['accumulated']}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
