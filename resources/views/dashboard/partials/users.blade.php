@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{$user}}</span>
+    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{$summary_users['accumulated']}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -11,11 +11,11 @@
 <div class="section" style="height: 150px;">
 
     <div class="num1" style="position: absolute; right: 50%; margin-right: 35px; margin-top:5px;">
-        123,234
+        {{$summary_users['male']}}
     </div>
 
     <div class="num2" style="position: absolute; left: 50%; margin-left: 35px; margin-top:5px;">
-        456,214
+        {{$summary_users['female']}}
     </div>
 
     <div style="width: 64px; margin: 0 auto;">
@@ -64,15 +64,15 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-weight: 200;font-size:19px;">150,000
+            <span style="font-weight: 200;font-size:19px;">{{$summary_users['tw']}}
                 <span style="font-size:14px;font-weight:300;" class="green-text-light">
-                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>23%
+                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>{{$summary_users['diff']}}%
                 </span>
             </span>
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         </div>
 
         <div class="col s6 right-align">
