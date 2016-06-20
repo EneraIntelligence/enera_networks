@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Dispositivos</span><span style="font-weight: 200;" class="right">{{$summary_devices['total']}}</span>
+    <span style="font-weight: 400;">Dispositivos</span><span style="font-weight: 200;" class="right">{{$devices['total']}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -16,7 +16,7 @@
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
         <br>
         <i class="green-text-light material-icons" style="vertical-align:bottom;">arrow_drop_up</i>
-        <span style="font-weight: 200;font-size:19px;">{{$summary_devices['tw']}}</span>
+        <span style="font-weight: 200;font-size:19px;">{{$devices['tw']}}</span>
     </div>
 
     <div class="col s6 left-align left-border">
@@ -25,7 +25,7 @@
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}} - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
         <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
-        <span style="font-weight: 200;font-size:19px;">{{$summary_devices['tm']}}</span>
+        <span style="font-weight: 200;font-size:19px;">{{$devices['tm']}}</span>
 
     </div>
 </div>
@@ -40,9 +40,9 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-weight: 200;font-size:19px;">150,000
+            <span style="font-weight: 200;font-size:19px;">----
                 <span style="font-size:14px;font-weight:300;" class="green-text-light">
-                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>23%
+                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>--%
                 </span>
             </span>
         </div>

@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{count($access)}}</span>
+    <span style="font-weight: 400;">Accesos</span><span style="font-weight: 200;" class="right">{{$summary}}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
