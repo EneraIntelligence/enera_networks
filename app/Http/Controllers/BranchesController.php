@@ -28,8 +28,13 @@ class BranchesController extends Controller
     {
         $network = Network::find(session('network_id'));
         $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->get();
+        
+        $navData= array();
+        $navData['branches']='active';
+        
         return view('branches.index', [
             'network' => $network,
+            'navData' => $navData,
 //            'welcome' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
 //                ->where('interaction.welcome_loaded', 'exists', true)->count(),
 //            'joined' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
@@ -296,6 +301,10 @@ class BranchesController extends Controller
              * wordcloud
              */
 
+
+            $navData= array();
+            $navData['branches']='active';
+
             return view('branches.show', [
                 'branch' => $branch,
                 'aps' => $aps,
@@ -305,6 +314,7 @@ class BranchesController extends Controller
                 'int_days' => $IntDays,
                 'words' => $words,
                 'wordCount' => $likesCount,
+                'navData' => $navData,
                 'wlogs' => $branch->campaign_logs()
                     ->where(function ($q) {
                         $q->where('interaction.completed', 'exists', true)

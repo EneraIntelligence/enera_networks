@@ -30,9 +30,13 @@ class CampaignController extends Controller
      */
     public function index()
     {
+        $navData= array();
+        $navData['campaigns']='active';
+
         return view('campaign.index', [
 //            'campaigns'=>[]
             'campaigns' => auth()->user()->campaigns,
+            'navData' => $navData
         ]);
     }
 
@@ -105,7 +109,10 @@ class CampaignController extends Controller
 
             $cam = (object)$cam;
 
-            $dashboard = compact('branches', 'cam');
+            $navData= array();
+            $navData['campaigns']='active';
+
+            $dashboard = compact('branches', 'cam', 'navData');
 
             return view('campaign.new', $dashboard);
         } else {
@@ -390,6 +397,9 @@ class CampaignController extends Controller
             /****         SI EL BRANCH TIENE ALL SE MOSTRARA COMO GLOBAL       ***************/
             $lugares = in_array('all', $campaign->branches) ? 'global' : $campaign->branches;
 
+            $navData= array();
+            $navData['campaigns']='active';
+
             return view('campaign.show', [
                 'cam' => $campaign,
                 'lugares' => $lugares,
@@ -398,7 +408,8 @@ class CampaignController extends Controller
                 'porcentaje' => $porcentaje,
                 'IntHours' => $IntHours,
                 'unique_users' => $unique_users,
-                'json' => $json
+                'json' => $json,
+                'navData' => $navData
             ]);
         } else {
             return redirect()->route('campaign::index')->with('data', 'errorCamp');

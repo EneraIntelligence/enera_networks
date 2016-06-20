@@ -49,7 +49,7 @@
             <!-- desktop menu left-->
             <ul class="left hide-on-med-and-down platform-hide">
 
-                <li style="padding:0 10px 0 0;" class="hide-on-med-and-down"><a href="{{ route("home") }}">
+                <li style="/*padding:0 10px 0 0;*/ max-height:60px;" class="hide-on-med-and-down {{ isset($navData["home"])?$navData["home"]:""  }} "><a href="{{ route("home") }}">
                         <i class="material-icons">home</i>
                     </a>
                 </li>
@@ -111,13 +111,13 @@
 
                 </li>
 
-                <li><a href="{{ route("branches::index") }}">Nodos</a></li>
-                <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
+                <li class="{{ isset($navData["branches"])?$navData["branches"]:""  }}" ><a href="{{ route("branches::index") }}">Nodos</a></li>
+                <li class="{{ isset($navData["campaigns"])?$navData["campaigns"]:""  }}"><a href="{{ route("campaigns::index") }}">Campañas</a></li>
             </ul>
 
             <!-- desktop menu right-->
             <ul class="right platform-hide">
-                <li class="hide-on-med-and-down"><a href="{{ route("reports::index") }}">Reportes</a></li>
+                <li class="hide-on-med-and-down {{ isset($navData["reports"])?$navData["reports"]:""  }}"><a href="{{ route("reports::index") }}">Reportes</a></li>
 
                 <li class="hide-on-med-and-down">
                     {{--<a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>--}}
@@ -135,7 +135,7 @@
 
                 </li>
 
-                <li class="{{ isset($navData) && $navData["profileState"]?$navData["profileState"]:""  }}">
+                <li class="{{ isset($navData["profileState"]) ?$navData["profileState"]:""  }}">
                     {{--<a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>--}}
 
                             <!-- avatar -->
@@ -213,7 +213,7 @@
 </div>
 
 <!-- network selector should be hidden? -->
-@if( !isset($navData) || !$navData['hideNetworkSelector'] )
+@if( !isset($navData['hideNetworkSelector']) || $navData['hideNetworkSelector']==false )
 
 
     <div class="current-network hide-on-large-only">

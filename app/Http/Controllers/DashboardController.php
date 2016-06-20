@@ -37,6 +37,10 @@ class DashboardController extends Controller
         $t3 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(14)->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 //        dd($summary_network->accumulated['users']['total']);
+
+        $navData= array();
+        $navData['home']='active';
+
         return view('dashboard.index', [
             'network' => Network::find(session('network_id')),
             'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
@@ -62,6 +66,7 @@ class DashboardController extends Controller
                 'accumulated' => $summary_network->accumulated['connections'],
             ],
             'isMobile' => $agent->isMobile(),
+            '$navData' => $navData
         ]);
     }
 

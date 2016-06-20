@@ -26,6 +26,8 @@
 
 @section('content')
     <div class="col s12 hide-on-med-and-up">
+
+
         <div class="card grey darken-3 white-text zero">
             <div class="card-content show">
                 <span class="card-title">{{ $branch->name }}</span>
@@ -117,13 +119,15 @@
         </div>
     </div>
 
-    <div class="col m12  hide-on-small-only">
+    <div class="col m12  hide-on-small-only container">
         <div class="row">
+
+            <h4 class="black-text left-align"><span class="light-text">{{$branch->name}}</span></h4>
+
+            {{--
             <div class="col s12 l12 head-info black-text">
                 <div class="zero">
                     <div class="black-text">
-                        {{--<span class="card-title">{{ $branch->name }}</span>--}}
-                        {{--<p class="">{{ $branch->network->name }}</p>--}}
                         <a href="{{route('home')}}" class="breadcrumb black-text">Home</a>
                         <a href="{{route('branches::index')}}" class="breadcrumb black-text">Nodo</a>
                         <a href="javascript:void(0)" class="breadcrumb black-text">{{ $branch->name }}
@@ -131,6 +135,7 @@
                     </div>
                 </div>
             </div>
+            --}}
             <div class="col s6 l4">
                 <div class="card grey darken-3 white-text" style="min-height: 570px;">
                     <div class="card-content white-text">

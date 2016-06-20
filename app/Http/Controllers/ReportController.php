@@ -18,8 +18,10 @@ class ReportController extends Controller
      */
     public function index()
     {
+        $navData= array();
+        $navData['reports']='active';
         
-        return view('reports.index');
+        return view('reports.index', compact('navData'));
     }
 
 

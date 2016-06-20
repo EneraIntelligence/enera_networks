@@ -72,6 +72,7 @@
 
     <div class="hide-on-small-only">
         <div class="container">
+            <h3>Campañas</h3>
             <div class="row">
                 @foreach($campaigns as $campaign)
                     <div class="col m4 l3">
@@ -129,7 +130,7 @@
         </div>
     </div>
 
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
 
         @if( count($campaigns) == 0 )
             <i class="large material-icons animated-arrow grey-text" style="right: -15px; bottom: 30px; position: absolute;" >arrow_drop_down</i>

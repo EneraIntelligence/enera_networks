@@ -10,7 +10,13 @@
 
 @section('content')
     <?php $size = sizeof($cam->filters['day_hours']) ?>
+
+
     <div class="hide-on-med-and-up">
+
+        <h4 class="black-text left-align"><span class="light-text">{{$cam->name}}</span></h4>
+
+        {{--
         <div class="col s14">
             <div class="card-panel grey darken-3 white-text avatar circle">
                 <img class="svg" src="{!! URL::asset('images/icons/'.
@@ -19,6 +25,7 @@
                 <h4 class="white-text center-align enera-title"><span class="light-text">{{$cam->name}}</span></h4>
             </div>
         </div>
+        --}}
 
         <div class="card grey darken-3 white-text white">
             <div class="card-content white-text show">
@@ -61,11 +68,16 @@
     </div>
 
 
-    <div class="hide-on-small-only">
+    <div class="hide-on-small-only container">
 
+
+        <h4 class="black-text left-align"><span class="light-text">{{$cam->name}}</span></h4>
 
         <div class="row">
+
             <div class="col m12">
+
+                {{--
                 <div class="card grey darken-3 white-text head-info">
                     <div class="card-content white-text">
                         <div class="row" style="height: 120px;">
@@ -82,6 +94,8 @@
                         </div>
                     </div>
                 </div>
+                --}}
+
 
                 <div class="col m6 l4">
                     <div class="card grey darken-3 white-text">
