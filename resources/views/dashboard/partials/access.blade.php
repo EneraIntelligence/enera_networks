@@ -13,7 +13,7 @@
     <div class="col s6 left-align">
         <span style="font-weight: 400;">Esta semana:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}} - {{date('d-M')}}</span>
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         <br>
         <i class="green-text-light material-icons" style="vertical-align:bottom;">arrow_drop_up</i>
         <span style="font-weight: 200;font-size:19px;">10,000</span>
