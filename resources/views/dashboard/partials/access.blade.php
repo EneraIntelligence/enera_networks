@@ -14,7 +14,7 @@
 <div class="row" style="margin-top:10px; margin-bottom: 10px;">
 
     <div class="col s6 left-align">
-        <span style="font-weight: 400;">Esta semana:</span>
+        <span style="font-weight: 400;">Adquiridos:</span>
         <br>
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         <br>
