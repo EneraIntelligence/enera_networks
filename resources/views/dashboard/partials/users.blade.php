@@ -3,7 +3,7 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{$summary_users['accumulated']}}</span>
+    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{ number_format($summary_users['accumulated'],0,'.',',') }}</span>
 </div>
 
 <div class="divider grey darken-1"></div>
@@ -11,11 +11,11 @@
 <div class="section" style="height: 150px;">
 
     <div class="num1" style="position: absolute; right: 50%; margin-right: 35px; margin-top:5px;">
-        {{$summary_users['male']}}
+        {{ number_format($summary_users['male'],0,'.',',') }}
     </div>
 
     <div class="num2" style="position: absolute; left: 50%; margin-left: 35px; margin-top:5px;">
-        {{$summary_users['female']}}
+        {{ number_format($summary_users['female'],0,'.',',') }}
     </div>
 
     <div style="width: 64px; margin: 0 auto;">
@@ -66,7 +66,8 @@
         <div class="col s6 right-align">
             <span style="font-weight: 200;font-size:19px;">{{$summary_users['tw']}}
                 <span style="font-size:14px;font-weight:300;" class="green-text-light">
-                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>{{$summary_users['diff']}}%
+                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>
+                    {{ number_format($summary_users['diff'],0,'.',',') }}%
                 </span>
             </span>
         </div>
