@@ -36,6 +36,7 @@ class DashboardController extends Controller
         $t2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(7)->first();
         $t3 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(14)->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
+//        dd($summary_network->accumulated['users']['total']);
         return view('dashboard.index', [
             'network' => Network::find(session('network_id')),
             'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
@@ -44,9 +45,9 @@ class DashboardController extends Controller
                 'accumulated' => $summary_network->accumulated['users']['total'],
                 'male' => array_sum($summary_network->accumulated['users']['demographic']['male']),
                 'female' => array_sum($summary_network->accumulated['users']['demographic']['female']),
-                'diff' => 100 * ((($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
+                'diff' => ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total']) != 0 ? 100 * ((($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
                             - ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total']))
-                        / ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total'])),
+                        / ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total'])) : 0,
                 'tw' => ($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total']),
             ],
             'summary_devices' => [
