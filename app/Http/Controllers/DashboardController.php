@@ -45,9 +45,9 @@ class DashboardController extends Controller
                 'accumulated' => $summary_network->accumulated['users']['total'],
                 'male' => array_sum($summary_network->accumulated['users']['demographic']['male']),
                 'female' => array_sum($summary_network->accumulated['users']['demographic']['female']),
-                'diff' => ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total']) != 0 ? 100 * ((($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
-                            - ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total']))
-                        / ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total'])) : 0,
+                'diff' => ($t3->accumulated['users']['total'] - $t2->accumulated['users']['total']) != 0 ?
+                    100 * (($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
+                        / ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total'])) : 0,
                 'tw' => ($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total']),
             ],
             'summary_devices' => [
