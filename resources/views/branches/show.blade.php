@@ -21,6 +21,9 @@
         .table-striped > thead > tr > th {
             background-color: #ccc;
         }
+        #info li {
+            height: 31px;
+        }
     </style>
 @stop
 
@@ -132,20 +135,8 @@
     <div class="col m12  hide-on-small-only container">
         <div class="row">
 
-            <h3 class="black-text left-align">{{$branch->name}}</h3>
+            <h2 class="left-align" style="color: #424242 !important">{{$branch->name}}</h2>
 
-            {{--
-            <div class="col s12 l12 head-info black-text">
-                <div class="zero">
-                    <div class="black-text">
-                        <a href="{{route('home')}}" class="breadcrumb black-text">Home</a>
-                        <a href="{{route('branches::index')}}" class="breadcrumb black-text">Nodo</a>
-                        <a href="javascript:void(0)" class="breadcrumb black-text">{{ $branch->name }}
-                            - {{ $branch->network->name }}</a>
-                    </div>
-                </div>
-            </div>
-            --}}
             <div class="col s6 l4">
                 <div class="card grey darken-3 white-text" style="min-height: 570px;">
                     <div class="card-content white-text">
@@ -215,7 +206,7 @@
                 <div class="card grey darken-3 white-text" style="min-height: 570px;">
                     <div class="card-content white-text">
                         <span class="card-title">Información</span>
-                        <ul class="white-text">
+                        <ul id="info" class="white-text">
                             <li data-icon="keyboard_arrow_right">Status: <span
                                         class="light-text">{{$branch->status}}</span></li>
                             <hr>

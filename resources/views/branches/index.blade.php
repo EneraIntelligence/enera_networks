@@ -9,7 +9,7 @@
 @section('content')
 
     <div class="container">
-        <h3>Nodos</h3>
+        <h2 style="color: #424242 !important">Nodos</h2>
     </div>
 
     <ul class="collapsible  hide-on-med-and-up menu grey darken-3 white-text" data-collapsible="accordion">

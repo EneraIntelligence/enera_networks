@@ -25,11 +25,13 @@
     <style>
         .zero a {
             font-size: 15px;
+            color: #0091ea;
         }
 
         .breadcrumb:before {
             font-size: 15px;
             cursor: default;
+            color: #0091ea !important;
         }
     </style>
     @yield('head_scripts')
@@ -297,13 +299,13 @@
             <div class="zero">
                 <div class="black-text">
 
-                    <a href="{{route('home')}}" class="breadcrumb black-text">Inicio</a>
+                    <a href="{{route('home')}}" class="breadcrumb ">Inicio</a>
                     @for($i=0; $i< count($navData['breadcrumbs'])-1 ; $i++)
-                        <a href="{{route($navData['breadcrumbs'][$i].'::index')}}" class="breadcrumb black-text">
+                        <a href="{{route($navData['breadcrumbs'][$i].'::index')}}" class="breadcrumb">
                             {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}
                         </a>
                     @endfor
-                    <a class="breadcrumb black-text">
+                    <a class="breadcrumb" style="color: #424242 !important">
                         <b>
                             {{--                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}--}}
                             {{  $navData['breadcrumbs'][$i]   }}
