@@ -171,13 +171,27 @@
 
             <!-- mobile side menu -->
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="{{ route("home") }}">Inicio</a></li>
-                <li><a href="{{ route("branches::index") }}">Nodos</a></li>
-                <li><a href="{{ route("campaigns::index") }}">Campañas</a></li>
-                <li><a href="#!">Reportes</a></li>
+                <li class="{{ isset($navData["home"])?$navData["home"]:""  }}">
+                    <a href="{{ route("home") }}">Inicio</a>
+                </li>
+
+                <li class="{{ isset($navData["branches"])?$navData["branches"]:""  }}">
+                    <a href="{{ route("branches::index") }}">Nodos</a>
+                </li>
+
+                <li class="{{ isset($navData["campaigns"])?$navData["campaigns"]:""  }}">
+                    <a href="{{ route("campaigns::index") }}">Campañas</a>
+                </li>
+
+                <li class="{{ isset($navData["reports"])?$navData["reports"]:""  }}">
+                    <a href="{{ route("reports::index") }}">Reportes</a>
+                </li>
+
                 <li class="divider"></li>
                 {{--<li><a href="{{ route("profile::settings") }}">Ajustes de red</a></li>--}}
-                <li><a href="{{ URL::route('auth.logout') }}">Salir</a></li>
+                <li>
+                    <a href="{{ URL::route('auth.logout') }}">Salir</a>
+                </li>
             </ul>
 
         </div>

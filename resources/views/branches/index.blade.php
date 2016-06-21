@@ -7,7 +7,13 @@
 @stop
 
 @section('content')
+
+    <div class="container">
+        <h3>Nodos</h3>
+    </div>
+
     <ul class="collapsible  hide-on-med-and-up menu grey darken-3 white-text" data-collapsible="accordion">
+
         <li>
             <div class="collapsible-header grey darken-3 white-text">
                 <div class="row zero">
@@ -20,6 +26,7 @@
                 </div>
             </div>
         </li>
+
         @foreach($branches as $branch)
             <li>
                 <div class="collapsible-header grey darken-3 white-text">
@@ -50,6 +57,7 @@
                 </div>
             </li>
         @endforeach
+
     </ul>
 
     <div class="container">

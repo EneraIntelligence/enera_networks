@@ -28,101 +28,111 @@
     <div class="col s12 hide-on-med-and-up">
 
 
+        {{--
         <div class="card grey darken-3 white-text zero">
             <div class="card-content show">
                 <span class="card-title">{{ $branch->name }}</span>
                 <p class="">{{ $branch->network->name }}</p>
             </div>
         </div>
+        --}}
 
-        <div class="card grey darken-3 white-text">
-            <div class="card-content white-text show">
-                <ul class="white-text">
-                    <span class="card-title">Información</span>
-                    <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$branch->status}}</span>
-                    </li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">
-                        Globales: <span
-                                class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
-                    </li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Red: <span class="light-text">{{$branch->network->name}}</span>
-                    </li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Tipo: <span
-                                class="light-text">{{$branch->network->type}}</span></li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Conexiones: <span
-                                class="light-text">{{ number_format($wlogs,0,'.',',') }}</span></li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Dispositivos: <span
-                                class="light-text">{{ number_format($devices,0,'.',',') }}</span></li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Usuarios
-                        Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span></li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Antenas: <span
-                                class="light-text">{{ count($branch->aps) }}</span></li>
-                    <hr>
-                    <li data-icon="keyboard_arrow_right">Campañas:
-                        <ul class="white-text">
-                            @foreach($aps as $ap)
-                                <li data-icon="remove" style="margin-left: 25px;"><span
-                                            class="light-text">{{$ap->name}}</span></li>
-                            @endforeach
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image" id="container">
-                <div class="welcome card small z-depth-2">
-                    <img class="responsive-img" style="margin-bottom: -6px;"
-                         src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}">
-                </div>
-                <!-- Main card -->
+        <div class="container">
 
-                <!-- checkbox terminos y condiciones -->
-                <div class="terms card small" id="terms-card">
-                    <p class="center-align">
+            <h3 class="black-text left-align">{{$branch->name}}</h3>
 
-                        <input type="checkbox" id="terms-checkbox"/>
-                        <label for="terms-checkbox">Acepto los <a class="modal-trigger" href="javascript:void(0)">Términos
-                                y
-                                condiciones</a></label>
-                    </p>
-                </div>
-                <!-- checkbox terminos y condiciones -->
-
-                <!-- login buttons -->
-                <div class="login card small center-align" id="login-card">
-                    <p>
-                        {{--            {{ $message['text'] }}--}}
-                        Para navegar
-                    </p>
-                    <a class="waves-effect waves-light btn fb-btn indigo darken-1 login-btn"
-                       onclick="showLoader('fb-loader')" href="#!" data-progress="fb-loader"
-                       id="fb-btn">
-                        <img class="btn-logo" src="{!! asset('img/FB.png') !!}" alt="">
-                        Conectar con Facebook
-
-                        <div class="progress" id="fb-loader">
-                            <div class="indeterminate"></div>
-                        </div>
-                    </a>
-
-
+            <div class="card grey darken-3 white-text">
+                <div class="card-content white-text show">
+                    <ul class="white-text">
+                        <span class="card-title">Información</span>
+                        <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$branch->status}}</span>
+                        </li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">
+                            Globales: <span
+                                    class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
+                        </li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Red: <span class="light-text">{{$branch->network->name}}</span>
+                        </li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Tipo: <span
+                                    class="light-text">{{$branch->network->type}}</span></li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Conexiones: <span
+                                    class="light-text">{{ number_format($wlogs,0,'.',',') }}</span></li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Dispositivos: <span
+                                    class="light-text">{{ number_format($devices,0,'.',',') }}</span></li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Usuarios
+                            Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span></li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Antenas: <span
+                                    class="light-text">{{ count($branch->aps) }}</span></li>
+                        <hr>
+                        <li data-icon="keyboard_arrow_right">Campañas:
+                            <ul class="white-text">
+                                @foreach($aps as $ap)
+                                    <li data-icon="remove" style="margin-left: 25px;"><span
+                                                class="light-text">{{$ap->name}}</span></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-image" id="container">
+                    <div class="welcome card small z-depth-2">
+                        <img class="responsive-img" style="margin-bottom: -6px;"
+                             src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}">
+                    </div>
+                    <!-- Main card -->
+
+                    <!-- checkbox terminos y condiciones -->
+                    <div class="terms card small" id="terms-card">
+                        <p class="center-align">
+
+                            <input type="checkbox" id="terms-checkbox"/>
+                            <label for="terms-checkbox">Acepto los <a class="modal-trigger" href="javascript:void(0)">Términos
+                                    y
+                                    condiciones</a></label>
+                        </p>
+                    </div>
+                    <!-- checkbox terminos y condiciones -->
+
+                    <!-- login buttons -->
+                    <div class="login card small center-align" id="login-card">
+                        <p>
+                            {{--            {{ $message['text'] }}--}}
+                            Para navegar
+                        </p>
+                        <a class="waves-effect waves-light btn fb-btn indigo darken-1 login-btn"
+                           onclick="showLoader('fb-loader')" href="#!" data-progress="fb-loader"
+                           id="fb-btn">
+                            <img class="btn-logo" src="{!! asset('img/FB.png') !!}" alt="">
+                            Conectar con Facebook
+
+                            <div class="progress" id="fb-loader">
+                                <div class="indeterminate"></div>
+                            </div>
+                        </a>
+
+
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+
     </div>
 
     <div class="col m12  hide-on-small-only container">
         <div class="row">
 
-            <h4 class="black-text left-align"><span class="light-text">{{$branch->name}}</span></h4>
+            <h3 class="black-text left-align">{{$branch->name}}</h3>
 
             {{--
             <div class="col s12 l12 head-info black-text">
