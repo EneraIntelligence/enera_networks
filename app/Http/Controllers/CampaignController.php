@@ -32,6 +32,7 @@ class CampaignController extends Controller
     {
         $navData= array();
         $navData['campaigns']='active';
+        $navData['breadcrumbs']=['Campañas'];
 
         return view('campaign.index', [
 //            'campaigns'=>[]
@@ -399,6 +400,7 @@ class CampaignController extends Controller
 
             $navData= array();
             $navData['campaigns']='active';
+            $navData['breadcrumbs']=['campaigns', $campaign->name];
 
             return view('campaign.show', [
                 'cam' => $campaign,

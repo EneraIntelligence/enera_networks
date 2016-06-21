@@ -13,7 +13,7 @@
 
 
         <div class="container">
-            <h3>Campañas</h3>
+            <h2 style="color: #424242 !important">Campañas</h2>
 
             <div class="row">
 
