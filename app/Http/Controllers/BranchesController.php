@@ -31,7 +31,8 @@ class BranchesController extends Controller
         
         $navData= array();
         $navData['branches']='active';
-        
+        $navData['breadcrumbs']=['Nodos'];
+
         return view('branches.index', [
             'network' => $network,
             'navData' => $navData,
@@ -304,6 +305,7 @@ class BranchesController extends Controller
 
             $navData= array();
             $navData['branches']='active';
+            $navData['breadcrumbs']=['branches', $branch->name];
 
             return view('branches.show', [
                 'branch' => $branch,

@@ -40,34 +40,61 @@ class DashboardController extends Controller
 
         $navData= array();
         $navData['home']='active';
+//        $navData['breadcrumbs']=['home'];
 
-        return view('dashboard.index', [
-            'network' => Network::find(session('network_id')),
-            'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
-            'campaigns' => Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get(),
-            'summary_users' => [
-                'accumulated' => $summary_network->accumulated['users']['total'],
-                'male' => array_sum($summary_network->accumulated['users']['demographic']['male']),
-                'female' => array_sum($summary_network->accumulated['users']['demographic']['female']),
-                'diff' => ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total']) != 0 ?
-                    100 * ((($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
-                            - ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total']))
-                        / ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total'])) : 0,
-                'tw' => ($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total']),
-            ],
-            'summary_devices' => [
-                'accumulated' => $summary_network->accumulated['devices']['total'],
-                'diff_week' => (($summary_network->accumulated['devices']['total'] - $t2->accumulated['devices']['total'])
-                    - ($t3->accumulated['devices']['total'] - $t2->accumulated['devices']['total'])) > 0 ? true : false,
-                'tw' => ($summary_network->accumulated['devices']['total'] - $t2->accumulated['devices']['total']),
-                'tm' => ($summary_network->accumulated['devices']['total'] - $m2->accumulated['devices']['total']),
-            ],
-            'summary_access' => [
-                'accumulated' => $summary_network->accumulated['connections'],
-            ],
-            'isMobile' => $agent->isMobile(),
-            '$navData' => $navData
-        ]);
+        if($summary_network != null && count($summary_network)>0 ){
+            return view('dashboard.index', [
+                'network' => Network::find(session('network_id')),
+                'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
+                'campaigns' => Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get(),
+                'summary_users' => [
+                    'accumulated' => $summary_network->accumulated['users']['total'],
+                    'male' => array_sum($summary_network->accumulated['users']['demographic']['male']),
+                    'female' => array_sum($summary_network->accumulated['users']['demographic']['female']),
+                    'diff' => ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total']) != 0 ?
+                        100 * ((($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total'])
+                                - ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total']))
+                            / ($t2->accumulated['users']['total'] - $t3->accumulated['users']['total'])) : 0,
+                    'tw' => ($summary_network->accumulated['users']['total'] - $t2->accumulated['users']['total']),
+                ],
+                'summary_devices' => [
+                    'accumulated' => $summary_network->accumulated['devices']['total'],
+                    'diff_week' => (($summary_network->accumulated['devices']['total'] - $t2->accumulated['devices']['total'])
+                        - ($t3->accumulated['devices']['total'] - $t2->accumulated['devices']['total'])) > 0 ? true : false,
+                    'tw' => ($summary_network->accumulated['devices']['total'] - $t2->accumulated['devices']['total']),
+                    'tm' => ($summary_network->accumulated['devices']['total'] - $m2->accumulated['devices']['total']),
+                ],
+                'summary_access' => [
+                    'accumulated' => $summary_network->accumulated['connections'],
+                ],
+                'isMobile' => $agent->isMobile(),
+                'navData' => $navData
+            ]);
+        }else{
+            return view('dashboard.index', [
+                'network' => Network::find(session('network_id')),
+                'branches' => Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get(),
+                'campaigns' => Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get(),
+                'summary_users' => [
+                    'accumulated' => 0,
+                    'male' => 0,
+                    'female' => 0,
+                    'diff' => 0,
+                    'tw' => 0,
+                ],
+                'summary_devices' => [
+                    'accumulated' => 0,
+                    'diff_week' => false,
+                    'tw' => 0,
+                    'tm' => 0,
+                ],
+                'summary_access' => [
+                    'accumulated' => 0,
+                ],
+                'isMobile' => $agent->isMobile(),
+                'navData' => $navData
+            ]);
+        }
     }
 
     private function getUniqueDevices($branches_id)

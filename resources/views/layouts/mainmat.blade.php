@@ -22,6 +22,16 @@
 
             <!-- App - CSS -->
     {!! HTML::style('assets/css/app.css') !!}
+    <style>
+        .zero a {
+            font-size: 15px;
+        }
+
+        .breadcrumb:before {
+            font-size: 15px;
+            cursor: default;
+        }
+    </style>
     @yield('head_scripts')
 
 </head>
@@ -49,7 +59,9 @@
             <!-- desktop menu left-->
             <ul class="left hide-on-med-and-down platform-hide">
 
-                <li style="/*padding:0 10px 0 0;*/ max-height:60px;" class="hide-on-med-and-down {{ isset($navData["home"])?$navData["home"]:""  }} "><a href="{{ route("home") }}">
+                <li style="/*padding:0 10px 0 0;*/ max-height:60px;"
+                    class="hide-on-med-and-down {{ isset($navData["home"])?$navData["home"]:""  }} "><a
+                            href="{{ route("home") }}">
                         <i class="material-icons">home</i>
                     </a>
                 </li>
@@ -111,13 +123,16 @@
 
                 </li>
 
-                <li class="{{ isset($navData["branches"])?$navData["branches"]:""  }}" ><a href="{{ route("branches::index") }}">Nodos</a></li>
-                <li class="{{ isset($navData["campaigns"])?$navData["campaigns"]:""  }}"><a href="{{ route("campaigns::index") }}">Campañas</a></li>
+                <li class="{{ isset($navData["branches"])?$navData["branches"]:""  }}"><a
+                            href="{{ route("branches::index") }}">Nodos</a></li>
+                <li class="{{ isset($navData["campaigns"])?$navData["campaigns"]:""  }}"><a
+                            href="{{ route("campaigns::index") }}">Campañas</a></li>
             </ul>
 
             <!-- desktop menu right-->
             <ul class="right platform-hide">
-                <li class="hide-on-med-and-down {{ isset($navData["reports"])?$navData["reports"]:""  }}"><a href="{{ route("reports::index") }}">Reportes</a></li>
+                <li class="hide-on-med-and-down {{ isset($navData["reports"])?$navData["reports"]:""  }}"><a
+                            href="{{ route("reports::index") }}">Reportes</a></li>
 
                 <li class="hide-on-med-and-down">
                     {{--<a href="{{ route("profile::settings") }}"><i class="material-icons">settings</i></a>--}}
@@ -140,7 +155,7 @@
 
                             <!-- avatar -->
 
-{{--                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">--}}
+                    {{--                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">--}}
                     <a class="valign-wrapper profile-link" href="#!" style="padding: 7px 5px 0 0;">
 
                         <div style="width: 50px; overflow: hidden; height: 50px;
@@ -277,9 +292,27 @@
 
     @endif <!-- end network selector -->
 
+    @if(isset($navData['breadcrumbs']))
+        <div class="col s12 l12 head-info black-text">
+            <div class="zero">
+                <div class="black-text">
 
-
-
+                    <a href="{{route('home')}}" class="breadcrumb black-text">Inicio</a>
+                    @for($i=0; $i< count($navData['breadcrumbs'])-1 ; $i++)
+                        <a href="{{route($navData['breadcrumbs'][$i].'::index')}}" class="breadcrumb black-text">
+                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}
+                        </a>
+                    @endfor
+                    <a class="breadcrumb black-text">
+                        <b>
+                            {{--                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}--}}
+                            {{  $navData['breadcrumbs'][$i]   }}
+                        </b>
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <main>
 
