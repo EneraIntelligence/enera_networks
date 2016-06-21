@@ -38,7 +38,7 @@
                             </span>
                             <div class="divider" style="margin-top:7px;"></div>
                             <span class="grey-text bottom-left" style="margin-left:87px;">
-                                {{ interactionIdToText( $campaign->interaction['name'] ) }}
+                                {{ trans( "campaigns.interaction.".$campaign->interaction['name'] ) }}
                             </span>
                             <a class="bottom-right" style="margin-right:10px;" href="{{route('campaigns::show', ['id' => $campaign->id])}}">
                                 Detalles
