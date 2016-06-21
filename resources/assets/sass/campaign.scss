@@ -25,6 +25,41 @@ $white: #FFFFFF;
   margin-left: 50px;
 }
 
+.bottom-right
+{
+  bottom: 0;
+  position: absolute;
+  right: 0;
+}
+
+.bottom-left
+{
+  bottom: 0;
+  position: absolute;
+  left: 0;
+}
+
+.thumb
+{
+  position: relative;
+  width: 80px;
+  height:100px;
+  overflow: hidden;
+  margin-right: 7px;
+
+  img
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 100%;
+    width: auto;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+  }
+}
+
 .zero{
   margin: 0;
   padding: 0;
