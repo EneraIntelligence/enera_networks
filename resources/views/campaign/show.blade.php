@@ -72,7 +72,6 @@
     <div class="hide-on-small-only container">
 
 
-        <h3 class="black-text left-align">{{$cam->name}}</h3>
 
         <div class="row">
 
