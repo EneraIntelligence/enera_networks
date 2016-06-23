@@ -24,8 +24,12 @@
 
         #info li {
             height: 31px;
+            line-height: 30px;
         }
-        #info li:nth-child(2n+1){background-color: #757575}
+
+        #info li:nth-child(2n+1) {
+            background-color: #757575
+        }
     </style>
 @stop
 
@@ -109,9 +113,9 @@
                     <!-- checkbox terminos y condiciones -->
 
                     <!-- login buttons -->
-                    <div class="login card small center-align" id="login-card">
+                    {{--<div class="login card small center-align" id="login-card">
                         <p>
-                            {{--            {{ $message['text'] }}--}}
+                            --}}{{--            {{ $message['text'] }}--}}{{--
                             Para navegar
                         </p>
                         <a class="waves-effect waves-light btn fb-btn indigo darken-1 login-btn"
@@ -124,12 +128,9 @@
                                 <div class="indeterminate"></div>
                             </div>
                         </a>
-
-
-                    </div>
+                    </div>--}}
                 </div>
             </div>
-
         </div>
 
 
@@ -146,23 +147,24 @@
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
                             <ul id="info" class="white-text" style="overflow:scroll; max-height:185px">
-                                <li data-icon="keyboard_arrow_right" >
+                                {{--<li data-icon="keyboard_arrow_right">
                                     Status:<span class="light-text">{{$branch->status}}</span>
-                                </li>
-                                <li data-icon="keyboard_arrow_right">
-                                    Globales: <span class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
-                                </li>
-                                <li data-icon="keyboard_arrow_right">
+                                </li>--}}
+                                {{--<li data-icon="keyboard_arrow_right">
+                                    Globales:
+                                    <span class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
+                                </li>--}}
+                                {{--<li data-icon="keyboard_arrow_right">
                                     Red:<span class="light-text">{{$branch->network->name}}</span>
+                                </li>--}}
+                                <li data-icon="keyboard_arrow_right">
+                                    Tipo: <span class="light-text">{{$branch->network->type}}</span>
                                 </li>
                                 <li data-icon="keyboard_arrow_right">
-                                    Tipo:<span class="light-text">{{$branch->network->type}}</span>
+                                    Conexiones: <span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
                                 </li>
                                 <li data-icon="keyboard_arrow_right">
-                                    Conexiones:<span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
-                                </li>
-                                <li data-icon="keyboard_arrow_right">
-                                    Dispositivos:<span class="light-text">{{ number_format($devices,0,'.',',') }}</span>
+                                    Dispositivos: <span class="light-text">{{ number_format($devices,0,'.',',') }}</span>
                                 </li>
                                 <li data-icon="keyboard_arrow_right">Usuarios
                                     Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span>
@@ -217,9 +219,8 @@
                     <div class="card grey darken-3 black-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content" style="max-height: 280px;">
                             <span class="card-title white-text">Analiticos</span>
-                            <div style="max-height: 280px!important; margin-top: -50px;height: 280px">
-                                <div id="analitics"
-                                     style="height: 280px!important;overflow:scroll;max-height: 280px"></div>
+                            <div style="max-height: 280px!important; margin-top: -50px;height: 260px">
+                                <div id="analitics" style="overflow:hidden"></div>
                             </div>
                         </div>
                     </div>
@@ -284,14 +285,14 @@
             </div>
 
             <div class="col l4 hide-on-med-and-down">
-                <div class="card grey darken-3" style="min-height: 494px;">
-                    <div class="card-content black-text" style="padding: 20px 0;">
+                <div class="card grey darken-3" style="min-height: 495px;margin-left:13px">
+                    <div class="card-content black-text" style="padding: 0px 0;">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
-                            <span class="card-title white-text" style="margin: 20px;">Ubicación</span>
+                            {{--<span class="card-title white-text" style="margin: 20px;">Ubicación</span>--}}
                             <div class="image-card">
                                 <div id="GoogleMap"
-                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 380px;"></div>
+                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 495px;"></div>
                             </div>
                         </div>
                     </div>
@@ -305,7 +306,7 @@
                             <span class="card-title">World Cloud</span>
                             <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
                                 <i class="material-icons">border_all</i></a>
-                            <div class="word_cloud" style="width:800px; position: relative;">
+                            <div class="word_cloud" style="width:550px; position: relative;">
                             </div>
                         </div>
                     </div>
@@ -450,7 +451,7 @@
                 //word cloud
                 var fill = d3.scale.category20();
 
-                var canvasWidth = 800;
+                var canvasWidth = 550;
                 var canvasHeight = 400;
 
                 //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
