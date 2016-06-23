@@ -137,3 +137,18 @@ tspan{
   color: #c9c9c9;
   cursor: pointer;
 }
+
+.dataTables_wrapper
+{
+  select
+  {
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+
+  input{
+    width: auto;
+    height: auto;
+  }
+}
