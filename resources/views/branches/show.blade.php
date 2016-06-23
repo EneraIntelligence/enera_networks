@@ -21,9 +21,11 @@
         .table-striped > thead > tr > th {
             background-color: #ccc;
         }
+
         #info li {
             height: 31px;
         }
+        #info li:nth-child(2n+1){background-color: #757575}
     </style>
 @stop
 
@@ -56,7 +58,8 @@
                                     class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
                         </li>
                         <hr>
-                        <li data-icon="keyboard_arrow_right">Red: <span class="light-text">{{$branch->network->name}}</span>
+                        <li data-icon="keyboard_arrow_right">Red: <span
+                                    class="light-text">{{$branch->network->name}}</span>
                         </li>
                         <hr>
                         <li data-icon="keyboard_arrow_right">Tipo: <span
@@ -137,8 +140,93 @@
 
             <h2 class="left-align" style="color: #424242 !important">{{$branch->name}}</h2>
 
+            <div class="col s6 l8" style="overflow: hidden;">
+                <div class="col s6 l6">
+                    <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
+                        <div class="card-content white-text">
+                            <span class="card-title">Información</span>
+                            <ul id="info" class="white-text" style="overflow:scroll; max-height:185px">
+                                <li data-icon="keyboard_arrow_right" >
+                                    Status:<span class="light-text">{{$branch->status}}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Globales: <span class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Red:<span class="light-text">{{$branch->network->name}}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Tipo:<span class="light-text">{{$branch->network->type}}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Conexiones:<span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Dispositivos:<span class="light-text">{{ number_format($devices,0,'.',',') }}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">Usuarios
+                                    Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span>
+                                </li>
+                                <li data-icon="keyboard_arrow_right">
+                                    Antenas: <span class="light-text">{{ count($branch->aps) }}</span>
+                                </li>
+                                {{--<li data-icon="keyboard_arrow_right">Campañas:
+                                    <ul class="white-text">
+                                        @for($i = 0; $i < 5 ; $i++)
+                                            @if(isset($aps[$i]))
+                                                <li data-icon="remove" style="margin-left: 25px;"><span
+                                                            class="light-text">{{$aps[$i]->name}}</span></li>
+                                            @endif
+                                        @endfor
+                                        @if(count($aps) > 4 )
+                                            <li style="text-align: center;"><a
+                                                        class="waves-effect waves-light btn modal-trigger"
+                                                        href="#aps">Modal</a>
+                                            </li>
+                                            <!-- Modal Structure -->
+                                            <div id="aps" class="modal modal-fixed-footer">
+                                                <div class="modal-content black-text">
+                                                    <i class="material-icons right-corner">close</i>
+                                                    <h4>Lista de campañas</h4>
+                                                    <table class="striped">
+                                                        <tbody>
+                                                        @foreach($aps as $ap)
+                                                            <tr>
+                                                                <td>{{$ap->name}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                        @endif
+                                    </ul>
+                                </li>--}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6 l6">
+                    <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
+                        <div class="card-content white-text">
+                            <span class="card-title">Información</span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 l12">
+                    <div class="card grey darken-3 black-text" style="min-height: 280px;max-height: 280px;">
+                        <div class="card-content" style="max-height: 280px;">
+                            <span class="card-title white-text">Analiticos</span>
+                            <div style="max-height: 280px!important; margin-top: -50px;height: 280px">
+                                <div id="analitics"
+                                     style="height: 280px!important;overflow:scroll;max-height: 280px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col s6 l4">
-                <div class="card grey darken-3 white-text" style="min-height: 570px;">
+                <div class="card grey darken-3 white-text" style="min-height: 583px;">
                     <div class="card-content white-text">
                         <span class="card-title">Vista Previa</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
@@ -194,78 +282,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6 l4">
-                <div class="card grey darken-3 black-text">
-                    <div class="card-content" style="min-height: 570px;">
-                        <span class="card-title white-text">Analiticos</span>
-                        <div id="analitics"></div>
+
+            <div class="col l4 hide-on-med-and-down">
+                <div class="card grey darken-3" style="min-height: 494px;">
+                    <div class="card-content black-text" style="padding: 20px 0;">
+                        <div class="uk-grid uk-grid-divider uk-grid-medium">
+                            {{-- Google Maps --}}
+                            <span class="card-title white-text" style="margin: 20px;">Ubicación</span>
+                            <div class="image-card">
+                                <div id="GoogleMap"
+                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 380px;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col s6 l4">
-                <div class="card grey darken-3 white-text" style="min-height: 570px;">
+            <div class="col l8 hide-on-med-and-down">
+                <div class="card grey darken-3 white-text">
                     <div class="card-content white-text">
-                        <span class="card-title">Información</span>
-                        <ul id="info" class="white-text">
-                            <li data-icon="keyboard_arrow_right">Status: <span
-                                        class="light-text">{{$branch->status}}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">
-                                Globales: <span
-                                        class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
-                            </li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Red: <span
-                                        class="light-text">{{$branch->network->name}}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Tipo: <span
-                                        class="light-text">{{$branch->network->type}}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Conexiones: <span
-                                        class="light-text">{{ number_format($wlogs,0,'.',',') }}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">
-                                Dispositivos: <span
-                                        class="light-text">{{ number_format($devices,0,'.',',') }}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Usuarios
-                                Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span></li>
-                            <hr>
-                            <li data-icon="keyboard_arrow_right">Antenas: <span
-                                        class="light-text">{{ count($branch->aps) }}</span></li>
-                            <hr>
-                            {{--<li data-icon="keyboard_arrow_right">Campañas:
-                                <ul class="white-text">
-                                    @for($i = 0; $i < 5 ; $i++)
-                                        @if(isset($aps[$i]))
-                                            <li data-icon="remove" style="margin-left: 25px;"><span
-                                                        class="light-text">{{$aps[$i]->name}}</span></li>
-                                        @endif
-                                    @endfor
-                                    @if(count($aps) > 4 )
-                                        <li style="text-align: center;"><a
-                                                    class="waves-effect waves-light btn modal-trigger"
-                                                    href="#aps">Modal</a>
-                                        </li>
-                                        <!-- Modal Structure -->
-                                        <div id="aps" class="modal modal-fixed-footer">
-                                            <div class="modal-content black-text">
-                                                <i class="material-icons right-corner">close</i>
-                                                <h4>Lista de campañas</h4>
-                                                <table class="striped">
-                                                    <tbody>
-                                                    @foreach($aps as $ap)
-                                                        <tr>
-                                                            <td>{{$ap->name}}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                    @endif
-                                </ul>
-                            </li>--}}
-                        </ul>
+                        <div class="uk-grid uk-grid-divider uk-grid-medium">
+                            {{-- Google Maps --}}
+                            <span class="card-title">World Cloud</span>
+                            <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
+                                <i class="material-icons">border_all</i></a>
+                            <div class="word_cloud" style="width:800px; position: relative;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -307,34 +349,6 @@
 
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col l4 hide-on-med-and-down">
-                <div class="card grey darken-3" style="min-height: 494px;">
-                    <div class="card-content black-text" style="padding: 20px 0;">
-                        <div class="uk-grid uk-grid-divider uk-grid-medium">
-                            {{-- Google Maps --}}
-                            <span class="card-title white-text" style="margin: 20px;">Ubicación</span>
-                            <div class="image-card">
-                                <div id="GoogleMap"
-                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 380px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col l8 hide-on-med-and-down">
-                <div class="card grey darken-3 white-text">
-                    <div class="card-content white-text">
-                        <div class="uk-grid uk-grid-divider uk-grid-medium">
-                            {{-- Google Maps --}}
-                            <span class="card-title">World Cloud</span>
-                            <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
-                                <i class="material-icons">border_all</i></a>
-                            <div class="word_cloud" style="width:800px; position: relative;">
                             </div>
                         </div>
                     </div>
@@ -396,57 +410,6 @@
             {!! HTML::script('js/d3.layout.cloud.js') !!}
 
             <script>
-                var datos = [
-                    ['x'],
-                    ['Welcome'],
-                    ['Joined'],
-                    ['Requested'],
-                    ['Loaded'],
-                    ['Completed'],
-                ];
-                @foreach($int_days as $k => $day)
-                        datos[0].push('{!! $k !!}');
-                datos[1].push({!! $day['welcome'] !!});
-                datos[2].push({!! $day['joined'] !!});
-                datos[3].push({!! $day['requested'] !!});
-                datos[4].push({!! $day['loaded'] !!});
-                datos[5].push({!! $day['completed'] !!});
-                        @endforeach
-
-                var chart = c3.generate({
-                            bindto: '#analitics',
-                            data: {
-                                x: 'x',
-                                columns: datos,
-                                type: 'bar',
-                                groups: [
-                                    ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
-                                ],
-                                /*onclick: function () {
-                                 window.open("http://www.w3schools.com");
-                                 }*/
-                            },
-                            padding: {
-                                top: 50,
-                                bottom: 40
-                            },
-                            size: {
-                                height: 450
-                            },
-                            axis: {
-                                x: {
-                                    type: 'timeseries',
-                                    tick: {
-                                        format: '%m-%d'
-                                    }
-                                }
-                            },
-                            bar: {
-                                width: {
-                                    ratio: 0.7 // this makes bar width 50% of length between ticks
-                                }
-                            }
-                        });
 
                 function MarkerMap(lat, lng, zoom, DOMElement) {
                     this.center = new google.maps.LatLng(lat, lng);
@@ -567,6 +530,59 @@
                     $('.right-corner').click(function () {
                         $('.modal').closeModal();
                     })
+
+                    var datos = [
+                        ['x'],
+                        ['Welcome'],
+                        ['Joined'],
+                        ['Requested'],
+                        ['Loaded'],
+                        ['Completed'],
+                    ];
+                    @foreach($int_days as $k => $day)
+                            datos[0].push('{!! $k !!}');
+                    datos[1].push({!! $day['welcome'] !!});
+                    datos[2].push({!! $day['joined'] !!});
+                    datos[3].push({!! $day['requested'] !!});
+                    datos[4].push({!! $day['loaded'] !!});
+                    datos[5].push({!! $day['completed'] !!});
+                            @endforeach
+
+                    var chart = c3.generate({
+                                bindto: '#analitics',
+                                data: {
+                                    x: 'x',
+                                    columns: datos,
+                                    type: 'bar',
+                                    groups: [
+                                        ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
+                                    ],
+                                    /*onclick: function () {
+                                     window.open("http://www.w3schools.com");
+                                     }*/
+                                },
+                                padding: {
+                                    top: 50,
+                                    bottom: 40
+                                },
+                                size: {
+                                    height: 250
+                                },
+                                axis: {
+                                    x: {
+                                        type: 'timeseries',
+                                        tick: {
+                                            format: '%m-%d'
+                                        }
+                                    }
+                                },
+                                bar: {
+                                    width: {
+                                        ratio: 0.7 // this makes bar width 50% of length between ticks
+                                    }
+                                }
+                            });
+
                 });
             </script>
 @stop
