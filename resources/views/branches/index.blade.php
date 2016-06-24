@@ -590,7 +590,22 @@
     <script>
         $(document).ready(function () {
 
-            $('#branchesTable').DataTable();
+            $('#branchesTable').DataTable({
+                "language": {
+                    "search": "Filtrar",
+                    "lengthMenu": "Mostrar _MENU_ por página",
+                    "zeroRecords": "No hay Nodos",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay información",
+                    "infoFiltered": "(filtrado de _MAX_ registros)",
+                    "oPaginate": {
+                        "sFirst":    	"Primero",
+                        "sPrevious": 	"Anterior",
+                        "sNext":     	"Siguiente",
+                        "sLast":     	"Último"
+                    }
+                }
+            });
 
             $('.collapsible').collapsible({
                 accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
