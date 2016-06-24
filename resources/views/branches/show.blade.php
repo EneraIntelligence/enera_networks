@@ -11,15 +11,21 @@
         .table-striped > tbody > tr:nth-child(odd) > td,
         .table-striped > tbody > tr:nth-child(odd) > th {
             background-color: #424242;
+            border-radius: 0;
+            padding: 10px 5px;
         }
 
         .table-striped > tbody > tr:nth-child(even) > td,
         .table-striped > tbody > tr:nth-child(even) > th {
             background-color: #ccc;
+            border-radius: 0;
+            padding: 10px 5px;
         }
 
         .table-striped > thead > tr > th {
             background-color: #ccc;
+            border-radius: 0;
+            padding: 10px 5px;
         }
 
         #info li {
@@ -38,10 +44,15 @@
     <div class="col s12 m12 l12  container">
         <div class="row">
 
-            <h2 class="left-align" style="color: #424242 !important">{{$branch->name}}</h2>
 
-            <div class="col s12 m12 l8" style="overflow: hidden;">
-                <div class="col s6 l6" style="padding:0 5px 0 0;">
+            <div class="col s12">
+                <h2 class="left-align" style="color: #424242 !important">{{$branch->name}}</h2>
+            </div>
+
+            <div class="col s12 l8" style="overflow: hidden;">
+
+                <div class="col s12 m6 l6 infoCard left">
+
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
@@ -107,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s6 l6" style="padding:0 0 0 5px;">
+                <div class="col s12 m6 l6 infoCard right" >
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
@@ -131,10 +142,10 @@
                     <div class="card-content white-text">
                         <span class="card-title">Vista Previa</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
-                            <div class="preview" style="text-align: center;">
+                            <div class="preview">
                                 <img src="{{asset('images/android_placeholder.png')}}" alt="">
                             </div>
-                            <div class="preview" id="mydiv">
+                            <div class="preview-content grey lighten-3" id="mydiv">
                                 <div class="card">
                                     <div class="card-image" id="container">
                                         <div class="welcome card small z-depth-2">
@@ -177,7 +188,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12 m12 l8 ">
+            <div class="col s12 m12 l8 hide-on-small-only">
                 <div class="card grey darken-3 white-text">
                     <div class="card-content white-text">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
@@ -191,7 +202,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col s6 hide-on-med-only hide-on-small-only hide-on-large-only" style="height: 570px;">
+            <div class="col s12 hide-on-med-and-up" style="height: 570px;">
                 <div class="card grey darken-3 white-text">
                     <div class="card-content white-text">
                         <span class="card-title">Like Frecuentes</span>
