@@ -141,8 +141,8 @@
 
             <h2 class="left-align" style="color: #424242 !important">{{$branch->name}}</h2>
 
-            <div class="col s6 l8" style="overflow: hidden;">
-                <div class="col s6 l6">
+            <div class="col s12 m12 l8" style="overflow: hidden;">
+                <div class="col s6 l6" style="padding:0 5px 0 0;">
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s6 l6">
+                <div class="col s6 l6" style="padding:0 0 0 5px;">
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
@@ -215,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s12 l12">
+                <div class="col s12 l12" style="padding:0;">
                     <div class="card grey darken-3 black-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content" style="max-height: 280px;">
                             <span class="card-title white-text">Analiticos</span>
