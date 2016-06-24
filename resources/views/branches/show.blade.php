@@ -41,7 +41,7 @@
 
 @section('content')
 
-    <div class="col s12 m12 l12  container">
+    <div class="col s12 m12 l12  container main-branch-container">
         <div class="row">
 
 
@@ -196,7 +196,7 @@
                             <span class="card-title">World Cloud</span>
                             <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
                                 <i class="material-icons">border_all</i></a>
-                            <div class="word_cloud" style="width:550px; position: relative;">
+                            <div class="word_cloud" style="width:100%; position: relative;">
                             </div>
                         </div>
                     </div>
@@ -389,6 +389,15 @@
                         .on("end", draw)
                         .start();
 
+
+                $( window ).resize(function() {
+
+                    resizeWordCloud();
+
+                });
+
+
+
                 function draw(words) {
                     d3.select(".word_cloud").append("svg")
                             .attr("width", canvasWidth)
@@ -414,7 +423,31 @@
                             });
                 }
 
+                function resizeWordCloud()
+                {
+
+                    var cont = $(".word_cloud");
+                    var cloud = cont.find("svg");
+
+                    var w = cont.innerWidth();
+                    var h = cont.innerHeight();
+
+                    console.log(w);
+
+                    var targetScaleX = w/550;
+                    var targetScaleY = h/400;
+
+                    var targetScale = Math.min(targetScaleX,targetScaleY);
+
+                    TweenLite.set(cloud, {scaleX:targetScale,scaleY:targetScale} );
+                    cloud.css("margin","0 auto");
+                    cloud.css("display","block");
+
+                }
+
                 $(document).ready(function () {
+
+                    resizeWordCloud();
                     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
                     $('.modal-trigger').leanModal();
 
