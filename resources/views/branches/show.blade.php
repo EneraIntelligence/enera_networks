@@ -45,7 +45,7 @@
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
-                            <ul id="info" class="white-text" style="overflow:scroll; max-height:185px">
+                            <ul id="info" class="white-text" style="overflow:hidden; max-height:185px">
                                 {{--<li data-icon="keyboard_arrow_right">
                                     Status:<span class="light-text">{{$branch->status}}</span>
                                 </li>--}}
