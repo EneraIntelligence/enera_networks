@@ -161,7 +161,7 @@
                     <a class="valign-wrapper profile-link" href="#!" style="padding: 7px 5px 0 0;">
 
                         <div style="width: 50px; overflow: hidden; height: 50px;
-                                background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'user.png'!!}');
+                                background-image: url('https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'usern.png'!!}');
                                 background-size: cover;
                                 background-repeat: no-repeat;
                                 background-position: 50% 50%;
@@ -338,7 +338,7 @@
                     condiciones</a>
             @endif
                         -->
-                <span class="grey-text text-lighten-4 right"> © 2016 Enera </span>
+                <span class="grey-text text-lighten-4 right" style="color: #9e9e9e!important;"> © 2016 Enera </span>
 
             </div>
         </div>

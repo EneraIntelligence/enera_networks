@@ -31,8 +31,9 @@
         #info li {
             height: 31px;
             line-height: 30px;
+            padding-left: 20px;
+            font-weight: 300;
         }
-
         #info li:nth-child(2n+1) {
             background-color: #757575
         }
@@ -56,7 +57,8 @@
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
-                            <ul id="info" class="white-text" style="overflow:hidden; max-height:185px">
+                            <ul id="info" class="white-text"
+                                style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
                                 {{--<li data-icon="keyboard_arrow_right">
                                     Status:<span class="light-text">{{$branch->status}}</span>
                                 </li>--}}
@@ -67,20 +69,20 @@
                                 {{--<li data-icon="keyboard_arrow_right">
                                     Red:<span class="light-text">{{$branch->network->name}}</span>
                                 </li>--}}
-                                <li data-icon="keyboard_arrow_right">
+                                <li >
                                     Tipo: <span class="light-text">{{$branch->network->type}}</span>
                                 </li>
-                                <li data-icon="keyboard_arrow_right">
+                                <li>
                                     Conexiones: <span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
                                 </li>
-                                <li data-icon="keyboard_arrow_right">
+                                <li >
                                     Dispositivos: <span
                                             class="light-text">{{ number_format($devices,0,'.',',') }}</span>
                                 </li>
-                                <li data-icon="keyboard_arrow_right">Usuarios
+                                <li >Usuarios
                                     Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span>
                                 </li>
-                                <li data-icon="keyboard_arrow_right">
+                                <li >
                                     Antenas: <span class="light-text">{{ count($branch->aps) }}</span>
                                 </li>
                                 {{--<li data-icon="keyboard_arrow_right">Campañas:
@@ -118,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col s12 m6 l6 infoCard right" >
+                <div class="col s12 m6 l6 infoCard right">
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
@@ -129,7 +131,7 @@
                 <div class="col s12 l12" style="padding:0;">
                     <div class="card grey darken-3 black-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content" style="max-height: 280px;">
-                            <span class="card-title white-text">Analiticos</span>
+                            <span class="card-title white-text">Analíticos</span>
                             <div style="max-height: 280px!important; margin-top: -50px;height: 260px">
                                 <div id="analitics" style="overflow:hidden"></div>
                             </div>
@@ -142,6 +144,10 @@
                     <div class="card-content white-text">
                         <span class="card-title">Vista Previa</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
+                            {{--<a class="waves-effect waves-light btn modal-trigger right" style="opacity: 0.8;" href="#cloud">
+                                <i class="small material-icons">mode_edit</i>
+                                --}}{{--<img style="width: 19px" align="center" src="{{asset('images/icons/lapiz.png')}}" alt="Editar">--}}{{--
+                            </a>--}}
                             <div class="preview">
                                 <img src="{{asset('images/android_placeholder.png')}}" alt="">
                             </div>
@@ -150,7 +156,7 @@
                                     <div class="card-image" id="container">
                                         <div class="welcome card small z-depth-2">
                                             <img class="responsive-img" style="margin-bottom: -6px;"
-                                                 src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}">
+                                                 src="https://s3-us-west-1.amazonaws.com/enera-publishers/branch_items/{!! $branch->portal['image'] !!}"/>
                                         </div>
                                         <!-- Main card -->
 
@@ -382,7 +388,7 @@
                         .rotate(function () {
                             return 0;
                         })
-                        .font("Impact")
+                        .font("Roboto")
                         .fontSize(function (d) {
                             return d.size;
                         })
@@ -390,12 +396,11 @@
                         .start();
 
 
-                $( window ).resize(function() {
+                $(window).resize(function () {
 
                     resizeWordCloud();
 
                 });
-
 
 
                 function draw(words) {
@@ -410,10 +415,12 @@
                             .style("font-size", function (d) {
                                 return d.size + "px";
                             })
-                            .style("font-family", "Impact")
+                            .style("font-family", "Roboto")
+                            .style("font-weight", "400")
                             .style("fill", function (d, i) {
                                 return fill(i);
                             })
+                            .attr("font-weight", "400")
                             .attr("text-anchor", "middle")
                             .attr("transform", function (d) {
                                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
@@ -423,8 +430,7 @@
                             });
                 }
 
-                function resizeWordCloud()
-                {
+                function resizeWordCloud() {
 
                     var cont = $(".word_cloud");
                     var cloud = cont.find("svg");
@@ -434,14 +440,14 @@
 
                     console.log(w);
 
-                    var targetScaleX = w/550;
-                    var targetScaleY = h/400;
+                    var targetScaleX = w / 550;
+                    var targetScaleY = h / 400;
 
-                    var targetScale = Math.min(targetScaleX,targetScaleY);
+                    var targetScale = Math.min(targetScaleX, targetScaleY);
 
-                    TweenLite.set(cloud, {scaleX:targetScale,scaleY:targetScale} );
-                    cloud.css("margin","0 auto");
-                    cloud.css("display","block");
+                    TweenLite.set(cloud, {scaleX: targetScale, scaleY: targetScale});
+                    cloud.css("margin", "0 auto");
+                    cloud.css("display", "block");
 
                 }
 
