@@ -6,9 +6,8 @@ graficas = function () {
     };
     //grafica de pastel para los sistemas operativos
     this.so = function so(array) {
-        console.log(array);
         var chart4 = c3.generate({
-            bindto: '#so',
+            bindto: '#so1',
             data: {
                 columns: [
                     ['mac', 30],
@@ -33,10 +32,38 @@ graficas = function () {
         });
         return chart4;
     };
+    
+    //        Visitantes por edades
+    var chart4 = c3.generate({
+        bindto: '#so',
+        data: {
+            columns: [
+                ['<13-19', 130],
+                ['20-41', 12],
+                ['41-60', 1],
+                ['60+', 10]
+            ],
+            type: 'pie'
+        },
+        size: {
+            height: 180
+        },
+        color: {
+            pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+        },
+        axis: {
+            y: {
+                padding: {top: 200, bottom: 0}
+            },
+            y2: {
+                padding: {top: 100, bottom: 100},
+                show: true
+            }
+        }
+    });
+
 //------------------------grafica de barra para los años y edades
     this.genderAge = function genderAge(array) {
-
-
         var categoriesArr = ['> 50 años', '40-49 años', '30-39 años', '26-29 años', '18-25 años','13-17 años'];
 
         var chart2 = c3.generate({
@@ -59,6 +86,10 @@ graficas = function () {
                 },
                 groups: [ ['hombres','mujeres'] ]
             },
+            size: {
+                height: 180
+            }
+            ,
             color: {
                 pattern: ['#9C27B0', '#2196F3']
             },
@@ -262,28 +293,3 @@ var chart3 = c3.generate({
     }
     });
 
-//        Visitantes por edades
-var chart4 = c3.generate({
-    bindto: '#chart4',
-    data: {
-        columns: [
-            ['<13-19', 130],
-            ['20-41', 12],
-            ['41-60', 1],
-            ['60+', 10]
-        ],
-        type: 'pie'
-    },
-    color: {
-        pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
-    },
-    axis: {
-        y: {
-            padding: {top: 200, bottom: 0}
-        },
-        y2: {
-            padding: {top: 100, bottom: 100},
-            show: true
-        }
-    }
-});

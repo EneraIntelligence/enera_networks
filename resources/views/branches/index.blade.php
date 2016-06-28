@@ -3,8 +3,8 @@
 @section('title', 'Nodos')
 
 @section('head_scripts')
-    {!! HTML::style('css/jquery.dataTables.min.css') !!}
     {!! HTML::style('assets/css/nodes.css') !!}
+    {!! HTML::style('css/jquery.dataTables.min.css') !!}
 @stop
 
 @section('content')
