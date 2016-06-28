@@ -215,16 +215,16 @@
                 },
                 data: {
                     columns: [
-                        ['Hombres', 30, 200, 300],
-                        ['Mujeres', -130, -100, -100]
+                        ['Mujeres', 30, 200, 300],
+                        ['Hombres', -130, -100, -100]
                     ],
                     type: 'bar',
                     groups: [
-                        ['Hombres', 'Mujeres']
+                        ['Mujeres', 'Hombres']
                     ],
                     colors: {
-                        Hombres: "#9C27B0",
-                        Mujeres: '#2196F3'
+                        Mujeres: "#9C27B0",
+                        Hombres: '#2196F3'
                     }
                 },
                 grid: {

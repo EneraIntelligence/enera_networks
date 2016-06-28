@@ -9,57 +9,70 @@
 @section('content')
 
 
-    @if( count($campaigns) > 0 )
 
 
-        <div class="container">
-            <h2 style="color: #424242 !important">Campañas</h2>
+    <div class="container">
+        <h2 style="color: #424242 !important">Campañas</h2>
 
-            <div class="row">
+        <div class="row">
 
-                @foreach($campaigns as $campaign)
-
-
-                <div class="col s12 m6 l4">
-
-                    <div class="card">
-
-                        <div class="row">
-
-                            <div class="thumb left">
-                                <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}">
-                            </div>
+            @foreach($campaigns as $campaign)
 
 
-                            <strong>{{$campaign->name}} <br> </strong>
-                            <span>
-                                Vistos: 100 <br>
-                                Interacciones:12
-                            </span>
-                            <div class="divider" style="margin-top:7px;"></div>
-                            <span class="grey-text bottom-left" style="margin-left:87px;">
-                                {{ trans( "campaigns.interaction.".$campaign->interaction['name'] ) }}
-                            </span>
-                            <a class="bottom-right" style="margin-right:10px;" href="{{route('campaigns::show', ['id' => $campaign->id])}}">
-                                Detalles
-                            </a>
+            <div class="col s12 m6 l4">
 
+                <div class="card">
+
+                    <div class="row">
+
+                        <div class="thumb left">
+                            <img src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}">
                         </div>
 
 
+                        <strong>{{$campaign->name}} <br> </strong>
+                        <span>
+                            Vistos: 100 <br>
+                            Interacciones:12
+                        </span>
+                        <div class="divider" style="margin-top:7px;"></div>
+                        <span class="grey-text bottom-left" style="margin-left:87px;">
+                            {{ trans( "campaigns.interaction.".$campaign->interaction['name'] ) }}
+                        </span>
+                        <a class="bottom-right" style="margin-right:10px;" href="{{route('campaigns::show', ['id' => $campaign->id])}}">
+                            Detalles
+                        </a>
 
-                    </div> <!-- end card -->
+                    </div>
 
 
-                </div> <!-- end col s12 -->
 
-                @endforeach
+                </div> <!-- end card -->
 
-            </div><!-- end row -->
 
+            </div> <!-- end col s12 -->
+
+            @endforeach
+
+        </div><!-- end row -->
+
+    </div>
+
+    @if( count($campaigns) == 0 )
+        <div class="empty-message" style="width: 80%; margin:20px auto 0;">
+            <img style="margin:0 auto; width:200px; display:block;" src="{!! URL::asset('images/icons/banner_new.svg') !!}" alt="">
+
+            <!-- desktop text -->
+            <h3 style="text-align:center;" class="hide-on-small-only">
+                Aún no tienes campañas. <br>Crea tu primer campaña.
+            </h3>
+            <!-- mobile text -->
+            <h5 style="text-align:center;" class="hide-on-med-and-up">
+                Aún no tienes campañas. <br>Crea tu primer campaña.
+            </h5>
         </div>
+    @endif
 
-    @endif;
 
     <div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
 
