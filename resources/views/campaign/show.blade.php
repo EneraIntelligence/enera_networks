@@ -1,4 +1,5 @@
 @extends('layouts.mainmat')
+@section('title', 'Campañas')
 @section('head_scripts')
         <!-- c3.js (charts) -->
 {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
@@ -31,19 +32,27 @@
                 <div class="card-content white-text show">
                     <ul class="white-text">
                         <span class="card-title">Información</span>
-                        <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$cam->status}}</span></li>
+                        <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$cam->status}}</span>
+                        </li>
                         <hr>
                         <li data-icon="keyboard_arrow_right">
-                            Administrador: <span class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span></li>
+                            Administrador: <span
+                                    class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span>
+                        </li>
                         <hr>
-                        <li data-icon="keyboard_arrow_right">Interacción: <span class="light-text">{{$cam->interaction['name']}}</span></li>
+                        <li data-icon="keyboard_arrow_right">Interacción: <span
+                                    class="light-text">{{$cam->interaction['name']}}</span></li>
                         <hr>
                         <li data-icon="keyboard_arrow_right">Fitros:
                             <ul class="white-text">
                                 <li data-icon="remove" style="margin-left: 25px;">
-                                    Edad: <span class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span></li>
+                                    Edad: <span
+                                            class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span>
+                                </li>
                                 <li data-icon="remove" style="margin-left: 25px;">
-                                    Genero: <span class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span></li>
+                                    Genero: <span
+                                            class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span>
+                                </li>
                                 <li data-icon="remove" style="margin-left: 25px;">
                                     Días:@if(isset($cam->filters['week_days'] ))
                                         @foreach($cam->filters['week_days'] as $dia)
@@ -53,12 +62,16 @@
                                         <span class="light-text">no definido</span>
                                     @endif</li>
                                 <li data-icon="remove" style="margin-left: 25px;">
-                                    Horario: <span class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span></li>
+                                    Horario: <span
+                                            class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span>
+                                </li>
                                 </li>
                                 <li data-icon="remove" style="margin-left: 25px;">
-                                    <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span></li>
+                                    <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span>
+                                </li>
                                 <li data-icon="remove" style="margin-left: 25px;">
-                                    <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span></li>
+                                    <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span>
+                                </li>
                             </ul>
                         </li>
                         <hr>
@@ -70,7 +83,6 @@
     </div><!-- end mobile -->
 
     <div class="hide-on-small-only container">
-
 
 
         <div class="row">
@@ -102,20 +114,27 @@
                         <div class="card-content white-text">
                             <ul class="white-text">
                                 <span class="card-title">Información</span>
-                                <li data-icon="keyboard_arrow_right">Status: <span class="light-text">{{$cam->status}}</span></li>
+                                <li data-icon="keyboard_arrow_right">Status: <span
+                                            class="light-text">{{$cam->status}}</span></li>
                                 <hr>
                                 <li data-icon="keyboard_arrow_right">
-                                    Administrador: <span class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span></li>
+                                    Administrador: <span
+                                            class="light-text">{{$cam->administrator->name['first']. ' '. $cam->administrator->name['last']}}</span>
+                                </li>
                                 <hr>
-                                <li data-icon="keyboard_arrow_right">Interacción: <span class="light-text">{{$cam->interaction['name']}}</span></li>
+                                <li data-icon="keyboard_arrow_right">Interacción: <span
+                                            class="light-text">{{$cam->interaction['name']}}</span></li>
                                 <hr>
                                 <li data-icon="keyboard_arrow_right">Fitros:
                                     <ul class="white-text">
                                         <li data-icon="remove" style="margin-left: 25px;">
-                                            Edad: <span class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span>
+                                            Edad: <span
+                                                    class="light-text">{{ 'De '.$cam->filters['age'][0] . ' - Hasta '.$cam->filters['age'][1]. ' años'}}</span>
                                         </li>
                                         <li data-icon="remove" style="margin-left: 25px;">
-                                            Genero: <span class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span></li>
+                                            Genero: <span
+                                                    class="light-text">{{(!isset($cam->filters['gender']) ? 'No definidos' : (count($cam->filters['gender']) == 1) ? $cam->filters['gender'][0] : 'Ambos')}}</span>
+                                        </li>
                                         <li data-icon="remove" style="margin-left: 25px;">
                                             Días:@if(isset($cam->filters['week_days'] ))
                                                 @foreach($cam->filters['week_days'] as $dia)
@@ -125,12 +144,17 @@
                                                 <span class="light-text">no definido</span>
                                             @endif</li>
                                         <li data-icon="remove" style="margin-left: 25px;">
-                                            Horario: <span class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span></li>
+                                            Horario: <span
+                                                    class="light-text">{{'De las '. $cam->filters['day_hours'][0] . ' - hasta las'.$cam->filters['day_hours'][$size - 1] .' horas'}}</span>
+                                        </li>
                                         </li>
                                         <li data-icon="remove" style="margin-left: 25px;">
-                                            <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span></li></li>
+                                            <span class="light-text">{{'Inicia: '. date('Y-m-d',$cam->filters['date']['start']->sec)}}</span>
+                                        </li>
+                                        </li>
                                         <li data-icon="remove" style="margin-left: 25px;">
-                                            <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span></li>
+                                            <span class="light-text">{{'Finaliza: '. date('Y-m-d',$cam->filters['date']['end']->sec)}}</span>
+                                        </li>
                                     </ul>
                                 </li>
                                 <hr>
@@ -139,7 +163,7 @@
                     </div>
 
                     <div class="card grey darken-3 white-text">
-                        <div class="card-content white-text">
+                        <div class="card-content white-text" style="min-height: 158px;">
                             <span class="card-title">Elemento de campaña</span>
                             @if(view()->exists('campaign.partials.content'))
                                 @include('campaign.partials.content', ['type' => $cam->interaction['name']])
@@ -147,8 +171,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col l4 hide-on-med-and-down">
+                    <div class="card grey darken-3 white-text" style="min-height: 300px;">
+                        <div class="card-content black-text">
+                            <span class="card-title white-text">Graficas</span>
+                            <div id="genderAge" class="md-card-content"></div>
+                        </div>
+                    </div>
+                    <div class="card grey darken-3 white-text" style="min-height: 300px;">
+                        <div class="card-content black-text">
+                            <span class="card-title white-text">Graficas</span>
+                            <div id="so" class="md-card-content"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col m6 l4">
-                    <div class="card grey darken-3 white-text" style="min-height: 611px;">
+                    <div class="card grey darken-3 white-text" style="min-height: 614px;">
                         <div class="card-content white-text">
                             <span class="card-title">Contenido</span>
                             <div style="position: relative; width: 250px; margin: 0 auto;">
@@ -162,17 +200,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{--<span style="padding: 10px;">*Vista previa puede variar de la reailidad</span>--}}
-                    </div>
-                </div>
-
-                <div class="col l4 hide-on-med-and-down">
-                    <div class="card grey darken-3 white-text" style="min-height: 611px;">
-                        <div class="card-content black-text">
-                            <span class="card-title white-text">Graficas</span>
-                            <div id="genderAge" class="md-card-content"></div>
-                            <div id="so" class="md-card-content"></div>
-                        </div>
+                        <span   class="light-text" style="padding: 10px;">*Vista previa puede variar de la reailidad</span>
                     </div>
                 </div>
             </div>
