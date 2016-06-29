@@ -20,6 +20,13 @@
 
 }
 
+.interaction-icon
+{
+  float: left;
+  width: 50px;
+  margin-left: -60px;
+}
+
 .animate-all
 {
   -webkit-transition: all 0.2s ease-in-out;
@@ -77,6 +84,11 @@ label.error {
     font-size: 0.8rem;
     text-transform: none;
   }
+}
+
+.hover-blue:hover
+{
+  background-color: #00bcd4;
 }
 
 .mBottom-20

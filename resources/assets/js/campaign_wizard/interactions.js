@@ -22,10 +22,11 @@ var wizard_interactions =
                 {
                     var ev = EventDispatcher.getInstance();
                     ev.trigger(WizardEvents.interactionSelected, $(this).data("interaction") );
+                    /*
                     $(this).addClass("indigo active");
 
                     $(this).find("img").removeClass("indigo");
-                    $(this).find("img").addClass("white");
+                    $(this).find("img").addClass("white");*/
 
                     wizard_interactions.validForm = true;
                     ev.trigger(WizardEvents.validForm);
@@ -70,10 +71,12 @@ var wizard_interactions =
         //remove the visual effects on selected interaction
         var container = wizard_interactions.getContainer();
         container.find("li").each(function (index) {
-            $(this).removeClass("indigo active");
 
+            // $(this).removeClass("indigo active");
+            $(this).removeClass("active");
+/*
             $(this).find("img").removeClass("white");
-            $(this).find("img").addClass("indigo");
+            $(this).find("img").addClass("indigo");*/
 
         });
     }

@@ -58,7 +58,7 @@
             <!-- video -->
 
             <div class="row data-field data-video">
-                <div class="input-field file-field btn col s6 offset-s3">
+                <div class="input-field file-field btn col s6 offset-s3 cyan waves-effect waves-light">
 
                     <span>Subir Video <i class="material-icons left">file_upload</i></span>
                     <input id="video-input" name="video" type="file" accept='video/mp4'>
@@ -68,7 +68,7 @@
 
             <!-- survey image -->
             <div class="row data-field data-survey">
-                <div class="input-field file-field btn col s6 offset-s3">
+                <div class="input-field file-field btn col s6 offset-s3 cyan waves-effect waves-light">
 
                     <span> <i class="material-icons left">file_upload</i> <i class="material-icons left">collections</i> (684x400)</span>
                     <input id="image-survey" name="image_survey" type="file" accept='image/*'>
@@ -82,7 +82,7 @@
 
             <!-- video image -->
             <div class="row data-field data-video">
-                <div class="input-field file-field btn col s6 offset-s3">
+                <div class="input-field file-field btn col s6 offset-s3 cyan waves-effect waves-light">
 
                     <span> <i class="material-icons left">file_upload</i> <i class="material-icons left">collections</i> (640x360)</span>
                     <input id="image-video" name="image_video" type="file" accept='image/*'>
@@ -310,7 +310,7 @@
 
                 <div class="col s6 offset-s3 m4 offset-m1">
 
-                    <div class="input-field file-field btn"
+                    <div class="input-field file-field btn cyan waves-effect waves-light"
                          style="margin:0 -0.75em; width: calc(100% + 1.5em); padding:0;">
                         <span>Banner (600x602)</span>
                         <input id="image-small" name="image_small" type="file" accept='image/*'>
@@ -323,7 +323,7 @@
 
                 <div class="col s6 offset-s3 m4 offset-m2">
 
-                    <div class="input-field file-field btn"
+                    <div class="input-field file-field btn cyan waves-effect waves-light"
                          style="margin:0 -0.75em; width: calc(100% + 1.5em); padding:0;">
 
                         <span>Banner (684x864)</span>

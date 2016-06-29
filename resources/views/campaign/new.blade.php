@@ -33,11 +33,11 @@
                         <div id="step_5" class="step">@include('campaign/wizard/summary')</div>
                     </div>
 
+
                     <!-- next / prev buttons -->
                     <div class="wizard-nav card-image">
-                        <a id="prev-btn" class="waves-effect waves-light btn nav-btn">
-                            <i class="material-icons">navigate_before</i></a><a id="next-btn"
-                                                                                class="waves-effect waves-light btn nav-btn">
+                        <a id="prev-btn" class="waves-effect waves-light btn nav-btn cyan darken-2">
+                            <i class="material-icons">navigate_before</i></a><a id="next-btn" class="waves-effect waves-light btn nav-btn cyan">
                             <i class="material-icons">navigate_next</i>
                         </a>
                     </div>
