@@ -22,7 +22,7 @@
         <div class="col s6 right-align">
             <span style="font-weight: 200;font-size:19px;">----
                 <span style="font-size:14px;font-weight:300;" class="green-text-light">
-                    <i style="vertical-align:bottom;" class="material-icons">arrow_drop_up</i>--%
+                    <i style="vertical-align:middle;" class="material-icons">arrow_drop_up</i>--%
                 </span>
             </span>
         </div>
@@ -50,7 +50,7 @@
         <br>
         <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         <br>
-        <i class="green-text-light material-icons" style="vertical-align:bottom;">add</i>
+        <i class="green-text-light material-icons" style="vertical-align:top;">add</i>
         <span style="font-weight: 200;font-size:19px;">{{ number_format($summary_devices['tm'],0,'.',',') }}</span>
     </div>
 
