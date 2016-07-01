@@ -191,7 +191,7 @@
                             <span class="card-title">Contenido</span>
                             <div style="position: relative; width: 250px; margin: 0 auto;">
                                 <div class="preview" style="text-align: center;">
-                                    <img src="{{asset('images/android_placeholder.png')}}" alt="">
+                                    <img src="{{asset('images/iphone_placeholder.png')}}" alt="">
                                 </div>
                                 <div class="preview" id="mydiv" style="overflow: hidden;">
                                     @if(view()->exists('campaign.partials.preview_'.$cam->interaction['name']))
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span   class="light-text" style="padding: 10px;">*Vista previa puede variar de la reailidad</span>
+                        <span   class="light-text" style="padding: 10px;font-size: 12px;">*Vista previa puede variar de la reailidad</span>
                     </div>
                 </div>
             </div>

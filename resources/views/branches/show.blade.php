@@ -149,7 +149,7 @@
                                 --}}{{--<img style="width: 19px" align="center" src="{{asset('images/icons/lapiz.png')}}" alt="Editar">--}}{{--
                             </a>--}}
                             <div class="preview">
-                                <img src="{{asset('images/android_placeholder.png')}}" alt="">
+                                <img src="{{asset('images/iphone_placeholder.png')}}" alt="">
                             </div>
                             <div class="preview-content grey lighten-3" id="mydiv">
                                 <div class="card">

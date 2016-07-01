@@ -35,7 +35,7 @@ class CampaignController extends Controller
         $navData['breadcrumbs']=['Campañas'];
 
         return view('campaign.index', [
-//            'campaigns'=>[]
+//            'campaigns'=>[],
             'campaigns' => auth()->user()->campaigns,
             'navData' => $navData
         ]);
