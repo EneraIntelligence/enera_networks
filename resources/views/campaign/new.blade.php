@@ -20,6 +20,10 @@
 
         <div class="row">
 
+            <div class="col s12">
+                <h2 style="color: #424242 !important"> {{ Input::get("name")  }} </h2>
+            </div>
+
             <!-- wizard container -->
             <div class="container col s12 m12 l8">
                 <div class="card wizard-card">
