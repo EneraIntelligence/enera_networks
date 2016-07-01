@@ -12,9 +12,11 @@
 @section('content')
     <?php $size = sizeof($cam->filters['day_hours']) ?>
 
-    <div class="container">
+    <div class="container main-container">
         <div class="row">
-            <h3 class="black-text left-align">{{$cam->name}}</h3>
+            <div class="col s12" style="padding: 0 20px">
+                <h3 class="black-text left-align">{{$cam->name}}</h3>
+            </div>
         </div>
 
         <div class="row">
@@ -73,7 +75,7 @@
                     </div>
 
                     <div class="card grey darken-3 white-text">
-                        <div class="card-content white-text" style="min-height: 158px;">
+                        <div class="card-content white-text" style="min-height: 196px;">
                             <span class="card-title">Elemento de campaña</span>
                             @if(view()->exists('campaign.partials.content'))
                                 @include('campaign.partials.content', ['type' => $cam->interaction['name']])
