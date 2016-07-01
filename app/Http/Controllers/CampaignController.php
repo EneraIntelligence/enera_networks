@@ -112,6 +112,7 @@ class CampaignController extends Controller
 
             $navData= array();
             $navData['campaigns']='active';
+            $navData['breadcrumbs']=['campaigns', "Nueva Campaña"];
 
             $dashboard = compact('branches', 'cam', 'navData');
 
