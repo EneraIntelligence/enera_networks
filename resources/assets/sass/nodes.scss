@@ -214,3 +214,7 @@ tspan{
     padding: 0;
   }
 }
+
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd,tr.even>.sorting_1 {
+  background-color: #b1dcfb!important;
+}

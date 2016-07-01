@@ -112,6 +112,7 @@
 
     {!! HTML::script('bower_components/d3/d3.min.js') !!}
     {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
+    {!! HTML::script("bower_components/peity/jquery.peity.min.js") !!}
 
     {!! HTML::script('js/carousel-enera.js') !!}
     {!! HTML::script('js/card-slider-enera.js') !!}
@@ -281,6 +282,14 @@
             //console.log( userChart );
 
 
+        });
+
+
+        $(".peity_accessed").peity("bar", {
+            height: 15,
+            width: 128,
+            padding:0.1,
+            fill: ["#98DF8A"]
         });
 
 

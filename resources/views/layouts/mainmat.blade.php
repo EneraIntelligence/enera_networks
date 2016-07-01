@@ -338,7 +338,7 @@
                     condiciones</a>
             @endif
                         -->
-                <span class="grey-text text-lighten-4 right" style="color: #9e9e9e!important;"> © 2016 Enera </span>
+                <span class="grey-text text-lighten-4 right" style="color: #9e9e9e!important; font-size: 12px;"> © 2016 Enera Intelligence</span>
 
             </div>
         </div>
