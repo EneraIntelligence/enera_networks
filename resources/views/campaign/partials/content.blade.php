@@ -5,21 +5,13 @@
            style="margin-right:10px;"></i>Imagen chica :
         <a class="waves-effect waves-light modal-trigger"
            href="#image-small">{!! $cam->content['images']['small'] !!}</a>
-        <div id="image-small" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <div class="card">
-                    <div class="image-card">
-                        <img style="width: 100%; height: 100%;"
+        <div id="image-small" class="modal modal-fixed-footer" style="height: auto;pointer-events: none; box-shadow: none;
+                                                                background: none;">
+                    <div class="responsive-img">
+                        <img class="" style="display: block;margin: auto;"
                              src="{!! "https://s3-us-west-1.amazonaws.com/enera-publishers/items/". $cam->content['images']['small'] !!}"
                              alt=""/>
                     </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)"
-                   class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-            </div>
         </div>
     </div>
 
@@ -28,20 +20,13 @@
            style="margin-right:10px;"></i>Imagen grande :
         <a class="waves-effect waves-light modal-trigger"
            href="#image-large">{!! $cam->content['images']['large'] !!}</a>
-        <div id="image-large" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <div class="card">
-                    <div class="image-card">
-                        <img style="width: 100%; height: 100%;"
+        <div id="image-large" class="modal modal-fixed-footer" style="height: auto;pointer-events: none; box-shadow: none;
+                                                                background: none;">
+                    <div class="responsive-img">
+                        <img class="" style="display: block;margin: auto;"
                              src="{!! "https://s3-us-west-1.amazonaws.com/enera-publishers/items/". $cam->content['images']['large'] !!}"
                              alt=""/>
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)"
-                   class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-            </div>
         </div>
     </div>
 @else
@@ -50,17 +35,17 @@
            style="margin-right:10px;"></i>Imagen encuesta :
         <a class="waves-effect waves-light modal-trigger"
            href="#survey-image">{!! $cam->content['images']['survey'] !!}</a>
-        <div id="survey-image" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h5>{!! $cam->content['images']['survey'] !!}</h5>
-                <img class="responsive-img"
+        <div id="survey-image" class="modal modal-fixed-footer" style="height: auto;pointer-events: none; box-shadow: none;
+                                                                background: none;">
+            <div class="responsive-img" >
+                <img class="" style="display: block;margin: auto;"
                      src="{!! "https://s3-us-west-1.amazonaws.com/enera-publishers/items/". $cam->content['images']['survey'] !!}"
                      alt=""/>
             </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)"
-                   class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-            </div>
+            {{--<div class="modal-footer">--}}
+                {{--<a href="javascript:void(0)"--}}
+                   {{--class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>--}}
+            {{--</div>--}}
         </div>
     </div>
 @endif
