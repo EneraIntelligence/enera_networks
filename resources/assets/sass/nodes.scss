@@ -87,17 +87,19 @@ $white: #FFFFFF;
 
 .c3 .c3-axis-y path, .c3 .c3-axis-y line {
   stroke: white;
-}
-.c3 .c3-axis-x path, .c3 .c3-axis-x line {
-  stroke: white;
+  font-size:10px;
+  font-weight: 100;
 }
 tspan{
   stroke: white;
-  font-weight: lighter;
+  font-size:10px;
+  font-weight: 100;
 }
 
 .c3-legend-item text{
   stroke: white;
+  font-size:10px;
+  font-weight: 100;
 }
 
 .btn-mobil{
