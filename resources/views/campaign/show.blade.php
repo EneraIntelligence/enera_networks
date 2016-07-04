@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="card grey darken-3 white-text">
-                        <div class="card-content white-text" style="min-height: 196px;">
+                        <div class="card-content white-text" style="min-height: 157px;">
                             <span class="card-title">Elemento de campaña</span>
                             @if(view()->exists('campaign.partials.content'))
                                 @include('campaign.partials.content', ['type' => $cam->interaction['name']])

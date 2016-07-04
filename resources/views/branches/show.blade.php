@@ -181,14 +181,14 @@
             </div>
 
             <div class="col l4 hide-on-med-and-down">
-                <div class="card grey darken-3" style="min-height: 495px;">
+                <div class="card grey darken-3" style="min-height: 487px;">
                     <div class="card-content black-text" style="padding: 0 0;">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
                             {{--<span class="card-title white-text" style="margin: 20px;">Ubicación</span>--}}
                             <div class="image-card">
                                 <div id="GoogleMap"
-                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 495px;"></div>
+                                     style="margin: 0px auto; width: 100%; max-width: 850px; height: 487px;"></div>
                             </div>
                         </div>
                     </div>

@@ -90,11 +90,18 @@ $white: #FFFFFF;
   font-size:10px;
   font-weight: 100;
 }
+.c3 .c3-axis-x path, .c3 .c3-axis-x line {
+  stroke: white;
+  font-size:10px;
+  font-weight: 100;
+}
+
 tspan{
   stroke: white;
   font-size:10px;
   font-weight: 100;
 }
+
 
 .c3-legend-item text{
   stroke: white;

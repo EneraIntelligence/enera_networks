@@ -11,7 +11,7 @@
 
 
 
-    <div class="container">
+    <div class="container main-container">
         <h2 style="color: #424242 !important">Campañas</h2>
 
         <div class="row">
