@@ -49,7 +49,7 @@ graficas = function () {
             height: 180
         },
         color: {
-            pattern: ['#1e88e5', '#5e35b1', '#43a047' , '#fb8c00']
+            pattern: ['#1e88e5', '#43a047', '#5e35b1' , '#fb8c00']
         },
         axis: {
             y: {
