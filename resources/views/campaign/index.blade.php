@@ -52,7 +52,7 @@
                             </span>
                         </div>
                         <div class="divider" style="margin-top:7px;"></div>
-                        <div style="padding: 22px 0 3px 0 ; background-color: #b3e5fc;">
+                        <div style="padding: 22px 0 3px 0 ; background-color: #e1f5fe;">
                             <span class="grey-text bottom-left" style="margin-left:87px;">
                             {{ trans( "campaigns.interaction.".$campaign->interaction['name'] ) }}
                             </span>
