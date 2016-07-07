@@ -228,34 +228,34 @@
 
             $('#branchesTable').DataTable({
                 "language": {
-                    "search": "Filtrar",
+                    "search": "<i class='material-icons'>search</i>",
                     "lengthMenu": "Mostrar _MENU_ por página",
                     "zeroRecords": "No hay Nodos",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay información",
                     "infoFiltered": "(filtrado de _MAX_ registros)",
                     "oPaginate": {
-                        "sFirst":    	"Primero",
-                        "sPrevious": 	"Anterior",
-                        "sNext":     	"Siguiente",
-                        "sLast":     	"Último"
+                        "sFirst":    	"<i class='material-icons'>fast_rewind</i>",
+                        "sPrevious": 	"<i class='material-icons'>skip_previous</i>",
+                        "sNext":     	"<i class='material-icons'>skip_next</i>",
+                        "sLast":     	"<i class='material-icons'>fast_forward</i>"
                     }
                 }
             });
 
             $('#branchesTableMobile').DataTable({
                 "language": {
-                    "search": "Filtrar",
+                    "search": "<i class='material-icons'>search</i>",
                     "lengthMenu": "Mostrar _MENU_ por página",
                     "zeroRecords": "No hay Nodos",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay información",
                     "infoFiltered": "(filtrado de _MAX_ registros)",
                     "oPaginate": {
-                        "sFirst":    	"Primero",
-                        "sPrevious": 	"Anterior",
-                        "sNext":     	"Siguiente",
-                        "sLast":     	"Último"
+                        "sFirst":    	"<i class='material-icons'>fast_rewind</i>",
+                        "sPrevious": 	"<i class='material-icons'>skip_previous</i>",
+                        "sNext":     	"<i class='material-icons'>skip_next</i>",
+                        "sLast":     	"<i class='material-icons'>fast_forward</i>"
                     }
                 }
             });

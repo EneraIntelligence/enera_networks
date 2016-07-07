@@ -5,7 +5,9 @@ namespace Networks\Http\Controllers;
 use DateTime;
 use DB;
 use Input;
+use Networks\Jobs\cancelCampaign;
 use Networks\Network;
+use Networks\User;
 use Validator;
 use MongoDate;
 use Carbon\Carbon;
@@ -30,9 +32,9 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $navData= array();
-        $navData['campaigns']='active';
-        $navData['breadcrumbs']=['Campañas'];
+        $navData = array();
+        $navData['campaigns'] = 'active';
+        $navData['breadcrumbs'] = ['Campañas'];
 
         return view('campaign.index', [
 //            'campaigns'=>[],
@@ -110,9 +112,9 @@ class CampaignController extends Controller
 
             $cam = (object)$cam;
 
-            $navData= array();
-            $navData['campaigns']='active';
-            $navData['breadcrumbs']=['campaigns', "Nueva Campaña"];
+            $navData = array();
+            $navData['campaigns'] = 'active';
+            $navData['breadcrumbs'] = ['campaigns', "Nueva Campaña"];
 
             $dashboard = compact('branches', 'cam', 'navData');
 
@@ -399,9 +401,9 @@ class CampaignController extends Controller
             /****         SI EL BRANCH TIENE ALL SE MOSTRARA COMO GLOBAL       ***************/
             $lugares = in_array('all', $campaign->branches) ? 'global' : $campaign->branches;
 
-            $navData= array();
-            $navData['campaigns']='active';
-            $navData['breadcrumbs']=['campaigns', $campaign->name];
+            $navData = array();
+            $navData['campaigns'] = 'active';
+            $navData['breadcrumbs'] = ['campaigns', $campaign->name];
 
             return view('campaign.show', [
                 'cam' => $campaign,
@@ -446,7 +448,7 @@ class CampaignController extends Controller
 
             $img = Input::get('imgToSave');
             $imageType = "video";
-        }else {
+        } else {
             $res = array('success' => false, 'msg' => 'error with image type');
             echo $res;
         }
@@ -571,6 +573,56 @@ class CampaignController extends Controller
         } else {
             $res = array('success' => false, 'msg' => 'error saving cropped image on storage');
             echo json_encode($res);
+        }
+
+
+    }
+
+    public function reject()
+    {
+        $navData = [];
+        $navData['campaigns'] = 'active';
+        $navData['breadcrumbs'] = ['Campañas'];
+//        revisar logica de cancelación ya hacer agustes necesarios
+        if (Auth::once(['email' => auth()->user()->email, 'password' => Input::get('password')])) {
+
+            $cam = Campaign::find(Input::get('id'));
+
+            $user = $cam->administrator;
+            $cam->status = 'canceled'; // se cancela la campaña
+            $user->wallet->increment('current', $cam->balance['current']); //se regresa el dinero al admin de la campaña
+
+            $admin_movement = auth()->user()->movements()->create([
+                'client_id' => $user->client_id,
+                'movement' => [
+                    'type' => 'refund',
+                    'concept' => 'refund',
+                    'from' => 'campaign',
+                    'to' => 'wallet'
+                ],
+                'reference_id' => $cam->id,
+                'reference_type' => 'Campaign',
+                'admistrator_id' => $user->id,
+                'amount' => $cam->balance['current'],
+                'balance' => ($user->wallet->current + $cam->balance['current'])
+            ]);  // se crea el registro para los miviminetos administrativos
+
+
+            $cam->history()->create(array('administrator_id' => $user->id,
+                'status' => 'canceled',
+                'date' => date('Y-m-d  h:m:s'),
+                'note' => 'Motivo de cancelación: '.Input::get('reason').'.' . ' Se regreso el dinero a la cuenta del administrador por la cantidad de ' . $cam->balance['current']));
+            //se genera el registro en historial de la cancelación de la campaña
+
+            $this->dispatch(new cancelCampaign($cam, $user, Input::get('reason'))); // manda rcorreos al usuario y al admin para confirmar
+            $cam->save();
+
+            return view('campaign.index', [
+                'campaigns' => auth()->user()->campaigns,
+                'navData' => $navData
+            ])->with('success', true);
+        } else {
+            return redirect()->action('CampaignController@show', ['id' => Input::get('id')])->with('error', 'authentication');
         }
 
 

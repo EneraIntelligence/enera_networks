@@ -6,7 +6,6 @@
 {!! HTML::style('assets/css/welcome.css') !!}
 {!! HTML::style('assets/css/campaign.css') !!}
 
-
 @endsection
 
 @section('content')
@@ -117,7 +116,46 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        @if($cam->status == 'active')
+            <div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
+                <a class="btn-floating btn-large red waves-effect waves-light modal-trigger" href="#cancel">
+                    <i class="material-icons">clear</i>
+                </a>
+            </div>
+        @endif
+
+        <div id="cancel" class="modal" style="height: 330px;width: 60%;">
+            <div class="modal-content" style="padding-left: 5px;">
+                <i class="material-icons right-corner" style="cursor: pointer">close</i>
+                <div class="row" style="margin: 10px;">
+                    <h5>Cancelar Campaña</h5>
+                    <p>Ingresa el motivo de la cancelación y tu password para confirmar </p>
+                    <form class="col m12 s12 formValidate" action="{!! route('campaigns::reject::campaign') !!}"
+                          method="post" id="validate"
+                          novalidate="novalidate">
+                        <div class="row">
+                            <div class="input-field col m10 s9">
+                                <input id="reason" type="text" name="reason" class="" required>
+                                <label for="reason">Motivo de cancelación</label>
+                            </div>
+                            <div class="input-field col m10 s9">
+                                <input id="password" type="password" name="password" required>
+                                <label for="password">Contraseña*</label>
+                            </div>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="id" value="{{$cam->_id}}">
+                            <div class="input-field col m2 s3">
+                                {{--<a class="waves-effect waves-light btn">Crear</a>--}}
+                                <button type="submit" class="sbm-button waves-light teal lighten-2" id="btn-modal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -128,6 +166,7 @@
     {!! HTML::script('bower_components/d3/d3.min.js') !!}
     {!! HTML::script('js/circle-progress.js') !!}
     {!! HTML::script('js/ajax/graficas.js') !!}
+    {!! HTML::script('js/jquery-validation/dist/jquery.validate.min.js') !!}
 
     <script>
         $('.circle').circleProgress({
@@ -157,6 +196,42 @@
         $(document).ready(function () {
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
             $('.modal-trigger').leanModal();
+
+            $('.right-corner').click(function () {
+                $('.modal').closeModal();
+            });
+
+
+            $("#validate").validate({
+                rules: {
+                    password: "required",
+                    reason: {
+                        required: true,
+                        minlength: 20
+                    }
+
+                },
+                //For custom messages
+                messages: {
+                    reason: {
+                        required: "* Ingresa el motivo de la cancelación",
+                        minlength: "* El motivo debe tener minimo 20 caracteres"
+
+                    },
+                    password: "* Ingresa la contraseña"
+                },
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+
         });
     </script>
 @stop

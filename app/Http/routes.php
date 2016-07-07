@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
         Route::post('/save-image', ['as' => 'save-image', 'uses' => 'CampaignController@saveImageItem']);
         Route::post('/save-video', ['as' => 'save-video', 'uses' => 'CampaignController@saveVideoItem']);
         Route::get('/view/{id}', ['as' => 'show', 'uses' => 'CampaignController@show']);
+        Route::match(['get', 'post'], '/reject', ['as' => 'reject::campaign', 'uses' => 'CampaignController@reject']);
     });
 
     Route::group(['prefix' => 'reports', 'as' => 'reports::'], function () {
@@ -57,3 +58,8 @@ Route::get('/choose', ['as' => 'choose.platform', function () {
         'msg' => Input::has('msg') ? Input::get('msg') : 'Selecciona alguna de las plataformas.'
     ]);
 }]);
+
+//route for tests de emails
+Route::get('/test-email', function () {
+    return view('mail.cancel');
+});

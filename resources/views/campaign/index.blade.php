@@ -101,6 +101,7 @@
         <div class="modal-content" style="height: 100px;">
             <i class="material-icons right-corner" style="cursor: pointer">close</i>
             <div class="row" style="margin: 0;">
+                <h5>Nombre de la campaña</h5>
                 <form class="col m12 s12 formValidate" action="/campaigns/new" method="get" id="validate"
                       novalidate="novalidate">
                     <div class="row">
