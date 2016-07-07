@@ -9,12 +9,12 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container main-container">
         <h2 style="color: #424242 !important">Nodos</h2>
     </div>
 
     <!-- desktop -->
-    <div class="container hide-on-med-and-down">
+    <div class="container hide-on-med-and-down main-container">
 
         <table id="branchesTable" class="display card" cellspacing="0" width="100%">
             <thead>
@@ -58,7 +58,7 @@
     </div>
 
     <!-- ipad -->
-    <div class="container hide-on-large-only hide-on-small-only">
+    <div class="container hide-on-large-only hide-on-small-only main-container">
 
         <table id="branchesTableMobile" class="display card" cellspacing="0" width="100%">
             <thead>
@@ -100,7 +100,7 @@
 
 
     <!-- mobile -->
-    <div class="hide-on-med-and-up">
+    <div class="hide-on-med-and-up ">
 
         <table id="branchesTableMobile" class="display card" cellspacing="0" width="100%">
             <thead>
@@ -228,17 +228,17 @@
 
             $('#branchesTable').DataTable({
                 "language": {
-                    "search": "<i class='material-icons'>search</i>",
+                    "search": "<i class='material-icons table-icon'>search</i>",
                     "lengthMenu": "Mostrar _MENU_ por página",
                     "zeroRecords": "No hay Nodos",
                     "info": "Mostrando página _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay información",
                     "infoFiltered": "(filtrado de _MAX_ registros)",
                     "oPaginate": {
-                        "sFirst":    	"<i class='material-icons'>fast_rewind</i>",
-                        "sPrevious": 	"<i class='material-icons'>skip_previous</i>",
-                        "sNext":     	"<i class='material-icons'>skip_next</i>",
-                        "sLast":     	"<i class='material-icons'>fast_forward</i>"
+                        "sFirst":    	"<i class='material-icons table-icon'>fast_rewind</i>",
+                        "sPrevious": 	"<i class='material-icons table-icon'>skip_previous</i>",
+                        "sNext":     	"<i class='material-icons table-icon'>skip_next</i>",
+                        "sLast":     	"<i class='material-icons table-icon'>fast_forward</i>"
                     }
                 }
             });
@@ -252,10 +252,10 @@
                     "infoEmpty": "No hay información",
                     "infoFiltered": "(filtrado de _MAX_ registros)",
                     "oPaginate": {
-                        "sFirst":    	"<i class='material-icons'>fast_rewind</i>",
-                        "sPrevious": 	"<i class='material-icons'>skip_previous</i>",
-                        "sNext":     	"<i class='material-icons'>skip_next</i>",
-                        "sLast":     	"<i class='material-icons'>fast_forward</i>"
+                        "sFirst":    	"<i class='material-icons table-icon'>fast_rewind</i>",
+                        "sPrevious": 	"<i class='material-icons table-icon'>skip_previous</i>",
+                        "sNext":     	"<i class='material-icons table-icon'>skip_next</i>",
+                        "sLast":     	"<i class='material-icons table-icon'>fast_forward</i>"
                     }
                 }
             });

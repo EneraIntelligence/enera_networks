@@ -227,3 +227,14 @@ tspan{
 table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd,tr.even>.sorting_1 {
   background-color: #e1f5fe!important;
 }
+
+.table-icon{
+  position: relative;
+  top: 10px;
+}
+
+@media only screen and(max-width: 1300px){
+  .main-container{
+    min-width: 90%;
+  }
+}
