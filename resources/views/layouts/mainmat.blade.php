@@ -51,7 +51,7 @@
             <!-- platform logo -->
             <a href="javascript:void(0)" onclick="platformMenu.toggle(event)" class="brand-logo center title-menu">
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_networks.png')}}" alt="Enera">
-                <span class="menu-text" style="font-size: 25px;">Networks</span>
+                <span class="menu-text" style="font-size: 25px;">Network</span>
                 {{--<i style="top: 20px; position: absolute; left: 60px;" class="tiny material-icons platform-hide">arrow_drop_down</i>--}}
                 <i style="top: 20px; position: absolute; left: 60px;"
                    class="tiny material-icons platform-hide grey-text">keyboard_arrow_down</i>
@@ -218,7 +218,7 @@
 
             <a href="javascript:void(0)" class="brand-logo center title-menu">
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_publishers.png')}}" alt="Enera">
-                <span class="menu-text" style="font-size: 25px;">Publishers</span>
+                <span class="menu-text" style="font-size: 25px;">Publisher</span>
             </a>
 
         </div>
@@ -228,7 +228,7 @@
 
             <a href="javascript:void(0)" class="brand-logo center title-menu">
                 <img class="menu-logo" src="{{asset('assets/img/logo_enera_admins.png')}}" alt="Enera">
-                <span class="menu-text" style="font-size: 25px;">Admins</span>
+                <span class="menu-text" style="font-size: 25px;">Admin</span>
             </a>
 
         </div>
