@@ -107,7 +107,7 @@ class BranchesController extends Controller
                 ],
             ]);
 
-            $days = 8;
+            $days = 30;
             $welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
                     '$match' => [
