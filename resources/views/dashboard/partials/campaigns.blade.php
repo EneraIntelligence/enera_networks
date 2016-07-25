@@ -20,7 +20,7 @@
                 <span style="font-weight: 300;font-size: 10px; padding-bottom: 15px;">Dias restantes: {{$interval->format('%a días')}}</span>
             </div>
             <img  id="img-left" src="{{asset('images/icons/'.$campaign->interaction['name'].'.svg')}}">
-            <a class="waves-effect waves-teal btn-fla" id="button-right" href="{{route('branches::show', ['id' => $campaign->_id])}}"><i class="material-icons right" style="margin-left: 0;">keyboard_arrow_right</i>Ver</a>
+            <a class="waves-effect waves-teal btn-fla" id="button-right" href="{{route('campaigns::show', ['id' => $campaign->_id])}}"><i class="material-icons right" style="margin-left: 0;">keyboard_arrow_right</i>Ver</a>
         </div>
     @endforeach
 </div>
