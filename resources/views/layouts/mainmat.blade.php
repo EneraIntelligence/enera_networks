@@ -20,7 +20,7 @@
     {!! HTML::style('css/material-extra.css') !!}
     {!! HTML::style('css/materialize.css') !!}
 
-            <!-- App - CSS -->
+<!-- App - CSS -->
     {!! HTML::style('assets/css/app.css') !!}
     <style>
         .zero a {
@@ -71,7 +71,9 @@
                 <li>
 
                     <?php
-                    $networkCount = auth()->user()->role->name == 'Enera Admin' ? \Networks\Network::count() : auth()->user()->client->networks->count();
+                    $networkCount = auth()->user()->role->name == 'Enera Admin' ?
+                            \Networks\Network::where('status', 'active')->count() :
+                            auth()->user()->client->networks()->where('status', 'active')->count();
 
                     $currentNetworkName = \Networks\Network::find(session('network_id'))->name;
                     ?>
@@ -85,43 +87,43 @@
                         <a class="dropdown-button" href="#!">
                             {{ $currentNetworkName }}
                         </a>
+                @endif
+
+                <!-- Dropdown Structure -->
+                    <ul id="networksDropdown" class="dropdown-content">
+
+                        <li>
+                            <a href="#!"
+                               class="black-text text-darken-1">
+                                {{ $currentNetworkName }}
+                            </a>
+                        </li>
+
+                        @if(auth()->user()->role->name == 'Enera Admin')
+                            @foreach(\Networks\Network::all() as $network)
+                                @if($network->name!=$currentNetworkName)
+                                    <li>
+                                        <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                           class="grey-text text-darken-1">
+                                            {{ $network->name }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach(auth()->user()->client->networks as $network)
+                                @if($network->name!=$currentNetworkName)
+                                    <li>
+                                        <a href="{!! Request::url().'?network_id='.$network->_id !!}"
+                                           class="grey-text text-darken-1">
+                                            {{ $network->name }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
                         @endif
 
-                                <!-- Dropdown Structure -->
-                        <ul id="networksDropdown" class="dropdown-content">
-
-                            <li>
-                                <a href="#!"
-                                   class="black-text text-darken-1">
-                                    {{ $currentNetworkName }}
-                                </a>
-                            </li>
-
-                            @if(auth()->user()->role->name == 'Enera Admin')
-                                @foreach(\Networks\Network::all() as $network)
-                                    @if($network->name!=$currentNetworkName)
-                                        <li>
-                                            <a href="{!! Request::url().'?network_id='.$network->_id !!}"
-                                               class="grey-text text-darken-1">
-                                                {{ $network->name }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            @else
-                                @foreach(auth()->user()->client->networks as $network)
-                                    @if($network->name!=$currentNetworkName)
-                                        <li>
-                                            <a href="{!! Request::url().'?network_id='.$network->_id !!}"
-                                               class="grey-text text-darken-1">
-                                                {{ $network->name }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            @endif
-
-                        </ul>
+                    </ul>
 
                 </li>
 
@@ -153,9 +155,9 @@
                 </li>
 
                 <li class="{{ isset($navData["profileState"]) ?$navData["profileState"]:""  }}">
-                    {{--<a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>--}}
+                {{--<a href="{{ route("profile::index") }}"><i class="material-icons">perm_identity</i></a>--}}
 
-                            <!-- avatar -->
+                <!-- avatar -->
 
                     {{--                    <a class="valign-wrapper profile-link" href="{{ route("profile::index") }}" style="padding: 7px 5px 0 0;">--}}
                     <a class="valign-wrapper profile-link" href="#!" style="padding: 7px 5px 0 0;">
@@ -292,110 +294,110 @@
 
     </ul>
 
-    @endif <!-- end network selector -->
+@endif <!-- end network selector -->
 
-    @if(isset($navData['breadcrumbs']))
-        <div class="col s12 l12 head-info black-text">
-            <div class="zero">
-                <div class="black-text">
+@if(isset($navData['breadcrumbs']))
+    <div class="col s12 l12 head-info black-text">
+        <div class="zero">
+            <div class="black-text">
 
-                    <a href="{{route('home')}}" class="breadcrumb ">Inicio</a>
-                    @for($i=0; $i< count($navData['breadcrumbs'])-1 ; $i++)
-                        <a href="{{route($navData['breadcrumbs'][$i].'::index')}}" class="breadcrumb">
-                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}
-                        </a>
-                    @endfor
-                    <a class="breadcrumb" style="color: #424242 !important">
-                        <b>
-                            {{--                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}--}}
-                            {{  $navData['breadcrumbs'][$i]   }}
-                        </b>
+                <a href="{{route('home')}}" class="breadcrumb ">Inicio</a>
+                @for($i=0; $i< count($navData['breadcrumbs'])-1 ; $i++)
+                    <a href="{{route($navData['breadcrumbs'][$i].'::index')}}" class="breadcrumb">
+                        {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}
                     </a>
-                </div>
+                @endfor
+                <a class="breadcrumb" style="color: #424242 !important">
+                    <b>
+                        {{--                            {{  trans( "navigation.".$navData['breadcrumbs'][$i] ) }}--}}
+                        {{  $navData['breadcrumbs'][$i]   }}
+                    </b>
+                </a>
             </div>
         </div>
-    @endif
+    </div>
+@endif
 
-    <main>
+<main>
 
-        @yield('content')
+    @yield('content')
 
-    </main>
+</main>
 
 
-    <footer class="page-footer grey darken-3">
+<footer class="page-footer grey darken-3">
 
-        <div class="footer-copyright">
-            <div class="container">
+    <div class="footer-copyright">
+        <div class="container">
 
-                <a class="left grey-text text-lighten-2" href="{!! URL::route('terms') !!}"
-                   class="grey-text text-lighten-4 left">Términos y
-                    condiciones</a>
+            <a class="left grey-text text-lighten-2" href="{!! URL::route('terms') !!}"
+               class="grey-text text-lighten-4 left">Términos y
+                condiciones</a>
 
-                <!--
+        <!--
             @if(!isset($hideTermsFooter) || !$hideTermsFooter)
-                        <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
+            <a href="{!! URL::route('terms') !!}" class="grey-text text-lighten-4 left">Términos y
                     condiciones</a>
             @endif
-                        -->
-                <span class="grey-text text-lighten-4 right" style="color: #9e9e9e!important; font-size: 12px;"> © 2016 Enera Intelligence</span>
+                -->
+            <span class="grey-text text-lighten-4 right" style="color: #9e9e9e!important; font-size: 12px;"> © 2016 Enera Intelligence</span>
 
-            </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- google web fonts -->
-    <script>
-        WebFontConfig = {
-            google: {
-                families: [
-                    'Source+Code+Pro:400,700:latin',
-                    'Roboto:400,300,500,700,400italic:latin'
-                ]
-            }
-        };
-        (function () {
-            var wf = document.createElement('script');
-            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-                    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-            wf.type = 'text/javascript';
-            wf.async = 'true';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(wf, s);
-        })();
-    </script>
+<!-- google web fonts -->
+<script>
+    WebFontConfig = {
+        google: {
+            families: [
+                'Source+Code+Pro:400,700:latin',
+                'Roboto:400,300,500,700,400italic:latin'
+            ]
+        }
+    };
+    (function () {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+                '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+    })();
+</script>
 
-    <!-- Material - JS and GSAP-->
-    {!! HTML::script('js/jquery.min.js') !!}
-    {!! HTML::script('js/materialize.js') !!}
-    {!! HTML::script('js/greensock/TweenLite.min.js') !!}
-    {!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
-    {!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
-    {!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
+<!-- Material - JS and GSAP-->
+{!! HTML::script('js/jquery.min.js') !!}
+{!! HTML::script('js/materialize.js') !!}
+{!! HTML::script('js/greensock/TweenLite.min.js') !!}
+{!! HTML::script('js/greensock/plugins/CSSPlugin.min.js') !!}
+{!! HTML::script('js/greensock/easing/EasePack.min.js') !!}
+{!! HTML::script('js/greensock/utils/Draggable.min.js') !!}
 
-    {!! HTML::script('js/platform_menu.js') !!}
+{!! HTML::script('js/platform_menu.js') !!}
 
 
 
-    @yield('scripts')
+@yield('scripts')
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            platformMenu.initialize();
+        platformMenu.initialize();
 
-            //materialize elemenst initialization
-            $(".button-collapse").sideNav();
-            $(".dropdown-button").dropdown({
-                constrain_width: false
-            });
-
-            //show page when all ready
-            var body = $("body");
-            body.css("opacity", 1);
-            body.css("filter", "alpha(opacity=100)");
-
+        //materialize elemenst initialization
+        $(".button-collapse").sideNav();
+        $(".dropdown-button").dropdown({
+            constrain_width: false
         });
-    </script>
+
+        //show page when all ready
+        var body = $("body");
+        body.css("opacity", 1);
+        body.css("filter", "alpha(opacity=100)");
+
+    });
+</script>
 </body>
 </html>
