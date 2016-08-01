@@ -100,7 +100,7 @@
                         </li>
 
                         @if(auth()->user()->role->name == 'Enera Admin')
-                            @foreach(\Networks\Network::all() as $network)
+                            @foreach(\Networks\Network::where('status','active')->get() as $network)
                                 @if($network->name!=$currentNetworkName)
                                     <li>
                                         <a href="{!! Request::url().'?network_id='.$network->_id !!}"
@@ -111,7 +111,7 @@
                                 @endif
                             @endforeach
                         @else
-                            @foreach(auth()->user()->client->networks as $network)
+                            @foreach(auth()->user()->client->networks()->where('status','active')->get() as $network)
                                 @if($network->name!=$currentNetworkName)
                                     <li>
                                         <a href="{!! Request::url().'?network_id='.$network->_id !!}"
