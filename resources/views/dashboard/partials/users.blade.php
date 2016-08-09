@@ -3,10 +3,11 @@
 </div>
 
 <div class="section" style="font-size: 25px; padding-top:0;">
-    <span style="font-weight: 400;">Usuarios</span><span style="font-weight: 200;" class="right">{{ number_format($summary_users['accumulated'],0,'.',',') }}</span>
+    <span style="font-weight: 400;">Usuarios</span>
+    <span style="font-weight: 200;" class="right">{{ number_format($summary_users['accumulated'],0,'.',',') }}</span>
 </div>
 
-<div class="divider grey darken-1"></div>
+<div class="divider grey darken-2"></div>
 
 <div class="section" style="height: 150px;">
 
@@ -19,8 +20,8 @@
     </div>
 
     <div style="width: 64px; margin: 0 auto;">
-        <img style="width:30px;" width="30" src="{{asset('images/dashboard/male.png')}}" alt="">
-        <img style="width:30px;" width="30" src="{{asset('images/dashboard/female.png')}}" alt="">
+        <img style="width:30px;" width="30" src="{{asset('images/dashboard/male_color.png')}}" alt="">
+        <img style="width:30px;" width="30" src="{{asset('images/dashboard/female_color.png')}}" alt="">
     </div>
 
 
@@ -54,7 +55,7 @@
 
 </div>
 
-<div class="divider grey darken-1"></div>
+<div class="divider grey darken-2"></div>
 
 <div class="section dash-data" style="font-size: 20px; padding-bottom: 0; margin-bottom: -10px;">
 
@@ -72,7 +73,7 @@
             </span>
         </div>
 
-        <div class="col s6 right-align">
+        <div class="col s6 right-align grey-text darken-2">
             <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}} - {{date('d-M',strtotime( "-1 days" ))}}</span>
         </div>
 

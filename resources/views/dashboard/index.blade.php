@@ -19,31 +19,31 @@
 
         <div class="carousel carousel-mobile dashboard-carousel">
 
-            <div id="mobile-card-1" class="card-panel carousel-item my-card grey darken-3 white-text">
+            <div id="mobile-card-1" class="card-panel carousel-item my-card white">
                 <div class="card-content">
                     @include('dashboard/partials/devices')
                 </div>
             </div>
 
-            <div id="mobile-card-2" class="card-panel carousel-item my-card grey darken-3 white-text">
+            <div id="mobile-card-2" class="card-panel carousel-item my-card white">
                 <div class="card-content">
                     @include('dashboard/partials/users')
                 </div>
             </div>
 
-            <div id="mobile-card-3" class="card-panel carousel-item my-card grey darken-3 white-text">
+            <div id="mobile-card-3" class="card-panel carousel-item my-card white">
                 <div class="card-content">
                     @include('dashboard/partials/access')
                 </div>
             </div>
 
-            <div id="mobile-card-4" class="card-panel carousel-item my-card grey darken-3 white-text">
+            <div id="mobile-card-4" class="card-panel carousel-item my-card white">
                 <div class="card-content">
                     @include('dashboard/partials/branches')
                 </div>
             </div>
 
-            <div id="mobile-card-5" class="card-panel carousel-item my-card grey darken-3 white-text">
+            <div id="mobile-card-5" class="card-panel carousel-item my-card white">
                 <div class="card-content">
                     @include('dashboard/partials/campaigns', ['campaigns'=> $campaigns])
                 </div>
@@ -59,7 +59,7 @@
 
 
             <div class="container slider-item">
-                <div id="card-2" class="card-panel hoverable grey darken-3 white-text">
+                <div id="card-2" class="card-panel hoverable white">
                     <div class="card-content">
                         @include('dashboard/partials/users')
                     </div>
@@ -67,7 +67,7 @@
             </div>
 
             <div class="container slider-item">
-                <div id="card-3" class="card-panel hoverable grey darken-3 white-text">
+                <div id="card-3" class="card-panel hoverable white">
                     <div class="card-content">
                         @include('dashboard/partials/access')
                     </div>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="container slider-item">
-                <div id="card-4" class="card-panel hoverable grey darken-3 white-text">
+                <div id="card-4" class="card-panel hoverable white">
                     <div class="card-content">
                         @include('dashboard/partials/branches')
                     </div>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="container slider-item">
-                <div id="card-5" class="card-panel hoverable grey darken-3 white-text">
+                <div id="card-5" class="card-panel hoverable white">
                     <div class="card-content">
                         @include('dashboard/partials/campaigns')
                     </div>
@@ -92,7 +92,7 @@
 
 
             <div class="container slider-item">
-                <div id="card-1" class="card-panel hoverable grey darken-3 white-text">
+                <div id="card-1" class="card-panel hoverable white">
                     <div class="card-content">
                         @include('dashboard/partials/devices')
                     </div>

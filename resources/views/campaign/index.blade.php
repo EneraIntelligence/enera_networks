@@ -44,7 +44,8 @@
                         {{--</div>--}}
 
                         <div style="margin-left:87px;">
-                            <img class="thumb" src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}">
+                            <img class="thumb"
+                                 src="{{"https://s3-us-west-1.amazonaws.com/enera-publishers/items/". ($campaign->interaction['name'] != 'survey' ? $campaign->content['images']['large'] : $campaign->content['images']['survey'])}}">
                             <strong>{{$campaign->name}} <br> </strong>
                             <span>
                             Vistos: 100 <br>
@@ -127,6 +128,7 @@
 
     @section('scripts')
     {!! HTML::script('js/jquery-validation/dist/jquery.validate.js') !!}
+
 
     @if( count($campaigns) == 0 )
 

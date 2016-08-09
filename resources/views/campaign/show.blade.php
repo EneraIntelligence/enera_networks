@@ -164,21 +164,10 @@
 @section('scripts')
     {!! HTML::script('bower_components/c3js-chart/c3.min.js') !!}
     {!! HTML::script('bower_components/d3/d3.min.js') !!}
-    {!! HTML::script('js/circle-progress.js') !!}
     {!! HTML::script('js/ajax/graficas.js') !!}
     {!! HTML::script('js/jquery-validation/dist/jquery.validate.min.js') !!}
 
     <script>
-        $('.circle').circleProgress({
-            value: {!! $porcentaje !!}, //lo que se va a llenar con el color
-            size: 120,   //tamaño del circulo
-            startAngle: -300, //de donde va a empezar la animacion
-            reverse: true, //empieza la animacion al contrario
-            thickness: 8,  //el grosor la linea
-            fill: {color: "{!! CampaignStyle::getStatusColor($cam->status) !!}"} //el color de la linea
-        }).on('circle-animation-progress', function (event, progress) {
-            $(this).find('strong').html(parseInt(100 * progress) + '<i>%</i>');
-        });
         var grafica = new graficas;
         var menJson = '{!! json_encode($men) !!}';
         var menObj = JSON.parse(menJson);
@@ -187,7 +176,6 @@
 
         var intLJson = '{!! json_encode($IntHours) !!}';
         var intLObj = JSON.parse(intLJson);
-        console.log(intLObj);
 
         var gra = grafica.genderAge(menObj, womenObj);
         var graf = grafica.intPerHour(intLObj);

@@ -9,7 +9,7 @@
     </span>
 </div>
 
-<div class="divider grey darken-1"></div>
+<div class="divider grey darken-2"></div>
 <div class="section dash-data" style="font-size: 20px; padding-bottom: 0; margin-bottom: -10px;">
 
     <div class="row">
@@ -26,7 +26,7 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}}
+            <span style="font-size:9px; font-weight: 300; vertical-align:top;" class="grey-text darken-2">{{date('d-M',strtotime( "-7 days" ))}}
                 - {{date('d-M')}}</span>
         </div>
 
@@ -39,14 +39,14 @@
     </div>
 
 </div>
-<div class="divider grey darken-1"></div>
+<div class="divider grey darken-2"></div>
 
 <div class="row" style="margin-top:10px; margin-bottom: 10px;">
 
     <div class="col s6 left-align">
         <span style="font-weight: 400;">Adquiridos:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-8 days" ))}}
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;" class="grey-text darken-2">{{date('d-M',strtotime( "-8 days" ))}}
             - {{date('d-M',strtotime( "-1 days" ))}}</span>
         <br>
         <i class="green-text-light material-icons" style="vertical-align:top;">add</i>
@@ -56,7 +56,7 @@
     <div class="col s6 left-align left-border">
         <span style="font-weight: 400;">Este mes:</span>
         <br>
-        <span style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M', strtotime('first day of this month'))}}
+        <span style="font-size:9px; font-weight: 300; vertical-align:top;" class="grey-text darken-2">{{date('d-M', strtotime('first day of this month'))}}
             - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
         <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div class="divider grey darken-1"></div>
+<div class="divider grey darken-2"></div>
 
 <div class="blank-space"></div>
 
