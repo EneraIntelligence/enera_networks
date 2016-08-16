@@ -180,6 +180,7 @@
             for (i = 0; i < cards.length; i++) {
                 card = cards[i];
                 card.css("height", "auto");
+                card.css("display", "block");
 
                 if (card.height() > minHeight)
                     minHeight = card.height();
@@ -199,7 +200,7 @@
     <script>
         var userChart;
 
-        $(document).ready(function () {
+        $(window).load(function () {
 
             var chartDesktop = $(".user-chart:eq(1)");
             chartDesktop.removeClass("user-chart");
