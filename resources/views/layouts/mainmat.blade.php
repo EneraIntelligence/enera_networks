@@ -269,7 +269,7 @@
         </li>
 
         @if(auth()->user()->role->name == 'Enera Admin')
-            @foreach(\Networks\Network::all() as $network)
+            @foreach(\Networks\Network::where('status','active')->get() as $network)
                 @if($network->name!=$currentNetworkName)
                     <li>
                         <a href="{!! Request::url().'?network_id='.$network->_id !!}"
@@ -389,7 +389,6 @@
         //materialize elemenst initialization
         $(".button-collapse").sideNav();
         $(".dropdown-button").dropdown({
-            constrain_width: false
         });
 
         //show page when all ready

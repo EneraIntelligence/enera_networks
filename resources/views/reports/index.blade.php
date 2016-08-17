@@ -69,13 +69,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
+                                <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">assignment_ind</i>Visitantes Totales</span>
-                                <h4 class="center-align">2222</h4>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="isitantes Totales">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -87,13 +89,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Dsip. Nuevos</span>
-                                <h4 class="center-align">2222</h4>
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Disp. Nuevos</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Disp. Nuevos">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -105,12 +109,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
-                                <h4 class="center-align">2222</h4>
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Taza de Lealtad">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -136,13 +143,16 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
+                                <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">group</i>Trafico total</span>
-                                <h4 class="center-align">2222</h4>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Trafico total">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">event</i>Dispositivos Unicos</span>
-                                <h4 class="center-align green-text">24%
+                                <span class="f-size-12 truncate tooltipped"><i
+                                            class="material-icons prefix prefix-position">event</i>Dispositivos Unicos</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Dispositivos Unicos">12%
                                 </h4>
                             </div>
                         </div>
@@ -154,13 +164,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
+                                <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Passer By</span>
-                                <h4 class="center-align">2222</h4>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Passer By">2222</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12"><i class="material-icons prefix prefix-position">group</i>Visitantes</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitantes"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>55%
                                 </h4>
                             </div>
                         </div>
@@ -172,12 +184,16 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">event</i>Taza de visita</span>
-                                <h4 class="center-align">2222</h4>
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">event</i>Taza de visita</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Taza de visita">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">assessment</i>Visitanrtes Unicos</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Visitanrtes Unicos</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitanrtes Unicos"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -203,13 +219,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
+                                <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">group</i>Trafico total</span>
-                                <h4 class="center-align">2222</h4>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Trafico total">2222</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Unicos</span>
-                                <h4 class="center-align green-text">24%
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Dispositivos Unicos">24%
                                 </h4>
                             </div>
                         </div>
@@ -221,13 +239,16 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12"><i
+                                <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">event</i>Passer By</span>
-                                <h4 class="center-align">2222</h4>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Passer By">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">group</i>Visitantes</span>
-                                <h4 class="center-align green-text"><i class="material-icons prefix">arrow_drop_up</i>24%
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">group</i>Visitantes</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitantes"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -299,7 +320,7 @@
                         data1: 'area-spline'
                     },
                     colors: {
-                        data1: '#616161'
+                        data1: '#b0bec5'
                     }
                 }
             });
@@ -312,7 +333,7 @@
                     ],
                     type: 'bar',
                     colors: {
-                        data1: '#616161'
+                        data1: '#78909c'
                     }
                 },
                 bar: {
@@ -332,8 +353,13 @@
                     ],
                     type: 'donut'
                 },
+                color: {
+                    pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78']
+                },
                 donut: {}
             });
+
+            $('.tooltipped').tooltip({delay: 50});
         });
     </script>
 
