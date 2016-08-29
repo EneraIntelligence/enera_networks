@@ -24,6 +24,47 @@ class ReportController extends Controller
         return view('reports.index', compact('navData'));
     }
 
+    public function users()
+    {
+        $navData= array();
+        $navData['reports']='active';
+
+        return view('reports.users', compact('navData'));
+    }
+
+    public function devices()
+    {
+        $navData= array();
+        $navData['reports']='active';
+
+        return view('reports.devices', compact('navData'));
+    }
+
+    public function campaigns()
+    {
+        $navData= array();
+        $navData['reports']='active';
+
+        return view('reports.campaigns', compact('navData'));
+    }
+
+
+    public function branches()
+    {
+        $navData= array();
+        $navData['reports']='active';
+
+        return view('reports.branches', compact('navData'));
+    }
+
+    public function access()
+    {
+        $navData= array();
+        $navData['reports']='active';
+
+        return view('reports.access', compact('navData'));
+    }
+
 
     public function settings()
     {

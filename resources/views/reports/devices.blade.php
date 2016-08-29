@@ -1,6 +1,6 @@
 @extends('layouts.mainmat')
 
-@section('title', 'Reportes')
+@section('title', 'Reportes Usuarios')
 
 
 @section('head_scripts')
@@ -8,10 +8,27 @@
     {!! HTML::style('assets/css/report.css') !!}
 
     <style>
-        option{
-            color: red;
+        .section-title {
+            color: white;
+            background-color: #b3e5fc;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+
+        @media screen and (max-width: 480px) {
+            .center {
+                width: 100%;
+                padding: 15px;
+            }
         }
     </style>
+
 @stop
 
 
@@ -23,37 +40,21 @@
                 <div class="card white">
                     <div class="card-content">
                         <p>Sección</p>
-                        <span class="card-title">Periodo</span>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <i class="material-icons prefix">event</i>
-                                <select>
-                                    <option value="" disabled selected>Choose your option</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <img src="https://s3-us-west-1.amazonaws.com/enera-publishers/avatars/{!! isset($user->image) ? $user->image : 'usern.png'!!}"
-                             alt="Enera" class="" style="position: absolute; top: 10px; right: 10px; width: 75px;">
-                    </div>
-                </div>
-            </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <p>Sección</p>
                         <div class="row no-margin">
-                            <div class="input-field col s6">
+                            <div class=" col s12 m4">
+                                <div>
+                                    <h5 class="center-align section-title">Visita de Dispositivos</h5>
+                                </div>
+                            </div>
+                            <div class="input-field col s12 m4">
                                 <select>
-                                    <option value="">Vista de dispositivos</option>
+                                    <option value="">Todos los nodos</option>
                                     <option value="1">Option 1</option>
                                     <option value="2">Option 2</option>
                                     <option value="3">Option 3</option>
                                 </select>
                             </div>
-                            <div class="input-field col s6">
+                            <div class="input-field col s12 m4">
                                 <select>
                                     <option value="">Todos los nodos</option>
                                     <option value="1">Option 1</option>
@@ -76,14 +77,15 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">assignment_ind</i>Visitantes Totales</span>
+                                            class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">2222</h4>
+                                    data-tooltip="Trafico Total">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
+                                <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Dispositivos Unicos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Dispositivos Unicos"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24
                                 </h4>
                             </div>
                         </div>
@@ -96,14 +98,15 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Disp. Nuevos</span>
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Disp. Nuevos">2222</h4>
+                                    data-tooltip="Visitantes">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de visitantes</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Tasa de visitantes"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -130,35 +133,20 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col s12">
-            <div class="card white">
-                <div class="card-content">
-                    <p>Sección</p>
-                    <div class="row no-margin">
-                        <div class="input-field col s12 no-padding no-margin ">
-                            <div id="time"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col s12 m4">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">group</i>Trafico total</span>
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico total">2222</h4>
+                                    data-tooltip="Visitantes Totales">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate tooltipped"><i
-                                            class="material-icons prefix prefix-position">event</i>Dispositivos Unicos</span>
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Unicos">12%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -170,15 +158,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Passer By</span>
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Dispositivos Nuevos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Passer By">2222</h4>
+                                    data-tooltip="Dispositivos Nuevos">2222</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12"><i class="material-icons prefix prefix-position">group</i>Visitantes</span>
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>55%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
                         </div>
@@ -190,15 +178,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">event</i>Taza de visita</span>
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Taza de visita">2222</h4>
+                                    data-tooltip="Visitantes Totales">22%</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Visitanrtes Unicos</span>
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de lealtad</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitanrtes Unicos"><i
+                                    data-tooltip="Tasa de lealtad"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
                             </div>
@@ -206,105 +194,134 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col s12">
-            <div class="card white">
-                <div class="card-content">
-                    <h5>Sistemas Operativos</h5>
-                    <div class="row no-margin">
-                        <div class="input-field col s12 no-padding no-margin ">
-                            <div id="op"></div>
+            <div class="col s12">
+                <div class="card white">
+                    <div class="card-content">
+                        <p>Sección</p>
+                        <div class="row no-margin">
+                            <div class=" col s12 m4">
+                                <div>
+                                    <h5 class="center-align section-title">Tiempo de permanencia </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="input-field col s12 no-padding no-margin ">
+                                <div id="time"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s12 m6">
+            <div class="col s12 m4">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
-                            <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">group</i>Trafico total</span>
+                            <div class="col s12">
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Tiempo Promedia</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico total">2222</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Unicos</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Unicos">24%
-                                </h4>
+                                    data-tooltip="Tiempo Promedia">1:23:20</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12 m6">
+            <div class="col s12">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
-                            <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">event</i>Passer By</span>
-                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Passer By">2222</h4>
+                            <div class=" col s12 m4">
+                                <div>
+                                    <h5 class="center-align section-title">Sistema Operativo</h5>
+                                </div>
                             </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">group</i>Visitantes</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
-                                </h4>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="input-field col s12 m6 no-padding no-margin ">
+                                <div id="os"></div>
+                            </div>
+                            <div class="input-field col s12 m6 no-padding no-margin ">
+                                <div class="col s12">
+                                    <div class="col s6 right-align">
+                                        <i class="large material-icons">phone_iphone</i>
+                                    </div>
+                                    <div class="col s6">
+                                        <h5>81.8%</h5>
+                                        <h5>Mobile</h5>
+                                    </div>
+                                </div>
+                                <div class="col s12">
+                                    <div class="col s6 right-align">
+                                        <i class="large material-icons">tablet_android</i>
+                                    </div>
+                                    <div class="col s6">
+                                        <h5>81.8%</h5>
+                                        <h5>Mobile</h5>
+                                    </div>
+                                </div>
+                                <div class="col s12">
+                                    <div class="col s6 right-align">
+                                        <i class="large material-icons">laptop</i>
+                                    </div>
+                                    <div class="col s6">
+                                        <h5>81.8%</h5>
+                                        <h5>Mobile</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col s12">
-            <div class="card white">
-                <div class="card-content">
-                    <h5>Sistemas Operativos</h5>
-                    <div class="input-field col s6">
-                        <select>
-                            <option value="">Vista de dispositivos</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                        </select>
-                    </div>
-                    <div class="row top-margin">
-                        <div class="col s12">
-                            <table class="striped highlight">
-                                <thead>
-                                <tr>
-                                    <th data-field="id">Name</th>
-                                    <th data-field="name">Item Name</th>
-                                </tr>
-                                </thead>
+            <div class="col s12">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class=" col s12 m4">
+                                <div>
+                                    <h5 class="center-align section-title">Sistema Operativo</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="input-field no-padding no-margin center">
+                                <table class="bordered">
+                                    <thead>
+                                    <tr>
+                                        <th data-field="id">Name</th>
+                                        <th data-field="name">Item Name</th>
+                                    </tr>
+                                    </thead>
 
-                                <tbody>
-                                <tr>
-                                    <td>Alvin</td>
-                                    <td>Eclair</td>
-                                </tr>
-                                <tr>
-                                    <td>Alan</td>
-                                    <td>Jellybean</td>
-                                </tr>
-                                <tr>
-                                    <td>Jonathan</td>
-                                    <td>Lollipop</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                    <tr>
+                                        <td>Alvin</td>
+                                        <td>Eclair</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alan</td>
+                                        <td>Jellybean</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jonathan</td>
+                                        <td>Lollipop</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
+                                <a class="waves-effect waves-light btn cyan lighten-5">Ver informe de nodos</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 @stop
 
 
@@ -328,6 +345,14 @@
                     colors: {
                         data1: '#b0bec5'
                     }
+                },
+                grid: {
+                    x: {
+                        show: true
+                    },
+                    y: {
+                        show: true
+                    }
                 }
             });
 
@@ -346,11 +371,19 @@
                     width: {
                         ratio: .85
                     }
+                },
+                grid: {
+                    x: {
+                        show: true
+                    },
+                    y: {
+                        show: true
+                    }
                 }
             });
 
             c3.generate({
-                bindto: '#op',
+                bindto: '#os',
                 data: {
                     columns: [
                         ['data1', 30],
@@ -364,6 +397,9 @@
                 },
                 donut: {}
             });
+
+
+
 
             $('.tooltipped').tooltip({delay: 50});
         });

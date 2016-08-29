@@ -27,6 +27,11 @@ Route::group(['middleware' => ['auth', 'guardian', 'NetworkId', 'preview']], fun
 
     Route::group(['prefix' => 'reports', 'as' => 'reports::'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'ReportController@index']);
+        Route::get('/users', ['as' => 'users', 'uses' => 'ReportController@users']);
+        Route::get('/branches', ['as' => 'branches', 'uses' => 'ReportController@branches']);
+        Route::get('/devices', ['as' => 'devices', 'uses' => 'ReportController@devices']);
+        Route::get('/campaigns', ['as' => 'campaigns', 'uses' => 'ReportController@campaigns']);
+        Route::get('/access', ['as' => 'access', 'uses' => 'ReportController@access']);
     });
 
     Route::group(['prefix' => 'profile', 'as' => 'profile::'], function () {
