@@ -49,7 +49,7 @@ class DashboardController extends Controller
                     - ($w2->accumulated['users']['total'] - $w3->accumulated['users']['total']))
                 / ($w2->accumulated['users']['total'] - $w3->accumulated['users']['total'])) : 0;
 
-        $devices_diff_week = (($summary_network->accumulated['devices']['total'] - $w2->accumulated['devices']['total'])
+        $devices_diff_week = $summary_network && $w2 && (($summary_network->accumulated['devices']['total'] - $w2->accumulated['devices']['total'])
             - ($w3->accumulated['devices']['total'] - $w2->accumulated['devices']['total'])) > 0 ? true : false;
 
         return view('dashboard.index', [

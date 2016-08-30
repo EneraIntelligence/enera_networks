@@ -134,12 +134,7 @@
                         </div>
                         <div class="row no-margin">
                             <div class="input-field col s12 no-padding no-margin ">
-                                <div id="female"></div>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field col s12 no-padding no-margin ">
-                                <div id="male"></div>
+                                <div id="ages"></div>
                             </div>
                         </div>
                     </div>
@@ -377,13 +372,15 @@
             });
 
             c3.generate({
-                bindto: '#female',
+                bindto: '#ages',
                 data: {
                     x : 'x',
                     columns: [
                         ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                        ['data1', 30, 200, 100, 400, 150, 250]
-                    ]
+                        ['female', 30, 200, 100, 400, 150, 250],
+                        ['male', 70, 20, 50, 200, 450, 350]
+                    ],
+                    type: 'spline'
                 },
                 grid: {
                     x: {
@@ -403,35 +400,6 @@
                     }
                 }
             });
-
-            c3.generate({
-                bindto: '#male',
-                data: {
-                    x: 'x',
-                    columns: [
-                        ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                        ['data1', 30, 200, 100, 400, 150, 250]
-                    ]
-                },
-                grid: {
-                    x: {
-                        show: false
-                    },
-                    y: {
-                        show: true
-                    }
-                },
-                axis: {
-                    x: {
-                        type: 'timeseries',
-                        localtime: true,
-                        tick: {
-                            format: '%b-%d'
-                        }
-                    }
-                }
-            });
-
 
 
             var chart = c3.generate({

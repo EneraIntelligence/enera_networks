@@ -343,7 +343,7 @@
                         data1: 'area-spline'
                     },
                     colors: {
-                        data1: '#b0bec5'
+                        data1: '#b3e5fc'
                     }
                 },
                 grid: {
