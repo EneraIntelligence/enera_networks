@@ -31,7 +31,7 @@
 
         .section-title {
             color: white;
-            background-color: #b3e5fc;
+            background-color: #039be5;
             border-radius: 10px;
             padding: 10px;
         }
@@ -191,6 +191,46 @@
                                 <div id="topinteractions"></div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
+                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card white">
+                    <div class="card-content">
+                        <p>Sección</p>
+                        <div class="row no-margin">
+                            <div class=" col s12 m4">
+                                <div>
+                                    <h5 class="center-align section-title">Top visitas de Campañas</h5>
+                                </div>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <select>
+                                    <option value="">Todos los nodos</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <select>
+                                    <option value="">Periodo de tiempo</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="input-field col s12 no-padding no-margin ">
+                                <div id="statistics"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -245,22 +285,18 @@
                     columns: [
                         ['x', 'nombre1', 'nombre2', 'nombre3', 'nombre4', 'nombre5'],
                         ['welcome', 30, 200, 100, 400, 150],
-                        ['join', 30, 200, 100, 400, 150],
-                        ['requested', 30, 200, 100, 400, 150],
                         ['loaded', 30, 200, 100, 400, 150],
                         ['completed', 30, 200, 100, 400, 150]
                     ],
                     type: 'bar',
                     colors: {
-                        data1: '#78909c'
+                        welcome: '#ab47bc',
+                        loaded: '#039be5',
+                        completed: '#8bc34a'
                     },
                     groups: [
-                        ['welcome', 'join', 'requested', 'loaded', 'completed']
-                    ], classes: {
-                        data1: 'colora',
-                        data2: 'colora',
-                        data3: 'colora'
-                    }
+                        ['welcome','loaded', 'completed']
+                    ]
                 },
                 bar: {
                     width: {
@@ -274,6 +310,44 @@
                 },
                 grid: {
                     y: {
+                        show :true
+                    }
+                }
+            });
+
+
+            c3.generate({
+                bindto: '#statistics',
+                data: {
+                    columns: [
+                        ['data1', 10, 10, 10, 10, 10, 10],
+                        ['data2', 20, 20, 20, 20, 20, 20],
+                        ['data3', 30, 30, 30, 30, 30, 30],
+                        ['data4', 40, 40, 40, 40, 40, 40],
+                        ['data5', 60, 60, 60, 60, 60, 60],
+                        ['data6', 70, 70, 70, 70, 70, 70]
+                    ],
+                    types: {
+                        data1: 'area',
+                        data2: 'area',
+                        data3: 'area',
+                        data4: 'area',
+                        data5: 'area',
+                        data6: 'area'
+                        // 'line', 'spline', 'step', 'area', 'area-step' are also available to stack
+                    },
+                    groups: [['data1', 'data2','data3','data4','data5','data6']],
+                    colors: {
+                        data1: '#ffebee',
+                        data2: '#b71c1c',
+                        data3: '#ede7f6',
+                        data4: '#311b92',
+                        data5: '#e8f5e9',
+                        data6: '#1b5e20'
+                    }
+                },
+                grid: {
+                    x: {
                         show :true
                     }
                 }

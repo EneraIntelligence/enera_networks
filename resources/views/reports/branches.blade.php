@@ -10,7 +10,7 @@
     <style>
         .section-title {
             color: white;
-            background-color: #b3e5fc;
+            background-color: #039be5;
             border-radius: 10px;
             padding: 10px;
         }
@@ -218,7 +218,11 @@
                     columns: [
                         ['data1', 30, 200, 100, 400, 150, 250],
                         ['data2', 50, 20, 10, 40, 15, 25]
-                    ]
+                    ],
+                    colors: {
+                        data1: '#039be5',
+                        data2: '#ab47bc'
+                    }
                 },
                 grid: {
                     x: {

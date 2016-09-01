@@ -27,7 +27,7 @@
 
         .section-title {
             color: white;
-            background-color: #b3e5fc;
+            background-color: #039be5;
             border-radius: 10px;
             padding: 10px;
         }
@@ -186,7 +186,7 @@
                         </div>
                         <div class="row">
                             <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn cyan lighten-5">Ver informe de nodos</a>
+                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
                             </div>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
     <style>
         .section-title {
             color: white;
-            background-color: #b3e5fc;
+            background-color: #039be5;
             border-radius: 10px;
             padding: 10px;
         }
@@ -313,7 +313,7 @@
                         </div>
                         <div class="row">
                             <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn cyan lighten-5">Ver informe de nodos</a>
+                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
                             </div>
                         </div>
                     </div>
@@ -390,7 +390,12 @@
                         ['data2', 120],
                         ['data3', 120]
                     ],
-                    type: 'donut'
+                    type: 'donut',
+                    colors: {
+                        data1: '#fb8c00',
+                        data2: '#ab47bc',
+                        data3: '#8bc34a'
+                    }
                 },
                 color: {
                     pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78']
