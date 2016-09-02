@@ -7,31 +7,7 @@
     {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     {!! HTML::style('assets/css/report.css') !!}
 
-    <style>
-        .section-title {
-            color: white;
-            background-color: #039be5;
-            border-radius: 10px;
-            padding: 10px;
-        }
 
-        .inf-cont{
-            height: 140px;
-        }
-
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-
-        @media screen and (max-width: 480px) {
-            .center {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-    </style>
 @stop
 
 

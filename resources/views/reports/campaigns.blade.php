@@ -7,56 +7,6 @@
     {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     {!! HTML::style('assets/css/report.css') !!}
 
-    <style>
-        option {
-            color: red;
-        }
-
-        option {
-            color: red;
-        }
-
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-
-        @media screen and (max-width: 480px) {
-            .center {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-
-        .section-title {
-            color: white;
-            background-color: #039be5;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .inf-cont {
-            height: 140px;
-        }
-
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-
-        @media screen and (max-width: 480px) {
-            .center {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-
-        .c3-target-colora {
-            stroke: red;
-        }
-    </style>
 @stop
 
 
@@ -93,7 +43,7 @@
                         </div>
                         <div class="row no-margin">
                             <div class="input-field col s12 no-padding no-margin ">
-                                <div id="topaccess"></div>
+                                <div id="topinteractions"></div>
                             </div>
                         </div>
                     </div>
@@ -154,46 +104,6 @@
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
                                 </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <p>Sección</p>
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Top interactions de Campañas</h5>
-                                </div>
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Periodo de tiempo</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field col s12 no-padding no-margin ">
-                                <div id="topinteractions"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
                             </div>
                         </div>
                     </div>

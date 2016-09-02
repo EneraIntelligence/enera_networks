@@ -34,8 +34,15 @@
             padding-left: 20px;
             font-weight: 300;
         }
+
         #info li:nth-child(2n+1) {
             background-color: #757575
+        }
+
+        .info-icon{
+            position: relative;
+            top:  5px;
+            font-size: 20px;
         }
     </style>
 @stop
@@ -59,63 +66,22 @@
                             <span class="card-title">Información</span>
                             <ul id="info" class="white-text"
                                 style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
-                                {{--<li data-icon="keyboard_arrow_right">
-                                    Status:<span class="light-text">{{$branch->status}}</span>
-                                </li>--}}
-                                {{--<li data-icon="keyboard_arrow_right">
-                                    Globales:
-                                    <span class="light-text">{{($branch->filters['external_ads']) ? 'Activas' : 'Inactivas'}}</span>
-                                </li>--}}
-                                {{--<li data-icon="keyboard_arrow_right">
-                                    Red:<span class="light-text">{{$branch->network->name}}</span>
-                                </li>--}}
-                                <li >
+                                <li>
                                     Tipo: <span class="light-text">{{$branch->network->type}}</span>
                                 </li>
                                 <li>
                                     Conexiones: <span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
                                 </li>
-                                <li >
+                                <li>
                                     Dispositivos: <span
                                             class="light-text">{{ number_format($devices,0,'.',',') }}</span>
                                 </li>
-                                <li >Usuarios
+                                <li>Usuarios
                                     Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span>
                                 </li>
-                                <li >
+                                <li>
                                     Antenas: <span class="light-text">{{ count($branch->aps) }}</span>
                                 </li>
-                                {{--<li data-icon="keyboard_arrow_right">Campañas:
-                                    <ul class="white-text">
-                                        @for($i = 0; $i < 5 ; $i++)
-                                            @if(isset($aps[$i]))
-                                                <li data-icon="remove" style="margin-left: 25px;"><span
-                                                            class="light-text">{{$aps[$i]->name}}</span></li>
-                                            @endif
-                                        @endfor
-                                        @if(count($aps) > 4 )
-                                            <li style="text-align: center;"><a
-                                                        class="waves-effect waves-light btn modal-trigger"
-                                                        href="#aps">Modal</a>
-                                            </li>
-                                            <!-- Modal Structure -->
-                                            <div id="aps" class="modal modal-fixed-footer">
-                                                <div class="modal-content black-text">
-                                                    <i class="material-icons right-corner">close</i>
-                                                    <h4>Lista de campañas</h4>
-                                                    <table class="striped">
-                                                        <tbody>
-                                                        @foreach($aps as $ap)
-                                                            <tr>
-                                                                <td>{{$ap->name}}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                        @endif
-                                    </ul>
-                                </li>--}}
                             </ul>
                         </div>
                     </div>
@@ -124,7 +90,28 @@
                     <div class="card grey darken-3 white-text" style="min-height: 280px;max-height: 280px;">
                         <div class="card-content white-text">
                             <span class="card-title">Información</span>
-
+                            <ul id="info" class="white-text"
+                                style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
+                                <li>
+                                    Visitantes Totales: <span class="light-text">5,500</span>
+                                </li>
+                                <li>
+                                    Tasa de lealtad: <span class="light-text">40%</span>
+                                </li>
+                                <li>
+                                    Día más concurrido: <span
+                                            class="light-text">Martes</span>
+                                </li>
+                                <li>Genero Dominante: <span class="light-text">Mujeres</span>
+                                </li>
+                                <li>
+                                    Edad promedio: <span class="light-text">25 años</span>
+                                </li>
+                                <li>
+                                    Tiempo de estancia: <span
+                                            class="light-text">1:20:10</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -144,10 +131,6 @@
                     <div class="card-content white-text">
                         <span class="card-title">Vista Previa</span>
                         <div style="position: relative; width: 250px; margin: 0 auto;">
-                            {{--<a class="waves-effect waves-light btn modal-trigger right" style="opacity: 0.8;" href="#cloud">
-                                <i class="small material-icons">mode_edit</i>
-                                --}}{{--<img style="width: 19px" align="center" src="{{asset('images/icons/lapiz.png')}}" alt="Editar">--}}{{--
-                            </a>--}}
                             <div class="preview">
                                 <img src="{{asset('images/iphone_placeholder.png')}}" alt="">
                             </div>

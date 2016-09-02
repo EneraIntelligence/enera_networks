@@ -7,5 +7,6 @@
  */
 return [
     'branches' => 'Nodos',
-    'campaigns' => 'Campañas'
+    'campaigns' => 'Campañas',
+    'reports'   =>  'Reportes'
 ];

@@ -6,29 +6,6 @@
 @section('head_scripts')
     {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     {!! HTML::style('assets/css/report.css') !!}
-
-    <style>
-        .section-title {
-            color: white;
-            background-color: #039be5;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-
-        @media screen and (max-width: 480px) {
-            .center {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-    </style>
-
 @stop
 
 
@@ -43,7 +20,7 @@
                         <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
-                                    <h5 class="center-align section-title">Visita de Dispositivos</h5>
+                                    <h5 class="center-align section-title">Conexiones de Usuarios</h5>
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
@@ -285,7 +262,7 @@
                             </div>
                         </div>
                         <div class="row no-margin">
-                            <div class="input-field no-padding no-margin center">
+                            <div class="input-field no-padding no-margin centro">
                                 <table class="bordered">
                                     <thead>
                                     <tr>

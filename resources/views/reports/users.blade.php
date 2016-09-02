@@ -7,31 +7,6 @@
     {!! HTML::style('bower_components/c3js-chart/c3.min.css') !!}
     {!! HTML::style('assets/css/report.css') !!}
 
-    <style>
-        .section-title {
-            color: white;
-            background-color: #039be5;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-
-        @media screen and (max-width: 480px) {
-            .center {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-
-
-
-    </style>
-
 @stop
 
 
@@ -140,6 +115,9 @@
                     </div>
                 </div>
             </div>
+            <div class="col s12">
+               <h5>Mujeres</h5>
+            </div>
             <div class="col s12 m4">
                 <div class="card white">
                     <div class="card-content">
@@ -160,6 +138,65 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s6">
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Dispositivos Favoritos">2222</h4>
+                            </div>
+                            <div class="col s6 left-border">
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Hora Favorita</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Hora Favorita"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s6">
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Tiempo Promedio</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Tiempo Promedio">2222</h4>
+                            </div>
+                            <div class="col s6 left-border">
+                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Taza de Leatad</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Taza de Leatad"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m4">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s12">
+                                <span class="f-size-12 truncate"><i
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Edad promedio</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Edad promedio">2222</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <h5>Hombres</h5>
             </div>
             <div class="col s12 m4">
                 <div class="card white">
@@ -241,31 +278,6 @@
             <div class="col s12">
                 <div class="card white">
                     <div class="card-content">
-                        <p>Sección</p>
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Visita de Dispositivos</h5>
-                                </div>
-                            </div>
-                            <div class="input-field col s12 m4">
-
-                            </div>
-                            <div class="input-field col s12 m4">
-
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field col s12 no-padding no-margin ">
-                                <div id="access"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
                         <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
@@ -274,7 +286,7 @@
                             </div>
                         </div>
                         <div class="row no-margin">
-                            <div class="input-field no-padding no-margin center">
+                            <div class="input-field no-padding no-margin centro">
                                 <table class="bordered">
                                     <thead>
                                     <tr>
@@ -406,65 +418,6 @@
                             format: '%b-%d'
                         }
                     }
-                }
-            });
-
-
-            var chart = c3.generate({
-                bindto: '#access',
-                data: {
-                    columns: [
-                        ['data1', 30],
-                        ['data2', 130],
-                        ['data3', 200],
-                        ['data4', 150]
-                    ],
-                    type: 'bar',
-                    groups: [
-                        ['data1', 'data2', 'data3', 'data4']
-                    ],
-                    labels: true,
-                    colors: {
-                        data1: '#fb8c00',
-                        data2: '#ab47bc',
-                        data3: '#8bc34a',
-                        data4: '#039be5'
-                    }
-                },
-                bar: {
-                    width: {
-                        ratio: 0.5 // this makes bar width 50% of length between ticks
-                    }
-                    // or
-                    //width: 100 // this makes bar width 100px
-                },
-                axis: {
-                    rotated: true,
-                    y: {
-                        center: 0
-                    },
-                    x: {
-                        show: false
-                    }
-                },
-                tooltip: {
-                    format: {
-                        value: function (value, ratio, id, index) { return Math.abs(value); }
-                    }
-                },
-                grid: {
-                    x: {
-                        show: false
-                    },
-                    y: {
-                        show: true
-                    }
-                },
-                padding: {
-                    top: 0,
-                    right: 50,
-                    bottom: 0,
-                    left: 50
                 }
             });
 
