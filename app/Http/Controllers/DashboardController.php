@@ -44,6 +44,76 @@ class DashboardController extends Controller
         $w3 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(14)->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
+        $male = isset($summary_network->accumulated['users']['demographic']['male']) ? $summary_network->accumulated['users']['demographic']['male'] : [];
+        $female = isset($summary_network->accumulated['users']['demographic']['female']) ? $summary_network->accumulated['users']['demographic']['female'] : [];
+
+
+//        dd($w2->network->branches);
+        $diff_accumulated = $summary_network && $w2 && $summary_network->accumulated['connections'] - $w2->accumulated['connections'] != 0 ? $summary_network->accumulated['connections'] - $w2->accumulated['connections'] : 0;
+
+        $access_diff = $w2 && $w3 && ($w2->accumulated['connections'] - $w3->accumulated['connections']) != 0 ?
+            100 * ((($summary_network->accumulated['connections'] - $w2->accumulated['connections'])
+                    - ($w2->accumulated['connections'] - $w3->accumulated['connections']))
+                / ($w2->accumulated['connections'] - $w3->accumulated['connections'])) : 0;
+        
+        //TODO hacer más bonito la agrupación de edades
+        $m = ["Hombres",0,0,0,0,0];
+        foreach ($male as $key => $ma){
+            if ($key >= 0  && $key <= 17)
+            {
+                $m[1] += $ma * -1;
+            }else if($key >= 18  && $key <= 34){
+                $m[2] += $ma * -1;
+            }
+            else if($key >= 35  && $key <= 45){
+                $m[3] += $ma * -1;
+            }
+            else if($key >= 46  && $key <= 60){
+                $m[4] += $ma * -1;
+            }else{
+                $m[5] += $ma *-1;
+            }
+        }
+
+        $f = ["Mujeres",0,0,0,0,0];
+        foreach ($female as $key => $fe){
+            if ($key >= 0  && $key <= 17)
+            {
+                $f[1] += $fe;
+            }else if($key >= 18  && $key <= 34){
+                $f[2] += $fe;
+            }
+            else if($key >= 35  && $key <= 45){
+                $f[3] += $fe;
+            }
+            else if($key >= 46  && $key <= 60){
+                $f[4] += $fe;
+            }
+            else{
+                $f[5] += $fe;
+            }
+        }
+
+        $access_branch = [0,0,0];
+        if ($branches){
+            foreach ($branches as $key => $branch){
+                $today = SummaryNetwork::where('network_id', $branch->_id)->orderBy('date', 'desc')->first();
+                $last_week = SummaryNetwork::where('network_id', $branch->_id)->orderBy('date', 'desc')->skip(7)->first();
+                $access_branch[$key] = $today - $last_week;
+            }
+        }
+
+
+//        $a = array_reduce($male, function ($carry, $item){
+//            $carry += $item;
+//            return $carry;
+//        });
+
+//        $b = array_reduce($female, function ($carry, $item){
+//            $carry += $item;
+//            return $carry;
+//        });
+
         $users_diff = $w2 && $w3 && ($w2->accumulated['users']['total'] - $w3->accumulated['users']['total']) != 0 ?
             100 * ((($summary_network->accumulated['users']['total'] - $w2->accumulated['users']['total'])
                     - ($w2->accumulated['users']['total'] - $w3->accumulated['users']['total']))
@@ -56,6 +126,8 @@ class DashboardController extends Controller
             'network' => $network,
             'branches' => $branches,
             'campaigns' => $campaigns,
+            'users_male' => $m,
+            'users_female' => $f,
             'summary_users' => [
                 'accumulated' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
                 'male' => $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) : 0,
@@ -71,6 +143,10 @@ class DashboardController extends Controller
             ],
             'summary_access' => [
                 'accumulated' => $summary_network ? $summary_network->accumulated['connections'] : 0,
+                'diff_accumulated' => $diff_accumulated,
+                'access_diff' => $access_diff,
+                'plus1' => $summary_network ? $summary_network->accumulated['connections'] - $w2->accumulated['connections'] : 0,
+                'plus2' => $summary_network ? $summary_network->accumulated['connections'] - $m2->accumulated['connections'] : 0
             ],
             'isMobile' => $agent->isMobile(),
             'navData' => $navData
@@ -78,6 +154,7 @@ class DashboardController extends Controller
 
     }
 
+    
     private function getUniqueDevices($branches_id)
     {
         $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');

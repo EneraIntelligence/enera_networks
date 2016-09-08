@@ -52,13 +52,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico Total">2222</h4>
+                                    data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Dispositivos Unicos</span>
+                                <span class="f-size-12 truncate "><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Dispositivos Unicos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Unicos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--
                                 </h4>
                             </div>
                         </div>
@@ -73,13 +73,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">2222</h4>
+                                    data-tooltip="Visitantes">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de visitantes</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de visitantes</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de visitantes"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -123,16 +123,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Mujeres Totales</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Mujeres Totales">2222</h4>
+                                    data-tooltip="Mujeres Totales">{{ number_format($total_female,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Mujeres Nuevas</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Mujeres Nuevas"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -147,13 +146,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Favoritos">2222</h4>
+                                    data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Hora Favorita</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Hora Favorita</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Hora Favorita"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -165,16 +164,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Tiempo Promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo Promedio">2222</h4>
+                                    data-tooltip="Tiempo Promedio">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Taza de Leatad</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text" href="/"></a>Taza de Leatad</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Taza de Leatad"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -186,10 +184,9 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s12">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Edad promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text" href="/"></a>Edad promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Edad promedio">2222</h4>
+                                    data-tooltip="Edad promedio">{{ number_format($promedio_mujeres,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -203,16 +200,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Hombres Totales</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Hombres Totales">2222</h4>
+                                    data-tooltip="Hombres Totales">{{ number_format($total_male,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>hombres Nuevos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Hombres Nuevos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -227,13 +223,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Favoritos">2222</h4>
+                                    data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Hora Favorita</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Hora Favorita</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Hora Favorita"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -245,16 +241,15 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Tiempo Promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo Promedio">2222</h4>
+                                    data-tooltip="Tiempo Promedio">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Taza de Leatad</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text" href="/"></a>Taza de Leatad</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Taza de Leatad"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -266,10 +261,9 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s12">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Edad promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text" href="/"></a>Edad promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Edad promedio">2222</h4>
+                                    data-tooltip="Edad promedio">{{ number_format($promedio_hombres,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -334,22 +328,25 @@
         $(document).ready(function () {
             $('select').material_select();
 
+            var mujeres = JSON.parse('{!!  json_encode($female) !!}');
+            var hombres = JSON.parse('{!!  json_encode($male) !!}');
+
             c3.generate({
                 bindto: '#users',
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '65+', '45-65', '35-44', '25-34', '19-24', '13-18'],
-                        ['male', -30, -200, -100, -400,-200, -20],
-                        ['female', 90, 100, 140, 200,300, 10]
+                        ['x', '0-17', '18-34', '35-45', '46-60', '61+'],
+                        mujeres,
+                        hombres
                     ],
                     groups: [
-                        ['male', 'female']
+                        ['Hombres', 'Mujeres']
                     ],
                     type: 'bar',
                     colors: {
-                        male: '#039be5',
-                        female: '#ab47bc'
+                        Hombres: '#039be5',
+                        Mujeres: '#ab47bc'
                     }
                 },
                 bar: {
@@ -386,6 +383,7 @@
                 }
 
             });
+
 
             c3.generate({
                 bindto: '#ages',

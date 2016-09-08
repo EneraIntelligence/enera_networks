@@ -18,9 +18,10 @@
         </div>
 
         <div class="col s6 right-align">
-            <span style="font-weight: 200;font-size:19px;">150,000
-                <span style="font-size:14px;font-weight:300;" class="green-text-light">
-                    <i style="vertical-align:middle;" class="material-icons">arrow_drop_up</i>23%
+            <span style="font-weight: 200;font-size:19px;">{{ number_format($summary_access['diff_accumulated'],0,'.',',') }}
+                <span style="font-size:14px;font-weight:300;" class="{{$summary_access['access_diff'] > 0 ? 'green-text-light': 'red-text'}}">
+                    <i style="vertical-align:bottom;" class="material-icons">{{$summary_access['access_diff'] > 0 ? 'arrow_drop_up': 'arrow_drop_down'}}</i>
+                    {{ number_format($summary_access['access_diff'],0,'.',',') }}%
                 </span>
             </span>
         </div>
@@ -50,7 +51,7 @@
             - {{date('d-M',strtotime( "-1 days" ))}}</span>
         <br>
         <i class="green-text-light material-icons" style="vertical-align:top;">add</i>
-        <span style="font-weight: 200;font-size:19px;">10,000</span>
+        <span style="font-weight: 200;font-size:19px;">{{ number_format($summary_access['plus1'],0,'.',',') }}</span>
     </div>
 
     <div class="col s6 left-align left-border">
@@ -59,8 +60,9 @@
         <span style="font-size:9px; font-weight: 300; vertical-align:top;" class="grey-text darken-2">{{date('d-M', strtotime('first day of this month'))}}
             - {{date('d-M', strtotime('last day of this month'))}}</span>
         <br>
-        <i class="red-text material-icons" style="vertical-align:bottom;">arrow_drop_down</i>
-        <span style="font-weight: 200;font-size:19px;">16,000</span>
+        <span style="font-size:14px;font-weight:300;" class="{{$summary_access['plus2'] > 0 ? 'green-text-light': 'red-text'}}">
+                    <i style="vertical-align:bottom;" class="material-icons">{{$summary_access['plus2'] > 0 ? 'arrow_drop_up': 'arrow_drop_down'}}</i>
+        {{ number_format($summary_access['plus2'],0,'.',',') }}</span>
 
     </div>
 </div>

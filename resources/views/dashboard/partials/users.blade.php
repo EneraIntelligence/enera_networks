@@ -25,28 +25,62 @@
     </div>
 
 
-    <div class="label_1_left" style="position: absolute; left: 15px; margin-top:7px;">
-        13-18
+    <div class="label_1_left" style="position: absolute; left: 15px; margin-top:5px;">
+        <span style="font-size: 12px;">
+            0-17
+        </span>
     </div>
 
-    <div class="label_1_right" style="position: absolute; right: 15px; margin-top:7px;">
-        13-18
+    <div class="label_1_right" style="position: absolute; right: 15px; margin-top:5px;">
+        <span style="font-size: 12px;">
+            0-17
+        </span>
     </div>
 
-    <div class="label_2_left" style="position: absolute; left: 15px; margin-top:29px;">
-        19-24
+    <div class="label_2_left" style="position: absolute; left: 15px; margin-top:23px;">
+        <span style="font-size: 12px;">
+            18-34
+        </span>
     </div>
 
-    <div class="label_2_right" style="position: absolute; right: 15px; margin-top:29px;">
-        19-24
+    <div class="label_2_right" style="position: absolute; right: 15px; margin-top:23px;">
+        <span style="font-size: 12px;">
+            18-34
+        </span>
     </div>
 
-    <div class="label_3_left" style="position: absolute; left: 15px; margin-top:51px;">
-        25-34
+    <div class="label_3_left" style="position: absolute; left: 15px; margin-top:42px;">
+        <span style="font-size: 12px;">
+            35-45
+        </span>
     </div>
 
-    <div class="label_3_right" style="position: absolute; right: 15px; margin-top:51px;">
-        25-34
+    <div class="label_3_right" style="position: absolute; right: 15px; margin-top:42px;">
+        <span style="font-size: 12px;">
+            35-45
+        </span>
+    </div>
+    <div class="label_3_left" style="position: absolute; left: 15px; margin-top:60px;">
+        <span style="font-size: 12px;">
+            46-60
+        </span>
+    </div>
+
+    <div class="label_3_right" style="position: absolute; right: 15px; margin-top:60px;">
+        <span style="font-size: 12px;">
+            46-60
+        </span>
+    </div>
+    <div class="label_3_left" style="position: absolute; left: 15px; margin-top:79px;">
+        <span style="font-size: 12px;">
+            60+
+        </span>
+    </div>
+
+    <div class="label_3_right" style="position: absolute; right: 15px; margin-top:79px;">
+        <span style="font-size: 12px;">
+            60+
+        </span>
     </div>
 
     <!-- gráfica -->

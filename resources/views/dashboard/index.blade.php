@@ -206,23 +206,26 @@
             chartDesktop.removeClass("user-chart");
             chartDesktop.addClass("desktop-chart");
 
+            var mujeres = JSON.parse('{!!  json_encode($users_female) !!}');
+            var hombres = JSON.parse('{!!  json_encode($users_male) !!}');
 
             var chartOptions = {
                 size: {
-                    height: 70,
-//                    width: 250
+                    height: 140,
+//                    width: 80%
                 },
                 padding: {
-//                    left:40
+                    bottom:40,
+                    left: 15
                 },
                 data: {
                     columns: [
-                        ['Mujeres', 30, 200, 300],
-                        ['Hombres', -130, -100, -100]
+                        mujeres,
+                        hombres
                     ],
                     type: 'bar',
                     groups: [
-                        ['Mujeres', 'Hombres']
+                        ['Hombres', 'Mujeres']
                     ],
                     colors: {
                         Mujeres: "#9C27B0",
@@ -289,7 +292,7 @@
         $(".peity_accessed").peity("bar", {
             height: 15,
             width: 128,
-            padding:0.1,
+            padding: 0.1,
             fill: ["#98DF8A"]
         });
 
