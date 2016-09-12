@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Auth;
 
-use Networks\Branche;
+use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
