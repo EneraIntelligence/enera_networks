@@ -12,7 +12,7 @@ use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use DB;
 use Networks\Network;
-use Networks\Branche;
+use Networks\Branch;
 
 use MongoDate;
 use Carbon\Carbon;
@@ -36,7 +36,7 @@ class DashboardController extends Controller
         $navData['home'] = 'active';
 
         $network = Network::find(session('network_id'));
-        $branches = Branche::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get();
+        $branches = Branch::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get();
         $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get();
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
@@ -93,7 +93,7 @@ class DashboardController extends Controller
                 $f[5] += $fe;
             }
         }
-        
+
 
 //        $a = array_reduce($male, function ($carry, $item){
 //            $carry += $item;

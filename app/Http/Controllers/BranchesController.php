@@ -27,7 +27,7 @@ class BranchesController extends Controller
     public function index()
     {
         $network = Network::find(session('network_id'));
-        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->get();
+        $branches = Branch::where('network_id', $network->_id)->where('status', '<>', 'filed')->get();
         
         $navData= array();
         $navData['branches']='active';
@@ -58,7 +58,7 @@ class BranchesController extends Controller
      */
     public function show($id)
     {
-        $branch = Branche::find($id);
+        $branch = Branch::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
             $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
@@ -447,7 +447,7 @@ class BranchesController extends Controller
 
     public function clients($id)
     {
-        $branch = Branche::find($id);
+        $branch = Branch::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
             $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [

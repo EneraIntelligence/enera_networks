@@ -10,7 +10,7 @@ use Jenssegers\Mongodb\Model;
  * @property-read \Networks\Network $network
  * @property-read mixed $id
  */
-class Branche extends Model
+class Branch extends Model
 {
     protected $fillable = ['name', 'network_id', 'portal', 'aps', 'status'];
 
