@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use MongoDate;
 use Networks\AccessPoint;
-use Networks\Branche;
+use Networks\Branch;
 
 use Networks\Campaign;
 use Networks\CampaignLog;
