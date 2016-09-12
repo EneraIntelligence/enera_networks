@@ -25,6 +25,11 @@ class Branche extends Model
         return $this->hasMany('Networks\CampaignLog', 'device.branch_id');
     }
 
+    public function summary()
+    {
+        return $this->hasMany('Networks\SummaryBranch');
+    }
+
     public function count_devices()
     {
 

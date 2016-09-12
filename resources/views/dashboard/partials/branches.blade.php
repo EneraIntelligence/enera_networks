@@ -8,6 +8,7 @@
 
 <div class="section" style="padding: 0;">
     @foreach($branches as $branch)
+        {{dd($branch->summary())}}
         <div class="card black-text" style="margin-bottom: 5px;">
             <div class="container" style="width: 90%;">
                 <p style="padding: 5px 0 0 0; margin-bottom: 5px;">{{$branch->name}}</p>

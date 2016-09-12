@@ -93,16 +93,7 @@ class DashboardController extends Controller
                 $f[5] += $fe;
             }
         }
-
-        $access_branch = [0,0,0];
-        if ($branches){
-            foreach ($branches as $key => $branch){
-                $today = SummaryNetwork::where('network_id', $branch->_id)->orderBy('date', 'desc')->first();
-                $last_week = SummaryNetwork::where('network_id', $branch->_id)->orderBy('date', 'desc')->skip(7)->first();
-                $access_branch[$key] = $today - $last_week;
-            }
-        }
-
+        
 
 //        $a = array_reduce($male, function ($carry, $item){
 //            $carry += $item;
