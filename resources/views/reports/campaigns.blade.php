@@ -57,12 +57,12 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">assignment_ind</i>Accesos Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Accesos Totales">2222</h4>
+                                    data-tooltip="Accesos Totales">{{ number_format($access,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -188,15 +188,20 @@
                 }
             });
 
+
+            var name = JSON.parse('{!!  json_encode($name_of_campaigns) !!}');
+            var loaded = JSON.parse('{!!  json_encode($loaded) !!}');
+            var completed = JSON.parse('{!!  json_encode($completed) !!}');
+
+
             c3.generate({
                 bindto: '#topinteractions',
                 data: {
                     x: 'x',
                     columns: [
-                        ['x', 'nombre1', 'nombre2', 'nombre3', 'nombre4', 'nombre5'],
-                        ['welcome', 30, 200, 100, 400, 150],
-                        ['loaded', 30, 200, 100, 400, 150],
-                        ['completed', 30, 200, 100, 400, 150]
+                        name,
+                        loaded,
+                        completed
                     ],
                     type: 'bar',
                     colors: {

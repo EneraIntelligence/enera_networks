@@ -161,7 +161,7 @@
             </div>
             <div class="col s12 m4">
                 <div class="card white">
-                    <div class="card-content">
+                    <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
@@ -238,7 +238,7 @@
             </div>
             <div class="col s12 m4">
                 <div class="card white">
-                    <div class="card-content">
+                    <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
@@ -385,14 +385,19 @@
             });
 
 
+            var dates = JSON.parse('{!!  json_encode($date_interactions) !!}');
+            var interaction_males = JSON.parse('{!!  json_encode($date_males_interactions) !!}');
+            var interaction_females = JSON.parse('{!!  json_encode($date_females_interactions) !!}');
+
+
             c3.generate({
                 bindto: '#ages',
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                        ['female', 30, 200, 100, 400, 150, 250],
-                        ['male', 70, 20, 50, 200, 450, 350]
+                        dates,
+                        interaction_males,
+                        interaction_females
                     ],
                     type: 'spline',
                     colors: {

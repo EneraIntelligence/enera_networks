@@ -56,13 +56,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico Total">2222</h4>
+                                    data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Dispositivos Unicos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Unicos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--
                                 </h4>
                             </div>
                         </div>
@@ -77,13 +77,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">2222</h4>
+                                    data-tooltip="Visitantes">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de visitantes</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de visitantes"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -98,12 +98,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Taza de Lealtad">2222</h4>
+                                    data-tooltip="Taza de Lealtad">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -118,12 +118,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">2222</h4>
+                                    data-tooltip="Visitantes Totales">{{ number_format($visits,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -138,12 +138,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Dispositivos Nuevos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Nuevos">2222</h4>
+                                    data-tooltip="Dispositivos Nuevos">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -158,13 +158,13 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">22%</h4>
+                                    data-tooltip="Visitantes Totales">--%</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de lealtad</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de lealtad"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -310,17 +310,26 @@
         $(document).ready(function () {
             $('select').material_select();
 
+
+            var dates = JSON.parse('{!!  json_encode($date_for_devices) !!}');
+            var devices = JSON.parse('{!!  json_encode($group_of_devices) !!}');
+
             c3.generate({
                 bindto: '#device',
                 data: {
+                    x:'x',
                     columns: [
-                        ['data1', 300, 350, 300, 100, 150, 300]
+                        dates,
+                        devices
                     ],
                     types: {
                         data1: 'area-spline'
                     },
                     colors: {
                         data1: '#b3e5fc'
+                    },
+                    names: {
+                        data1 : 'Dispositivos'
                     }
                 },
                 grid: {
@@ -329,6 +338,15 @@
                     },
                     y: {
                         show: true
+                    }
+                },
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        localtime: true,
+                        tick: {
+                            format: '%b-%d'
+                        }
                     }
                 }
             });
