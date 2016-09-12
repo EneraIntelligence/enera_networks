@@ -17,7 +17,7 @@
                         <span style="font-weight: 300;"><i class="material-icons icon-left">&#xE62B;</i>Connexíones:</span>
                     </div>
                     <div class="col s5 m6 right-align">
-                        <span style="font-weight: 200;font-size:19px;">{{ number_format($branch->summary->last()->accumulated['connections'],0,'.',',') }}</span>
+                        <span style="font-weight: 200;font-size:19px;">---</span>
                     </div>
                     <div class="col s12 m 12 right-align">
                         <span class="dark-green" style="font-size:9px; font-weight: 300; vertical-align:top;">{{date('d-M',strtotime( "-7 days" ))}}
