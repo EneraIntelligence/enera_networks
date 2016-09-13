@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
         $network = Network::find(session('network_id'));
         $branches = Branch::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get();
-        $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->where('status', 'active')->orderBy('name', 'desc')->take(3)->get();
+        $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->orderBy('name', 'desc')->take(3)->get();
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $w2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(7)->first();

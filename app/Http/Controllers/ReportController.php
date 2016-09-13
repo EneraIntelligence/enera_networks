@@ -22,6 +22,7 @@ class ReportController extends Controller
     {
         $navData = array();
         $navData['reports'] = 'active';
+        $navData['breadcrumbs'] = ['reports'];
 
         return view('reports.index', [
             'navData' => $navData
