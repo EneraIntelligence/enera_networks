@@ -99,7 +99,7 @@
                                     Día más concurrido: <span
                                             class="light-text">---</span>
                                 </li>
-                                <li>Genero Dominante: <span class="light-text">{{$genero}}</span>
+                                <li>Genero Dominante: <span class="light-text">{{'---'}}</span>
                                 </li>
                                 <li>
                                     Edad promedio: <span class="light-text">{{ number_format($edad_promedio,0,'.',',') }} años</span>
