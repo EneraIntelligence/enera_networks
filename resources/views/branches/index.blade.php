@@ -47,7 +47,7 @@
             @foreach($branches as $branch)
                 <tr>
                     <td><a class="waves-effect waves-îndigo btn-flat" href="{{route('branches::show', ['id' => $branch->id])}}">{{$branch->name}}</a></td>
-                    <td>{{ count($branch->aps) }}</td>
+                    <td>{{ count($branch->aps) != 0 ? count($branch->aps) : '--'}}</td>
                     <td>{{$branch->summary ? $branch->summary->last()->accumulated['devices']['total']: 0}}</td>
                     <td>{{$branch->summary ? $branch->summary->last()->accumulated['users']['total'] : 0}}</td>
                     <td>{{$branch->summary ? $branch->summary->last()->accumulated['connections'] : 0}}</td>
