@@ -16,6 +16,7 @@ use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Network;
 use MongoId;
+use Networks\SummaryBranch;
 use Networks\SummaryNetwork;
 
 class BranchesController extends Controller
@@ -305,25 +306,24 @@ class BranchesController extends Controller
              * wordcloud
              */
 
-            $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
+            $summary_branch = SummaryBranch::where('branch_id', $id)->orderBy('date', 'desc')->first();
+
             $edad_total = 0;
             $conteo_usuarios = 0;
 
-            if ($summary_network){
-                foreach ($summary_network->accumulated['users']['demographic']['male'] as $key => $male){
+            if ($summary_branch){
+                foreach ($summary_branch->accumulated['users']['demographic']['male'] as $key => $male){
                     $edad_total +=  $key * $male;
-                    $conteo_usuarios += $key;
                 }
 
-                foreach ($summary_network->accumulated['users']['demographic']['female'] as $key => $female){
+                foreach ($summary_branch->accumulated['users']['demographic']['female'] as $key => $female){
                     $edad_total +=  $key * $female;
-                    $conteo_usuarios += $key;
                 }
             }
 
-            $edad_promedio = $conteo_usuarios> 0 ?$edad_total/$conteo_usuarios : 0;
-
-//            dd($summary_network->accumulated['users']);
+            $edad_promedio = $summary_branch->accumulated['users']['total'] ? $edad_total/$summary_branch->accumulated['users']['total'] : 0;
+            
+//            dd($summary_branch->accumulated['users']);
 
             $navData= array();
             $navData['branches']='active';
@@ -332,9 +332,9 @@ class BranchesController extends Controller
             return view('branches.show', [
                 'branch' => $branch,
                 'aps' => $aps,
-                'total_users' => $summary_network ?$summary_network->accumulated['users']['total'] : 0,
+                'total_users' => $summary_branch ? $summary_branch->accumulated['users']['total'] : 0,
                 'edad_promedio' => $edad_promedio,
-                'genero' => $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) > array_sum($summary_network->accumulated['users']['demographic']['female']) ? 'Hombres' : 'Mujeres' : '---',
+                'genero' => $summary_branch ? array_sum($summary_branch->accumulated['users']['demographic']['male']) > array_sum($summary_branch->accumulated['users']['demographic']['female']) ? 'Hombres' : 'Mujeres' : '---',
                 'network' => Network::find(session('network_id')),
                 'devices' => $devices['result'][0]['count'],
                 'users' => $users['result'][0]['count'],
