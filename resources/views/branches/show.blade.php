@@ -93,23 +93,23 @@
                             <ul id="info" class="white-text"
                                 style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
                                 <li>
-                                    Visitantes Totales: <span class="light-text">5,500</span>
+                                    Visitantes Totales: <span class="light-text">{{ number_format($total_users,0,'.',',') }}</span>
                                 </li>
                                 <li>
-                                    Tasa de lealtad: <span class="light-text">40%</span>
+                                    Tasa de lealtad: <span class="light-text">--%</span>
                                 </li>
                                 <li>
                                     Día más concurrido: <span
-                                            class="light-text">Martes</span>
+                                            class="light-text">---</span>
                                 </li>
-                                <li>Genero Dominante: <span class="light-text">Mujeres</span>
+                                <li>Genero Dominante: <span class="light-text">{{$genero}}</span>
                                 </li>
                                 <li>
-                                    Edad promedio: <span class="light-text">25 años</span>
+                                    Edad promedio: <span class="light-text">{{ number_format($edad_promedio,0,'.',',') }} años</span>
                                 </li>
                                 <li>
                                     Tiempo de estancia: <span
-                                            class="light-text">1:20:10</span>
+                                            class="light-text">--:--:--</span>
                                 </li>
                             </ul>
                         </div>

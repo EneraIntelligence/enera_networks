@@ -21,7 +21,7 @@
                         <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
-                                    <h5 class="center-align section-title">Visita de Dispositivos</h5>
+                                    <h5 class="center-align section-title">Usuarios</h5>
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
@@ -50,7 +50,7 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
+                                            class="material-icons prefix prefix-position">assignment_ind</i>Usuarios Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
@@ -70,15 +70,34 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">--</h4>
+                                    data-tooltip="Visitantes">{{ number_format($total_female,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de visitantes</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de visitantes"><i
+                                    data-tooltip="Tasa de cresimiento"><i
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s6">
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitantes">{{ number_format($total_male,0,'.',',') }}</h4>
+                            </div>
+                            <div class="col s6 left-border">
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Tasa de cresimiento"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
@@ -117,26 +136,6 @@
             </div>
             <div class="col s12">
                <h5>Mujeres</h5>
-            </div>
-            <div class="col s12 m4">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres Totales</span>
-                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Mujeres Totales">{{ number_format($total_female,0,'.',',') }}</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Mujeres Nuevas</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Mujeres Nuevas"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col s12 m4">
                 <div class="card white">
@@ -194,26 +193,6 @@
             </div>
             <div class="col s12">
                 <h5>Hombres</h5>
-            </div>
-            <div class="col s12 m4">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres Totales</span>
-                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Hombres Totales">{{ number_format($total_male,0,'.',',') }}</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>hombres Nuevos</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Hombres Nuevos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col s12 m4">
                 <div class="card white">
