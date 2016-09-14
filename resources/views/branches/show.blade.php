@@ -93,9 +93,6 @@
                             <ul id="info" class="white-text"
                                 style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
                                 <li>
-                                    Visitantes Totales: <span class="light-text">{{ number_format($total_users,0,'.',',') }}</span>
-                                </li>
-                                <li>
                                     Tasa de lealtad: <span class="light-text">--%</span>
                                 </li>
                                 <li>
