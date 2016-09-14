@@ -102,7 +102,7 @@
                                 <li>Genero Dominante: <span class="light-text">{{'---'}}</span>
                                 </li>
                                 <li>
-                                    Edad promedio: <span class="light-text">{{ number_format($edad_promedio,0,'.',',') }} años</span>
+                                    Edad promedio: <span class="light-text">-- años</span>
                                 </li>
                                 <li>
                                     Tiempo de estancia: <span
