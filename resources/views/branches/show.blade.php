@@ -70,14 +70,14 @@
                                     Tipo: <span class="light-text">{{$branch->network->type}}</span>
                                 </li>
                                 <li>
-                                    Conexiones: <span class="light-text">--</span>
+                                    Conexiones: <span class="light-text">{{ isset($summary_branch) ? number_format($summary_branch->accumulated['connections'],0,'.',',') : 0 }}</span>
                                 </li>
                                 <li>
                                     Dispositivos: <span
-                                            class="light-text">--</span>
+                                            class="light-text">{{ isset($summary_branch) ? number_format($summary_branch->accumulated['devices']['total'],0,'.',',') : 0 }}</span>
                                 </li>
                                 <li>Usuarios
-                                    Recolectados: <span class="light-text">--</span>
+                                    Recolectados: <span class="light-text">{{ isset($summary_branch) ? number_format($summary_branch->accumulated['users']['total'],0,'.',',') : 0 }}</span>
                                 </li>
                                 <li>
                                     Antenas: <span class="light-text">{{ count($branch->aps) }}</span>
@@ -93,16 +93,19 @@
                             <ul id="info" class="white-text"
                                 style="overflow:hidden; max-height:185px; margin: 0px -20px; ">
                                 <li>
+                                    Visitantes Totales: <span class="light-text">---</span>
+                                </li>
+                                <li>
                                     Tasa de lealtad: <span class="light-text">--%</span>
                                 </li>
                                 <li>
                                     Día más concurrido: <span
                                             class="light-text">---</span>
                                 </li>
-                                <li>Genero Dominante: <span class="light-text">{{'---'}}</span>
+                                <li>Genero Dominante: <span class="light-text">{{$genero}}</span>
                                 </li>
                                 <li>
-                                    Edad promedio: <span class="light-text">-- años</span>
+                                    Edad promedio: <span class="light-text">{{ number_format($edad_promedio,0,'.',',') }} años</span>
                                 </li>
                                 <li>
                                     Tiempo de estancia: <span

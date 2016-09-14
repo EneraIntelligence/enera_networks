@@ -309,7 +309,6 @@ class BranchesController extends Controller
             $summary_branch = SummaryBranch::where('branch_id', $id)->orderBy('date', 'desc')->first();
 
             $edad_total = 0;
-            $conteo_usuarios = 0;
 
             if ($summary_branch){
                 foreach ($summary_branch->accumulated['users']['demographic']['male'] as $key => $male){
@@ -329,6 +328,7 @@ class BranchesController extends Controller
             $navData['branches']='active';
             $navData['breadcrumbs']=['branches', $branch->name];
 
+            
             return view('branches.show', [
                 'branch' => $branch,
                 'summary_branch' => $summary_branch,
