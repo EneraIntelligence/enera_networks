@@ -110,7 +110,7 @@ class BranchesController extends Controller
             ]);
 
             //cambio a 30 dias
-            $days = 30;
+            $days = 7;
 
             $welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
@@ -328,7 +328,7 @@ class BranchesController extends Controller
             $navData['branches']='active';
             $navData['breadcrumbs']=['branches', $branch->name];
 
-            
+
             return view('branches.show', [
                 'branch' => $branch,
                 'summary_branch' => $summary_branch,
