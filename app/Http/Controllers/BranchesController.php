@@ -321,7 +321,7 @@ class BranchesController extends Controller
                 }
             }
 
-            $edad_promedio = $summary_branch->accumulated['users']['total'] ? $edad_total/$summary_branch->accumulated['users']['total'] : 0;
+            $edad_promedio = isset($summary_branch) ? $edad_total/$summary_branch->accumulated['users']['total'] : 0;
             
 //            dd($summary_branch->accumulated['users']);
 
