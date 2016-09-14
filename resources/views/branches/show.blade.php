@@ -485,7 +485,7 @@
                                     x: {
                                         type: 'timeseries',
                                         tick: {
-                                            format: '%m-%d'
+                                            format: '%m-%d (%a)'
                                         }
                                     }
                                 },
