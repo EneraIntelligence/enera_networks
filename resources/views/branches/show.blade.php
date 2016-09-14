@@ -70,14 +70,14 @@
                                     Tipo: <span class="light-text">{{$branch->network->type}}</span>
                                 </li>
                                 <li>
-                                    Conexiones: <span class="light-text">{{ number_format($wlogs,0,'.',',') }}</span>
+                                    Conexiones: <span class="light-text">{{ number_format($summary_branch->accumulated['connections'],0,'.',',') }}</span>
                                 </li>
                                 <li>
                                     Dispositivos: <span
-                                            class="light-text">{{ number_format($devices,0,'.',',') }}</span>
+                                            class="light-text">{{ number_format($summary_branch->accumulated['devices']['total'],0,'.',',') }}</span>
                                 </li>
                                 <li>Usuarios
-                                    Recolectados: <span class="light-text">{{ number_format($users,0,'.',',') }}</span>
+                                    Recolectados: <span class="light-text">{{ number_format($summary_branch->accumulated['users']['total'],0,'.',',') }}</span>
                                 </li>
                                 <li>
                                     Antenas: <span class="light-text">{{ count($branch->aps) }}</span>

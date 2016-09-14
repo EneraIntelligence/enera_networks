@@ -331,6 +331,7 @@ class BranchesController extends Controller
 
             return view('branches.show', [
                 'branch' => $branch,
+                'summary_branch' => $summary_branch,
                 'aps' => $aps,
                 'total_users' => $summary_branch ? $summary_branch->accumulated['users']['total'] : 0,
                 'edad_promedio' => $edad_promedio,
