@@ -78,7 +78,7 @@
                                 <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($increments_women,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                 <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($increments_men,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -270,7 +270,7 @@
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '0-17', '18-34', '35-45', '46-60', '61+'],
+                        ['x', '61+', '46-60', '35-45', '18-34', '0-17'],
                         mujeres,
                         hombres
                     ],

@@ -34,6 +34,7 @@ class ReportController extends Controller
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
+
         $male = isset($summary_network->accumulated['users']['demographic']['male']) ? $summary_network->accumulated['users']['demographic']['male'] : [];
         $male_inc = $summary_network ? $summary_network->accumulled['user'] : 0;
         $female = isset($summary_network->accumulated['users']['demographic']['female']) ? $summary_network->accumulated['users']['demographic']['female'] : [];
@@ -46,30 +47,30 @@ class ReportController extends Controller
         $m = ["Hombres", 0, 0, 0, 0, 0];
         foreach ($male as $key => $ma) {
             if ($key >= 0 && $key <= 17) {
-                $m[1] += $ma * -1;
+                $m[5] += $ma * -1;
             } else if ($key >= 18 && $key <= 34) {
-                $m[2] += $ma * -1;
+                $m[4] += $ma * -1;
             } else if ($key >= 35 && $key <= 45) {
                 $m[3] += $ma * -1;
             } else if ($key >= 46 && $key <= 60) {
-                $m[4] += $ma * -1;
+                $m[2] += $ma * -1;
             } else {
-                $m[5] += $ma * -1;
+                $m[1] += $ma * -1;
             }
         }
 
         $f = ["Mujeres", 0, 0, 0, 0, 0];
         foreach ($female as $key => $fe) {
             if ($key >= 0 && $key <= 17) {
-                $f[1] += $fe;
+                $f[5] += $fe;
             } else if ($key >= 18 && $key <= 34) {
-                $f[2] += $fe;
+                $f[4] += $fe;
             } else if ($key >= 35 && $key <= 45) {
                 $f[3] += $fe;
             } else if ($key >= 46 && $key <= 60) {
-                $f[4] += $fe;
+                $f[2] += $fe;
             } else {
-                $f[5] += $fe;
+                $f[1] += $fe;
             }
         }
         $edad_tota_hombres = 0;
@@ -110,6 +111,16 @@ class ReportController extends Controller
         }
 
 
+        $total_male = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) : 0;
+        $total_female = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['female']) : 0;
+
+        $last_month_male = $m2 ? array_sum($m2->accumulated['users']['demographic']['male']) : 0;
+        $last_month_female = $m2 ? array_sum($m2->accumulated['users']['demographic']['female']) : 0;
+
+        $increments_women = $this->increment($total_female,$last_month_female);
+        $increments_men = $this->increment($total_male,$last_month_male);
+
+
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
@@ -120,8 +131,10 @@ class ReportController extends Controller
             'male' => $m,
             'female' => $f,
             'total' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
-            'total_male' => $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) : 0,
-            'total_female' => $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['female']) : 0,
+            'total_male' => $total_male,
+            'increments_men' => $increments_men,
+            'total_female' => $total_female,
+            'increments_women' => $increments_women,
             'promedio_hombres' => $summary_network ? $edad_tota_hombres / $conteo_hombres : 0,
             'promedio_mujeres' => $summary_network ? $edad_tota_mujeres / $conteo_mujeres : 0,
             'date_interactions' => $date_interactions,
@@ -226,6 +239,13 @@ class ReportController extends Controller
     public function settings()
     {
         return view('profile.settings');
+    }
+
+    private  function increment($actual, $last){
+        $diff = $actual - $last;
+        $increment = $diff > 0 ? $diff/$last : 0;
+        $result = $increment * 100;
+        return $result;
     }
 
 }
