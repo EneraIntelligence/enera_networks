@@ -137,7 +137,12 @@ class ReportController extends Controller
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
 
         $devices_per_day = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('devices.os', 'created_at')->get();
-
+        
+        if ($summary_network){
+            foreach ($summary_network as  $key =>$summary){
+                dd($summary);
+            }
+        }
         $date_for_devices = ['x'];
         $group_of_devices = ['data1'];
 
