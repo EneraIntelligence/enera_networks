@@ -328,7 +328,7 @@ class BranchesController extends Controller
             $navData['branches']='active';
             $navData['breadcrumbs']=['branches', $branch->name];
 
-
+            
             return view('branches.show', [
                 'branch' => $branch,
                 'summary_branch' => $summary_branch,
@@ -337,8 +337,8 @@ class BranchesController extends Controller
                 'edad_promedio' => $edad_promedio,
                 'genero' => $summary_branch ? array_sum($summary_branch->accumulated['users']['demographic']['male']) > array_sum($summary_branch->accumulated['users']['demographic']['female']) ? 'Hombres' : 'Mujeres' : '---',
                 'network' => Network::find(session('network_id')),
-                'devices' => $devices['result'][0]['count'],
-                'users' => $users['result'][0]['count'],
+                'devices' => $devices['result'] != [] ? $devices['result'][0]['count'] : 0,
+                'users' => $users['result'] != [] ? $users['result'][0]['count'] : 0,
                 'int_days' => $IntDays,
                 'words' => $words,
                 'wordCount' => $likesCount,
