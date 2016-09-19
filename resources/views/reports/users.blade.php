@@ -75,10 +75,9 @@
                                     data-tooltip="Visitantes">{{ number_format($total_female,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de cresimiento"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($increments_women,2,'.',',') }}%
+                                    data-tooltip="Tasa de cresimiento">{{ number_format($increments_women,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -95,10 +94,9 @@
                                     data-tooltip="Visitantes">{{ number_format($total_male,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de cresimiento</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de cresimiento"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($increments_men,2,'.',',') }}%
+                                    data-tooltip="Tasa de cresimiento">{{ number_format($increments_men,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -143,7 +141,7 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Promedio dispositivo</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
@@ -200,7 +198,7 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Promedio dispositivo</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>

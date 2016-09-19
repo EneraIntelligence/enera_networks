@@ -153,7 +153,7 @@ class ReportController extends Controller
         
         if ($summary_network){
             foreach ($summary_network as  $key =>$summary){
-                dd($summary);
+                
             }
         }
         $date_for_devices = ['x'];
