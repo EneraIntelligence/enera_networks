@@ -118,7 +118,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Trafico</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Trafico">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Tasa de crecimiento</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de crecimiento">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Tasa de crecimiento">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Dispositivos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Dispositivos">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Pasers Bys</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Pasers Bys">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Pasers Bys">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Visitantes</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Visitantes">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Tasa de Visitas</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de Visita">{{ number_format($visits,0,'.',',') }}</h4>
+                                    data-tooltip="Tasa de Visita">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
