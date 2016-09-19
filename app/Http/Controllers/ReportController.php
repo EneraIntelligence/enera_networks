@@ -117,8 +117,8 @@ class ReportController extends Controller
         $last_month_male = $m2 ? array_sum($m2->accumulated['users']['demographic']['male']) : 0;
         $last_month_female = $m2 ? array_sum($m2->accumulated['users']['demographic']['female']) : 0;
 
-        $increments_women = $this->increment($total_female,$last_month_female);
-        $increments_men = $this->increment($total_male,$last_month_male);
+        $increments_women = $this->increment($total_female, $last_month_female);
+        $increments_men = $this->increment($total_male, $last_month_male);
 
 
         $navData = array();
@@ -150,12 +150,6 @@ class ReportController extends Controller
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
 
         $devices_per_day = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('devices.os', 'created_at')->get();
-        
-        if ($summary_network){
-            foreach ($summary_network as  $key =>$summary){
-                
-            }
-        }
         $date_for_devices = ['x'];
         $group_of_devices = ['data1'];
 
@@ -167,6 +161,16 @@ class ReportController extends Controller
         }
 
 
+        $unique_clients = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->lists('client_id');
+        $client = array_unique(json_decode(json_encode($unique_clients), true));
+
+        if ($unique_clients) {
+            $campaigns = Campaign::whereIn('client_id', $client)->lists('_id');
+            $top_access = SummaryCampaign::whereIn('campaign_id',$campaigns)->orderBy('accumulated.completed', 'acs')->get();
+        }else{
+            $top_access = [];
+        }
+
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Dispositivos'];
@@ -176,7 +180,8 @@ class ReportController extends Controller
             'total' => $summary_network ? $summary_network->accumulated['devices']['total'] : 0,
             'visits' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'date_for_devices' => $date_for_devices,
-            'group_of_devices' => $group_of_devices
+            'group_of_devices' => $group_of_devices,
+            'top_access' => $top_access
         ]);
     }
 
@@ -192,13 +197,12 @@ class ReportController extends Controller
         $completed = ['completed'];
 
         if ($summary_campaign) {
-            foreach ($summary_campaign as $summ_campaign){
+            foreach ($summary_campaign as $summ_campaign) {
                 array_push($name_of_campaigns, $summ_campaign->campaign->name);
                 array_push($loaded, $summ_campaign->accumulated['loaded']);
                 array_push($completed, $summ_campaign->accumulated['completed']);
             }
         }
-
 
 
         $navData = array();
@@ -241,9 +245,10 @@ class ReportController extends Controller
         return view('profile.settings');
     }
 
-    private  function increment($actual, $last){
+    private function increment($actual, $last)
+    {
         $diff = $actual - $last;
-        $increment = $diff > 0 ? $diff/$last : 0;
+        $increment = $diff > 0 ? $diff / $last : 0;
         $result = $increment * 100;
         return $result;
     }

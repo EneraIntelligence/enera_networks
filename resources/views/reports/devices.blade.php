@@ -242,24 +242,18 @@
                                 <table class="bordered">
                                     <thead>
                                     <tr>
-                                        <th data-field="id">Name</th>
-                                        <th data-field="name">Item Name</th>
+                                        <th data-field="id">Nombre</th>
+                                        <th data-field="name">Completados</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
-                                    <tr>
-                                        <td>Alvin</td>
-                                        <td>Eclair</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alan</td>
-                                        <td>Jellybean</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonathan</td>
-                                        <td>Lollipop</td>
-                                    </tr>
+                                    @foreach($top_access as $top)
+                                        <tr>
+                                            <td>{{$top->campaign->name}}</td>
+                                            <td>{{$top->accumulated['completed']}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -293,7 +287,7 @@
             c3.generate({
                 bindto: '#device',
                 data: {
-                    x:'x',
+                    x: 'x',
                     columns: [
                         dates,
                         devices
@@ -305,7 +299,7 @@
                         data1: '#b3e5fc'
                     },
                     names: {
-                        data1 : 'Dispositivos'
+                        data1: 'Dispositivos'
                     }
                 },
                 grid: {
@@ -373,8 +367,6 @@
                 },
                 donut: {}
             });
-
-
 
 
             $('.tooltipped').tooltip({delay: 50});
