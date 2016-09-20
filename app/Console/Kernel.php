@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \Networks\Console\Commands\Inspire::class,
+        \Networks\Console\Commands\RecurrentDevices::class,
     ];
 
     /**
@@ -26,5 +27,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
+
     }
 }
