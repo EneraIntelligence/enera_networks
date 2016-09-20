@@ -10,7 +10,7 @@ use Jenssegers\Mongodb\Model;
  * @property-read \Networks\Network $network
  * @property-read mixed $id
  */
-class Branche extends Model
+class Branch extends Model
 {
     protected $fillable = ['name', 'network_id', 'portal', 'aps', 'status'];
 
@@ -23,6 +23,11 @@ class Branche extends Model
     public function campaign_logs()
     {
         return $this->hasMany('Networks\CampaignLog', 'device.branch_id');
+    }
+
+    public function summary()
+    {
+        return $this->hasMany('Networks\SummaryBranch');
     }
 
     public function count_devices()

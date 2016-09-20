@@ -21,7 +21,7 @@
                         <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
-                                    <h5 class="center-align section-title">Visita de Dispositivos</h5>
+                                    <h5 class="center-align section-title">Usuarios</h5>
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
@@ -50,7 +50,7 @@
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
+                                            class="material-icons prefix prefix-position">assignment_ind</i>Usuarios Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
@@ -70,16 +70,33 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">--</h4>
+                                    data-tooltip="Visitantes">{{ number_format($total_female,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de visitantes</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de visitantes"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                    data-tooltip="Tasa de cresimiento">{{ number_format($increments_women,2,'.',',') }}%
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s6">
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitantes">{{ number_format($total_male,0,'.',',') }}</h4>
+                            </div>
+                            <div class="col s6 left-border">
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
+                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Tasa de cresimiento">{{ number_format($increments_men,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -123,28 +140,8 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres Totales</span>
-                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Mujeres Totales">{{ number_format($total_female,0,'.',',') }}</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Mujeres Nuevas</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Mujeres Nuevas"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Promedio dispositivo</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
@@ -161,7 +158,7 @@
             </div>
             <div class="col s12 m4">
                 <div class="card white">
-                    <div class="card-content">
+                    <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
@@ -200,28 +197,8 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres Totales</span>
-                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Hombres Totales">{{ number_format($total_male,0,'.',',') }}</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>hombres Nuevos</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Hombres Nuevos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class="col s6">
                                 <span class="f-size-12 truncate"><i
-                                            class="material-icons prefix prefix-position">phone_iphone</i>Dispositivos Favoritos</span>
+                                            class="material-icons prefix prefix-position">phone_iphone</i>Promedio dispositivo</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
@@ -238,7 +215,7 @@
             </div>
             <div class="col s12 m4">
                 <div class="card white">
-                    <div class="card-content">
+                    <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
@@ -269,51 +246,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Top conexiones Únicas</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field no-padding no-margin centro">
-                                <table class="bordered">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Name</th>
-                                        <th data-field="name">Item Name</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <tr>
-                                        <td>Alvin</td>
-                                        <td>Eclair</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alan</td>
-                                        <td>Jellybean</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonathan</td>
-                                        <td>Lollipop</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -336,7 +268,7 @@
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '0-17', '18-34', '35-45', '46-60', '61+'],
+                        ['x', '61+', '46-60', '35-45', '18-34', '0-17'],
                         mujeres,
                         hombres
                     ],
@@ -385,14 +317,19 @@
             });
 
 
+            var dates = JSON.parse('{!!  json_encode($date_interactions) !!}');
+            var interaction_males = JSON.parse('{!!  json_encode($date_males_interactions) !!}');
+            var interaction_females = JSON.parse('{!!  json_encode($date_females_interactions) !!}');
+
+
             c3.generate({
                 bindto: '#ages',
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                        ['female', 30, 200, 100, 400, 150, 250],
-                        ['male', 70, 20, 50, 200, 450, 350]
+                        dates,
+                        interaction_males,
+                        interaction_females
                     ],
                     type: 'spline',
                     colors: {

@@ -36,5 +36,10 @@ class Campaign extends Model
     {
         return $this->embedsMany('Networks\CampaignHistory', 'history');
     }
+
+    public function summary()
+    {
+        return $this->hasMany('Networks\SummaryCampaign');
+    }
     // end relations
 }

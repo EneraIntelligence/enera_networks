@@ -56,13 +56,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">assignment_ind</i>Trafico Total</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Trafico Total">2222</h4>
+                                    data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Dispositivos Unicos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Unicos"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--
                                 </h4>
                             </div>
                         </div>
@@ -77,13 +77,13 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Visitantes</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes">2222</h4>
+                                    data-tooltip="Visitantes">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de visitantes</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de visitantes"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -98,74 +98,97 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Taza de Lealtad">2222</h4>
+                                    data-tooltip="Taza de Lealtad">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12 m4">
+            <div class="col s6 m2">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
-                            <div class="col s6">
+                            <div class="col s12">
                                 <span class="f-size-12 truncate "><i
-                                            class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
+                                            class="material-icons prefix prefix-position">group</i>Trafico</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">2222</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
-                                </h4>
+                                    data-tooltip="Trafico">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12 m4">
+            <div class="col s6 m2">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
-                            <div class="col s6">
+                            <div class="col s12">
                                 <span class="f-size-12 truncate "><i
-                                            class="material-icons prefix prefix-position">group</i>Dispositivos Nuevos</span>
+                                            class="material-icons prefix prefix-position">group</i>Tasa de crecimiento</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Nuevos">2222</h4>
-                            </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
-                                </h4>
+                                    data-tooltip="Tasa de crecimiento">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12 m4">
+            <div class="col s6 m2">
                 <div class="card white">
                     <div class="card-content">
                         <div class="row no-margin">
-                            <div class="col s6">
+                            <div class="col s12">
                                 <span class="f-size-12 truncate "><i
-                                            class="material-icons prefix prefix-position">group</i>Visitantes Totales</span>
+                                            class="material-icons prefix prefix-position">group</i>Dispositivos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">22%</h4>
+                                    data-tooltip="Dispositivos">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
-                            <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Tasa de lealtad</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tasa de lealtad"><i
-                                            class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
-                                </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m2">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s12">
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Pasers Bys</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Pasers Bys">{{ number_format(00,0,'.',',') }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m2">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s12">
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Visitantes</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Visitantes">{{ number_format(00,0,'.',',') }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6 m2">
+                <div class="card white">
+                    <div class="card-content">
+                        <div class="row no-margin">
+                            <div class="col s12">
+                                <span class="f-size-12 truncate "><i
+                                            class="material-icons prefix prefix-position">group</i>Tasa de Visitas</span>
+                                <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Tasa de Visita">{{ number_format(00,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -210,54 +233,7 @@
                         <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
-                                    <h5 class="center-align section-title">Sistema Operativo</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field col s12 m6 no-padding no-margin ">
-                                <div id="os"></div>
-                            </div>
-                            <div class="input-field col s12 m6 no-padding no-margin ">
-                                <div class="col s12">
-                                    <div class="col s6 right-align">
-                                        <i class="large material-icons">phone_iphone</i>
-                                    </div>
-                                    <div class="col s6">
-                                        <h5>81.8%</h5>
-                                        <h5>Mobile</h5>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="col s6 right-align">
-                                        <i class="large material-icons">tablet_android</i>
-                                    </div>
-                                    <div class="col s6">
-                                        <h5>81.8%</h5>
-                                        <h5>Mobile</h5>
-                                    </div>
-                                </div>
-                                <div class="col s12">
-                                    <div class="col s6 right-align">
-                                        <i class="large material-icons">laptop</i>
-                                    </div>
-                                    <div class="col s6">
-                                        <h5>81.8%</h5>
-                                        <h5>Mobile</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Sistema Operativo</h5>
+                                    <h5 class="center-align section-title">Top conexiones Únicas</h5>
                                 </div>
                             </div>
                         </div>
@@ -266,24 +242,18 @@
                                 <table class="bordered">
                                     <thead>
                                     <tr>
-                                        <th data-field="id">Name</th>
-                                        <th data-field="name">Item Name</th>
+                                        <th data-field="id">Nombre</th>
+                                        <th data-field="name">Completados</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
-                                    <tr>
-                                        <td>Alvin</td>
-                                        <td>Eclair</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alan</td>
-                                        <td>Jellybean</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonathan</td>
-                                        <td>Lollipop</td>
-                                    </tr>
+                                    @foreach($top_access as $top)
+                                        <tr>
+                                            <td>{{$top->campaign->name}}</td>
+                                            <td>{{$top->accumulated['completed']}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -310,17 +280,26 @@
         $(document).ready(function () {
             $('select').material_select();
 
+
+            var dates = JSON.parse('{!!  json_encode($date_for_devices) !!}');
+            var devices = JSON.parse('{!!  json_encode($group_of_devices) !!}');
+
             c3.generate({
                 bindto: '#device',
                 data: {
+                    x: 'x',
                     columns: [
-                        ['data1', 300, 350, 300, 100, 150, 300]
+                        dates,
+                        devices
                     ],
                     types: {
                         data1: 'area-spline'
                     },
                     colors: {
                         data1: '#b3e5fc'
+                    },
+                    names: {
+                        data1: 'Dispositivos'
                     }
                 },
                 grid: {
@@ -329,6 +308,15 @@
                     },
                     y: {
                         show: true
+                    }
+                },
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        localtime: true,
+                        tick: {
+                            format: '%b-%d'
+                        }
                     }
                 }
             });
@@ -379,8 +367,6 @@
                 },
                 donut: {}
             });
-
-
 
 
             $('.tooltipped').tooltip({delay: 50});

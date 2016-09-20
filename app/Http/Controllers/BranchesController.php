@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use MongoDate;
 use Networks\AccessPoint;
-use Networks\Branche;
+use Networks\Branch;
 
 use Networks\Campaign;
 use Networks\CampaignLog;
@@ -16,6 +16,8 @@ use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Network;
 use MongoId;
+use Networks\SummaryBranch;
+use Networks\SummaryNetwork;
 
 class BranchesController extends Controller
 {
@@ -27,7 +29,7 @@ class BranchesController extends Controller
     public function index()
     {
         $network = Network::find(session('network_id'));
-        $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->get();
+        $branches = Branch::where('network_id', $network->_id)->where('status', '<>', 'filed')->get();
         
         $navData= array();
         $navData['branches']='active';
@@ -58,7 +60,7 @@ class BranchesController extends Controller
      */
     public function show($id)
     {
-        $branch = Branche::find($id);
+        $branch = Branch::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
             $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
@@ -108,7 +110,7 @@ class BranchesController extends Controller
             ]);
 
             //cambio a 30 dias
-            $days = 30;
+            $days = 7;
 
             $welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
@@ -304,17 +306,39 @@ class BranchesController extends Controller
              * wordcloud
              */
 
+            $summary_branch = SummaryBranch::where('branch_id', $id)->orderBy('date', 'desc')->first();
+
+            $edad_total = 0;
+
+            if ($summary_branch){
+                foreach ($summary_branch->accumulated['users']['demographic']['male'] as $key => $male){
+                    $edad_total +=  $key * $male;
+                }
+
+                foreach ($summary_branch->accumulated['users']['demographic']['female'] as $key => $female){
+                    $edad_total +=  $key * $female;
+                }
+            }
+
+            $edad_promedio = isset($summary_branch) ? $edad_total/$summary_branch->accumulated['users']['total'] : 0;
+            
+//            dd($summary_branch->accumulated['users']);
 
             $navData= array();
             $navData['branches']='active';
             $navData['breadcrumbs']=['branches', $branch->name];
 
+            
             return view('branches.show', [
                 'branch' => $branch,
+                'summary_branch' => $summary_branch,
                 'aps' => $aps,
+                'total_users' => $summary_branch ? $summary_branch->accumulated['users']['total'] : 0,
+                'edad_promedio' => $edad_promedio,
+                'genero' => $summary_branch ? array_sum($summary_branch->accumulated['users']['demographic']['male']) > array_sum($summary_branch->accumulated['users']['demographic']['female']) ? 'Hombres' : 'Mujeres' : '---',
                 'network' => Network::find(session('network_id')),
-                'devices' => $devices['result'][0]['count'],
-                'users' => $users['result'][0]['count'],
+                'devices' => $devices['result'] != [] ? $devices['result'][0]['count'] : 0,
+                'users' => $users['result'] != [] ? $users['result'][0]['count'] : 0,
                 'int_days' => $IntDays,
                 'words' => $words,
                 'wordCount' => $likesCount,
@@ -447,7 +471,7 @@ class BranchesController extends Controller
 
     public function clients($id)
     {
-        $branch = Branche::find($id);
+        $branch = Branch::find($id);
         if ($branch && $branch->network_id == session('network_id')) {
             $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [

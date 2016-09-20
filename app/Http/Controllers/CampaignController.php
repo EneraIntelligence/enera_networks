@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Auth;
 
-use Networks\Branche;
+use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
@@ -50,7 +50,7 @@ class CampaignController extends Controller
         ]);
         if ($validate->passes()) {
             $network = Network::find(session('network_id'));
-            $branches = Branche::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
+            $branches = Branch::where('network_id', $network->_id)->where('status', '<>', 'filed')->lists("name", "_id");
             $cam = [
                 "content" => [
                     "images" => [
