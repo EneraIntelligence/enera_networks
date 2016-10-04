@@ -12,7 +12,7 @@
 @section('content')
 
     <div class="container">
-        <div class="row">
+        <div class="row report">
             <div class="col s12 m6 l4">
                 <div class="card ">
                     <div class="card-content black-text">
