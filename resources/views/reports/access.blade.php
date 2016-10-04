@@ -57,12 +57,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Conexiones Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Conexiones Totales">5,000</h4>
+                                    data-tooltip="Conexiones Totales">{{ number_format($access,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,0,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -77,12 +77,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Reconexiones Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Reconexiones Totales">2222</h4>
+                                    data-tooltip="Reconexiones Totales">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Usuarios con Re-conexión</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Usuarios con Re-conexión">5,000</h5>
+                                    data-tooltip="Usuarios con Re-conexión">--</h5>
                             </div>
                         </div>
                     </div>
@@ -110,8 +110,8 @@
                             <div class="col s12">
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Porcentaje Reconexion</span>
-                                <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo de estancia">50%</h5>
+                                <h5 class="center-align tooltipped" data-position="bottom" data-delay="--"
+                                    data-tooltip="Tiempo de estancia">--%</h5>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Re-conexiones promedio</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Re-conexiones promedio">3</h5>
+                                    data-tooltip="Re-conexiones promedio">--</h5>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Campañas Existentes</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Campañas Existentes">45</h5>
+                                    data-tooltip="Campañas Existentes">--</h5>
                             </div>
                         </div>
                     </div>
@@ -435,15 +435,16 @@
                 }
             });
 
+            var recurrentes = JSON.parse('{!!  json_encode($recurrentes) !!}');
 
             var chart = c3.generate({
                 bindto: '#access',
                 data: {
                     columns: [
-                        ['data1', 30],
-                        ['data2', 130],
-                        ['data3', 200],
-                        ['data4', 150]
+                        ['data1', recurrentes[0]],
+                        ['data2', recurrentes[1]],
+                        ['data3', recurrentes[2]],
+                        ['data4', recurrentes[3]]
                     ],
                     type: 'bar',
                     groups: [
@@ -462,7 +463,7 @@
                         data3: '5-8 veces',
                         data4: '9- más veces'
                     },
-                    order: 'null'
+                    order: 'asc'
                 },
                 bar: {
                     width: {
