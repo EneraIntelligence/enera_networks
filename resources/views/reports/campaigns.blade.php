@@ -77,7 +77,7 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Accesos Nuevos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Accesos Nuevos">2222</h4>
+                                    data-tooltip="Accesos Nuevos">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
@@ -97,7 +97,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Completados</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Completados">2222</h4>
+                                    data-tooltip="Completados">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
