@@ -27,11 +27,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('inspire')
-            ->sendOutputTo('inspire.log')
             ->hourly();
+
+        $filepath = base_path() . "/storage/logs/commands/Enera_RecurrentDevices.txt";;
         $schedule->command('enera:RecurrentDevices')
             ->daily()
-            ->sendOutputTo('enera_recurrent_devices.log')
+            ->sendOutputTo($filepath)
             ->emailOutputTo('ediaz@enera.mx');
 
     }
