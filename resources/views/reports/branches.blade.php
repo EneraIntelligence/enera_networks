@@ -58,12 +58,12 @@
                                 <span class="f-size-12 truncate"><i
                                             class="material-icons prefix prefix-position">phone_iphone</i>Visitantes Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Visitantes Totales">2222</h4>
+                                    data-tooltip="Visitantes Totales">{{ number_format($users,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($user_increase,0,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -78,12 +78,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Taza de Lealtad">2222</h4>
+                                    data-tooltip="Taza de Lealtad">--</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>24%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Conexiones Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Conexiones Totales">2222</h4>
+                                    data-tooltip="Conexiones Totales">{{ number_format($access,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Dispositivos Unicos</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Dispositivos Unicos">2222</h4>
+                                    data-tooltip="Dispositivos Unicos">{{ number_format($devices,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Día más concurrido</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Día más concurrido">2222</h4>
+                                    data-tooltip="Día más concurrido">--</h4>
                             </div>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Edad Promedio</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Edad Promedi">25 Años</h5>
+                                    data-tooltip="Edad Promedi">{{ number_format($edad_promedio,0,'.',',') }} Años</h5>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Tiempo de estancia</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo de estancia">12:12:12</h5>
+                                    data-tooltip="Tiempo de estancia">--:--:--</h5>
                             </div>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Genero Dominante</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Genero Dominante">Hombre 70%</h5>
+                                    data-tooltip="Genero Dominante">{{$genero}}</h5>
                             </div>
                         </div>
                     </div>
@@ -188,16 +188,23 @@
         $(document).ready(function () {
             $('select').material_select();
 
+            var dates = JSON.parse('{!!  json_encode($dates_devices) !!}');
+            var devices = JSON.parse('{!!  json_encode($unique_devices) !!}');
+
             c3.generate({
                 bindto: '#device',
                 data: {
+                    x : 'x',
                     columns: [
-                        ['data1', 30, 200, 100, 400, 150, 250],
-                        ['data2', 50, 20, 10, 40, 15, 25]
+                        dates,
+                        devices
                     ],
                     colors: {
                         data1: '#039be5',
                         data2: '#ab47bc'
+                    },
+                    names:{
+                        data1: 'Visitas'
                     }
                 },
                 grid: {
@@ -207,7 +214,16 @@
                     y: {
                         show: true
                     }
+                },
+                    axis: {
+                x: {
+                    type: 'timeseries',
+                            localtime: true,
+                            tick: {
+                        format: '%b-%d'
+                    }
                 }
+            }
             });
 
             c3.generate({

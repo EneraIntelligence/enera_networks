@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \Networks\Console\Commands\Inspire::class,
         \Networks\Console\Commands\RecurrentDevices::class,
+        \Networks\Console\Commands\ActiveDevices::class,
     ];
 
     /**

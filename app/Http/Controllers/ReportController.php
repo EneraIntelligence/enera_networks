@@ -3,8 +3,12 @@
 namespace Networks\Http\Controllers;
 
 use Auth;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
+use MongoDate;
+use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
@@ -22,7 +26,7 @@ class ReportController extends Controller
     {
         $navData = array();
         $navData['reports'] = 'active';
-        $navData['breadcrumbs'] = ['reports'];
+        $navData['breadcrumbs'] = ['Reportes'];
 
         return view('reports.index', [
             'navData' => $navData
@@ -166,8 +170,8 @@ class ReportController extends Controller
 
         if ($unique_clients) {
             $campaigns = Campaign::whereIn('client_id', $client)->lists('_id');
-            $top_access = SummaryCampaign::whereIn('campaign_id',$campaigns)->orderBy('accumulated.completed', 'acs')->get();
-        }else{
+            $top_access = SummaryCampaign::whereIn('campaign_id', $campaigns)->orderBy('accumulated.completed', 'acs')->get();
+        } else {
             $top_access = [];
         }
 
@@ -225,8 +229,53 @@ class ReportController extends Controller
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Nodos'];
 
+        $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
+        $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
+
+        $user_increase = $summary_network ? $this->increment($summary_network->accumulated['users']['total'], $m2->accumulated['connections']['total']) : 0;
+
+        $edad_promedio = 0;
+
+
+        if ($summary_network) {
+            foreach ($summary_network->accumulated['users']['demographic']['male'] as $key => $value) {
+                $edad_promedio += $key * $value;
+            }
+        }
+
+        if ($summary_network) {
+            foreach ($summary_network->accumulated['users']['demographic']['female'] as $key => $value) {
+                $edad_promedio += $key * $value;
+            }
+        }
+
+
+        $network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(5)->get();
+        $unique_devices = ['data1'];
+        $dates_devices = ['x'];
+        if ($network) {
+            foreach ($network as $net) {
+                array_push($dates_devices, $net->created_at->format('Y-m-d'));
+                array_push($unique_devices, $net->devices['total']);
+            }
+        }
+
+        $genero = '';
+        if ($summary_network) {
+            $genero = array_sum($summary_network->accumulated['users']['demographic']['female']) > array_sum($summary_network->accumulated['users']['demographic']['male']) ? 'Mujeres' : 'Hombres';
+        }
+
         return view('reports.branches', [
-            'navData' => $navData
+            'navData' => $navData,
+            'unique_devices' => $unique_devices,
+            'dates_devices' => $dates_devices,
+            'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
+            'users' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
+            'devices' => $summary_network ? $summary_network->accumulated['devices']['total'] : 0,
+            'user_increase' => $user_increase,
+            'edad_promedio' => $summary_network ? $edad_promedio / $summary_network->accumulated['users']['total'] : 0,
+            'genero' => $genero
+
         ]);
     }
 
@@ -236,7 +285,59 @@ class ReportController extends Controller
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Accesos'];
 
-        return view('reports.access', ['navData' => $navData]);
+        $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
+        $date = $summary_network ? date('Y-m-d', strtotime($summary_network->date)) : '1970-12-12';
+        $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
+
+        if ($summary_network && $m2) {
+            $access_increase = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
+        } else {
+            $access_increase = 0;
+        }
+
+        $branches =  Branch::where('network_id', session('network_id'))->lists('_id');
+
+
+        $recurentes = [0, 0, 0, 0];
+
+        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+        $recurrencia = $collection->aggregate([
+
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ]
+
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.mac',
+                    'count' => ['$sum' => 1]
+                ]
+            ]
+        ]);
+
+        foreach ($recurrencia['result'] as $result) {
+            if ($result['count'] == 1) {
+                $recurentes[0] += 1;
+            } elseif ($result['count'] > 1 && $result['count'] <= 4) {
+                $recurentes[1] += 1;
+            } elseif ($result['count'] > 4 && $result['count'] <= 8) {
+                $recurentes[2] += 1;
+            } elseif ($result['count'] > 8) {
+                $recurentes[3] += 1;
+            }
+        }
+
+
+        return view('reports.access', [
+            'navData' => $navData,
+            'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
+            'access_increase' => $access_increase,
+            'recurrentes' =>  $recurentes
+        ]);
     }
 
 
@@ -245,10 +346,11 @@ class ReportController extends Controller
         return view('profile.settings');
     }
 
+
     private function increment($actual, $last)
     {
         $diff = $actual - $last;
-        $increment = $diff > 0 ? $diff / $last : 0;
+        $increment = $diff > 0 && $last > 0 ? $diff / $last : 0;
         $result = $increment * 100;
         return $result;
     }

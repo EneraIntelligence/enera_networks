@@ -73,5 +73,5 @@
 
 <div class="section card-bottom">
     <a style="width:80%; margin-left:10%;"
-       class="btn cyan" href="#!">Ver más</a>
+       class="btn cyan" href="{{route('reports::access')}}">Ver más</a>
 </div>
