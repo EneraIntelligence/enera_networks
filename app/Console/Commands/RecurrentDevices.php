@@ -97,7 +97,10 @@ class RecurrentDevices extends Command
                 $report->devices = $unique['count'];
                 $recurrent = Network::recurrentDevices($start_date, $unique['devices'], $n_id);
 
-                $report->recurrent = $recurrent['count'];
+                if($recurrent!=[])
+                {
+                    $report->recurrent = $recurrent['count'];
+                }
                 $report->new = $report->devices - $report->recurrent;
             }
             
