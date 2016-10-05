@@ -52,11 +52,18 @@ class RecurrentDevices extends Command
         $time_start = microtime(true);
         $this->comment('Executing command enera:RecurrentDevices');
 
-//        $start_date = Carbon::yesterday('America/Mexico_City');
+
+        $dateString = $this->option('date');
         $end_date = Carbon::today('America/Mexico_City');
+        if($dateString)
+        {
+            $end_date = Carbon::createFromFormat('Y-m-d H', $dateString.' 00');
+        }
+            
         $start_date = Carbon::today('America/Mexico_City')->subDays(7);
         
-        $mongo_today = new MongoDate(strtotime($start_date));
+
+        $mongo_today = new MongoDate(strtotime($end_date));
 
         $this->info("Date start: " . $start_date);
         $this->info("Date end: " . $end_date);
