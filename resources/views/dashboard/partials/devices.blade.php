@@ -46,7 +46,7 @@ $dashReportWeekBefore = $summary_devices['dashboard_report_week_before'];
 
         <div class="col s6 right-align">
             <span style="font-weight: 200;font-size:19px;">
-                {{$dashReport['devices']}}
+                {{number_format($dashReport['devices'],0,'.',',')}}
 
                 <?php
                 $devicesIncrement = \Networks\Libraries\MathHelper::calculateIncrement($dashReport['devices'], $dashReportWeekBefore['devices']);

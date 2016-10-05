@@ -4,6 +4,12 @@ namespace Networks\Libraries;
 
 class MathHelper
 {
+
+    /**
+     * @param $actual
+     * @param $last
+     * @return float|int - increment percentage
+     */
     public static function calculateIncrement($actual, $last)
     {
         $diff = $actual - $last;
