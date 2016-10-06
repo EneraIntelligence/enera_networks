@@ -35,6 +35,7 @@
                             Conoce a tus visitantes. Con estos reportes podrás identificar a las personas que ya se
                             conectaron a tu red y conocer sus datos demográficos y preferencias por genero o edad.</p>
                     </div>
+
                     <div class="card-action">
                         <a class="waves-effect waves-light btn blue" href="{{route('reports::users')}}">Ir a reporte</a>
                     </div>
@@ -49,7 +50,7 @@
                             conexiones a internet estas generando en tu red.</p>
                     </div>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn blue" href="{{'reports::access'}}">Ir a reporte</a>
+                        <a class="waves-effect waves-light btn blue" href="{{route('reports::access')}}">Ir a reporte</a>
                     </div>
                 </div>
             </div>

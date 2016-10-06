@@ -217,11 +217,10 @@ class ReportController extends Controller
         $inc_completed_interactions = 0;
         if ($summary_network) {
             $inc_total_access = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
-            $inc_new_access = $this->increment(($m2->accumulated['connections'] -$summary_network->accumulated['connections']),($last->accumulated['connections'] - $m2->accumulated['connections']));
-            $inc_completed_interactions = $this->increment($summary_network->accumulated['devices']['completed'], $m2->accumulated['devices']['completed']);
+            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] -$m2->accumulated['connections']),($m2->accumulated['connections'] - $last->accumulated['connections']));
+            $inc_completed_interactions = $this->increment($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
         }
 
-        
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -234,6 +233,7 @@ class ReportController extends Controller
             'completed' => $completed,
             'access' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'new_access' => $summary_network ? $summary_network->accumulated['connections'] - $m2->accumulated['connections'] : 0,
+            'completed_interactions' => $summary_network ? $summary_network->devices['interactions']['completed'] : 0,
             'inc_total_access' =>  $inc_total_access,
             'inc_new_access' => $inc_new_access,
             'inc_completed_interactions' => $inc_completed_interactions
