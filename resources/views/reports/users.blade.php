@@ -183,7 +183,7 @@
                             <div class="col s12">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text" href="/"></a>Edad promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Edad promedio">paccess</h4>
+                                    data-tooltip="Edad promedio">{{ number_format($promedio_mujeres,0,'.',',') }}</h4>
                             </div>
                         </div>
                     </div>

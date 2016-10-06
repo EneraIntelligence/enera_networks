@@ -221,7 +221,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Tiempo Promedia</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo Promedia">1:23:20</h4>
+                                    data-tooltip="Tiempo Promedia">--:--:--</h4>
                             </div>
                         </div>
                     </div>
@@ -325,11 +325,14 @@
                 bindto: '#time',
                 data: {
                     columns: [
-                        ['data1', 30, 200, 100, 400, 150, 250, 200]
+                        ['data1', 0, 0, 0, 0, 0, 0, 0]
                     ],
                     type: 'bar',
                     colors: {
                         data1: '#78909c'
+                    },
+                    names: {
+                        data1: 'Promedio'
                     }
                 },
                 bar: {

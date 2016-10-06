@@ -175,6 +175,7 @@ class ReportController extends Controller
             $top_access = [];
         }
 
+
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Dispositivos'];
@@ -194,6 +195,8 @@ class ReportController extends Controller
 
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
+        $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
+        $last = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'asc')->first();
         $branches_network = Branch::where('network_id', session('network_id'))->lists('_id');
         $campaigns_network = Campaign::whereIn('branches', $branches_network)->lists('_id');
         $summary_campaign = SummaryCampaign::whereIn('campaign_id', $campaigns_network)->get();
@@ -209,6 +212,16 @@ class ReportController extends Controller
             }
         }
 
+        $inc_total_access = 0;
+        $inc_new_access = 0;
+        $inc_completed_interactions = 0;
+        if ($summary_network) {
+            $inc_total_access = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
+            $inc_new_access = $this->increment(($m2->accumulated['connections'] -$summary_network->accumulated['connections']),($last->accumulated['connections'] - $m2->accumulated['connections']));
+            $inc_completed_interactions = $this->increment($summary_network->accumulated['devices']['completed'], $m2->accumulated['devices']['completed']);
+        }
+
+        
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -219,7 +232,11 @@ class ReportController extends Controller
             'name_of_campaigns' => $name_of_campaigns,
             'loaded' => $loaded,
             'completed' => $completed,
-            'access' => $summary_network ? $summary_network->accumulated['users']['total'] : 0
+            'access' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
+            'new_access' => $summary_network ? $summary_network->accumulated['connections'] - $m2->accumulated['connections'] : 0,
+            'inc_total_access' =>  $inc_total_access,
+            'inc_new_access' => $inc_new_access,
+            'inc_completed_interactions' => $inc_completed_interactions
         ]);
     }
 
@@ -296,7 +313,7 @@ class ReportController extends Controller
             $access_increase = 0;
         }
 
-        $branches =  Branch::where('network_id', session('network_id'))->lists('_id');
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
 
 
         $recurentes = [0, 0, 0, 0];
@@ -337,7 +354,7 @@ class ReportController extends Controller
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
-            'recurrentes' =>  $recurentes
+            'recurrentes' => $recurentes
         ]);
     }
 
