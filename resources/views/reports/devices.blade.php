@@ -227,45 +227,45 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Top conexiones Únicas</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field no-padding no-margin centro">
-                                <table class="bordered">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Nombre</th>
-                                        <th data-field="name">Completados</th>
-                                    </tr>
-                                    </thead>
+            {{--<div class="col s12">--}}
+                {{--<div class="card white">--}}
+                    {{--<div class="card-content">--}}
+                        {{--<div class="row no-margin">--}}
+                            {{--<div class=" col s12 m4">--}}
+                                {{--<div>--}}
+                                    {{--<h5 class="center-align section-title">Top conexiones Únicas</h5>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="row no-margin">--}}
+                            {{--<div class="input-field no-padding no-margin centro">--}}
+                                {{--<table class="bordered">--}}
+                                    {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th data-field="id">Nombre</th>--}}
+                                        {{--<th data-field="name">Completados</th>--}}
+                                    {{--</tr>--}}
+                                    {{--</thead>--}}
 
-                                    <tbody>
-                                    @foreach($top_access as $top)
-                                        <tr>
-                                            <td>{{$top->campaign->name}}</td>
-                                            <td>{{$top->accumulated['completed']}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    {{--<tbody>--}}
+                                    {{--@foreach($top_access as $top)--}}
+                                        {{--<tr>--}}
+                                            {{--<td>{{$top->campaign->name}}</td>--}}
+                                            {{--<td>{{$top->accumulated['completed']}}</td>--}}
+                                        {{--</tr>--}}
+                                    {{--@endforeach--}}
+                                    {{--</tbody>--}}
+                                {{--</table>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col s12 m4 right" style="margin: 20px 0 0 0;">--}}
+                                {{--<a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         </div>
     </div>
 
