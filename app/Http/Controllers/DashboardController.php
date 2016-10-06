@@ -11,11 +11,14 @@ use Networks\CampaignLog;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use DB;
+use Networks\Libraries\MathHelper;
 use Networks\Network;
 use Networks\Branch;
 
 use MongoDate;
 use Carbon\Carbon;
+use Networks\ReportDashboard;
+use Networks\ReportDevice;
 use Networks\SummaryNetwork;
 use Networks\User;
 
@@ -39,6 +42,9 @@ class DashboardController extends Controller
         $branches = Branch::where('network_id', session('network_id'))->where('status', '<>', 'filed')->take(3)->get();
         $campaigns = Campaign::where('administrator_id', auth()->user()->_id)->orderBy('name', 'desc')->take(3)->get();
 
+        $dashboardReport = ReportDashboard::today(session('network_id'));
+        $dashboardReportWeekBefore = ReportDashboard::weekBefore(session('network_id'));
+        
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $w2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(7)->first();
         $w3 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(14)->first();
@@ -127,6 +133,8 @@ class DashboardController extends Controller
                 'tw' => $summary_network ? ($summary_network->accumulated['users']['total'] - $w2->accumulated['users']['total']) : 0,
             ],
             'summary_devices' => [
+                'dashboard_report'=>$dashboardReport,
+                'dashboard_report_week_before'=>$dashboardReportWeekBefore,
                 'accumulated' => $summary_network ? $summary_network->accumulated['devices']['total'] : 0,
                 'diff_week' => $devices_diff_week,
                 'tw' => $summary_network && $w2 ? ($summary_network->accumulated['devices']['total'] - $w2->accumulated['devices']['total']) : 0,

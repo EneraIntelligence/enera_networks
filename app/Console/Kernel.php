@@ -27,7 +27,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('inspire')
-                 ->hourly();
+            ->hourly();
+
+        $filepath = base_path() . "/storage/logs/commands/Enera_RecurrentDevices.txt";;
+        $schedule->command('enera:RecurrentDevices')
+            ->daily()
+            ->sendOutputTo($filepath)
+            ->emailOutputTo('ediaz@enera.mx');
 
     }
 }
