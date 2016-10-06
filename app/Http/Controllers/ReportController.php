@@ -194,17 +194,18 @@ class ReportController extends Controller
 
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
-        $summary_campaign = SummaryCampaign::orderBy('accumulated.completed', 'desc')->take(5)->get();
-
+        $branches_network = Branch::where('network_id', session('network_id'))->lists('_id');
+        $campaigns_network = Campaign::whereIn('branches', $branches_network)->lists('_id');
+        $summary_campaign = SummaryCampaign::whereIn('campaign_id', $campaigns_network)->get();
         $name_of_campaigns = ['x'];
         $loaded = ['loaded'];
         $completed = ['completed'];
 
         if ($summary_campaign) {
-            foreach ($summary_campaign as $summ_campaign) {
-                array_push($name_of_campaigns, $summ_campaign->campaign->name);
-                array_push($loaded, $summ_campaign->accumulated['loaded']);
-                array_push($completed, $summ_campaign->accumulated['completed']);
+            foreach ($summary_campaign as $sum_campaign) {
+                array_push($name_of_campaigns, $sum_campaign->campaign->name);
+                array_push($loaded, $sum_campaign->accumulated['loaded']);
+                array_push($completed, $sum_campaign->accumulated['completed']);
             }
         }
 
