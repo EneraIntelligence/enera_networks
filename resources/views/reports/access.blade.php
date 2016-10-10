@@ -309,6 +309,9 @@
                     },
                     colors: {
                         data1: '#b3e5fc'
+                    },
+                    names: {
+                        data1: 'Conexiones'
                     }
                 },
                 grid: {
@@ -363,17 +366,22 @@
                 donut: {}
             });
 
+
+            var week = JSON.parse('{!!  json_encode($chart_weekday) !!}');
             c3.generate({
                 bindto: '#weekconections',
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '2013-01-01', '2013-01-02', '2013-01-03', '2013-01-04', '2013-01-05', '2013-01-06'],
-                        ['data1', 30, 200, 100, 400, 150, 250,50, 140]
+                        ['x','Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'],
+                        week
                     ],
                     type: 'bar',
                     colors: {
                         data1: '#039be5'
+                    },
+                    names: {
+                        data1 : 'Conexiones'
                     }
                 },
                 bar: {
@@ -388,29 +396,32 @@
                         show: true
                     }
                 },
-                axis:{
-                    x:{
-                        type: 'timeseries',
-                        tick: {
-                            format: '%a'
-                        }
+                    axis:{
+                x:{
+                    type: 'category',
+                            tick: {
+                        format: '%a'
                     }
                 }
+            }
             });
 
+            var hour = JSON.parse('{!!  json_encode($chart_hour) !!}');
             c3.generate({
                 bindto: '#hoursconections',
                 data: {
                     x : 'x',
                     columns: [
-                        ['x', '1am', '2am', '3am', '4am', '5am', '6am','7am', '8am', '9am', '10am', '11am', '12pm',
-                            '1pm', '2pm', '3pm', '4pm', '5pm', '6pm','7pm', '8pm', '9pm', '10pm', '11pm', '12am'],
-                        ['data1', 30, 200, 100, 400, 150, 250,50, 140,30, 200, 100, 400, 150, 250,50, 140,
-                            30, 200, 100, 400, 150, 250,50, 140]
+                        ['x','12am' ,'1am', '2am', '3am', '4am', '5am', '6am','7am', '8am', '9am', '10am', '11am', '12pm',
+                            '1pm', '2pm', '3pm', '4pm', '5pm', '6pm','7pm', '8pm', '9pm', '10pm', '11pm'],
+                        hour
                     ],
                     type: 'bar',
                     colors: {
                         data1: '#039be5'
+                    },
+                    names : {
+                        data1 : 'Conexines '
                     }
                 },
                 bar: {

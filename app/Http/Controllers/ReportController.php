@@ -12,6 +12,7 @@ use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
+use Networks\ReportDashboard;
 use Networks\SummaryCampaign;
 use Networks\SummaryNetwork;
 
@@ -217,7 +218,7 @@ class ReportController extends Controller
         $inc_completed_interactions = 0;
         if ($summary_network) {
             $inc_total_access = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
-            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] -$m2->accumulated['connections']),($m2->accumulated['connections'] - $last->accumulated['connections']));
+            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] - $m2->accumulated['connections']), ($m2->accumulated['connections'] - $last->accumulated['connections']));
             $inc_completed_interactions = $this->increment($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
         }
 
@@ -234,7 +235,7 @@ class ReportController extends Controller
             'access' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'new_access' => $summary_network ? $summary_network->accumulated['connections'] - $m2->accumulated['connections'] : 0,
             'completed_interactions' => $summary_network ? $summary_network->devices['interactions']['completed'] : 0,
-            'inc_total_access' =>  $inc_total_access,
+            'inc_total_access' => $inc_total_access,
             'inc_new_access' => $inc_new_access,
             'inc_completed_interactions' => $inc_completed_interactions
         ]);
@@ -337,6 +338,64 @@ class ReportController extends Controller
             ]
         ]);
 
+
+        $for_weekday = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day'=> [ '$dayOfWeek'=> '$created_at' ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+        $chart_weekday = ['data1', 0,0,0,0,0,0,0];
+        foreach ($for_weekday['result'] as  $weekday){
+            $chart_weekday[$weekday['_id']] = $weekday['count'];
+        }
+
+        $for_hour = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'hour'=> [ '$hour'=> '$created_at' ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$hour',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+        $chart_hour = ['data1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        foreach ($for_hour['result'] as $hour){
+            $chart_hour[$hour['_id'] + 1] = $hour['count'];
+        }
+
+
         foreach ($recurrencia['result'] as $result) {
             if ($result['count'] == 1) {
                 $recurentes[0] += 1;
@@ -349,12 +408,15 @@ class ReportController extends Controller
             }
         }
 
-
+        $recurrent = ReportDashboard::where('network_id', '56c7aec7a826aad7a510ddfe')->orderBy('report_date', 'desc')->first();
+//        dd($recurrent);
         return view('reports.access', [
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
-            'recurrentes' => $recurentes
+            'recurrentes' => $recurentes,
+            'chart_weekday' => $chart_weekday,
+            'chart_hour' => $chart_hour
         ]);
     }
 
