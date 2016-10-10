@@ -416,6 +416,26 @@ class ReportController extends Controller
             }
         }
 
+        $for_os = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.os',
+                    'count' => ['$sum' => 1]
+                ]
+            ]
+        ]);
+        
+
+
         $recurrent = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'desc')->first();
         $first = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'asc')->first();
 
@@ -423,6 +443,8 @@ class ReportController extends Controller
         if ($recurrent){
             $inc_recurrent = $this->increment($recurrent->recurrent, $first->recurrent);
         }
+
+        $campaigns = Campaign::whereIn('branches', $branches->all())->count();
 
         
         return view('reports.access', [
@@ -438,7 +460,9 @@ class ReportController extends Controller
             'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
             'num_reconnection' => $num_reconnection,
             'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
-            'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0
+            'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
+            'campaigns' => $campaigns,
+            'for_os' => $for_os
         ]);
     }
 

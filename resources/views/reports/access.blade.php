@@ -62,7 +62,8 @@
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,2,'.',',') }}%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,2,'.',',') }}
+                                    %
                                 </h4>
                             </div>
                         </div>
@@ -82,7 +83,8 @@
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_recurrent,2,'.',',') }}%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_recurrent,2,'.',',') }}
+                                    %
                                 </h4>
                             </div>
                         </div>
@@ -111,7 +113,8 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Porcentaje Reconexion</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="--"
-                                    data-tooltip="Tiempo de estancia">{{ number_format($poc_reconnection,0,'.',',') }}%</h5>
+                                    data-tooltip="Tiempo de estancia">{{ number_format($poc_reconnection,2,'.',',') }}
+                                    %</h5>
                             </div>
                         </div>
                     </div>
@@ -139,7 +142,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Campañas Existentes</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Campañas Existentes">--</h5>
+                                    data-tooltip="Campañas Existentes">{{ number_format($campaigns,0,'.',',') }}</h5>
                             </div>
                         </div>
                     </div>
@@ -255,24 +258,18 @@
                                 <table class="bordered">
                                     <thead>
                                     <tr>
-                                        <th data-field="id">Name</th>
-                                        <th data-field="name">Item Name</th>
+                                        <th data-field="id">Sistema Operativo</th>
+                                        <th data-field="name">Cantidad</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
-                                    <tr>
-                                        <td>Alvin</td>
-                                        <td>Eclair</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alan</td>
-                                        <td>Jellybean</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonathan</td>
-                                        <td>Lollipop</td>
-                                    </tr>
+                                    @foreach($for_os['result'] as $os)
+                                        <tr>
+                                            <td>{{$os['_id']}}</td>
+                                            <td>{{$os['count']}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -371,9 +368,9 @@
             c3.generate({
                 bindto: '#weekconections',
                 data: {
-                    x : 'x',
+                    x: 'x',
                     columns: [
-                        ['x','Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'],
+                        ['x', 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'],
                         week
                     ],
                     type: 'bar',
@@ -381,7 +378,7 @@
                         data1: '#039be5'
                     },
                     names: {
-                        data1 : 'Conexiones'
+                        data1: 'Conexiones'
                     }
                 },
                 bar: {
@@ -392,36 +389,36 @@
                     //width: 100 // this makes bar width 100px
                 },
                 grid: {
-                    y:{
+                    y: {
                         show: true
                     }
                 },
-                    axis:{
-                x:{
-                    type: 'category',
-                            tick: {
-                        format: '%a'
+                axis: {
+                    x: {
+                        type: 'category',
+                        tick: {
+                            format: '%a'
+                        }
                     }
                 }
-            }
             });
 
             var hour = JSON.parse('{!!  json_encode($chart_hour) !!}');
             c3.generate({
                 bindto: '#hoursconections',
                 data: {
-                    x : 'x',
+                    x: 'x',
                     columns: [
-                        ['x','12am' ,'1am', '2am', '3am', '4am', '5am', '6am','7am', '8am', '9am', '10am', '11am', '12pm',
-                            '1pm', '2pm', '3pm', '4pm', '5pm', '6pm','7pm', '8pm', '9pm', '10pm', '11pm'],
+                        ['x', '12am', '1am', '2am', '3am', '4am', '5am', '6am', '7am', '8am', '9am', '10am', '11am', '12pm',
+                            '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm', '10pm', '11pm'],
                         hour
                     ],
                     type: 'bar',
                     colors: {
                         data1: '#039be5'
                     },
-                    names : {
-                        data1 : 'Conexines '
+                    names: {
+                        data1: 'Conexines '
                     }
                 },
                 bar: {
@@ -432,12 +429,12 @@
                     //width: 100 // this makes bar width 100px
                 },
                 grid: {
-                    y:{
+                    y: {
                         show: true
                     }
                 },
-                axis:{
-                    x:{
+                axis: {
+                    x: {
                         type: 'category',
                         tick: {
                             format: '%a'
@@ -494,7 +491,9 @@
                 },
                 tooltip: {
                     format: {
-                        value: function (value, ratio, id, index) { return Math.abs(value); }
+                        value: function (value, ratio, id, index) {
+                            return Math.abs(value);
+                        }
                     }
                 },
                 grid: {
