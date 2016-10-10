@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
 
         $filepath = base_path() . "\storage\logs\commands\Enera_RecurrentDevices.txt";;
         $schedule->command('enera:RecurrentDevices')
-            ->everyMinute()
+            ->daily()
             ->sendOutputTo($filepath)
             ->emailOutputTo('ediaz@enera.mx');
 
