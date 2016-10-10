@@ -221,51 +221,51 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Tiempo Promedia</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Tiempo Promedia">1:23:20</h4>
+                                    data-tooltip="Tiempo Promedia">--:--:--</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col s12">
-                <div class="card white">
-                    <div class="card-content">
-                        <div class="row no-margin">
-                            <div class=" col s12 m4">
-                                <div>
-                                    <h5 class="center-align section-title">Top conexiones Únicas</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row no-margin">
-                            <div class="input-field no-padding no-margin centro">
-                                <table class="bordered">
-                                    <thead>
-                                    <tr>
-                                        <th data-field="id">Nombre</th>
-                                        <th data-field="name">Completados</th>
-                                    </tr>
-                                    </thead>
+            {{--<div class="col s12">--}}
+                {{--<div class="card white">--}}
+                    {{--<div class="card-content">--}}
+                        {{--<div class="row no-margin">--}}
+                            {{--<div class=" col s12 m4">--}}
+                                {{--<div>--}}
+                                    {{--<h5 class="center-align section-title">Top conexiones Únicas</h5>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="row no-margin">--}}
+                            {{--<div class="input-field no-padding no-margin centro">--}}
+                                {{--<table class="bordered">--}}
+                                    {{--<thead>--}}
+                                    {{--<tr>--}}
+                                        {{--<th data-field="id">Nombre</th>--}}
+                                        {{--<th data-field="name">Completados</th>--}}
+                                    {{--</tr>--}}
+                                    {{--</thead>--}}
 
-                                    <tbody>
-                                    @foreach($top_access as $top)
-                                        <tr>
-                                            <td>{{$top->campaign->name}}</td>
-                                            <td>{{$top->accumulated['completed']}}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12 m4 right" style="margin: 20px 0 0 0;">
-                                <a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    {{--<tbody>--}}
+                                    {{--@foreach($top_access as $top)--}}
+                                        {{--<tr>--}}
+                                            {{--<td>{{$top->campaign->name}}</td>--}}
+                                            {{--<td>{{$top->accumulated['completed']}}</td>--}}
+                                        {{--</tr>--}}
+                                    {{--@endforeach--}}
+                                    {{--</tbody>--}}
+                                {{--</table>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col s12 m4 right" style="margin: 20px 0 0 0;">--}}
+                                {{--<a class="waves-effect waves-light btn light-blue darken-1">Ver informe de nodos</a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         </div>
     </div>
 
@@ -325,11 +325,14 @@
                 bindto: '#time',
                 data: {
                     columns: [
-                        ['data1', 30, 200, 100, 400, 150, 250, 200]
+                        ['data1', 0, 0, 0, 0, 0, 0, 0]
                     ],
                     type: 'bar',
                     colors: {
                         data1: '#78909c'
+                    },
+                    names: {
+                        data1: 'Promedio'
                     }
                 },
                 bar: {
