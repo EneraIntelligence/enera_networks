@@ -431,7 +431,8 @@ class ReportController extends Controller
                     '_id' => '$device.os',
                     'count' => ['$sum' => 1]
                 ]
-            ]
+            ],
+            [ '$sort' => [  'count'=> 1 ] ]
         ]);
         
 
