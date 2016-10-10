@@ -344,7 +344,8 @@ class ReportController extends Controller
                 '$match' => [
                     'device.branch_id' => [
                         '$in' => $branches->all()
-                    ]
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
 
                 ]
             ],
@@ -372,7 +373,8 @@ class ReportController extends Controller
                 '$match' => [
                     'device.branch_id' => [
                         '$in' => $branches->all()
-                    ]
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
 
                 ]
             ],
