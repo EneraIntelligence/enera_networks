@@ -125,7 +125,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Re-conexiones promedio</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Re-conexiones promedio">--</h5>
+                                    data-tooltip="Re-conexiones promedio">{{ number_format($average_reconnection,0,'.',',') }}</h5>
                             </div>
                         </div>
                     </div>
