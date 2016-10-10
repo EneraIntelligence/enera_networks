@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Http\Request;
 
 use MongoDate;
+use MongoId;
 use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
@@ -410,15 +411,29 @@ class ReportController extends Controller
             }
         }
 
-        $recurrent = ReportDashboard::where('network_id', '56c7aec7a826aad7a510ddfe')->orderBy('report_date', 'desc')->first();
-//        dd($recurrent);
+        $recurrent = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'desc')->first();
+        $first = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'asc')->first();
+
+        $inc_recurrent = 0;
+        if ($recurrent){
+            $inc_recurrent = $this->increment($recurrent->recurrent, $first->recurrent);
+        }
+
+
+        $users_with_reconections = 0;
+        
+        
         return view('reports.access', [
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
             'recurrentes' => $recurentes,
             'chart_weekday' => $chart_weekday,
-            'chart_hour' => $chart_hour
+            'chart_hour' => $chart_hour,
+            'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
+            'inc_recurrent' => $inc_recurrent,
+            'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
+            'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0 
         ]);
     }
 

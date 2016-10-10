@@ -62,7 +62,7 @@
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,0,'.',',') }}%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -77,12 +77,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Reconexiones Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Reconexiones Totales">--</h4>
+                                    data-tooltip="Reconexiones Totales">{{ number_format($total_recurrent,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_recurrent,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Usuarios con Re-conexión</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Usuarios con Re-conexión">--</h5>
+                                    data-tooltip="Usuarios con Re-conexión">{{ number_format($users_with_reconnection,0,'.',',') }}</h5>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Porcentaje Reconexion</span>
                                 <h5 class="center-align tooltipped" data-position="bottom" data-delay="--"
-                                    data-tooltip="Tiempo de estancia">--%</h5>
+                                    data-tooltip="Tiempo de estancia">{{ number_format($poc_reconnection,0,'.',',') }}%</h5>
                             </div>
                         </div>
                     </div>
