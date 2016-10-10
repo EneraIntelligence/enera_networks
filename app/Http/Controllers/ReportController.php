@@ -438,7 +438,7 @@ class ReportController extends Controller
             'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
             'num_reconnection' => $num_reconnection,
             'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
-            'average_reconnection' => $recurrent ? (array_sum($recurentes) - $recurentes[0]) / $num_reconnection : 0
+            'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0
         ]);
     }
 
