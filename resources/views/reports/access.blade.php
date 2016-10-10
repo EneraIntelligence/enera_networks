@@ -77,7 +77,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Reconexiones Totales</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Reconexiones Totales">{{ number_format($total_recurrent,0,'.',',') }}</h4>
+                                    data-tooltip="Reconexiones Totales">{{ number_format($num_reconnection,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>

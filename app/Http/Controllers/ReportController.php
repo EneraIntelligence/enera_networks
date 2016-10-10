@@ -327,7 +327,8 @@ class ReportController extends Controller
                 '$match' => [
                     'device.branch_id' => [
                         '$in' => $branches->all()
-                    ]
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
 
                 ]
             ],
@@ -399,6 +400,7 @@ class ReportController extends Controller
         }
 
 
+        $num_reconnection = 0;
         foreach ($recurrencia['result'] as $result) {
             if ($result['count'] == 1) {
                 $recurentes[0] += 1;
@@ -408,6 +410,9 @@ class ReportController extends Controller
                 $recurentes[2] += 1;
             } elseif ($result['count'] > 8) {
                 $recurentes[3] += 1;
+            }
+            if ($result['count'] > 1){
+                $num_reconnection += $result['count'];
             }
         }
 
@@ -419,9 +424,6 @@ class ReportController extends Controller
             $inc_recurrent = $this->increment($recurrent->recurrent, $first->recurrent);
         }
 
-
-        $users_with_reconections = 0;
-        
         
         return view('reports.access', [
             'navData' => $navData,
@@ -433,7 +435,9 @@ class ReportController extends Controller
             'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
             'inc_recurrent' => $inc_recurrent,
             'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
-            'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0 
+            'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
+            'num_reconnection' => $num_reconnection,
+            'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0
         ]);
     }
 
