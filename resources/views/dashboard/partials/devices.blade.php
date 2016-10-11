@@ -59,7 +59,7 @@ $dashReportWeekBefore = $summary_devices['dashboard_report_week_before'];
                 ?>
 
                 <span style="font-size:14px;font-weight:300;" class="{!! $devicesColor !!}">
-                    <i style="vertical-align:middle;" class="material-icons">{{$devices_icon}}</i>
+                    <i style="vertical-align:middle;" class="material-icons">{{$devicesIcon}}</i>
 
                     {{number_format($devicesIncrement,2,'.',',')}}%
                 </span>
