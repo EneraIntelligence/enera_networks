@@ -95,18 +95,18 @@ $dashReportWeekBefore = $summary_devices['dashboard_report_week_before'];
         <br>
 
         <?php
-        $devicesColor = 'red';
+        $devicesColor = 'red-text';
         $devicesIcon = 'arrow_drop_down';
         $devicesAlign = 'bottom';
         if ($dashReport['new'] >= $dashReportWeekBefore['new'])
         {
-            $devicesColor = 'green';
+            $devicesColor = 'green-text-light';
             $devicesIcon = 'add';
             $devicesAlign = 'top';
         }
         ?>
 
-        <i class="{!! $devicesColor !!}-text-light material-icons"
+        <i class="{!! $devicesColor !!} material-icons"
            style="vertical-align:{!! $devicesAlign !!};">{{$devicesIcon}}</i>
         <span style="font-weight: 200;font-size:19px;">{{ number_format($dashReport['new'],0,'.',',') }}</span>
     </div>
@@ -119,18 +119,18 @@ $dashReportWeekBefore = $summary_devices['dashboard_report_week_before'];
         <br>
 
         <?php
-        $devicesColor = 'red';
+        $devicesColor = 'red-text';
         $devicesIcon = 'arrow_drop_down';
         $devicesAlign = 'bottom';
         if ($dashReport['recurrent'] >= $dashReportWeekBefore['recurrent'])
         {
-            $devicesColor = 'green';
+            $devicesColor = 'green-text-light';
             $devicesIcon = 'add';
             $devicesAlign = 'top';
         }
         ?>
 
-        <i class="{!! $devicesColor !!}-text material-icons"
+        <i class="{!! $devicesColor !!} material-icons"
            style="vertical-align:{!! $devicesAlign !!};">{{$devicesIcon}}</i>
         <span style="font-weight: 200;font-size:19px;">{{ number_format($dashReport['recurrent'],0,'.',',') }}</span>
 
