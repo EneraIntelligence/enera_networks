@@ -8,10 +8,12 @@ use DB;
 use Illuminate\Http\Request;
 
 use MongoDate;
+use MongoId;
 use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
+use Networks\ReportDashboard;
 use Networks\SummaryCampaign;
 use Networks\SummaryNetwork;
 
@@ -217,7 +219,7 @@ class ReportController extends Controller
         $inc_completed_interactions = 0;
         if ($summary_network) {
             $inc_total_access = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
-            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] -$m2->accumulated['connections']),($m2->accumulated['connections'] - $last->accumulated['connections']));
+            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] - $m2->accumulated['connections']), ($m2->accumulated['connections'] - $last->accumulated['connections']));
             $inc_completed_interactions = $this->increment($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
         }
 
@@ -234,7 +236,7 @@ class ReportController extends Controller
             'access' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'new_access' => $summary_network ? $summary_network->accumulated['connections'] - $m2->accumulated['connections'] : 0,
             'completed_interactions' => $summary_network ? $summary_network->devices['interactions']['completed'] : 0,
-            'inc_total_access' =>  $inc_total_access,
+            'inc_total_access' => $inc_total_access,
             'inc_new_access' => $inc_new_access,
             'inc_completed_interactions' => $inc_completed_interactions
         ]);
@@ -325,7 +327,8 @@ class ReportController extends Controller
                 '$match' => [
                     'device.branch_id' => [
                         '$in' => $branches->all()
-                    ]
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
 
                 ]
             ],
@@ -337,6 +340,67 @@ class ReportController extends Controller
             ]
         ]);
 
+
+        $for_weekday = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day'=> [ '$dayOfWeek'=> '$created_at' ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+        $chart_weekday = ['data1', 0,0,0,0,0,0,0];
+        foreach ($for_weekday['result'] as  $weekday){
+            $chart_weekday[$weekday['_id']] = $weekday['count'];
+        }
+
+        $for_hour = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'hour'=> [ '$hour'=> '$created_at' ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$hour',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+        $chart_hour = ['data1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        foreach ($for_hour['result'] as $hour){
+            $chart_hour[$hour['_id'] + 1] = $hour['count'];
+        }
+
+
+        $num_reconnection = 0;
         foreach ($recurrencia['result'] as $result) {
             if ($result['count'] == 1) {
                 $recurentes[0] += 1;
@@ -347,14 +411,59 @@ class ReportController extends Controller
             } elseif ($result['count'] > 8) {
                 $recurentes[3] += 1;
             }
+            if ($result['count'] > 1){
+                $num_reconnection += $result['count'];
+            }
         }
 
+        $for_os = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
 
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.os',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  'count'=> 1 ] ]
+        ]);
+        
+
+
+        $recurrent = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'desc')->first();
+        $first = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'asc')->first();
+
+        $inc_recurrent = 0;
+        if ($recurrent){
+            $inc_recurrent = $this->increment($recurrent->recurrent, $first->recurrent);
+        }
+
+        $campaigns = Campaign::whereIn('branches', $branches->all())->count();
+
+        
         return view('reports.access', [
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
-            'recurrentes' => $recurentes
+            'recurrentes' => $recurentes,
+            'chart_weekday' => $chart_weekday,
+            'chart_hour' => $chart_hour,
+            'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
+            'inc_recurrent' => $inc_recurrent,
+            'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
+            'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
+            'num_reconnection' => $num_reconnection,
+            'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
+            'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
+            'campaigns' => $campaigns,
+            'for_os' => $for_os
         ]);
     }
 
