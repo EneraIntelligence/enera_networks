@@ -424,7 +424,7 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.loaded' => [ '$exists' => true]
+                    'interaction.accessed' => [ '$exists' => true]
 
                 ]
             ],
@@ -444,13 +444,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.loaded' => [ '$exists' => true]
+                    'interaction.accessed' => [ '$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfMonth'=> '$created_at' ],
+                    'day'=> [ '$dayOfMonth'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]   ],
                 ]
             ],
             [
