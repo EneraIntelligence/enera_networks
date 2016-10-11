@@ -50,14 +50,16 @@ $dashReportWeekBefore = $summary_devices['dashboard_report_week_before'];
 
                 <?php
                 $devicesIncrement = \Networks\Libraries\MathHelper::calculateIncrement($dashReport['devices'], $dashReportWeekBefore['devices']);
-                $devicesColor = 'red';
+                $devicesColor = 'red-text';
+                $devicesIcon = 'arrow_drop_down';
 
                 if ($devicesIncrement >= 0)
-                    $devicesColor = 'green';
+                    $devicesColor = 'green-text-light';
+                    $devicesIcon = 'arrow_drop_up';
                 ?>
 
-                <span style="font-size:14px;font-weight:300;" class="{!! $devicesColor !!}-text-light">
-                    <i style="vertical-align:middle;" class="material-icons">arrow_drop_up</i>
+                <span style="font-size:14px;font-weight:300;" class="{!! $devicesColor !!}">
+                    <i style="vertical-align:middle;" class="material-icons">{{$devices_icon}}</i>
 
                     {{number_format($devicesIncrement,2,'.',',')}}%
                 </span>
