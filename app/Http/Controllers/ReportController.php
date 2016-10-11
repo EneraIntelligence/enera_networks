@@ -321,6 +321,8 @@ class ReportController extends Controller
         $recurentes = [0, 0, 0, 0];
 
         $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //recurrencia en conexiones
         $recurrencia = $collection->aggregate([
 
             [
@@ -328,7 +330,7 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.loaded' => [ '$exists' => true]
+                    'interaction.accessed' => [ '$exists' => true]
 
                 ]
             ],
@@ -340,20 +342,20 @@ class ReportController extends Controller
             ]
         ]);
 
-
+        //acumulado de conexiones por día de la semana
         $for_weekday = $collection->aggregate([
             [
                 '$match' => [
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.loaded' => [ '$exists' => true]
+                    'interaction.accessed' => [ '$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfWeek'=> '$created_at' ],
+                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 1000 ] ] ],
                 ]
             ],
             [
@@ -376,13 +378,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.loaded' => [ '$exists' => true]
+                    'interaction.accessed' => [ '$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'hour'=> [ '$hour'=> '$created_at' ],
+                    'hour'=> [ '$hour'=> ['$subtract'=> [ '$created_at', 6 * 60 * 1000 ] ]  ],
                 ]
             ],
             [

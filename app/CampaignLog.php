@@ -32,5 +32,7 @@ class CampaignLog extends Model
     }
     // end relations
 
+    
+    
 
 }
