@@ -355,7 +355,7 @@ class ReportController extends Controller
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 1000 ] ] ],
+                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
                 ]
             ],
             [
@@ -384,7 +384,7 @@ class ReportController extends Controller
             ],
             [
                 '$project' => [
-                    'hour'=> [ '$hour'=> ['$subtract'=> [ '$created_at', 6 * 60 * 1000 ] ]  ],
+                    'hour'=> [ '$hour'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
                 ]
             ],
             [
