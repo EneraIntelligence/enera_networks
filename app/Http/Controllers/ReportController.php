@@ -432,7 +432,32 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  'count'=> 1 ] ]
+            [ '$sort' => [  'count'=> -1 ] ]
+        ]);
+
+
+        $access_per_month = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.loaded' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day'=> [ '$dayOfMonth'=> '$created_at' ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$limit' => 30]
         ]);
         
 
