@@ -76,7 +76,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align {{$increments_women > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento">{{ number_format($increments_women,2,'.',',') }}%
                                 </h4>
                             </div>
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align {{$increments_men > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento">{{ number_format($increments_men,2,'.',',') }}%
                                 </h4>
                             </div>

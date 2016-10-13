@@ -543,14 +543,5 @@ class ReportController extends Controller
     {
         return view('profile.settings');
     }
-
-
-    private function increment($actual, $last)
-    {
-        $diff = $actual - $last;
-        $increment = $diff > 0 && $last > 0 ? $diff / $last : 0;
-        $result = $increment * 100;
-        return $result;
-    }
-
+    
 }

@@ -61,8 +61,8 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($access_increase,2,'.',',') }}
+                                <h4 class="center-align {{$access_increase > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">{{$increments_women > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($access_increase,2,'.',',') }}
                                     %
                                 </h4>
                             </div>
@@ -82,8 +82,8 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_recurrent,2,'.',',') }}
+                                <h4 class="center-align {{$inc_recurrent > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">{{$inc_recurrent > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($inc_recurrent,2,'.',',') }}
                                     %
                                 </h4>
                             </div>
