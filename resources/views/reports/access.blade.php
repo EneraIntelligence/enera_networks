@@ -82,7 +82,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$inc_recurrent > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align h4-card {{$inc_recurrent > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">{{$inc_recurrent > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($inc_recurrent,2,'.',',') }}
                                     %
                                 </h4>
@@ -112,7 +112,7 @@
                             <div class="col s12">
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Porcentaje Reconexion</span>
-                                <h5 class="center-align tooltipped" data-position="bottom" data-delay="--"
+                                <h5 class="center-align h4-card tooltipped" data-position="bottom" data-delay="--"
                                     data-tooltip="Tiempo de estancia">{{ number_format($poc_reconnection,2,'.',',') }}
                                     %</h5>
                             </div>

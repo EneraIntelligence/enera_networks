@@ -62,7 +62,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$user_increase > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align  h4-card {{$user_increase > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($user_increase,0,'.',',') }}%
                                 </h4>
                             </div>
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$loyalty_inc > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align h4-card {{$loyalty_inc > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($loyalty_inc,2,'.',',') }}%
                                 </h4>
                             </div>

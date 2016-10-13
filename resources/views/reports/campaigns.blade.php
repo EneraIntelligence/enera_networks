@@ -61,7 +61,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate "><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$inc_total_access > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align h4-card {{$inc_total_access > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_total_access,2,'.',',') }}%
                                 </h4>
                             </div>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$inc_new_access > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align h4-card {{$inc_new_access > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_new_access,2,'.',',') }}%
                                 </h4>
                             </div>
@@ -101,7 +101,7 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$inc_completed_interactions > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <h4 class="center-align h4-card {{$inc_completed_interactions > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($inc_completed_interactions,2,'.',',') }}%
                                 </h4>
                             </div>
