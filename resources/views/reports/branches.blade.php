@@ -78,12 +78,12 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Taza de Lealtad</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Taza de Lealtad">--</h4>
+                                    data-tooltip="Taza de Lealtad">{{ number_format($loyalty,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($loyalty_inc,2,'.',',') }}%
                                 </h4>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Día más concurrido</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Día más concurrido">--</h4>
+                                    data-tooltip="Día más concurrido">{{trans('days.'. $recurrent_day)}}</h4>
                             </div>
                         </div>
                     </div>

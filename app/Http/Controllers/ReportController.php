@@ -13,6 +13,7 @@ use Networks\Branch;
 use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
+use Networks\Libraries\MathHelper;
 use Networks\ReportDashboard;
 use Networks\SummaryCampaign;
 use Networks\SummaryNetwork;
@@ -285,6 +286,45 @@ class ReportController extends Controller
             $genero = array_sum($summary_network->accumulated['users']['demographic']['female']) > array_sum($summary_network->accumulated['users']['demographic']['male']) ? 'Mujeres' : 'Hombres';
         }
 
+        $loyalty_inc = 0;
+        $loyalty = ReportDashboard::today(session('network_id'));
+        $first_register = ReportDashboard::weekBefore(session('network_id'));
+        if($loyalty && $first_register)
+            $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent,$first_register->recurrent);
+
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
+        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+        $for_weekday = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.accessed' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+
+        $chart_weekday = ['data1', 0,0,0,0,0,0,0];
+        foreach ($for_weekday['result'] as  $weekday){
+            $chart_weekday[$weekday['_id']] = $weekday['count'];
+        }
+        $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
+        
         return view('reports.branches', [
             'navData' => $navData,
             'unique_devices' => $unique_devices,
@@ -294,8 +334,10 @@ class ReportController extends Controller
             'devices' => $summary_network ? $summary_network->accumulated['devices']['total'] : 0,
             'user_increase' => $user_increase,
             'edad_promedio' => $summary_network ? $edad_promedio / $summary_network->accumulated['users']['total'] : 0,
-            'genero' => $genero
-
+            'genero' => $genero,
+            'loyalty' => $loyalty ? $loyalty->recurrent : 0,
+            'loyalty_inc' => $loyalty_inc ? $loyalty_inc : 0,
+            'recurrent_day' => $recurrent_day? $recurrent_day : -1
         ]);
     }
 
@@ -367,10 +409,12 @@ class ReportController extends Controller
             [ '$sort' => [  '_id'=> 1 ] ]
         ]);
 
+
         $chart_weekday = ['data1', 0,0,0,0,0,0,0];
         foreach ($for_weekday['result'] as  $weekday){
             $chart_weekday[$weekday['_id']] = $weekday['count'];
         }
+
 
         $for_hour = $collection->aggregate([
             [
