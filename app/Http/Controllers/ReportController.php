@@ -124,8 +124,8 @@ class ReportController extends Controller
         $last_month_male = $m2 ? array_sum($m2->accumulated['users']['demographic']['male']) : 0;
         $last_month_female = $m2 ? array_sum($m2->accumulated['users']['demographic']['female']) : 0;
 
-        $increments_women = $this->increment($total_female, $last_month_female);
-        $increments_men = $this->increment($total_male, $last_month_male);
+        $increments_women = MathHelper::calculateIncrement($total_female, $last_month_female);
+        $increments_men = MathHelper::calculateIncrement($total_male, $last_month_male);
 
 
         $navData = array();
@@ -219,9 +219,9 @@ class ReportController extends Controller
         $inc_new_access = 0;
         $inc_completed_interactions = 0;
         if ($summary_network) {
-            $inc_total_access = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
-            $inc_new_access = $this->increment(($summary_network->accumulated['connections'] - $m2->accumulated['connections']), ($m2->accumulated['connections'] - $last->accumulated['connections']));
-            $inc_completed_interactions = $this->increment($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
+            $inc_total_access = MathHelper::calculateIncrement($summary_network->accumulated['connections'], $m2->accumulated['connections']);
+            $inc_new_access = MathHelper::calculateIncrement(($summary_network->accumulated['connections'] - $m2->accumulated['connections']), ($m2->accumulated['connections'] - $last->accumulated['connections']));
+            $inc_completed_interactions = MathHelper::calculateIncrement($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
         }
 
 
@@ -253,7 +253,7 @@ class ReportController extends Controller
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
-        $user_increase = $summary_network ? $this->increment($summary_network->accumulated['users']['total'], $m2->accumulated['connections']['total']) : 0;
+        $user_increase = $summary_network ? MathHelper::calculateIncrement($summary_network->accumulated['users']['total'], $m2->accumulated['connections']['total']) : 0;
 
         $edad_promedio = 0;
 
@@ -352,7 +352,7 @@ class ReportController extends Controller
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
         if ($summary_network && $m2) {
-            $access_increase = $this->increment($summary_network->accumulated['connections'], $m2->accumulated['connections']);
+            $access_increase =MathHelper::calculateIncrement($summary_network->accumulated['connections'], $m2->accumulated['connections']);
         } else {
             $access_increase = 0;
         }
@@ -513,7 +513,7 @@ class ReportController extends Controller
 
         $inc_recurrent = 0;
         if ($recurrent){
-            $inc_recurrent = $this->increment($recurrent->recurrent, $first->recurrent);
+            $inc_recurrent = MathHelper::calculateIncrement($recurrent->recurrent, $first->recurrent);
         }
 
         $campaigns = Campaign::whereIn('branches', $branches->all())->count();
