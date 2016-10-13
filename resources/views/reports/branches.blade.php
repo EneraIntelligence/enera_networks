@@ -126,7 +126,7 @@
                                 <span class="f-size-12 truncate "><i
                                             class="material-icons prefix prefix-position">group</i>Día más concurrido</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Día más concurrido">{{trans('days.'. $recurrent_day)}}</h4>
+                                    data-tooltip="Día más concurrido">{{ucfirst(trans('days.'. $recurrent_day))}}</h4>
                             </div>
                         </div>
                     </div>
