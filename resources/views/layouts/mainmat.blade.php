@@ -390,6 +390,7 @@
         //materialize elemenst initialization
         $(".button-collapse").sideNav();
         $(".dropdown-button").dropdown({
+            constrain_width: false
         });
 
         //show page when all ready

@@ -319,6 +319,32 @@ class ReportController extends Controller
         ]);
 
 
+        $for_interaction = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.accessed' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+        
+
+
         $chart_weekday = ['data1', 0,0,0,0,0,0,0];
         foreach ($for_weekday['result'] as  $weekday){
             $chart_weekday[$weekday['_id']] = $weekday['count'];
