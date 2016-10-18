@@ -93,7 +93,7 @@ class WeeklyAccessReport extends Command
                     {
                         $report->recurrent = $recurrent['count'];
                     }
-                    $report->new = $report->devices - $report->recurrent;
+                    $report->new = $report->users - $report->recurrent;
                 }
 
                 $this->info("network: " . $report->network_id );

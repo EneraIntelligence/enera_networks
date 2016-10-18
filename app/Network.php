@@ -174,7 +174,7 @@ class Network extends Model
                     '_id' => 1,
                     'users'=>1,
                     'count' => [
-                        '$size' => '$devices'
+                        '$size' => '$users'
                     ]
                 ]
             ]
@@ -213,7 +213,7 @@ class Network extends Model
                 '$group' => [
                     '_id' => $network_id,
                     'users' => [
-                        '$addToSet' => 'user.id',
+                        '$addToSet' => '$user.id',
                     ]
                 ]
             ],
