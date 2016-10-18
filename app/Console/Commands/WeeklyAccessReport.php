@@ -49,23 +49,21 @@ class WeeklyAccessReport extends Command
 
         $day = $first;
         $mondays = [];
-        array_push($mondays,$first);
 
-        do {
+        while ($day < $last) {
+            array_push($mondays,$day->copy());
             $day->addDays(7);
-            array_push($mondays,$day);
-
-        } while ($day < $last);
+        };
 
         
         foreach ($mondays as $end_date)
         {
-            $start_date = $end_date->subDays(7);
+            $start_date = $end_date->copy()->subDays(7);
 
             //transforms date to mongo date
             $report_date = new MongoDate(strtotime($end_date));
 
-            $this->info("Report date: " . $start_date-" - ". $end_date);
+            $this->info("Report date: " . $start_date." - ". $end_date);
 
             $networks = Network::getNetworksId();
 
