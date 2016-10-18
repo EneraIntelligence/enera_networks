@@ -60,8 +60,8 @@ class RecurrentDevices extends Command
         if($dateString)
         {
             //if date is set try to convert to carbon date
-            $end_date = Carbon::createFromFormat('Y-m-d H', $dateString.' 00');
-            $today = Carbon::createFromFormat('Y-m-d H', $dateString.' 00');
+            $end_date = Carbon::createFromFormat('Y-m-d H', $dateString.' 00','America/Mexico_City');
+            $today = Carbon::createFromFormat('Y-m-d H', $dateString.' 00','America/Mexico_City');
         }
 
         //substract 7 days to calculate week

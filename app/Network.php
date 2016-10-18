@@ -138,6 +138,102 @@ class Network extends Model
 
     }
 
+
+    public static function uniqueUsers($start_date, $end_date, $network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        $match = [
+            'created_at' => [
+                '$gte' => new MongoDate(strtotime($start_date)),
+                '$lt' => new MongoDate(strtotime($end_date))
+            ],
+            'user.id' => ['$exists'=>true]
+        ];
+
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        //var_dump($network_branches);
+
+
+        $usersUnique = $campaignLogs->aggregate([
+            [
+                '$match' => $match
+            ],
+            [
+                '$group' => [
+                    '_id' => $network_id,
+                    'users' => [
+                        '$addToSet' => '$user.id',
+                    ]
+                ]
+            ],
+            [
+                '$project' => [
+                    '_id' => 1,
+                    'users'=>1,
+                    'count' => [
+                        '$size' => '$devices'
+                    ]
+                ]
+            ]
+        ]);
+
+        if($usersUnique['result']!=[])
+            $usersUnique['result']= $usersUnique['result'][0];
+
+        return $usersUnique['result'];
+    }
+
+    public static function recurrentUsers($before_date, $users, $network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        $match = [
+            'created_at' => [
+                '$lt' => new MongoDate(strtotime($before_date))
+            ],
+            'user.id' =>[
+                '$in'=>$users
+            ]
+        ];
+
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        //var_dump($network_branches);
+
+
+        $recurrentUsers = $campaignLogs->aggregate([
+            [
+                '$match' => $match
+            ],
+            [
+                '$group' => [
+                    '_id' => $network_id,
+                    'users' => [
+                        '$addToSet' => 'user.id',
+                    ]
+                ]
+            ],
+            [
+                '$project' => [
+                    '_id' => 1,
+                    'users'=>1,
+                    'count' => [
+                        '$size' => '$users'
+                    ]
+                ]
+            ]
+        ]);
+
+        if($recurrentUsers['result']!=[])
+            $recurrentUsers['result']= $recurrentUsers['result'][0];
+
+        return $recurrentUsers['result'];
+    }
+
     public static function getNetworksId()
     {
         return DB::table('networks')->pluck('_id');
