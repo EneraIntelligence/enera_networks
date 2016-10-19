@@ -234,6 +234,68 @@ class Network extends Model
         return $recurrentUsers['result'];
     }
 
+    public static function matureUsers($before_date, $users, $network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        $match = [
+            'created_at' => [
+                '$lt' => new MongoDate(strtotime($before_date))
+            ],
+            'user.id' =>[
+                '$in'=>$users
+            ]
+        ];
+
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        //var_dump($network_branches);
+
+
+        $recurrentUsers = $campaignLogs->aggregate([
+            [
+                '$match' => $match
+            ],
+            [
+                '$group' => [
+                    '_id' => [
+                        'network_id'=>$network_id,
+                        'user_id'=>'$user.id'
+                    ],
+                    'count'=> [ '$sum'=> 1 ],
+                ]
+            ],
+            [
+                '$match' => [
+                    'count'=>['$gte'=>9]
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$_id.network_id',
+                    'users' => [
+                        '$addToSet' => '$_id.user_id',
+                    ]
+                ]
+            ],
+            [
+                '$project' => [
+                    '_id' => 1,
+                    'users'=>1,
+                    'count' => [
+                        '$size' => '$users'
+                    ]
+                ]
+            ]
+        ]);
+
+        if($recurrentUsers['result']!=[])
+            $recurrentUsers['result']= $recurrentUsers['result'][0];
+
+        return $recurrentUsers['result'];
+    }
+
     public static function getNetworksId()
     {
         return DB::table('networks')->pluck('_id');

@@ -44,8 +44,8 @@ class WeeklyAccessReport extends Command
         $this->comment('Executing command enera:WeeklyAccess');
         $time_start = microtime(true);
 
-        $first = Carbon::createFromFormat('Y-m-d H', '2016-1-4 00', 'America/Mexico_City');
-        $last = Carbon::createFromFormat('Y-m-d H', '2016-12-31 00' ,'America/Mexico_City');
+        $first = Carbon::createFromFormat('Y-m-d H', '2016-02-29 00', 'America/Mexico_City');
+        $last = Carbon::createFromFormat('Y-m-d H', '2016-10-24 00' ,'America/Mexico_City');
 
         $day = $first;
         $mondays = [];
@@ -81,6 +81,7 @@ class WeeklyAccessReport extends Command
                 $report->users = 0;
                 $report->new = 0;
                 $report->recurrent = 0;
+                $report->mature = 0;
 
                 $unique = Network::uniqueUsers($start_date, $end_date, $n_id);
                 //var_dump($unique);
@@ -92,12 +93,26 @@ class WeeklyAccessReport extends Command
                     if($recurrent!=[])
                     {
                         $report->recurrent = $recurrent['count'];
+
+                        $mature = Network::matureUsers($start_date, $recurrent['users'], $n_id);
+
+                        if($mature!=[])
+                        {
+                            $report->mature = $mature['count'];
+                            $report->recurrent = $report->recurrent-$report->mature;
+
+                        }
+                        
                     }
-                    $report->new = $report->users - $report->recurrent;
+
+                    
+                    
+                    
+                    $report->new = $report->users - $report->recurrent - $report->mature;
                 }
 
                 $this->info("network: " . $report->network_id );
-                $this->info('users: '.$report->users.' - new: '.$report->new.' - recurrent: '.$report->recurrent);
+                $this->info('users: '.$report->users.' - new: '.$report->new.' - recurrent: '.$report->recurrent.' - mature: '.$report->mature);
                 $report->save();
             }
 
