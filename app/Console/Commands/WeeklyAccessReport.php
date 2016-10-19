@@ -82,6 +82,7 @@ class WeeklyAccessReport extends Command
                 $report->new = 0;
                 $report->recurrent = 0;
                 $report->mature = 0;
+                $report->access = 0;
 
                 $unique = Network::uniqueUsers($start_date, $end_date, $n_id);
                 //var_dump($unique);
@@ -104,15 +105,21 @@ class WeeklyAccessReport extends Command
                         }
                         
                     }
-
-                    
                     
                     
                     $report->new = $report->users - $report->recurrent - $report->mature;
                 }
 
+                $access = Network::access($start_date, $end_date, $n_id);
+                if($access!=[])
+                {
+                    $report->access = $access['count'];
+                }
+
+
                 $this->info("network: " . $report->network_id );
-                $this->info('users: '.$report->users.' - new: '.$report->new.' - recurrent: '.$report->recurrent.' - mature: '.$report->mature);
+                $this->info('users: '.$report->users.' - new: '.$report->new.' - recurrent: '.$report->recurrent.
+                    ' - mature: '.$report->mature.' - access: '.$report->access);
                 $report->save();
             }
 

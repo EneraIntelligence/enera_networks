@@ -16,7 +16,7 @@ class Network extends Model
 {
     protected $fillable = ['name', 'type', 'main', 'status'];
 
-
+    
 
 
     // relations
@@ -76,6 +76,44 @@ class Network extends Model
             $devicesUnique['result']= $devicesUnique['result'][0];
 
         return $devicesUnique['result'];
+    }
+
+    public static function access($start_date, $end_date, $network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        $match = [
+            'created_at' => [
+                '$gte' => new MongoDate(strtotime($start_date)),
+                '$lt' => new MongoDate(strtotime($end_date))
+            ],
+            'interaction.accessed'=>['$exists'=>true]
+        ];
+
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        //var_dump($network_branches);
+
+
+        $access = $campaignLogs->aggregate([
+            [
+                '$match' => $match
+            ],
+            [
+                '$group' => [
+                    '_id' => $network_id,
+                    'count' => [
+                        '$sum' => 1,
+                    ]
+                ]
+            ]
+        ]);
+
+        if($access['result']!=[])
+            $access['result']= $access['result'][0];
+
+        return $access['result'];
     }
 
     public static function recurrentDevices($before_date, $devices, $network_id)
