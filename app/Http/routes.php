@@ -68,3 +68,5 @@ Route::get('/choose', ['as' => 'choose.platform', function () {
 Route::get('/test-email', function () {
     return view('mail.cancel');
 });
+
+Route::post('test',['as' => 'test', 'uses' =>'ReportController@test']);

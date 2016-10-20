@@ -225,6 +225,51 @@ class ReportController extends Controller
         }
 
 
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
+
+        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        //recurrencia en conexiones
+        $recurrencia = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $branches->all()
+                    ],
+                    'interaction.accessed' => [ '$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'month'=> [ '$month'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
+                    'day'=> [ '$dayOfMonth'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => [ 'month' =>'$month', 'day'=>'$day'],
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            [ '$sort' => [  '_id'=> 1 ] ]
+        ]);
+
+        $start = new Carbon('first monday of january');
+        $first = strtotime("first monday of january");
+        $last_day = mktime(0, 0, 0, 12, 31, 2016);
+
+        $day = $first;
+        $mondays = [];
+        do {
+            array_push($mondays, date('d-m-y', $day));
+            $day += 7 * 86400;
+
+        } while ($day < $last_day);
+
+
+
+
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Campañas'];
@@ -342,7 +387,7 @@ class ReportController extends Controller
             ],
             [ '$sort' => [  '_id'=> 1 ] ]
         ]);
-        
+
 
 
         $chart_weekday = ['data1', 0,0,0,0,0,0,0];
@@ -570,4 +615,19 @@ class ReportController extends Controller
         return view('profile.settings');
     }
     
+    
+    public function test(){
+
+        $name = 'adios';
+        if(isset($_POST['name']))
+        {
+            $name = 'jajajaja';
+
+            // Do whatever you want with the $uid
+        }
+
+        return response()->json([
+            'name' => random_int(0,100)
+        ]);
+    }
 }
