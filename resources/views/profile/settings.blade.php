@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row">
             <div class="col s6" id="container" style="background-color: white;">
-                <div class="progress" style="display: block;" id="loader">
+                <div class="progress" style="display: none;" id="loader">
                     <div class="indeterminate"></div>
                 </div>
                 <form type="POST">

@@ -16,6 +16,9 @@
         <div class="row">
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="loader">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -28,11 +31,11 @@
 
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="user_chart">
+                                    <option value="All">Todos los nodos</option>
+                                    @foreach($branches as $name => $branch)
+                                        <option value="{{$branch}}">{{$name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -55,7 +58,8 @@
                                     data-tooltip="Trafico Total">{{ number_format($total,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate "><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Dispositivos Unicos</span>
+                                <span class="f-size-12 truncate "><a class="mdi mdi-chart-bar mdi-24px black-text"
+                                                                     href="/"></a>Dispositivos Unicos</span>
                                 <h4 class="center-align green-text tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Dispositivos Unicos"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--
@@ -70,13 +74,16 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text" href="/"></a>Mujeres</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-female mdi-24px black-text"
+                                                                    href="/"></a>Mujeres</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Visitantes">{{ number_format($total_female,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
-                                <h4 class="center-align h4-card {{$increments_women > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text"
+                                                                    href="/"></a>Tasa de crecimiento</span>
+                                <h4 class="center-align h4-card {{$increments_women > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento">{{ number_format($increments_women,2,'.',',') }}%
                                 </h4>
                             </div>
@@ -89,13 +96,16 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text" href="/"></a>Hombres</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-human-male mdi-24px black-text"
+                                                                    href="/"></a>Hombres</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Visitantes">{{ number_format($total_male,0,'.',',') }}</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text" href="/"></a>Tasa de crecimiento</span>
-                                <h4 class="center-align h4-card {{$increments_men > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-chart-bar mdi-24px black-text"
+                                                                    href="/"></a>Tasa de crecimiento</span>
+                                <h4 class="center-align h4-card {{$increments_men > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
                                     data-tooltip="Tasa de cresimiento">{{ number_format($increments_men,2,'.',',') }}%
                                 </h4>
                             </div>
@@ -133,7 +143,7 @@
                 </div>
             </div>
             <div class="col s12">
-               <h5>Mujeres</h5>
+                <h5>Mujeres</h5>
             </div>
             <div class="col s12 m4">
                 <div class="card white">
@@ -146,8 +156,10 @@
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Hora Favorita</span>
-                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text"
+                                                                    href="/"></a>Hora Favorita</span>
+                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom"
+                                    data-delay="50"
                                     data-tooltip="Hora Favorita"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
@@ -161,13 +173,16 @@
                     <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text"
+                                                                    href="/"></a>Tiempo Promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tiempo Promedio">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text" href="/"></a>Taza de Leatad</span>
-                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text"
+                                                                    href="/"></a>Taza de Leatad</span>
+                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom"
+                                    data-delay="50"
                                     data-tooltip="Taza de Leatad"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
@@ -181,7 +196,8 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s12">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text" href="/"></a>Edad promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text"
+                                                                    href="/"></a>Edad promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Edad promedio">{{ number_format($promedio_mujeres,0,'.',',') }}</h4>
                             </div>
@@ -203,8 +219,10 @@
                                     data-tooltip="Dispositivos Favoritos">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Hora Favorita</span>
-                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text"
+                                                                    href="/"></a>Hora Favorita</span>
+                                <h4 class="center-align h4-card green-text tooltipped" data-position="bottom"
+                                    data-delay="50"
                                     data-tooltip="Hora Favorita"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
@@ -218,13 +236,16 @@
                     <div class="card-content" style="min-height: 137px;">
                         <div class="row no-margin">
                             <div class="col s6">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text" href="/"></a>Tiempo Promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-av-timer mdi-24px black-text"
+                                                                    href="/"></a>Tiempo Promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Tiempo Promedio">--</h4>
                             </div>
                             <div class="col s6 left-border">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text" href="/"></a>Taza de Leatad</span>
-                                <h4 class="center-align  h4-card green-text tooltipped" data-position="bottom" data-delay="50"
+                                <span class="f-size-12 truncate"><a class="mdi mdi-heart mdi-24px black-text"
+                                                                    href="/"></a>Taza de Leatad</span>
+                                <h4 class="center-align  h4-card green-text tooltipped" data-position="bottom"
+                                    data-delay="50"
                                     data-tooltip="Taza de Leatad"><i
                                             class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>--%
                                 </h4>
@@ -238,7 +259,8 @@
                     <div class="card-content">
                         <div class="row no-margin">
                             <div class="col s12">
-                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text" href="/"></a>Edad promedio</span>
+                                <span class="f-size-12 truncate"><a class="mdi mdi-cake-variant mdi-24px black-text"
+                                                                    href="/"></a>Edad promedio</span>
                                 <h4 class="center-align tooltipped" data-position="bottom" data-delay="50"
                                     data-tooltip="Edad promedio">{{ number_format($promedio_hombres,0,'.',',') }}</h4>
                             </div>
@@ -260,13 +282,47 @@
         $(document).ready(function () {
             $('select').material_select();
 
+
+
             var mujeres = JSON.parse('{!!  json_encode($female) !!}');
             var hombres = JSON.parse('{!!  json_encode($male) !!}');
 
-            c3.generate({
+            $( "#user_chart" ).change(function(e) {
+                 var branch = $('#user_chart').val();
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('chart_user') }}',
+                    dataType: "JSON",
+                    data: {branch : branch, _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        user_char.load({
+                            columns: [
+                                ['Mujeres', 230, 190, 300, 500, 300],
+                                ['Hombres', -10, -190, -300, -200, -100]
+                            ]
+                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function(){
+                        document.getElementById("loader").style.display = "block";
+                    },
+                    complete: function(){
+                        document.getElementById("loader").style.display = "none";
+                    }
+                });
+            });
+
+
+            var user_char = c3.generate({
                 bindto: '#users',
                 data: {
-                    x : 'x',
+                    x: 'x',
                     columns: [
                         ['x', '61+', '46-60', '35-45', '18-34', '0-17'],
                         mujeres,
@@ -293,7 +349,9 @@
                     y: {
                         center: 0,
                         tick: {
-                            format: function (x) { return Math.abs(x); }
+                            format: function (x) {
+                                return Math.abs(x);
+                            }
                         }
                     },
                     x: {
@@ -302,7 +360,9 @@
                 },
                 tooltip: {
                     format: {
-                        value: function (value, ratio, id, index) { return Math.abs(value); }
+                        value: function (value, ratio, id, index) {
+                            return Math.abs(value);
+                        }
                     }
                 },
                 grid: {
@@ -325,7 +385,7 @@
             c3.generate({
                 bindto: '#ages',
                 data: {
-                    x : 'x',
+                    x: 'x',
                     columns: [
                         dates,
                         interaction_males,
@@ -355,7 +415,6 @@
                     }
                 }
             });
-
 
 
             $('.tooltipped').tooltip({delay: 50});

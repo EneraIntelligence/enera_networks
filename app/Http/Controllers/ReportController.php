@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
+use Input;
+use Log;
 use MongoDate;
 use MongoId;
 use Networks\Branch;
@@ -131,6 +133,33 @@ class ReportController extends Controller
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+
+
+        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+        $users = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => ['56a66fb2a8263d5271244b2a']
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'age' => '$user.age',
+                    'gender' => '$user.gender'
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => ['age' => '$age', 'gender' => '$gender'],
+                    'count' => ['$sum' => 1]
+                ]
+            ]
+        ]);
 
 
         return view('reports.users', [
@@ -146,7 +175,8 @@ class ReportController extends Controller
             'promedio_mujeres' => $summary_network ? $edad_tota_mujeres / $conteo_mujeres : 0,
             'date_interactions' => $date_interactions,
             'date_males_interactions' => $date_males_interactions,
-            'date_females_interactions' => $date_females_interactions
+            'date_females_interactions' => $date_females_interactions,
+            'branches' => $branches
 
         ]);
     }
@@ -236,23 +266,23 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'month'=> [ '$month'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
-                    'day'=> [ '$dayOfMonth'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
+                    'month' => ['$month' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
+                    'day' => ['$dayOfMonth' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
                 '$group' => [
-                    '_id' => [ 'month' =>'$month', 'day'=>'$day'],
+                    '_id' => ['month' => '$month', 'day' => '$day'],
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  '_id'=> 1 ] ]
+            ['$sort' => ['_id' => 1]]
         ]);
 
         $start = new Carbon('first monday of january');
@@ -266,8 +296,6 @@ class ReportController extends Controller
             $day += 7 * 86400;
 
         } while ($day < $last_day);
-
-
 
 
         $navData = array();
@@ -334,8 +362,8 @@ class ReportController extends Controller
         $loyalty_inc = 0;
         $loyalty = ReportDashboard::today(session('network_id'));
         $first_register = ReportDashboard::weekBefore(session('network_id'));
-        if($loyalty && $first_register)
-            $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent,$first_register->recurrent);
+        if ($loyalty && $first_register)
+            $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent, $first_register->recurrent);
 
         $branches = Branch::where('network_id', session('network_id'))->lists('_id');
         $collection = DB::getMongoDB()->selectCollection('campaign_logs');
@@ -345,13 +373,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
+                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
@@ -360,7 +388,7 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  '_id'=> 1 ] ]
+            ['$sort' => ['_id' => 1]]
         ]);
 
 
@@ -370,13 +398,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
+                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
@@ -385,17 +413,16 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  '_id'=> 1 ] ]
+            ['$sort' => ['_id' => 1]]
         ]);
 
 
-
-        $chart_weekday = ['data1', 0,0,0,0,0,0,0];
-        foreach ($for_weekday['result'] as  $weekday){
+        $chart_weekday = ['data1', 0, 0, 0, 0, 0, 0, 0];
+        foreach ($for_weekday['result'] as $weekday) {
             $chart_weekday[$weekday['_id']] = $weekday['count'];
         }
         $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
-        
+
         return view('reports.branches', [
             'navData' => $navData,
             'unique_devices' => $unique_devices,
@@ -408,7 +435,7 @@ class ReportController extends Controller
             'genero' => $genero,
             'loyalty' => $loyalty ? $loyalty->recurrent : 0,
             'loyalty_inc' => $loyalty_inc ? $loyalty_inc : 0,
-            'recurrent_day' => $recurrent_day? $recurrent_day : -1
+            'recurrent_day' => $recurrent_day ? $recurrent_day : -1
         ]);
     }
 
@@ -423,7 +450,7 @@ class ReportController extends Controller
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
         if ($summary_network && $m2) {
-            $access_increase =MathHelper::calculateIncrement($summary_network->accumulated['connections'], $m2->accumulated['connections']);
+            $access_increase = MathHelper::calculateIncrement($summary_network->accumulated['connections'], $m2->accumulated['connections']);
         } else {
             $access_increase = 0;
         }
@@ -443,7 +470,7 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
@@ -462,13 +489,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfWeek'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ] ],
+                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
@@ -477,12 +504,12 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  '_id'=> 1 ] ]
+            ['$sort' => ['_id' => 1]]
         ]);
 
 
-        $chart_weekday = ['data1', 0,0,0,0,0,0,0];
-        foreach ($for_weekday['result'] as  $weekday){
+        $chart_weekday = ['data1', 0, 0, 0, 0, 0, 0, 0];
+        foreach ($for_weekday['result'] as $weekday) {
             $chart_weekday[$weekday['_id']] = $weekday['count'];
         }
 
@@ -493,13 +520,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'hour'=> [ '$hour'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]  ],
+                    'hour' => ['$hour' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
@@ -508,11 +535,11 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  '_id'=> 1 ] ]
+            ['$sort' => ['_id' => 1]]
         ]);
 
-        $chart_hour = ['data1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        foreach ($for_hour['result'] as $hour){
+        $chart_hour = ['data1', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        foreach ($for_hour['result'] as $hour) {
             $chart_hour[$hour['_id'] + 1] = $hour['count'];
         }
 
@@ -528,7 +555,7 @@ class ReportController extends Controller
             } elseif ($result['count'] > 8) {
                 $recurentes[3] += 1;
             }
-            if ($result['count'] > 1){
+            if ($result['count'] > 1) {
                 $num_reconnection += $result['count'];
             }
         }
@@ -539,7 +566,7 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
@@ -549,7 +576,7 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$sort' => [  'count'=> -1 ] ]
+            ['$sort' => ['count' => -1]]
         ]);
 
 
@@ -559,13 +586,13 @@ class ReportController extends Controller
                     'device.branch_id' => [
                         '$in' => $branches->all()
                     ],
-                    'interaction.accessed' => [ '$exists' => true]
+                    'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
                 '$project' => [
-                    'day'=> [ '$dayOfMonth'=> ['$subtract'=> [ '$created_at', 6 * 60 * 60 * 1000 ] ]   ],
+                    'day' => ['$dayOfMonth' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
                 ]
             ],
             [
@@ -574,22 +601,21 @@ class ReportController extends Controller
                     'count' => ['$sum' => 1]
                 ]
             ],
-            [ '$limit' => 30]
+            ['$limit' => 30]
         ]);
-        
 
 
         $recurrent = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'desc')->first();
         $first = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'asc')->first();
 
         $inc_recurrent = 0;
-        if ($recurrent){
+        if ($recurrent) {
             $inc_recurrent = MathHelper::calculateIncrement($recurrent->recurrent, $first->recurrent);
         }
 
         $campaigns = Campaign::whereIn('branches', $branches->all())->count();
 
-        
+
         return view('reports.access', [
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
@@ -614,20 +640,90 @@ class ReportController extends Controller
     {
         return view('profile.settings');
     }
-    
-    
-    public function test(){
+
+    public function userChart()
+    {
+
+        $branch = Input::get('branch');
+
+        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
+        $users = $collection->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => [$branch]
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'age' => '$user.age',
+                    'gender' => '$user.gender'
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => ['age' => '$age', 'gender' => '$gender'],
+                    'count' => ['$sum' => 1]
+                ]
+            ]
+
+
+        ]);
+
+
+        $m = ["Hombres", 0, 0, 0, 0, 0];
+        $f = ["Mujeres", 0, 0, 0, 0, 0];
+        if (isset($users)){
+            foreach ($users['result'] as $user){
+                if ($user['_id']['gender'] == 'female'){
+                    if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
+                        $f[5] += $user['count'];
+                    } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
+                        $f[4] += $user['count'];
+                    } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
+                        $f[3] += $user['count'];
+                    } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
+                        $f[2] += $user['count'];
+                    } else {
+                        $f[1] += $user['count'];
+                    }
+                }else{
+                    if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
+                        $m[5] += $user['count'];
+                    } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
+                        $m[4] += $user['count'];
+                    } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
+                        $m[3] += $user['count'];
+                    } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
+                        $m[2] += $user['count'];
+                    } else {
+                        $m[1] += $user['count'];
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'female' => $f,
+            'male' => $m
+        ]);
+    }
+
+    public function test()
+    {
 
         $name = 'adios';
-        if(isset($_POST['name']))
-        {
+        if (isset($_POST['name'])) {
             $name = 'jajajaja';
 
             // Do whatever you want with the $uid
         }
 
         return response()->json([
-            'name' => random_int(0,100)
+            'name' => random_int(0, 100)
         ]);
     }
 }
