@@ -16,6 +16,7 @@ use Networks\Campaign;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Libraries\MathHelper;
+use Networks\Network;
 use Networks\ReportDashboard;
 use Networks\SummaryCampaign;
 use Networks\SummaryNetwork;
@@ -40,6 +41,7 @@ class ReportController extends Controller
 
     public function users()
     {
+
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
@@ -136,31 +138,6 @@ class ReportController extends Controller
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
 
-        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
-        $users = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => ['56a66fb2a8263d5271244b2a']
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'age' => '$user.age',
-                    'gender' => '$user.gender'
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => ['age' => '$age', 'gender' => '$gender'],
-                    'count' => ['$sum' => 1]
-                ]
-            ]
-        ]);
-
 
         return view('reports.users', [
             'navData' => $navData,
@@ -255,49 +232,6 @@ class ReportController extends Controller
         }
 
 
-        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
-
-        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
-
-        //recurrencia en conexiones
-        $recurrencia = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'month' => ['$month' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                    'day' => ['$dayOfMonth' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => ['month' => '$month', 'day' => '$day'],
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['_id' => 1]]
-        ]);
-
-        $start = new Carbon('first monday of january');
-        $first = strtotime("first monday of january");
-        $last_day = mktime(0, 0, 0, 12, 31, 2016);
-
-        $day = $first;
-        $mondays = [];
-        do {
-            array_push($mondays, date('d-m-y', $day));
-            $day += 7 * 86400;
-
-        } while ($day < $last_day);
-
-
         $navData = array();
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Campañas'];
@@ -365,63 +299,11 @@ class ReportController extends Controller
         if ($loyalty && $first_register)
             $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent, $first_register->recurrent);
 
-        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
-        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
-        $for_weekday = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
 
-                ]
-            ],
-            [
-                '$project' => [
-                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$day',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['_id' => 1]]
-        ]);
-
-
-        $for_interaction = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$day',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['_id' => 1]]
-        ]);
-
-
-        $chart_weekday = ['data1', 0, 0, 0, 0, 0, 0, 0];
-        foreach ($for_weekday['result'] as $weekday) {
-            $chart_weekday[$weekday['_id']] = $weekday['count'];
-        }
+        $chart_weekday = Network::interactionPerDay(session('network_id'));
+        
         $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
         return view('reports.branches', [
             'navData' => $navData,
@@ -435,18 +317,14 @@ class ReportController extends Controller
             'genero' => $genero,
             'loyalty' => $loyalty ? $loyalty->recurrent : 0,
             'loyalty_inc' => $loyalty_inc ? $loyalty_inc : 0,
-            'recurrent_day' => $recurrent_day ? $recurrent_day : -1
+            'recurrent_day' => $recurrent_day ? $recurrent_day : -1,
+            'branches' => $branches
         ]);
     }
 
     public function access()
     {
-        $navData = array();
-        $navData['reports'] = 'active';
-        $navData['breadcrumbs'] = ['reports', 'Accesos'];
-
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
-        $date = $summary_network ? date('Y-m-d', strtotime($summary_network->date)) : '1970-12-12';
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
         if ($summary_network && $m2) {
@@ -455,95 +333,8 @@ class ReportController extends Controller
             $access_increase = 0;
         }
 
-        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
-
-
+        $recurrencia = Network::deviceRecurrence(session('network_id'));
         $recurentes = [0, 0, 0, 0];
-
-        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
-
-        //recurrencia en conexiones
-        $recurrencia = $collection->aggregate([
-
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$device.mac',
-                    'count' => ['$sum' => 1]
-                ]
-            ]
-        ]);
-
-        //acumulado de conexiones por día de la semana
-        $for_weekday = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$day',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['_id' => 1]]
-        ]);
-
-
-        $chart_weekday = ['data1', 0, 0, 0, 0, 0, 0, 0];
-        foreach ($for_weekday['result'] as $weekday) {
-            $chart_weekday[$weekday['_id']] = $weekday['count'];
-        }
-
-
-        $for_hour = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'hour' => ['$hour' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$hour',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['_id' => 1]]
-        ]);
-
-        $chart_hour = ['data1', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        foreach ($for_hour['result'] as $hour) {
-            $chart_hour[$hour['_id'] + 1] = $hour['count'];
-        }
-
-
         $num_reconnection = 0;
         foreach ($recurrencia['result'] as $result) {
             if ($result['count'] == 1) {
@@ -560,69 +351,28 @@ class ReportController extends Controller
             }
         }
 
-        $for_os = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$device.os',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$sort' => ['count' => -1]]
-        ]);
-
-
-        $access_per_month = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $branches->all()
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
-            ],
-            [
-                '$project' => [
-                    'day' => ['$dayOfMonth' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$day',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            ['$limit' => 30]
-        ]);
-
-
         $recurrent = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'desc')->first();
         $first = ReportDashboard::where('network_id', new MongoId(session('network_id')))->orderBy('report_date', 'asc')->first();
+
 
         $inc_recurrent = 0;
         if ($recurrent) {
             $inc_recurrent = MathHelper::calculateIncrement($recurrent->recurrent, $first->recurrent);
         }
 
-        $campaigns = Campaign::whereIn('branches', $branches->all())->count();
+        $campaigns = Campaign::whereIn('branches', Network::getNetworkBranchesId(session('network_id')))->count();
 
+        $navData = array();
+        $navData['reports'] = 'active';
+        $navData['breadcrumbs'] = ['reports', 'Accesos'];
 
         return view('reports.access', [
             'navData' => $navData,
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
             'recurrentes' => $recurentes,
-            'chart_weekday' => $chart_weekday,
-            'chart_hour' => $chart_hour,
+            'chart_weekday' => Network::interactionPerDay(session('network_id')),
+            'chart_hour' => Network::interactionPerHour(session('network_id')),
             'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
             'inc_recurrent' => $inc_recurrent,
             'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
@@ -631,7 +381,7 @@ class ReportController extends Controller
             'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
             'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
             'campaigns' => $campaigns,
-            'for_os' => $for_os
+            'for_os' => Network::os(session('network_id'))
         ]);
     }
 
@@ -645,34 +395,37 @@ class ReportController extends Controller
     {
 
         $branch = Input::get('branch');
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
 
         $collection = DB::getMongoDB()->selectCollection('campaign_logs');
         $users = $collection->aggregate([
             [
                 '$match' => [
                     'device.branch_id' => [
-                        '$in' => [$branch]
+                        '$in' => $branch
                     ],
                     'interaction.accessed' => ['$exists' => true]
 
                 ]
             ],
             [
-                '$project' => [
-                    'age' => '$user.age',
-                    'gender' => '$user.gender'
+                '$group' => [
+                    '_id' => '$device.mac',
+                    'user' => ['$addToSet' => '$user']
                 ]
             ],
             [
+                '$unwind' => '$user'
+            ],
+            [
                 '$group' => [
-                    '_id' => ['age' => '$age', 'gender' => '$gender'],
+                    '_id' => '$user',
                     'count' => ['$sum' => 1]
                 ]
             ]
-
-
         ]);
 
+        dd(Network::deviceRecurrence(session('network_id')));
 
         $m = ["Hombres", 0, 0, 0, 0, 0];
         $f = ["Mujeres", 0, 0, 0, 0, 0];
@@ -707,8 +460,7 @@ class ReportController extends Controller
         }
 
         return response()->json([
-            'female' => $f,
-            'male' => $m
+            'female' => $users,
         ]);
     }
 

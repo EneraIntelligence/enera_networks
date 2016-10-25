@@ -339,4 +339,138 @@ class Network extends Model
         return DB::table('networks')->pluck('_id');
     }
 
+    public static function interactionPerDay($network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $for_weekday = $campaignLogs->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $network_branches
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'day' => ['$dayOfWeek' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$day',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            ['$sort' => ['_id' => 1]]
+        ]);
+
+
+        $chart_weekday = ['data1', 0, 0, 0, 0, 0, 0, 0];
+        foreach ($for_weekday['result'] as $weekday) {
+            $chart_weekday[$weekday['_id']] = $weekday['count'];
+        }
+        
+        return $chart_weekday;
+    }
+
+    public static function interactionPerHour($network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $for_hour = $campaignLogs->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $network_branches
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$project' => [
+                    'hour' => ['$hour' => ['$subtract' => ['$created_at', 6 * 60 * 60 * 1000]]],
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$hour',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            ['$sort' => ['_id' => 1]]
+        ]);
+
+        $chart_hour = ['data1', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        foreach ($for_hour['result'] as $hour) {
+            $chart_hour[$hour['_id'] + 1] = $hour['count'];
+        }
+
+        return $chart_hour;
+    }
+
+    public static function os($network_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        $for_os = $campaignLogs->aggregate([
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $network_branches
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.os',
+                    'count' => ['$sum' => 1]
+                ]
+            ],
+            ['$sort' => ['count' => -1]]
+        ]);
+
+        return $for_os;
+    }
+
+    public static function deviceRecurrence($network_id, $date = '')
+    {
+        if ($date)
+            dd($date);
+
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+        $network_branches = self::getNetworkBranchesId($network_id);
+
+        
+        $recurrencia = $campaignLogs->aggregate([
+
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => $network_branches
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.mac',
+                    'count' => ['$sum' => 1]
+                ]
+            ]
+        ]);
+        
+
+        return $recurrencia;
+    }
+
 }

@@ -79,6 +79,10 @@ class Branch extends Model
         return $devicesUnique['result'];
     }
 
+
+    
+
+
     public function count_devices()
     {
 

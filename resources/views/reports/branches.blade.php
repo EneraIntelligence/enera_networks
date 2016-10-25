@@ -27,10 +27,10 @@
                             </div>
                             <div class="input-field col s12 m4">
                                 <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                    <option value="All">Todos los nodos</option>
+                                    @foreach($branches as $key => $branch)
+                                        <option value="1">Option 1</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="input-field col s12 m4">
@@ -62,8 +62,10 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align  h4-card {{$user_increase > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($user_increase,0,'.',',') }}%
+                                <h4 class="center-align  h4-card {{$user_increase > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($user_increase,0,'.',',') }}
+                                    %
                                 </h4>
                             </div>
                         </div>
@@ -82,8 +84,10 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align h4-card {{$loyalty_inc > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($loyalty_inc,2,'.',',') }}%
+                                <h4 class="center-align h4-card {{$loyalty_inc > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">arrow_drop_up</i>{{ number_format($loyalty_inc,2,'.',',') }}
+                                    %
                                 </h4>
                             </div>
                         </div>
@@ -194,7 +198,7 @@
             c3.generate({
                 bindto: '#device',
                 data: {
-                    x : 'x',
+                    x: 'x',
                     columns: [
                         dates,
                         devices
@@ -203,7 +207,7 @@
                         data1: '#039be5',
                         data2: '#ab47bc'
                     },
-                    names:{
+                    names: {
                         data1: 'Visitas'
                     }
                 },
@@ -215,15 +219,15 @@
                         show: true
                     }
                 },
-                    axis: {
-                x: {
-                    type: 'timeseries',
-                            localtime: true,
-                            tick: {
-                        format: '%b-%d'
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        localtime: true,
+                        tick: {
+                            format: '%b-%d'
+                        }
                     }
                 }
-            }
             });
 
             c3.generate({
