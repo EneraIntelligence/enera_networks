@@ -441,10 +441,8 @@ class Network extends Model
         return $for_os;
     }
 
-    public static function deviceRecurrence($network_id, $date = '')
+    public static function deviceRecurrence($network_id)
     {
-        if ($date)
-            dd($date);
 
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = self::getNetworkBranchesId($network_id);

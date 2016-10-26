@@ -299,8 +299,8 @@
                         console.log(JSON.stringify(data));
                         user_char.load({
                             columns: [
-                                ['Mujeres', 230, 190, 300, 500, 300],
-                                ['Hombres', -10, -190, -300, -200, -100]
+                                data.female,
+                                data.male
                             ]
                         });
                     },

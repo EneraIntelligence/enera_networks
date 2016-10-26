@@ -402,9 +402,10 @@ class ReportController extends Controller
             [
                 '$match' => [
                     'device.branch_id' => [
-                        '$in' => $branch
+                        '$in' => [$branch]
                     ],
-                    'interaction.accessed' => ['$exists' => true]
+                    'interaction.accessed' => ['$exists' => true],
+                    'user.gender' => ['$exists' => true]
 
                 ]
             ],
@@ -425,42 +426,50 @@ class ReportController extends Controller
             ]
         ]);
 
-        dd(Network::deviceRecurrence(session('network_id')));
-
         $m = ["Hombres", 0, 0, 0, 0, 0];
         $f = ["Mujeres", 0, 0, 0, 0, 0];
+        $anonymous = 0;
+        $defined = 0;
         if (isset($users)){
             foreach ($users['result'] as $user){
-                if ($user['_id']['gender'] == 'female'){
-                    if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
-                        $f[5] += $user['count'];
-                    } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
-                        $f[4] += $user['count'];
-                    } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
-                        $f[3] += $user['count'];
-                    } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
-                        $f[2] += $user['count'];
-                    } else {
-                        $f[1] += $user['count'];
+                if (isset($user->gender)){
+                    $defined++;
+                    if ($user['_id']['gender'] == 'female'){
+                        if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
+                            $f[5] += $user['count'];
+                        } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
+                            $f[4] += $user['count'];
+                        } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
+                            $f[3] += $user['count'];
+                        } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
+                            $f[2] += $user['count'];
+                        } else {
+                            $f[1] += $user['count'];
+                        }
+                    }else{
+                        if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
+                            $m[5] += $user['count'];
+                        } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
+                            $m[4] += $user['count'];
+                        } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
+                            $m[3] += $user['count'];
+                        } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
+                            $m[2] += $user['count'];
+                        } else {
+                            $m[1] += $user['count'];
+                        }
                     }
                 }else{
-                    if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
-                        $m[5] += $user['count'];
-                    } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
-                        $m[4] += $user['count'];
-                    } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
-                        $m[3] += $user['count'];
-                    } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
-                        $m[2] += $user['count'];
-                    } else {
-                        $m[1] += $user['count'];
-                    }
+                    $anonymous++;
                 }
             }
         }
 
         return response()->json([
-            'female' => $users,
+            'female' => $f,
+            'male'   => $m,
+            'defined' => $defined,
+            'anonymous' => $anonymous
         ]);
     }
 
