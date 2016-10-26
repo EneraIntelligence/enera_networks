@@ -396,7 +396,7 @@ class ReportController extends Controller
 
 
 //        $branch = Input::get('branch');
-        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
+        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('created_at', 'desc')->first();
         $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
         $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
 
