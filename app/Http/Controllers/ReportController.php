@@ -468,6 +468,7 @@ class ReportController extends Controller
         return response()->json([
             'female' => $f,
             'male'   => $m,
+            'branch' => $branch,
             'defined' => $defined,
             'anonymous' => $anonymous
         ]);
