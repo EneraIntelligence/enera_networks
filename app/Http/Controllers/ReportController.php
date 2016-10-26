@@ -138,7 +138,7 @@ class ReportController extends Controller
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
-        
+
         return view('reports.users', [
             'navData' => $navData,
             'male' => $m,
@@ -396,7 +396,7 @@ class ReportController extends Controller
 
 
 //        $branch = Input::get('branch');
-        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
+        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('created_at', 'desc')->first();
         $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
         $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
 
