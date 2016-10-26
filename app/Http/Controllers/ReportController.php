@@ -394,83 +394,50 @@ class ReportController extends Controller
     public function userChart()
     {
 
-        $branch = Input::get('branch');
-        $branches = Branch::where('network_id', session('network_id'))->lists('_id');
 
-        $collection = DB::getMongoDB()->selectCollection('campaign_logs');
-        $users = $collection->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => [$branch]
-                    ],
-                    'interaction.accessed' => ['$exists' => true],
-                    'user.gender' => ['$exists' => true]
+//        $branch = Input::get('branch');
+        $summary_branch = SummaryNetwork::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
 
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => '$device.mac',
-                    'user' => ['$addToSet' => '$user']
-                ]
-            ],
-            [
-                '$unwind' => '$user'
-            ],
-            [
-                '$group' => [
-                    '_id' => '$user',
-                    'count' => ['$sum' => 1]
-                ]
-            ]
-        ]);
+        $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
+        $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
 
+
+        //TODO hacer más bonito la agrupación de edades
         $m = ["Hombres", 0, 0, 0, 0, 0];
+        foreach ($male as $key => $ma) {
+            if ($key >= 0 && $key <= 17) {
+                $m[5] += $ma * -1;
+            } else if ($key >= 18 && $key <= 34) {
+                $m[4] += $ma * -1;
+            } else if ($key >= 35 && $key <= 45) {
+                $m[3] += $ma * -1;
+            } else if ($key >= 46 && $key <= 60) {
+                $m[2] += $ma * -1;
+            } else {
+                $m[1] += $ma * -1;
+            }
+        }
+
         $f = ["Mujeres", 0, 0, 0, 0, 0];
-        $anonymous = 0;
-        $defined = 0;
-        if (isset($users)){
-            foreach ($users['result'] as $user){
-                if (isset($user->gender)){
-                    $defined++;
-                    if ($user['_id']['gender'] == 'female'){
-                        if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
-                            $f[5] += $user['count'];
-                        } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
-                            $f[4] += $user['count'];
-                        } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
-                            $f[3] += $user['count'];
-                        } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
-                            $f[2] += $user['count'];
-                        } else {
-                            $f[1] += $user['count'];
-                        }
-                    }else{
-                        if ($user['_id']['age'] >= 0 && $user['_id']['age'] <= 17) {
-                            $m[5] += $user['count'];
-                        } else if ($user['_id']['age'] >= 18 && $user['_id']['age'] <= 34) {
-                            $m[4] += $user['count'];
-                        } else if ($user['_id']['age'] >= 35 && $user['_id']['age'] <= 45) {
-                            $m[3] += $user['count'];
-                        } else if ($user['_id']['age'] >= 46 && $user['_id']['age'] <= 60) {
-                            $m[2] += $user['count'];
-                        } else {
-                            $m[1] += $user['count'];
-                        }
-                    }
-                }else{
-                    $anonymous++;
-                }
+        foreach ($female as $key => $fe) {
+            if ($key >= 0 && $key <= 17) {
+                $f[5] += $fe;
+            } else if ($key >= 18 && $key <= 34) {
+                $f[4] += $fe;
+            } else if ($key >= 35 && $key <= 45) {
+                $f[3] += $fe;
+            } else if ($key >= 46 && $key <= 60) {
+                $f[2] += $fe;
+            } else {
+                $f[1] += $fe;
             }
         }
 
         return response()->json([
             'female' => $f,
             'male'   => $m,
-            'branch' => $branch,
-            'defined' => $defined,
-            'anonymous' => $anonymous
+            'branch' => Input::get('branch'),
+            'network' => session('network_id')
         ]);
     }
 
