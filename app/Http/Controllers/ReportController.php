@@ -138,7 +138,7 @@ class ReportController extends Controller
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
-        
+
         return view('reports.users', [
             'navData' => $navData,
             'male' => $m,
