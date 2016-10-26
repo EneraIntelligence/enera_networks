@@ -18,6 +18,7 @@ use Networks\Http\Controllers\Controller;
 use Networks\Libraries\MathHelper;
 use Networks\Network;
 use Networks\ReportDashboard;
+use Networks\SummaryBranch;
 use Networks\SummaryCampaign;
 use Networks\SummaryNetwork;
 
@@ -137,8 +138,7 @@ class ReportController extends Controller
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
-
-
+        
         return view('reports.users', [
             'navData' => $navData,
             'male' => $m,
@@ -396,48 +396,48 @@ class ReportController extends Controller
 
 
 //        $branch = Input::get('branch');
-        $summary_branch = SummaryNetwork::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
-
+        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
         $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
         $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
 
 
         //TODO hacer más bonito la agrupación de edades
-        $m = ["Hombres", 0, 0, 0, 0, 0];
+        $m2 = ["Hombres", 0, 0, 0, 0, 0];
         foreach ($male as $key => $ma) {
             if ($key >= 0 && $key <= 17) {
-                $m[5] += $ma * -1;
+                $m2[5] += $ma * -1;
             } else if ($key >= 18 && $key <= 34) {
-                $m[4] += $ma * -1;
+                $m2[4] += $ma * -1;
             } else if ($key >= 35 && $key <= 45) {
-                $m[3] += $ma * -1;
+                $m2[3] += $ma * -1;
             } else if ($key >= 46 && $key <= 60) {
-                $m[2] += $ma * -1;
+                $m2[2] += $ma * -1;
             } else {
-                $m[1] += $ma * -1;
+                $m2[1] += $ma * -1;
             }
         }
 
-        $f = ["Mujeres", 0, 0, 0, 0, 0];
+        $f2 = ["Mujeres", 0, 0, 0, 0, 0];
         foreach ($female as $key => $fe) {
             if ($key >= 0 && $key <= 17) {
-                $f[5] += $fe;
+                $f2[5] += $fe;
             } else if ($key >= 18 && $key <= 34) {
-                $f[4] += $fe;
+                $f2[4] += $fe;
             } else if ($key >= 35 && $key <= 45) {
-                $f[3] += $fe;
+                $f2[3] += $fe;
             } else if ($key >= 46 && $key <= 60) {
-                $f[2] += $fe;
+                $f2[2] += $fe;
             } else {
-                $f[1] += $fe;
+                $f2[1] += $fe;
             }
         }
 
         return response()->json([
-            'female' => $f,
-            'male'   => $m,
+            'female' => $f2,
+            'male'   => $m2,
             'branch' => Input::get('branch'),
-            'network' => session('network_id')
+            'network' => session('network_id'),
+            'result' => $summary_branch,
         ]);
     }
 
