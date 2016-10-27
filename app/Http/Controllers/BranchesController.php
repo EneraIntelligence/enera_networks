@@ -62,30 +62,9 @@ class BranchesController extends Controller
             $devices=$interactionsReport[0]->devices;
             $users=$interactionsReport[0]->users;
 
-            /*
-             * wordcloud
-             */
-
-            //array with users ids from campaign logs
-            $user_ids = $this->getUsersBybranches([$id]);
-            //dd($user_ids);
-
-            //array with pairs of pages ids and their count
-            $likesCount = $this->getUsersLikesCounted($user_ids, 30);
-            //dd($likes);
-
-            //strip the array so it contains only pages ids
-            $likes_ids = [];
-            foreach ($likesCount as $k => $v) {
-                $likes_ids[] = $v['_id'];
-            }
-            //array with pages names
-            $words = $this->getPagesNames($likes_ids);
-
+            $wordcloud = $interactionsReport[0]->wordcloud;
+            
             $aps = AccessPoint::WhereIn('mac', $branch->aps)->get();
-            /*
-             * wordcloud
-             */
 
             $summary_branch = SummaryBranch::where('branch_id', $id)->orderBy('date', 'desc')->first();
 
@@ -120,8 +99,7 @@ class BranchesController extends Controller
                 'devices' => $devices,
                 'users' => $users,
                 'interactions_by_day' => $interactionsReport,
-                'words' => $words,
-                'wordCount' => $likesCount,
+                'wordcloud' => $wordcloud,
                 'navData' => $navData,
                 'wlogs' => $branch->campaign_logs()
                     ->where(function ($q) {
@@ -136,117 +114,6 @@ class BranchesController extends Controller
                 'n_msg' => 'Nodo no encontrado.'
             ]);
         }
-    }
-
-    private function dateRange($first, $last, $step = '+1 day', $format = 'Y-m-d')
-    {
-
-        $dates = array();
-        $current = strtotime($first);
-        $last = strtotime($last);
-
-        while ($current <= $last) {
-            if (date($format, $current) != '') {
-                $dates[date($format, $current)] = [
-                    'welcome' => 0,
-                    'joined' => 0,
-                    'requested' => 0,
-                    'loaded' => 0,
-                    'completed' => 0,
-                ];
-                $current = strtotime($step, $current);
-            }
-        }
-
-        return $dates;
-    }
-
-    /*
-     * Wordcloud helper functions
-     */
-    private function getUsersByBranches($branches_id)
-    {
-        $cLogsColl = DB::getMongoDB()->selectCollection('campaign_logs');
-
-        //get all the users _ids into an array
-        $users = $cLogsColl->aggregate([
-            [
-                '$match' => [
-                    'device.branch_id' => ['$in' => $branches_id]
-                ]
-            ],
-            [
-                '$group' => [
-                    '_id' => 'none',
-                    'ids' => ['$addToSet' => '$user.id']
-                ]
-            ]
-        ]);
-
-        $_ids = [];
-
-//dd($users['result']);
-        //conversion of string ids to MongoIds
-        if (count($users['result']) > 0) {
-            $userIdsArray = $users['result'][0]['ids'];
-
-            foreach ($userIdsArray as $separateIds) {
-                $_ids[] = $separateIds instanceof MongoId ? $separateIds : new MongoId($separateIds);
-            }
-        }
-
-        return $_ids;
-
-    }
-
-    private function getUsersLikesCounted($user_ids, $limit)
-    {
-        $likes = DB::getMongoDB()->selectCollection('users')->aggregate([
-            [
-                '$match' => [
-                    '_id' => ['$in' => $user_ids]
-                ],
-            ],
-            [
-                '$unwind' => '$facebook.likes'
-            ],
-            [
-                '$group' => [
-                    '_id' => '$facebook.likes',
-                    'count' => ['$sum' => 1]
-                ]
-            ],
-            [
-                '$sort' => ['count' => -1]
-            ],
-            [
-                '$limit' => $limit
-            ]
-        ]);
-
-        //returns array with [_id=val,count=>val]
-        return $likes['result'];
-    }
-
-    private function getPagesNames($pages_ids)
-    {
-        $FbColl = DB::getMongoDB()->selectCollection('facebook_pages');
-        $pages_cursor = $FbColl->aggregate([
-            [
-                '$match' => [
-                    'id' => ['$in' => $pages_ids]
-                ]
-            ],
-            [
-                '$project' => [
-                    '_id' => '$id',
-                    'name' => 1
-                ]
-            ]
-        ]);
-
-        return $pages_cursor['result'];
-
     }
 
     public function clients($id)

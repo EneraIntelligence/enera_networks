@@ -206,25 +206,15 @@
                                     </thead>
                                     <tbody style="overflow: auto;">
 
-                                    @for($i=0;$i<count($wordCount);$i++)
+                                    @foreach($wordcloud as $word)
 
-                                        <?php
-                                        $w_count = 0;
-                                        for ($j = 0; $j < count($words); $j++) {
-                                            if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
-                                                $w_count = $wordCount[$i]['count'];
-                                                $w_index = $j;
-                                            }
-                                        }
-
-                                        ?>
 
                                         <tr>
-                                            <td>{!! $words[$w_index]['name'] !!}</td>
-                                            <td>{!! $w_count !!}</td>
+                                            <td>{!! $word['name'] !!}</td>
+                                            <td>{!! $word['count'] !!}</td>
                                         </tr>
 
-                                    @endfor
+                                    @endforeach
 
 
                                     </tbody>
@@ -250,25 +240,14 @@
                     </thead>
                     <tbody>
 
-                    @for($i=0;$i<count($wordCount);$i++)
-
-                        <?php
-                        $w_count = 0;
-                        for ($j = 0; $j < count($words); $j++) {
-                            if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
-                                $w_count = $wordCount[$i]['count'];
-                                $w_index = $j;
-                            }
-                        }
-
-                        ?>
+                    @foreach($wordcloud as $word)
 
                         <tr>
-                            <td>{!! $words[$w_index]['name'] !!}</td>
-                            <td>{!! $w_count !!}</td>
+                            <td>{!! $word['name'] !!}</td>
+                            <td>{!! $word['count'] !!}</td>
                         </tr>
 
-                    @endfor
+                    @endforeach
 
 
                     </tbody>
@@ -335,28 +314,17 @@
 
                 //var wordValues = {".NET":5, "Silverlight":10, "jQuery":300, "CSS3":20, "HTML5":400, "JavaScript":200, "SQL":15,"C#":20}
                 var wordValues = {
-                    @for($i=0;$i<count($wordCount);$i++)
-                    <?php
-                            $w_count = 0;
-                            $w_index = 0;
 
-                            for ($j = 0; $j < count($words); $j++) {
-                                if ($words[$j]['_id'] == $wordCount[$i]['_id']) {
-                                    $w_count = $wordCount[$i]['count'];
-                                    $w_index = $j;
-                                }
-                            }
+                    @foreach($wordcloud as $word)
+                            "{!! $word['name'] !!}":{!! $word['count'] !!},
+                    @endforeach
 
-                            ?>
-                    "{!! $words[$w_index]['name'] !!}":{!! $w_count !!},
-
-                    @endfor
                 };
 
                 var words = [
-                    @for($i=0;$i<count($words);$i++)
-                            "{!! $words[$i]['name'] !!}",
-                    @endfor
+                    @foreach($wordcloud as $word)
+                            "{!! $word['name'] !!}",
+                    @endforeach
                 ];
 
                 var sumWords = 0;
