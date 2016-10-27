@@ -416,7 +416,7 @@
                         ['x'],
                         ['Portal'],
                         ['Portal cargado'],
-                        ['Aceptó terminos'],
+                        ['Aceptó términos'],
                         ['Interacción'],
                         ['Interacción cargada'],
                         ['Completo'],
@@ -445,7 +445,7 @@
                                         [
                                             'Portal',
                                             'Portal cargado',
-                                            'Aceptó terminos',
+                                            'Aceptó términos',
                                             'Interacción',
                                             'Interacción cargada',
                                             'Completo',
