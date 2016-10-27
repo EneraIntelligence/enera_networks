@@ -206,11 +206,11 @@
                                     </thead>
                                     <tbody style="overflow: auto;">
 
-                                    @foreach($wordcloud as $word)
+                                    @foreach($wordcloud as $id=>$word)
 
 
                                         <tr>
-                                            <td>{!! $word['name'] !!}</td>
+                                            <td><a target="_blank" href="http://facebook.com/{!! $id !!}">{!! $word['name'] !!}</a></td>
                                             <td>{!! $word['count'] !!}</td>
                                         </tr>
 
@@ -240,10 +240,10 @@
                     </thead>
                     <tbody>
 
-                    @foreach($wordcloud as $word)
+                    @foreach($wordcloud as $id=>$word)
 
                         <tr>
-                            <td>{!! $word['name'] !!}</td>
+                            <td><a target="_blank" href="http://facebook.com/{!! $id !!}">{!! $word['name'] !!}</a></td>
                             <td>{!! $word['count'] !!}</td>
                         </tr>
 
