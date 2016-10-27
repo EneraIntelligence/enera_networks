@@ -115,6 +115,9 @@
             </div>
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="loaderInt">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -126,11 +129,13 @@
                             <div class="input-field col s12 m4">
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Rangos de edad</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="interactionChart">
+                                    <option value="0-200">Rangos de edad</option>
+                                    <option value="0-17">0 - 17 Años</option>
+                                    <option value="18-34">18 -35 Años</option>
+                                    <option value="35-45">35 - 45 Años</option>
+                                    <option value="46-60">46 - 60 Años</option>
+                                    <option value="60-200"> 60+ Años</option>
                                 </select>
                             </div>
                         </div>
@@ -382,7 +387,41 @@
             var interaction_females = JSON.parse('{!!  json_encode($date_females_interactions) !!}');
 
 
-            c3.generate({
+            $( "#interactionChart" ).change(function(e) {
+
+                var age = $('#interactionChart').val();
+                var res = age.split("-");
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('chart_interaction') }}',
+                    dataType: "JSON",
+                    data: {less : res[0], higher: res[1], _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        interactionChart.load({
+                            columns: [
+                                data.dates,
+                                data.females,
+                                data.males
+                            ]
+                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function(){
+                        document.getElementById("loaderInt").style.display = "block";
+                    },
+                    complete: function(){
+                        document.getElementById("loaderInt").style.display = "none";
+                    }
+                });
+            });
+
+            var interactionChart = c3.generate({
                 bindto: '#ages',
                 data: {
                     x: 'x',

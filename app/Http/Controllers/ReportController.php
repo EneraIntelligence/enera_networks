@@ -48,11 +48,7 @@ class ReportController extends Controller
 
 
         $male = isset($summary_network->accumulated['users']['demographic']['male']) ? $summary_network->accumulated['users']['demographic']['male'] : [];
-        $male_inc = $summary_network ? $summary_network->accumulled['user'] : 0;
         $female = isset($summary_network->accumulated['users']['demographic']['female']) ? $summary_network->accumulated['users']['demographic']['female'] : [];
-
-        $male_interactions = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.male', 'created_at')->get();
-        $female_interactions = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.female')->get();
 
 
         //TODO hacer más bonito la agrupación de edades
@@ -105,23 +101,25 @@ class ReportController extends Controller
         }
 
         $date_interactions = ['x'];
-        $date_males_interactions = ['male'];
-        $date_females_interactions = ['female'];
+        $males_interactions = ['male'];
+        $females_interactions = ['female'];
 
+        $males = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.male', 'created_at')->get();
+        $females = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.female')->get();
 
-        if ($date_males_interactions != []) {
-            foreach ($male_interactions as $male) {
+        if ($males_interactions != []) {
+            foreach ($males as $male) {
                 array_push($date_interactions, $male->created_at->format('Y-m-d'));
-                array_push($date_males_interactions, array_sum($male->users['demographic']['male']));
+                array_push($males_interactions, array_sum($male->users['demographic']['male']));
             }
         }
 
-        if ($date_females_interactions != []) {
-            foreach ($female_interactions as $female) {
-                array_push($date_females_interactions, array_sum($female->users['demographic']['female']));
+        if ($females_interactions != []) {
+            foreach ($females as $female) {
+                array_push($females_interactions, array_sum($female->users['demographic']['female']));
             }
         }
-
+        
 
         $total_male = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) : 0;
         $total_female = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['female']) : 0;
@@ -148,11 +146,11 @@ class ReportController extends Controller
             'increments_men' => $increments_men,
             'total_female' => $total_female,
             'increments_women' => $increments_women,
-            'promedio_hombres' => $summary_network  && $conteo_hombres > 0 ? $edad_tota_hombres / $conteo_hombres : 0,
-            'promedio_mujeres' => $summary_network  && $conteo_mujeres > 0? $edad_tota_mujeres / $conteo_mujeres : 0,
+            'promedio_hombres' => $summary_network && $conteo_hombres > 0 ? $edad_tota_hombres / $conteo_hombres : 0,
+            'promedio_mujeres' => $summary_network && $conteo_mujeres > 0 ? $edad_tota_mujeres / $conteo_mujeres : 0,
             'date_interactions' => $date_interactions,
-            'date_males_interactions' => $date_males_interactions,
-            'date_females_interactions' => $date_females_interactions,
+            'date_males_interactions' => $males_interactions,
+            'date_females_interactions' => $females_interactions,
             'branches' => $branches
 
         ]);
@@ -301,7 +299,7 @@ class ReportController extends Controller
 
 
         $chart_weekday = Network::interactionPerDay(session('network_id'));
-        
+
         $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
@@ -396,11 +394,15 @@ class ReportController extends Controller
 
 
 //        $branch = Input::get('branch');
-        $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
-        $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
-        $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
-
-
+        if (Input::get('branch') != 'All') {
+            $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
+            $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
+            $female = isset($summary_branch->accumulated['users']['demographic']['female']) ? $summary_branch->accumulated['users']['demographic']['female'] : [];
+        } else {
+            $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
+            $male = isset($summary_network->accumulated['users']['demographic']['male']) ? $summary_network->accumulated['users']['demographic']['male'] : [];
+            $female = isset($summary_network->accumulated['users']['demographic']['female']) ? $summary_network->accumulated['users']['demographic']['female'] : [];
+        }
         //TODO hacer más bonito la agrupación de edades
         $m2 = ["Hombres", 0, 0, 0, 0, 0];
         foreach ($male as $key => $ma) {
@@ -432,27 +434,54 @@ class ReportController extends Controller
             }
         }
 
+
         return response()->json([
             'female' => $f2,
-            'male'   => $m2,
+            'male' => $m2,
             'branch' => Input::get('branch'),
-            'network' => session('network_id'),
-            'result' => $summary_branch,
+            'network' => session('network_id')
         ]);
     }
 
-    public function test()
+    public function interactionChart()
     {
 
-        $name = 'adios';
-        if (isset($_POST['name'])) {
-            $name = 'jajajaja';
+        $males = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.male', 'created_at')->get();
+        $females = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('users.demographic.female')->get();
 
-            // Do whatever you want with the $uid
+        $date_interactions = ['x'];
+        $males_interactions = ['male'];
+        $females_interactions = ['female'];
+
+        foreach ($males as $male) {
+            $total = 0;
+            array_push($date_interactions, $male->created_at->format('Y-m-d'));
+            foreach ($male['users']['demographic']['male'] as $key => $value) {
+                if ($key >= Input::get('less') && $key <= Input::get('higher')) {
+                    $total += $value;
+                }
+            }
+            array_push($males_interactions, $total);
+        }
+
+
+        foreach ($females as $female) {
+            $total = 0;
+            foreach ($female['users']['demographic']['female'] as $key => $value) {
+                if ($key >= Input::get('less') && $key <= Input::get('higher')) {
+                    $total += $value;
+                }
+            }
+            array_push($females_interactions, $total);
         }
 
         return response()->json([
-            'name' => random_int(0, 100)
+            'less' => Input::get('less'),
+            'higher' => Input::get('higher'),
+            'females' => $females_interactions,
+            'males' => $males_interactions,
+            'dates' => $date_interactions,
+            'result' => $males
         ]);
     }
 }
