@@ -446,20 +446,26 @@
 
                     var datos = [
                         ['x'],
-                        ['Welcome'],
-                        ['Joined'],
-                        ['Requested'],
-                        ['Loaded'],
-                        ['Completed'],
+                        ['Portal'],
+                        ['Portal cargado'],
+                        ['Aceptó terminos'],
+                        ['Interacción'],
+                        ['Interacción cargada'],
+                        ['Completo'],
+                        ['Conectado']
                     ];
-                    @foreach($int_days as $k => $day)
-                            datos[0].push('{!! $k !!}');
-                    datos[1].push({!! $day['welcome'] !!});
-                    datos[2].push({!! $day['joined'] !!});
-                    datos[3].push({!! $day['requested'] !!});
-                    datos[4].push({!! $day['loaded'] !!});
-                    datos[5].push({!! $day['completed'] !!});
-                            @endforeach
+
+                    @foreach($interactions_by_day as $day)
+                        datos[0].push('{!! date('Y-m-d', $day['report_date']->sec-(24*60*60) )  !!}');
+                        datos[1].push({!! $day['welcome'] !!});
+                        datos[2].push({!! $day['welcome_loaded'] !!});
+                        datos[3].push({!! $day['joined'] !!});
+                        datos[4].push({!! $day['requested'] !!});
+                        datos[5].push({!! $day['loaded'] !!});
+                        datos[6].push({!! $day['completed'] !!});
+                        datos[7].push({!! $day['accessed'] !!});
+                        console.log("{!! date('Y-m-d', $day['report_date']->sec-(24*60*60) ) !!}");
+                    @endforeach
 
                     var chart = c3.generate({
                                 bindto: '#analitics',
@@ -468,7 +474,15 @@
                                     columns: datos,
                                     type: 'bar',
                                     groups: [
-                                        ['Welcome', 'Joined', 'Requested', 'Loaded', 'Completed']
+                                        [
+                                            'Portal',
+                                            'Portal cargado',
+                                            'Aceptó terminos',
+                                            'Interacción',
+                                            'Interacción cargada',
+                                            'Completo',
+                                            'Conectado'
+                                        ]
                                     ],
                                     /*onclick: function () {
                                      window.open("http://www.w3schools.com");

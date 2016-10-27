@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         \Networks\Console\Commands\RecurrentDevices::class,
         \Networks\Console\Commands\ActiveDevices::class,
         \Networks\Console\Commands\WeeklyAccessReport::class,
+        \Networks\Console\Commands\ReportBranchesSummary::class,
     ];
 
     /**

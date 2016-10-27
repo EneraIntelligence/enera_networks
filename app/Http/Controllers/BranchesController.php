@@ -16,6 +16,7 @@ use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Network;
 use MongoId;
+use Networks\ReportBranch;
 use Networks\SummaryBranch;
 use Networks\SummaryNetwork;
 
@@ -61,6 +62,11 @@ class BranchesController extends Controller
     public function show($id)
     {
         $branch = Branch::find($id);
+
+        $days=7;
+        $interactionsReport = ReportBranch::getInteractions($days, $id);
+        //dd($interactionsReport);
+
         if ($branch && $branch->network_id == session('network_id')) {
             $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
                 [
@@ -110,6 +116,7 @@ class BranchesController extends Controller
             ]);
 
             //cambio a 30 dias
+            /*
             $days = 7;
 
             $welcome_cnt = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
@@ -280,6 +287,8 @@ class BranchesController extends Controller
             foreach ($completed_cnt['result'] as $completed) {
                 $IntDays[$completed['_id']]['completed'] += $completed['count'];
             }
+*/
+
 
             /*
              * wordcloud
@@ -328,7 +337,6 @@ class BranchesController extends Controller
             $navData['branches']='active';
             $navData['breadcrumbs']=['branches', $branch->name];
 
-            
             return view('branches.show', [
                 'branch' => $branch,
                 'summary_branch' => $summary_branch,
@@ -339,7 +347,7 @@ class BranchesController extends Controller
                 'network' => Network::find(session('network_id')),
                 'devices' => $devices['result'] != [] ? $devices['result'][0]['count'] : 0,
                 'users' => $users['result'] != [] ? $users['result'][0]['count'] : 0,
-                'int_days' => $IntDays,
+                'interactions_by_day' => $interactionsReport,
                 'words' => $words,
                 'wordCount' => $likesCount,
                 'navData' => $navData,

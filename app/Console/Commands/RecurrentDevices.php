@@ -15,8 +15,6 @@ use Networks\ReportDashboard;
 
 class RecurrentDevices extends Command
 {
-    private $campaignLogs;
-
 
     /**
      * The name and signature of the console command.
