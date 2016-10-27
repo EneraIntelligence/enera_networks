@@ -74,10 +74,10 @@
                                 </li>
                                 <li>
                                     Dispositivos: <span
-                                            class="light-text">{{ isset($summary_branch) ? number_format($summary_branch->accumulated['devices']['total'],0,'.',',') : 0 }}</span>
+                                            class="light-text">{{ isset($devices) ? number_format($devices,0,'.',',') : 0 }}</span>
                                 </li>
                                 <li>Usuarios
-                                    Recolectados: <span class="light-text">{{ isset($summary_branch) ? number_format($summary_branch->accumulated['users']['total'],0,'.',',') : 0 }}</span>
+                                    Recolectados: <span class="light-text">{{ isset($users) ? number_format($users,0,'.',',') : 0 }}</span>
                                 </li>
                                 <li>
                                     Antenas: <span class="light-text">{{ count($branch->aps) }}</span>

@@ -106,16 +106,6 @@ class RecurrentDevices extends Command
             $this->info('devices: '.$report->devices.' - new: '.$report->new.' - recurrent: '.$report->recurrent);
             $report->save();
         }
-/*
-        return;
-        
-        $uniqueDevices = Branch::uniqueDevices($start_date, $end_date);
-
-        foreach ($uniqueDevices as $branchResult)
-        {
-            $this->info("branche: " . $branchResult['_id']." - count: ".$branchResult['count']);
-        }
-*/
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;

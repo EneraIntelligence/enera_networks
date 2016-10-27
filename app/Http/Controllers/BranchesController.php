@@ -39,18 +39,6 @@ class BranchesController extends Controller
         return view('branches.index', [
             'network' => $network,
             'navData' => $navData,
-//            'welcome' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
-//                ->where('interaction.welcome_loaded', 'exists', true)->count(),
-//            'joined' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
-//                ->where('interaction.joined', 'exists', true)->count(),
-//            'requested' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
-//                ->where('interaction.requested', 'exists', true)->count(),
-//            'loaded' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
-//                ->where('interaction.loaded', 'exists', true)->count(),
-//            'completed' => CampaignLog::whereIn('device.branch_id', $network->branches()->lists('_id'))
-//                ->where(function ($q) {
-//                    $q->where('interaction.completed', 'exists', true)->orWhere('interaction.accessed', 'exists', true);
-//                })->count(),
             'branches' => $branches,
         ]);
     }
@@ -63,58 +51,16 @@ class BranchesController extends Controller
     {
         $branch = Branch::find($id);
 
-        $days=7;
-        $interactionsReport = ReportBranch::getInteractions($days, $id);
-        //dd($interactionsReport);
 
         if ($branch && $branch->network_id == session('network_id')) {
-            $devices = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
-                [
-                    '$match' => [
-                        'device.mac' => ['$exists' => true],
-                        'device.branch_id' => $branch->_id
-                    ]
-                ],
-                [
-                    '$group' => [
-                        '_id' => '',
-                        'mac' => [
-                            '$addToSet' => '$device.mac'
-                        ]
-                    ]
-                ],
-                ['$unwind' => '$mac'],
-                [
-                    '$group' => [
-                        '_id' => '$_id',
-                        'count' => ['$sum' => 1]
-                    ]
-                ],
-            ]);
-            $users = DB::getMongoDB()->selectCollection('campaign_logs')->aggregate([
-                [
-                    '$match' => [
-                        'user.id' => ['$exists' => true],
-                        'device.branch_id' => $branch->_id
-                    ]
-                ],
-                [
-                    '$group' => [
-                        '_id' => '',
-                        'fb_id' => [
-                            '$addToSet' => '$user.id'
-                        ]
-                    ]
-                ],
-                ['$unwind' => '$fb_id'],
-                [
-                    '$group' => [
-                        '_id' => '$_id',
-                        'count' => ['$sum' => 1]
-                    ]
-                ],
-            ]);
 
+
+            $days=7;
+            $interactionsReport = ReportBranch::getInteractions($days, $id);
+            //dd($interactionsReport[0]->devices);
+
+            $devices=$interactionsReport[0]->devices;
+            $users=$interactionsReport[0]->users;
 
             /*
              * wordcloud
@@ -122,7 +68,7 @@ class BranchesController extends Controller
 
             //array with users ids from campaign logs
             $user_ids = $this->getUsersBybranches([$id]);
-            //dd($_ids);
+            //dd($user_ids);
 
             //array with pairs of pages ids and their count
             $likesCount = $this->getUsersLikesCounted($user_ids, 30);
@@ -171,8 +117,8 @@ class BranchesController extends Controller
                 'edad_promedio' => $edad_promedio,
                 'genero' => $summary_branch ? array_sum($summary_branch->accumulated['users']['demographic']['male']) > array_sum($summary_branch->accumulated['users']['demographic']['female']) ? 'Hombres' : 'Mujeres' : '---',
                 'network' => Network::find(session('network_id')),
-                'devices' => $devices['result'] != [] ? $devices['result'][0]['count'] : 0,
-                'users' => $users['result'] != [] ? $users['result'][0]['count'] : 0,
+                'devices' => $devices,
+                'users' => $users,
                 'interactions_by_day' => $interactionsReport,
                 'words' => $words,
                 'wordCount' => $likesCount,
@@ -239,7 +185,7 @@ class BranchesController extends Controller
 
         $_ids = [];
 
-
+//dd($users['result']);
         //conversion of string ids to MongoIds
         if (count($users['result']) > 0) {
             $userIdsArray = $users['result'][0]['ids'];

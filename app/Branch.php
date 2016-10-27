@@ -37,21 +37,17 @@ class Branch extends Model
         return DB::table('branches')->where('status', 'active')->pluck('_id');
     }
 
-    public static function uniqueDevices($start_date, $end_date, $branch_id = null)
+    public static function uniqueDevicesCount($end_date, $branch_id)
     {
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
 
         $match = [
             'created_at' => [
-                '$gte' => new MongoDate(strtotime($start_date)),
                 '$lt' => new MongoDate(strtotime($end_date))
             ],
         ];
 
-        if ( isset($branch_id) )
-        {
-            $match['device.branch_id'] = $branch_id;
-        }
+        $match['device.branch_id'] = (string)$branch_id;
 
         $devicesUnique = $campaignLogs->aggregate([
             [
@@ -75,12 +71,54 @@ class Branch extends Model
             ]
         ]);
 
+        if($devicesUnique['result']==[])
+            return 0;
+        //$devicesUnique['result']= $devicesUnique['result'][0];
 
-        return $devicesUnique['result'];
+        return $devicesUnique['result'][0]['count'];
     }
 
 
-    
+    public static function uniqueUsersCount($end_date, $branch_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+
+        $match = [
+            'created_at' => [
+                '$lt' => new MongoDate(strtotime($end_date))
+            ],
+        ];
+
+        $match['device.branch_id'] = (string)$branch_id;
+
+        $devicesUnique = $campaignLogs->aggregate([
+            [
+                '$match' => $match
+            ],
+            [
+                '$group' => [
+                    '_id' => '$device.branch_id',
+                    'users' => [
+                        '$addToSet' => '$user.id',
+                    ]
+                ]
+            ],
+            [
+                '$project' => [
+                    '_id' => 1,
+                    'count' => [
+                        '$size' => '$users'
+                    ]
+                ]
+            ]
+        ]);
+
+        if($devicesUnique['result']==[])
+            return 0;
+        //$devicesUnique['result']= $devicesUnique['result'][0];
+
+        return $devicesUnique['result'][0]['count'];
+    }
 
 
     public function count_devices()

@@ -85,6 +85,8 @@ class ReportBranchesSummary extends Command
             $report->accessed = 0;
 
 
+            $report->devices = Branch::uniqueDevicesCount($today, $branch_id);
+            $report->users = Branch::uniqueUsersCount($today, $branch_id);
             $todayLogs = Branch::dailyLogs($fromDate, $today, $branch_id);
 //            $this->info($todayLogs);
             
@@ -123,6 +125,9 @@ class ReportBranchesSummary extends Command
 
             }
 
+
+
+
             $this->info("branch " . $report->branch_id." done." );
             $this->info("welcome " . $report->welcome);
             $this->info("welcome_loaded " . $report->welcome_loaded);
@@ -131,6 +136,8 @@ class ReportBranchesSummary extends Command
             $this->info("loaded " . $report->loaded);
             $this->info("completed " . $report->completed);
             $this->info("accessed " . $report->accessed);
+            $this->info("devices: " . $report->devices);
+            $this->info("users: " . $report->users);
             $this->info("----------------------");
             $report->save();
         }

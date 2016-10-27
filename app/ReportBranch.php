@@ -27,6 +27,7 @@ class ReportBranch extends Model
     {
         return self::where('branch_id', new MongoId($branch_id) )
             ->where('report_date', '>=', $start_date)
-            ->where('report_date', '<=', $end_date)->get();
+            ->where('report_date', '<=', $end_date)
+            ->orderBy('report_date', 'desc')->get();
     }
 }
