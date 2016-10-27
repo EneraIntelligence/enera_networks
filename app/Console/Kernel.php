@@ -37,5 +37,10 @@ class Kernel extends ConsoleKernel
             ->sendOutputTo($filepath)
             ->emailOutputTo('ediaz@enera.mx');
 
+        $filepath = base_path() . "\storage\logs\commands\Enera_BranchesReport.txt";;
+        $schedule->command('enera:BranchesSummary')
+            ->daily()
+            ->sendOutputTo($filepath)
+            ->emailOutputTo('ediaz@enera.mx');
     }
 }
