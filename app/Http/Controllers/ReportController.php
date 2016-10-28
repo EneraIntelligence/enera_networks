@@ -307,7 +307,7 @@ class ReportController extends Controller
         if ($loyalty && $first_register)
             $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent, $first_register->recurrent);
 
-        $chart_weekday = Network::interactionPerDay(session('network_id'));
+        $chart_weekday = Network::interactionPerDay(session('network_id'), 'All', 'All');
 
         $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
@@ -323,7 +323,7 @@ class ReportController extends Controller
             'users' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'devices' => $summary_network ? $summary_network->accumulated['devices']['total'] : 0,
             'user_increase' => $user_increase,
-            'edad_promedio' => $summary_network ? $edad_promedio / $summary_network->accumulated['users']['total'] : 0,
+            'edad_promedio' => $summary_network && $summary_network->accumulated['users']['total'] > 0 ? $edad_promedio / $summary_network->accumulated['users']['total'] : 0,
             'genero' => $genero,
             'loyalty' => $loyalty ? $loyalty->recurrent : 0,
             'loyalty_inc' => $loyalty_inc ? $loyalty_inc : 0,
