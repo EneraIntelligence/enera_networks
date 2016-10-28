@@ -20,6 +20,17 @@
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
+                            <h5 class="header header-border">Fecha de inicio: {{$date->toDateTime()->format('d-m-Y')}}</h5>
+                            <h5 class="header header-border">Nombre de la red: {{$name->name}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card white">
+                    <div class="card-content">
+                        <p>Sección</p>
+                        <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
                                     <h5 class="center-align section-title">Visita de Dispositivos</h5>

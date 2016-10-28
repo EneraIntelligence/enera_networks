@@ -16,6 +16,17 @@
         <div class="row">
             <div class="col s12">
                 <div class="card white">
+                    <div class="card-content">
+                        <p>Sección</p>
+                        <div class="row no-margin">
+                                <h5 class="header header-border">Fecha de inicio: {{$date->toDateTime()->format('d-m-Y')}}</h5>
+                                <h5 class="header header-border">Nombre de la red: {{$name->name}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card white">
                     <div class="progress" style="display: none;" id="loader">
                         <div class="indeterminate"></div>
                     </div>

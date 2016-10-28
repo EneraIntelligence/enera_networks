@@ -13,6 +13,7 @@ use MongoDate;
 use MongoId;
 use Networks\Branch;
 use Networks\Campaign;
+use Networks\CampaignLog;
 use Networks\Http\Requests;
 use Networks\Http\Controllers\Controller;
 use Networks\Libraries\MathHelper;
@@ -42,14 +43,11 @@ class ReportController extends Controller
 
     public function users()
     {
-
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
 
-
         $male = isset($summary_network->accumulated['users']['demographic']['male']) ? $summary_network->accumulated['users']['demographic']['male'] : [];
         $female = isset($summary_network->accumulated['users']['demographic']['female']) ? $summary_network->accumulated['users']['demographic']['female'] : [];
-
 
         //TODO hacer más bonito la agrupación de edades
         $m = ["Hombres", 0, 0, 0, 0, 0];
@@ -119,7 +117,6 @@ class ReportController extends Controller
                 array_push($females_interactions, array_sum($female->users['demographic']['female']));
             }
         }
-        
 
         $total_male = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['male']) : 0;
         $total_female = $summary_network ? array_sum($summary_network->accumulated['users']['demographic']['female']) : 0;
@@ -135,6 +132,10 @@ class ReportController extends Controller
         $navData['reports'] = 'active';
         $navData['breadcrumbs'] = ['reports', 'Usuarios'];
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+        $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
+        $date = new MongoDate(strtotime($network_date['created_at']));
+        $date->toDateTime()->format('d-m-Y');
+
 
 
         return view('reports.users', [
@@ -151,7 +152,9 @@ class ReportController extends Controller
             'date_interactions' => $date_interactions,
             'date_males_interactions' => $males_interactions,
             'date_females_interactions' => $females_interactions,
-            'branches' => $branches
+            'branches' => $branches,
+            'date' => $date,
+            'name' => Network::where('_id', session('network_id'))->select('name')->first()
 
         ]);
     }
@@ -160,7 +163,6 @@ class ReportController extends Controller
     {
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
-
         $devices_per_day = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(7)->select('devices.os', 'created_at')->get();
         $date_for_devices = ['x'];
         $group_of_devices = ['data1'];
@@ -172,7 +174,6 @@ class ReportController extends Controller
             }
         }
 
-
         $unique_clients = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->lists('client_id');
         $client = array_unique(json_decode(json_encode($unique_clients), true));
 
@@ -183,6 +184,10 @@ class ReportController extends Controller
             $top_access = [];
         }
 
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+        $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
+        $date = new MongoDate(strtotime($network_date['created_at']));
+        $date->toDateTime()->format('d-m-Y');
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -194,13 +199,14 @@ class ReportController extends Controller
             'visits' => $summary_network ? $summary_network->accumulated['users']['total'] : 0,
             'date_for_devices' => $date_for_devices,
             'group_of_devices' => $group_of_devices,
-            'top_access' => $top_access
+            'top_access' => $top_access,
+            'date' => $date,
+            'name' => Network::where('_id', session('network_id'))->select('name')->first()
         ]);
     }
 
     public function campaigns()
     {
-
 
         $summary_network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->first();
         $m2 = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->skip(30)->first();
@@ -229,6 +235,10 @@ class ReportController extends Controller
             $inc_completed_interactions = MathHelper::calculateIncrement($summary_network->devices['interactions']['completed'], $m2->devices['interactions']['completed']);
         }
 
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+        $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
+        $date = new MongoDate(strtotime($network_date['created_at']));
+        $date->toDateTime()->format('d-m-Y');
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -244,7 +254,9 @@ class ReportController extends Controller
             'completed_interactions' => $summary_network ? $summary_network->devices['interactions']['completed'] : 0,
             'inc_total_access' => $inc_total_access,
             'inc_new_access' => $inc_new_access,
-            'inc_completed_interactions' => $inc_completed_interactions
+            'inc_completed_interactions' => $inc_completed_interactions,
+            'date' => $date,
+            'name' => Network::where('_id', session('network_id'))->select('name')->first()
         ]);
     }
 
@@ -262,7 +274,6 @@ class ReportController extends Controller
 
         $edad_promedio = 0;
 
-
         if ($summary_network) {
             foreach ($summary_network->accumulated['users']['demographic']['male'] as $key => $value) {
                 $edad_promedio += $key * $value;
@@ -274,7 +285,6 @@ class ReportController extends Controller
                 $edad_promedio += $key * $value;
             }
         }
-
 
         $network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(5)->get();
         $unique_devices = ['data1'];
@@ -297,11 +307,13 @@ class ReportController extends Controller
         if ($loyalty && $first_register)
             $loyalty_inc = MathHelper::calculateIncrement($loyalty->recurrent, $first_register->recurrent);
 
-
         $chart_weekday = Network::interactionPerDay(session('network_id'));
 
         $recurrent_day = array_search(max($chart_weekday), $chart_weekday);
         $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+        $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
+        $date = new MongoDate(strtotime($network_date['created_at']));
+        $date->toDateTime()->format('d-m-Y');
 
         return view('reports.branches', [
             'navData' => $navData,
@@ -316,7 +328,9 @@ class ReportController extends Controller
             'loyalty' => $loyalty ? $loyalty->recurrent : 0,
             'loyalty_inc' => $loyalty_inc ? $loyalty_inc : 0,
             'recurrent_day' => $recurrent_day ? $recurrent_day : -1,
-            'branches' => $branches
+            'branches' => $branches,
+            'date' => $date,
+            'name' => Network::where('_id', session('network_id'))->select('name')->first()
         ]);
     }
 
@@ -359,6 +373,10 @@ class ReportController extends Controller
         }
 
         $campaigns = Campaign::whereIn('branches', Network::getNetworkBranchesId(session('network_id')))->count();
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
+        $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
+        $date = new MongoDate(strtotime($network_date['created_at']));
+        $date->toDateTime()->format('d-m-Y');
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -369,20 +387,22 @@ class ReportController extends Controller
             'access' => $summary_network ? $summary_network->accumulated['connections'] : 0,
             'access_increase' => $access_increase,
             'recurrentes' => $recurentes,
-            'chart_weekday' => Network::interactionPerDay(session('network_id')),
-            'chart_hour' => Network::interactionPerHour(session('network_id')),
+            'chart_weekday' => Network::interactionPerDay(session('network_id'), 'All', 'All'),
+            'chart_hour' => Network::interactionPerHour(session('network_id'), 'All', 'All'),
             'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
             'inc_recurrent' => $inc_recurrent,
             'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
-            'poc_reconnection' => $recurrent ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
+            'poc_reconnection' => $recurrent && array_sum($recurentes) > 0? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
             'num_reconnection' => $num_reconnection,
             'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
-            'average_reconnection' => $recurrent ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
+            'average_reconnection' => $recurrent && (array_sum($recurentes) - $recurentes[0]) > 0 ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
             'campaigns' => $campaigns,
-            'for_os' => Network::os(session('network_id'))
+            'for_os' => Network::os(session('network_id')),
+            'date' => $date,
+            'name' => Network::where('_id', session('network_id'))->select('name')->first(),
+            'branches' => $branches,
         ]);
     }
-
 
     public function settings()
     {
@@ -392,8 +412,6 @@ class ReportController extends Controller
     public function userChart()
     {
 
-
-//        $branch = Input::get('branch');
         if (Input::get('branch') != 'All') {
             $summary_branch = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->first();
             $male = isset($summary_branch->accumulated['users']['demographic']['male']) ? $summary_branch->accumulated['users']['demographic']['male'] : [];
@@ -434,7 +452,6 @@ class ReportController extends Controller
             }
         }
 
-
         return response()->json([
             'female' => $f2,
             'male' => $m2,
@@ -464,7 +481,6 @@ class ReportController extends Controller
             array_push($males_interactions, $total);
         }
 
-
         foreach ($females as $female) {
             $total = 0;
             foreach ($female['users']['demographic']['female'] as $key => $value) {
@@ -482,6 +498,22 @@ class ReportController extends Controller
             'males' => $males_interactions,
             'dates' => $date_interactions,
             'result' => $males
+        ]);
+    }
+
+    public static function visitsChartPerDay()
+    {
+        return response()->json([
+            'chart_weekday' => Network::interactionPerDay(session('network_id'), 'all', Input::get('branch')),
+            'branch' => Input::get('branch')
+        ]);
+    }
+
+    public static function visitsChartPerHour()
+    {
+        return response()->json([
+            'chart_hours' => Network::interactionPerHour(session('network_id'), 'all', Input::get('branch')),
+            'branch' => Input::get('branch')
         ]);
     }
 }
