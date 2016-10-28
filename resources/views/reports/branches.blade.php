@@ -40,7 +40,7 @@
                                 <select>
                                     <option value="All">Todos los nodos</option>
                                     @foreach($branches as $key => $branch)
-                                        <option value="1">Option 1</option>
+                                        <option value="{{$branch}}">{{$key}}</option>
                                     @endforeach
                                 </select>
                             </div>
