@@ -72,3 +72,5 @@ Route::get('/test-email', function () {
 //ajax calls
 Route::post('chart_interaction',['as' => 'chart_interaction', 'uses' =>'ReportController@interactionChart']);
 Route::post('chart_user',['as' => 'chart_user', 'uses' => 'ReportController@userChart']);
+Route::post('visits_chart_per_day', ['as' => 'visits_chart_per_day', 'uses' => 'ReportController@visitsChartPerDay']);
+Route::post('visits_chart_per_hour', ['as' => 'visits_chart_per_hour', 'uses' => 'ReportController@visitsChartPerHour']);

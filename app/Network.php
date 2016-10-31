@@ -339,10 +339,10 @@ class Network extends Model
         return DB::table('networks')->pluck('_id');
     }
 
-    public static function interactionPerDay($network_id)
+    public static function interactionPerDay($network_id, $time, $branch)
     {
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
-        $network_branches = self::getNetworkBranchesId($network_id);
+        $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
         $for_weekday = $campaignLogs->aggregate([
             [
@@ -377,10 +377,10 @@ class Network extends Model
         return $chart_weekday;
     }
 
-    public static function interactionPerHour($network_id)
+    public static function interactionPerHour($network_id, $time, $branch)
     {
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
-        $network_branches = self::getNetworkBranchesId($network_id);
+        $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
         $for_hour = $campaignLogs->aggregate([
             [

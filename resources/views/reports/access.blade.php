@@ -19,6 +19,21 @@
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
+                            <h5 class="header header-border">Fecha de
+                                inicio: {{$date->toDateTime()->format('d-m-Y')}}</h5>
+                            <h5 class="header header-border">Nombre de la red: {{$name->name}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="card white">
+                    <div class="progress" style="display: none;" id="viewDevices">
+                        <div class="indeterminate"></div>
+                    </div>
+                    <div class="card-content">
+                        <p>Sección</p>
+                        <div class="row no-margin">
                             <div class=" col s12 m4">
                                 <div>
                                     <h5 class="center-align section-title">Visita de Dispositivos</h5>
@@ -61,8 +76,10 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align {{$access_increase > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">{{$access_increase > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($access_increase,2,'.',',') }}
+                                <h4 class="center-align {{$access_increase > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i
+                                            class="material-icons prefix hide-on-med-and-down">{{$access_increase > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($access_increase,2,'.',',') }}
                                     %
                                 </h4>
                             </div>
@@ -82,8 +99,10 @@
                             </div>
                             <div class="col s6 left-border">
                                 <span class="f-size-12 truncate"><i class="material-icons prefix prefix-position">assessment</i>Crecimiento</span>
-                                <h4 class="center-align h4-card {{$inc_recurrent > 0 ? 'green-text' : 'red-text'}} tooltipped" data-position="bottom" data-delay="50"
-                                    data-tooltip="Crecimiento"><i class="material-icons prefix hide-on-med-and-down">{{$inc_recurrent > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($inc_recurrent,2,'.',',') }}
+                                <h4 class="center-align h4-card {{$inc_recurrent > 0 ? 'green-text' : 'red-text'}} tooltipped"
+                                    data-position="bottom" data-delay="50"
+                                    data-tooltip="Crecimiento"><i
+                                            class="material-icons prefix hide-on-med-and-down">{{$inc_recurrent > 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>{{ number_format($inc_recurrent,2,'.',',') }}
                                     %
                                 </h4>
                             </div>
@@ -150,6 +169,9 @@
             </div>
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="viewCampaigns">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -159,16 +181,16 @@
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="weekChartBranch">
+                                    <option value="All">Todos los nodos</option>
+                                    @foreach($branches as $name => $branch)
+                                        <option value="{{$branch}}">{{$name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Periodo de tiempo</option>
+                                <select id="weekChartTime">
+                                    <option value="All">Periodo de tiempo</option>
                                     <option value="1">Option 1</option>
                                     <option value="2">Option 2</option>
                                     <option value="3">Option 3</option>
@@ -185,6 +207,9 @@
             </div>
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="hourCampaigns">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -194,15 +219,15 @@
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="hourChartBranch">
+                                    <option value="All">Todos los nodos</option>
+                                    @foreach($branches as $name => $branch)
+                                        <option value="{{$branch}}">{{$name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
+                                <select id="hourChartTime">
                                     <option value="">Periodo de tiempo</option>
                                     <option value="1">Option 1</option>
                                     <option value="2">Option 2</option>
@@ -321,51 +346,47 @@
                 }
             });
 
-            c3.generate({
-                bindto: '#time',
-                data: {
-                    columns: [
-                        ['data1', 30, 200, 100, 400, 150, 250, 200]
-                    ],
-                    type: 'bar',
-                    colors: {
-                        data1: '#78909c'
-                    }
-                },
-                bar: {
-                    width: {
-                        ratio: .85
-                    }
-                },
-                grid: {
-                    x: {
-                        show: true
-                    },
-                    y: {
-                        show: true
-                    }
-                }
-            });
-
-            c3.generate({
-                bindto: '#op',
-                data: {
-                    columns: [
-                        ['data1', 30],
-                        ['data2', 120],
-                        ['data3', 120]
-                    ],
-                    type: 'donut'
-                },
-                color: {
-                    pattern: ['red', '#aec7e8', '#ff7f0e', '#ffbb78']
-                },
-                donut: {}
-            });
-
-
             var week = JSON.parse('{!!  json_encode($chart_weekday) !!}');
-            c3.generate({
+
+            $("#weekChartBranch").change(function (e) {
+                weekChartFunction();
+            });
+
+            $("#weekChartTime").change(function (e) {
+                weekChartFunction();
+            });
+
+            function weekChartFunction() {
+                var branch = $('#weekChartBranch').val();
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('visits_chart_per_day') }}',
+                    dataType: "JSON",
+                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        chartWeek.load({
+                            columns: [
+                                data.chart_weekday
+                            ]
+                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function () {
+                        document.getElementById("viewCampaigns").style.display = "block";
+                    },
+                    complete: function () {
+                        document.getElementById("viewCampaigns").style.display = "none";
+                    }
+                });
+            }
+
+            var chartWeek = c3.generate({
                 bindto: '#weekconections',
                 data: {
                     x: 'x',
@@ -404,7 +425,47 @@
             });
 
             var hour = JSON.parse('{!!  json_encode($chart_hour) !!}');
-            c3.generate({
+
+            $("#hourChartBranch").change(function (e) {
+                hourChartFunction();
+            });
+
+            $("#hourChartTime").change(function (e) {
+                hourChartFunction();
+            });
+
+            function hourChartFunction() {
+                var branch = $('#hourChartBranch').val();
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('visits_chart_per_hour') }}',
+                    dataType: "JSON",
+                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        hourChart.load({
+                            columns: [
+                                data.chart_hours
+                            ]
+                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function () {
+                        document.getElementById("hourCampaigns").style.display = "block";
+                    },
+                    complete: function () {
+                        document.getElementById("hourCampaigns").style.display = "none";
+                    }
+                });
+            }
+
+
+            var hourChart = c3.generate({
                 bindto: '#hoursconections',
                 data: {
                     x: 'x',
