@@ -340,20 +340,15 @@ class Network extends Model
 
     public static function interactionPerDay($network_id, $time, $branch)
     {
+        $last_date = self::lastCampaignLog($branch);
 
-        $last_date = self::lasCampaignLog($branch);
-        $date = !isset($last_date) ? new MongoDate(strtotime(Carbon::today('America/Mexico_City'))) : $last_date[0]['created_at'];
+        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : $last_date;
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
+        $startDate = $date->subDays($time);
+        $mongoStartDate = new MongoDate(strtotime($startDate));
 
         if ($time != 'All') {
-            if (!isset($last_date)) {
-                $startDate = $date->subDays($time);
-                $mongoStartDate = new MongoDate(strtotime($startDate));
-            } else {
-                $mongoStartDate = $date;
-            }
-
             $match = [
                 'device.branch_id' => [
                     '$in' => $network_branches
@@ -494,7 +489,7 @@ class Network extends Model
         return $recurrencia;
     }
 
-    public static function lasCampaignLog($branch_id)
+    public static function lastCampaignLog($branch_id)
     {
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $last = $campaignLogs->aggregate([
