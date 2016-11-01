@@ -18,8 +18,10 @@
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
-                            <h5 class="header header-border">Fecha de inicio: {{$date->toDateTime()->format('d-m-Y')}}</h5>
-                            <h5 class="header header-border">Nombre de la red: {{$name->name}}</h5>
+                            <h5 class="header header-border">Fecha de inicio: <span
+                                        class="font-200">{{$date->toDateTime()->format('d-m-Y')}} </span></h5>
+                            <h5 class="header header-border">Nombre de la red: <span
+                                        class="font-200">{{$name->name}} </span></h5>
                         </div>
                     </div>
                 </div>

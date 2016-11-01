@@ -503,9 +503,15 @@ class ReportController extends Controller
 
     public static function visitsChartPerDay()
     {
+        $test = Network::lasCampaignLog('56a66fb2a8263d5271244b2a');
+
+        $startDate = Carbon::today('America/Mexico_City')->subDays(Input::get('time'));
+        $mongoStartDate = new MongoDate(strtotime($startDate));
+
         return response()->json([
-            'chart_weekday' => Network::interactionPerDay(session('network_id'), 'all', Input::get('branch')),
-            'branch' => Input::get('branch')
+            'chart_weekday' => Network::interactionPerDay(session('network_id'), Input::get('time'), Input::get('branch')),
+            'branch' => Input::get('branch'),
+            'test' => $mongoStartDate
         ]);
     }
 
