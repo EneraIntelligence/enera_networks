@@ -511,7 +511,7 @@ class ReportController extends Controller
         return response()->json([
             'chart_weekday' => Network::interactionPerDay(session('network_id'), Input::get('time'), Input::get('branch')),
             'branch' => Input::get('branch'),
-            'test' => $mongoStartDate
+            'test' => $test[0]['created_at']
         ]);
     }
 

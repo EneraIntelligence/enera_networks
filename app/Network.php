@@ -342,12 +342,12 @@ class Network extends Model
     {
 
         $last_date = self::lasCampaignLog($branch);
-        $date = $last_date == [] ? new MongoDate(strtotime(Carbon::today('America/Mexico_City'))) : $last_date[0]['created_at'];
+        $date = !isset($last_date) ? new MongoDate(strtotime(Carbon::today('America/Mexico_City'))) : $last_date[0]['created_at'];
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
         if ($time != 'All') {
-            if ($last_date == []) {
+            if (!isset($last_date)) {
                 $startDate = $date->subDays($time);
                 $mongoStartDate = new MongoDate(strtotime($startDate));
             } else {
