@@ -2,6 +2,7 @@
 
 namespace Networks;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Mongodb\Model;
 use MongoDate;
@@ -16,19 +17,18 @@ class Network extends Model
 {
     protected $fillable = ['name', 'type', 'main', 'status'];
 
-    
-
 
     // relations
     public function branches()
     {
         return $this->hasMany('Networks\Branche');
     }
-    
+
     public function summary()
     {
         return $this->hasMany('Networks\SummaryNetwork');
     }
+
     // end relations
 
 
@@ -44,8 +44,8 @@ class Network extends Model
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
-        
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -64,7 +64,7 @@ class Network extends Model
             [
                 '$project' => [
                     '_id' => 1,
-                    'devices'=>1,
+                    'devices' => 1,
                     'count' => [
                         '$size' => '$devices'
                     ]
@@ -72,8 +72,8 @@ class Network extends Model
             ]
         ]);
 
-        if($devicesUnique['result']!=[]) 
-            $devicesUnique['result']= $devicesUnique['result'][0];
+        if ($devicesUnique['result'] != [])
+            $devicesUnique['result'] = $devicesUnique['result'][0];
 
         return $devicesUnique['result'];
     }
@@ -87,12 +87,12 @@ class Network extends Model
                 '$gte' => new MongoDate(strtotime($start_date)),
                 '$lt' => new MongoDate(strtotime($end_date))
             ],
-            'interaction.accessed'=>['$exists'=>true]
+            'interaction.accessed' => ['$exists' => true]
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
 
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -110,8 +110,8 @@ class Network extends Model
             ]
         ]);
 
-        if($access['result']!=[])
-            $access['result']= $access['result'][0];
+        if ($access['result'] != [])
+            $access['result'] = $access['result'][0];
 
         return $access['result'];
     }
@@ -124,14 +124,14 @@ class Network extends Model
             'created_at' => [
                 '$lt' => new MongoDate(strtotime($before_date))
             ],
-            'device.mac' =>[
-                '$in'=>$devices
+            'device.mac' => [
+                '$in' => $devices
             ]
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
 
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -150,7 +150,7 @@ class Network extends Model
             [
                 '$project' => [
                     '_id' => 1,
-                    'devices'=>1,
+                    'devices' => 1,
                     'count' => [
                         '$size' => '$devices'
                     ]
@@ -158,8 +158,8 @@ class Network extends Model
             ]
         ]);
 
-        if($recurrentDevices['result']!=[])
-            $recurrentDevices['result']= $recurrentDevices['result'][0];
+        if ($recurrentDevices['result'] != [])
+            $recurrentDevices['result'] = $recurrentDevices['result'][0];
 
         return $recurrentDevices['result'];
     }
@@ -169,10 +169,9 @@ class Network extends Model
         $ids = DB::table('branches')->where('network_id', (string)$network_id)->pluck('_id');
 
         //flatten array
-        return array_map(function($element)
-        {
-            return (string) $element;
-        },$ids);
+        return array_map(function ($element) {
+            return (string)$element;
+        }, $ids);
 
     }
 
@@ -186,12 +185,12 @@ class Network extends Model
                 '$gte' => new MongoDate(strtotime($start_date)),
                 '$lt' => new MongoDate(strtotime($end_date))
             ],
-            'user.id' => ['$exists'=>true]
+            'user.id' => ['$exists' => true]
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
 
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -210,7 +209,7 @@ class Network extends Model
             [
                 '$project' => [
                     '_id' => 1,
-                    'users'=>1,
+                    'users' => 1,
                     'count' => [
                         '$size' => '$users'
                     ]
@@ -218,8 +217,8 @@ class Network extends Model
             ]
         ]);
 
-        if($usersUnique['result']!=[])
-            $usersUnique['result']= $usersUnique['result'][0];
+        if ($usersUnique['result'] != [])
+            $usersUnique['result'] = $usersUnique['result'][0];
 
         return $usersUnique['result'];
     }
@@ -232,14 +231,14 @@ class Network extends Model
             'created_at' => [
                 '$lt' => new MongoDate(strtotime($before_date))
             ],
-            'user.id' =>[
-                '$in'=>$users
+            'user.id' => [
+                '$in' => $users
             ]
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
 
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -258,7 +257,7 @@ class Network extends Model
             [
                 '$project' => [
                     '_id' => 1,
-                    'users'=>1,
+                    'users' => 1,
                     'count' => [
                         '$size' => '$users'
                     ]
@@ -266,8 +265,8 @@ class Network extends Model
             ]
         ]);
 
-        if($recurrentUsers['result']!=[])
-            $recurrentUsers['result']= $recurrentUsers['result'][0];
+        if ($recurrentUsers['result'] != [])
+            $recurrentUsers['result'] = $recurrentUsers['result'][0];
 
         return $recurrentUsers['result'];
     }
@@ -280,14 +279,14 @@ class Network extends Model
             'created_at' => [
                 '$lt' => new MongoDate(strtotime($before_date))
             ],
-            'user.id' =>[
-                '$in'=>$users
+            'user.id' => [
+                '$in' => $users
             ]
         ];
 
         $network_branches = self::getNetworkBranchesId($network_id);
 
-        $match['device.branch_id'] = ['$in'=> $network_branches ];
+        $match['device.branch_id'] = ['$in' => $network_branches];
         //var_dump($network_branches);
 
 
@@ -298,15 +297,15 @@ class Network extends Model
             [
                 '$group' => [
                     '_id' => [
-                        'network_id'=>$network_id,
-                        'user_id'=>'$user.id'
+                        'network_id' => $network_id,
+                        'user_id' => '$user.id'
                     ],
-                    'count'=> [ '$sum'=> 1 ],
+                    'count' => ['$sum' => 1],
                 ]
             ],
             [
                 '$match' => [
-                    'count'=>['$gte'=>9]
+                    'count' => ['$gte' => 9]
                 ]
             ],
             [
@@ -320,7 +319,7 @@ class Network extends Model
             [
                 '$project' => [
                     '_id' => 1,
-                    'users'=>1,
+                    'users' => 1,
                     'count' => [
                         '$size' => '$users'
                     ]
@@ -328,8 +327,8 @@ class Network extends Model
             ]
         ]);
 
-        if($recurrentUsers['result']!=[])
-            $recurrentUsers['result']= $recurrentUsers['result'][0];
+        if ($recurrentUsers['result'] != [])
+            $recurrentUsers['result'] = $recurrentUsers['result'][0];
 
         return $recurrentUsers['result'];
     }
@@ -341,18 +340,44 @@ class Network extends Model
 
     public static function interactionPerDay($network_id, $time, $branch)
     {
+
+        $last_date = self::lasCampaignLog($branch);
+        $date = $last_date == [] ? new MongoDate(strtotime(Carbon::today('America/Mexico_City'))) : $last_date[0]['created_at'];
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
+        if ($time != 'All') {
+            if ($last_date == []) {
+                $startDate = $date->subDays($time);
+                $mongoStartDate = new MongoDate(strtotime($startDate));
+            } else {
+                $mongoStartDate = $date;
+            }
+
+            $match = [
+                'device.branch_id' => [
+                    '$in' => $network_branches
+                ],
+                'interaction.accessed' => ['$exists' => true],
+                'created_at' => [
+                    '$lte' => $date,
+                    '$gte' => $mongoStartDate
+                ]
+            ];
+        } else {
+            $match = [
+                'device.branch_id' => [
+                    '$in' => $network_branches
+                ],
+                'interaction.accessed' => ['$exists' => true],
+            ];
+
+        }
+
+
         $for_weekday = $campaignLogs->aggregate([
             [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $network_branches
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
+                '$match' => $match
             ],
             [
                 '$project' => [
@@ -373,7 +398,7 @@ class Network extends Model
         foreach ($for_weekday['result'] as $weekday) {
             $chart_weekday[$weekday['_id']] = $weekday['count'];
         }
-        
+
         return $chart_weekday;
     }
 
@@ -446,8 +471,6 @@ class Network extends Model
 
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = self::getNetworkBranchesId($network_id);
-
-        
         $recurrencia = $campaignLogs->aggregate([
 
             [
@@ -466,9 +489,31 @@ class Network extends Model
                 ]
             ]
         ]);
-        
+
 
         return $recurrencia;
+    }
+
+    public static function lasCampaignLog($branch_id)
+    {
+        $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
+        $last = $campaignLogs->aggregate([
+
+            [
+                '$match' => [
+                    'device.branch_id' => [
+                        '$in' => [$branch_id]
+                    ],
+                    'interaction.accessed' => ['$exists' => true]
+
+                ]
+            ],
+            ['$sort' => ['count' => -1]],
+            ['$limit' => 1]
+
+        ]);
+
+        return $last['result'];
     }
 
 }
