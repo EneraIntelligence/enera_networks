@@ -341,8 +341,7 @@ class Network extends Model
     public static function interactionPerDay($network_id, $time, $branch)
     {
         $last_date = self::lastCampaignLog($branch);
-
-        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : $last_date;
+        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
         $startDate = $date->subDays($time);
@@ -399,18 +398,39 @@ class Network extends Model
 
     public static function interactionPerHour($network_id, $time, $branch)
     {
+        $last_date = self::lastCampaignLog($branch);
+        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
+        $startDate = $date->subDays($time);
+        $mongoStartDate = new MongoDate(strtotime($startDate));
+
+        if ($time != 'All') {
+            $match = [
+                'device.branch_id' => [
+                    '$in' => $network_branches
+                ],
+                'interaction.accessed' => ['$exists' => true],
+                'created_at' => [
+                    '$lte' => $date,
+                    '$gte' => $mongoStartDate
+                ]
+            ];
+        } else {
+            $match = [
+                'device.branch_id' => [
+                    '$in' => $network_branches
+                ],
+                'interaction.accessed' => ['$exists' => true],
+            ];
+
+        }
+
+
         $for_hour = $campaignLogs->aggregate([
             [
-                '$match' => [
-                    'device.branch_id' => [
-                        '$in' => $network_branches
-                    ],
-                    'interaction.accessed' => ['$exists' => true]
-
-                ]
+                '$match' => $match
             ],
             [
                 '$project' => [

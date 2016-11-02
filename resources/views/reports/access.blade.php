@@ -229,10 +229,10 @@
                             </div>
                             <div class="input-field col s12 m4">
                                 <select id="hourChartTime">
-                                    <option value="">Periodo de tiempo</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                    <option value="All">Periodo de tiempo</option>
+                                    <option value="7">7 Días</option>
+                                    <option value="15">15 Días</option>
+                                    <option value="30">30 Días</option>
                                 </select>
                             </div>
                         </div>
@@ -438,12 +438,13 @@
 
             function hourChartFunction() {
                 var branch = $('#hourChartBranch').val();
+                var time = $('#hourChartTime').val();
                 $.ajax({
                     type: "POST",
                     async: true,
                     url: '{{ route('visits_chart_per_hour') }}',
                     dataType: "JSON",
-                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    data: {branch: branch, time: time, _token: "{!! session('_token') !!}"},
                     success: function (data) {
                         console.log(JSON.stringify(data));
                         hourChart.load({
