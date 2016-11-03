@@ -19,9 +19,10 @@
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
-                            <h5 class="header header-border">Fecha de
-                                inicio: {{$date->toDateTime()->format('d-m-Y')}}</h5>
-                            <h5 class="header header-border">Nombre de la red: {{$name->name}}</h5>
+                            <h5 class="header header-border">Fecha de inicio: <span
+                                        class="font-200">{{$date->toDateTime()->format('d-m-Y')}} </span></h5>
+                            <h5 class="header header-border">Nombre de la red: <span
+                                        class="font-200">{{$name->name}} </span></h5>
                         </div>
                     </div>
                 </div>
@@ -191,9 +192,9 @@
                             <div class="input-field col s12 m4">
                                 <select id="weekChartTime">
                                     <option value="All">Periodo de tiempo</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                    <option value="7">7 Días</option>
+                                    <option value="15">15 Días</option>
+                                    <option value="30">30 Días</option>
                                 </select>
                             </div>
                         </div>
@@ -228,10 +229,10 @@
                             </div>
                             <div class="input-field col s12 m4">
                                 <select id="hourChartTime">
-                                    <option value="">Periodo de tiempo</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                    <option value="All">Periodo de tiempo</option>
+                                    <option value="7">7 Días</option>
+                                    <option value="15">15 Días</option>
+                                    <option value="30">30 Días</option>
                                 </select>
                             </div>
                         </div>
@@ -358,12 +359,13 @@
 
             function weekChartFunction() {
                 var branch = $('#weekChartBranch').val();
+                var time = $('#weekChartTime').val();
                 $.ajax({
                     type: "POST",
                     async: true,
                     url: '{{ route('visits_chart_per_day') }}',
                     dataType: "JSON",
-                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    data: {branch: branch, time: time, _token: "{!! session('_token') !!}"},
                     success: function (data) {
                         console.log(JSON.stringify(data));
                         chartWeek.load({
@@ -436,12 +438,13 @@
 
             function hourChartFunction() {
                 var branch = $('#hourChartBranch').val();
+                var time = $('#hourChartTime').val();
                 $.ajax({
                     type: "POST",
                     async: true,
                     url: '{{ route('visits_chart_per_hour') }}',
                     dataType: "JSON",
-                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    data: {branch: branch, time: time, _token: "{!! session('_token') !!}"},
                     success: function (data) {
                         console.log(JSON.stringify(data));
                         hourChart.load({

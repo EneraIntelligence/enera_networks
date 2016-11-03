@@ -503,17 +503,30 @@ class ReportController extends Controller
 
     public static function visitsChartPerDay()
     {
+        $last_date = Network::lastCampaignLog(Input::get('branch'));
+        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
+        $last_date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
+
         return response()->json([
-            'chart_weekday' => Network::interactionPerDay(session('network_id'), 'all', Input::get('branch')),
-            'branch' => Input::get('branch')
+            'chart_weekday' => Network::interactionPerDay(session('network_id'), Input::get('time'), Input::get('branch')),
+            'branch' => Input::get('branch'),
+            'date' => $date,
+            'last' => $last_date->subDays(Input::get('time'))
         ]);
     }
 
     public static function visitsChartPerHour()
     {
+
+        $last_date = Network::lastCampaignLog(Input::get('branch'));
+        $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
+        $last_date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
+
         return response()->json([
             'chart_hours' => Network::interactionPerHour(session('network_id'), 'all', Input::get('branch')),
-            'branch' => Input::get('branch')
+            'branch' => Input::get('branch'),
+            'date' => $date,
+            'last' => $last_date->subDays(Input::get('time'))
         ]);
     }
 }
