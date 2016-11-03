@@ -182,7 +182,7 @@
                     <div class="card-content white-text">
                         <div class="uk-grid uk-grid-divider uk-grid-medium">
                             {{-- Google Maps --}}
-                            <span class="card-title">World Cloud</span>
+                            <span class="card-title">Word Cloud</span>
                             <a class="waves-effect waves-light btn modal-trigger right" href="#cloud">
                                 <i class="material-icons">border_all</i></a>
                             <div class="word_cloud" style="width:100%; position: relative;">
