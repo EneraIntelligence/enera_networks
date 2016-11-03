@@ -239,6 +239,7 @@ class ReportController extends Controller
         $network_date = CampaignLog::orderBy('create_at', 'asc')->whereIn('device.branch_id', $branches)->select('created_at')->first();
         $date = new MongoDate(strtotime($network_date['created_at']));
         $date->toDateTime()->format('d-m-Y');
+        $branches = Branch::where('network_id', session('network_id'))->lists('_id', 'name');
 
         $navData = array();
         $navData['reports'] = 'active';
@@ -256,7 +257,8 @@ class ReportController extends Controller
             'inc_new_access' => $inc_new_access,
             'inc_completed_interactions' => $inc_completed_interactions,
             'date' => $date,
-            'name' => Network::where('_id', session('network_id'))->select('name')->first()
+            'name' => Network::where('_id', session('network_id'))->select('name')->first(),
+            'branches' => $branches
         ]);
     }
 
@@ -527,6 +529,33 @@ class ReportController extends Controller
             'branch' => Input::get('branch'),
             'date' => $date,
             'last' => $last_date->subDays(Input::get('time'))
+        ]);
+    }
+
+    public static function topInteractions()
+    {
+        $branches_network = Branch::where('network_id', session('network_id'))->lists('_id');
+        $campaigns_network = Campaign::whereIn('branches', $branches_network)->lists('_id');
+        $summary_campaign = SummaryCampaign::whereIn('campaign_id', $campaigns_network)->get();
+        $name_of_campaigns = ['x'];
+        $loaded = ['loaded'];
+        $completed = ['completed'];
+
+        if ($summary_campaign) {
+            foreach ($summary_campaign as $sum_campaign) {
+                array_push($name_of_campaigns, $sum_campaign->campaign->name);
+                array_push($loaded, $sum_campaign->accumulated['loaded']);
+                array_push($completed, $sum_campaign->accumulated['completed']);
+            }
+        }
+
+        return response()->json([
+            'branch' => Input::get('branch'),
+            'time' => Input::get('time'),
+            'name_of_campaigns' => $name_of_campaigns,
+            'loaded' => $loaded,
+            'completed' => $completed
+
         ]);
     }
 }

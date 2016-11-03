@@ -29,6 +29,9 @@
             </div>
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="topCampaignsInteractions">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -38,19 +41,19 @@
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="topInteractionBranch">
+                                    <option value="All">Todos los nodos</option>
+                                    @foreach($branches as $name => $branch)
+                                        <option value="{{$branch}}">{{$name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Periodo de tiempo</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
+                                <select id="topInteractionTime">
+                                    <option value="All">Periodo de tiempo</option>
+                                    <option value="7">7 Días</option>
+                                    <option value="15">15 Días</option>
+                                    <option value="30">30 Días</option>
                                 </select>
                             </div>
                         </div>
@@ -206,8 +209,48 @@
             var loaded = JSON.parse('{!!  json_encode($loaded) !!}');
             var completed = JSON.parse('{!!  json_encode($completed) !!}');
 
+            $("#topInteractionBranch").change(function (e) {
+                topInteractionFunction();
+            });
 
-            c3.generate({
+            $("#topInteractionTime").change(function (e) {
+                topInteractionFunction();
+            });
+
+            function topInteractionFunction() {
+                var branch = $('#topInteractionBranch').val();
+                var time = $('#topInteractionTime').val();
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('top_interactions') }}',
+                    dataType: "JSON",
+                    data: {branch: branch, time: time, _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        console.log('*+-------+*');
+//                        topinteractions.load({
+//                            columns: [
+//                                data.chart_hours
+//                            ]
+//                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function () {
+                        document.getElementById("topCampaignsInteractions").style.display = "block";
+                    },
+                    complete: function () {
+                        document.getElementById("topCampaignsInteractions").style.display = "none";
+                    }
+                });
+            }
+
+
+            var topinteractions = c3.generate({
                 bindto: '#topinteractions',
                 data: {
                     x: 'x',
