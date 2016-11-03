@@ -11,6 +11,15 @@
 
 
 @section('content')
+
+    <!-- loader that hides content until ads loaded -->
+    <div id="loader" class="loader-full">
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+
+
     <div class="col s12 m12 my-card hide-on-med-and-up">
 
         <div class="swipe-animation">
@@ -171,8 +180,17 @@
                 });
             }
 
-
+            removeLoader();
         });
+
+        function removeLoader()
+        {
+            TweenLite.to("#loader", .3, {
+                "opacity": 0, delay:1, onComplete: function () {
+                    $("#loader").css("display", "none");
+                }
+            });
+        }
 
         function setSameHeight(cards) {
             var minHeight = 0;
