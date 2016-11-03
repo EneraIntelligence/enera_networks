@@ -400,12 +400,12 @@ class Network extends Model
     {
         $last_date = self::lastCampaignLog($branch);
         $date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
+        $lastRegister = New MongoDate(strtotime($date));
         $campaignLogs = DB::getMongoDB()->selectCollection('campaign_logs');
         $network_branches = $branch == 'All' ? self::getNetworkBranchesId($network_id) : [$branch];
 
         $startDate = $date->subDays($time);
-        $mongoStartDate = new MongoDate(strtotime($startDate));
-
+        $firstRegister = New MongoDate(strtotime($startDate));
         if ($time != 'All') {
             $match = [
                 'device.branch_id' => [
@@ -413,8 +413,8 @@ class Network extends Model
                 ],
                 'interaction.accessed' => ['$exists' => true],
                 'created_at' => [
-                    '$lte' => $date,
-                    '$gte' => $mongoStartDate
+                    '$lte' => $lastRegister,
+                    '$gte' => $firstRegister
                 ]
             ];
         } else {
