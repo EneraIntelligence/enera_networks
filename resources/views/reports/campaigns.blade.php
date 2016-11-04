@@ -239,6 +239,7 @@
                         console.log(xhr.status);
                         console.log(xhr.statusCode);
                         console.log(xhr.statusText);
+                        Materialize.toast('Upssss Parece que algo salio mal. Intentalo más tarde ', 4000);
                     },
                     beforeSend: function () {
                         document.getElementById("topCampaignsInteractions").style.display = "block";
