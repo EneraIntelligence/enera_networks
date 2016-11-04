@@ -191,7 +191,7 @@
                             </div>
                             <div class="input-field col s12 m4">
                                 <select id="weekChartTime">
-                                    <option value="All">Periodo de tiempo</option>
+                                    <option value="All">Toda la campaña</option>
                                     <option value="7">7 Días</option>
                                     <option value="15">15 Días</option>
                                     <option value="30">30 Días</option>

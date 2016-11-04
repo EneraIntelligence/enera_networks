@@ -137,7 +137,6 @@ class ReportController extends Controller
         $date->toDateTime()->format('d-m-Y');
 
 
-
         return view('reports.users', [
             'navData' => $navData,
             'male' => $m,
@@ -394,7 +393,7 @@ class ReportController extends Controller
             'total_recurrent' => $recurrent ? $recurrent->recurrent : 0,
             'inc_recurrent' => $inc_recurrent,
             'users_with_reconnection' => $recurrent ? array_sum($recurentes) - $recurentes[0] : 0,
-            'poc_reconnection' => $recurrent && array_sum($recurentes) > 0? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
+            'poc_reconnection' => $recurrent && array_sum($recurentes) > 0 ? ((array_sum($recurentes) - $recurentes[0]) * 100) / array_sum($recurentes) : 0,
             'num_reconnection' => $num_reconnection,
             'connection' => $recurrencia ? array_sum($recurrencia['result']) : 0,
             'average_reconnection' => $recurrent && (array_sum($recurentes) - $recurentes[0]) > 0 ? $num_reconnection / (array_sum($recurentes) - $recurentes[0]) : 0,
@@ -525,7 +524,7 @@ class ReportController extends Controller
         $last_date = count($last_date) == 0 ? Carbon::today('America/Mexico_City') : Carbon::parse(date('Y-m-d', $last_date[0]['created_at']->sec));
         $lastRegister = New MongoDate(strtotime($date));
         $firstRegister = New MongoDate(strtotime($last_date->subDays(Input::get('time'))));
-        
+
         return response()->json([
             'chart_hours' => Network::interactionPerHour(session('network_id'), 'all', Input::get('branch')),
             'branch' => Input::get('branch'),
@@ -558,6 +557,29 @@ class ReportController extends Controller
             'loaded' => $loaded,
             'completed' => $completed
 
+        ]);
+    }
+
+    public static function charDevices()
+    {
+        if (Input::get('branch') == 'All')
+            $network = SummaryNetwork::where('network_id', session('network_id'))->orderBy('date', 'desc')->take(5)->get();
+        else
+            $network = SummaryBranch::where('branch_id', Input::get('branch'))->orderBy('date', 'desc')->take(5)->get();
+
+        $unique_devices = ['data1'];
+        $dates_devices = ['x'];
+        if ($network) {
+            foreach ($network as $net) {
+                array_push($dates_devices, $net->created_at->format('Y-m-d'));
+                array_push($unique_devices, $net->devices['total']);
+            }
+        }
+
+        return response()->json([
+            'branch' => Input::get('branch'),
+            'unique_devices' => $unique_devices,
+            'dates_devices' => $dates_devices
         ]);
     }
 }

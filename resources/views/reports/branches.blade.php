@@ -30,6 +30,9 @@
             </div>
             <div class="col s12">
                 <div class="card white">
+                    <div class="progress" style="display: none;" id="Devices">
+                        <div class="indeterminate"></div>
+                    </div>
                     <div class="card-content">
                         <p>Sección</p>
                         <div class="row no-margin">
@@ -39,19 +42,14 @@
                                 </div>
                             </div>
                             <div class="input-field col s12 m4">
-                                <select>
+
+                            </div>
+                            <div class="input-field col s12 m4">
+                                <select id="forBranch">
                                     <option value="All">Todos los nodos</option>
                                     @foreach($branches as $key => $branch)
                                         <option value="{{$branch}}">{{$key}}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                            <div class="input-field col s12 m4">
-                                <select>
-                                    <option value="">Todos los nodos</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
                                 </select>
                             </div>
                         </div>
@@ -205,10 +203,46 @@
         $(document).ready(function () {
             $('select').material_select();
 
+            $("#forBranch").change(function (e) {
+                deviceChartFunction();
+            });
+
+            function deviceChartFunction() {
+                var branch = $('#forBranch').val();
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    url: '{{ route('chart_devices') }}',
+                    dataType: "JSON",
+                    data: {branch: branch, _token: "{!! session('_token') !!}"},
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                        device.load({
+                            columns: [
+                                data.dates_devices,
+                                data.unique_devices
+                            ]
+                        });
+                    },
+                    error: function error(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status);
+                        console.log(xhr.statusCode);
+                        console.log(xhr.statusText);
+                    },
+                    beforeSend: function () {
+                        document.getElementById("Devices").style.display = "block";
+                    },
+                    complete: function () {
+                        document.getElementById("Devices").style.display = "none";
+                    }
+                });
+            }
+
+
             var dates = JSON.parse('{!!  json_encode($dates_devices) !!}');
             var devices = JSON.parse('{!!  json_encode($unique_devices) !!}');
 
-            c3.generate({
+            var device = c3.generate({
                 bindto: '#device',
                 data: {
                     x: 'x',

@@ -75,3 +75,4 @@ Route::post('chart_user',['as' => 'chart_user', 'uses' => 'ReportController@user
 Route::post('visits_chart_per_day', ['as' => 'visits_chart_per_day', 'uses' => 'ReportController@visitsChartPerDay']);
 Route::post('visits_chart_per_hour', ['as' => 'visits_chart_per_hour', 'uses' => 'ReportController@visitsChartPerHour']);
 Route::post('top_interactions', ['as' => 'top_interactions', 'uses' => 'ReportController@topInteractions']);
+Route::post('chart_devices', ['as' => 'chart_devices', 'uses' => 'ReportController@charDevices']);
