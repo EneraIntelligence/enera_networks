@@ -59,10 +59,15 @@ class BranchesController extends Controller
             $interactionsReport = ReportBranch::getInteractions($days, $id);
             //dd($interactionsReport[0]->devices);
 
-            $devices=$interactionsReport[0]->devices;
-            $users=$interactionsReport[0]->users;
-
-            $wordcloud = $interactionsReport[0]->wordcloud;
+            if ($interactionsReport == []) {
+                $devices = $interactionsReport[0]->devices;
+                $users = $interactionsReport[0]->users;
+                $wordcloud = $interactionsReport[0]->wordcloud;
+            } else {
+                $devices = 0;
+                $users = 0;
+                $wordcloud = [];
+            }
             
             $aps = AccessPoint::WhereIn('mac', $branch->aps)->get();
 
